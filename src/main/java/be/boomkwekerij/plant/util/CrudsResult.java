@@ -1,12 +1,13 @@
 package be.boomkwekerij.plant.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CrudsResult {
 
     private boolean success;
-    private List<String> messages;
-    private long valueId;
+    private List<String> messages = new ArrayList<String>();
+    private String value;
 
     public boolean isSuccess() {
         return success;
@@ -24,11 +25,15 @@ public class CrudsResult {
         this.messages = messages;
     }
 
-    public long getValueId() {
-        return valueId;
+    public void addMessage(String message) {
+        messages.add(message);
     }
 
-    public void setValueId(long valueId) {
-        this.valueId = valueId;
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

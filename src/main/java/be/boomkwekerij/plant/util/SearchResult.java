@@ -1,12 +1,13 @@
 package be.boomkwekerij.plant.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchResult<T> {
 
     private boolean success;
-    private List<String> messages;
-    private List<T> results;
+    private List<String> messages = new ArrayList<String>();
+    private List<T> results = new ArrayList<T>();
 
     public boolean isSuccess() {
         return success;
@@ -24,12 +25,20 @@ public class SearchResult<T> {
         this.messages = messages;
     }
 
+    public void addMessage(String message) {
+        messages.add(message);
+    }
+
     public List<T> getResults() {
         return results;
     }
 
     public void setResults(List<T> results) {
         this.results = results;
+    }
+
+    public void addResult(T result) {
+        results.add(result);
     }
 
     public T getFirst() {
