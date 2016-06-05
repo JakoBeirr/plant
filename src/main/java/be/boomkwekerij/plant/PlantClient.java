@@ -5,12 +5,20 @@ import be.boomkwekerij.plant.dao.CompanyDAOImpl;
 import be.boomkwekerij.plant.model.repository.Company;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
+import be.boomkwekerij.plant.util.SystemRepository;
 
 import java.util.List;
 
-public class Client {
+public class PlantClient {
 
     public static void main(String[] args) {
+        if (args.length != 1) {
+            throw new IllegalArgumentException("Data uri not specified!");
+        }
+
+        String dataUri = args[0];
+        SystemRepository.init(dataUri);
+
         CompanyDAO companyDAO = new CompanyDAOImpl();
 
         Company company = getCompany(1);
@@ -52,40 +60,6 @@ public class Client {
         unknownCompany.setId(5);
         CrudsResult update = companyDAO.update(unknownCompany);
         System.out.println("Update gelukt: " + update.isSuccess() + ", reden: " + update.getMessages().get(0));
-
-        System.out.println();
-
-        companyDAO.delete((long) 2);
-
-        all = companyDAO.findAll();
-        results = all.getResults();
-        System.out.println("Company gevonden: " + searchResult.isSuccess() + ", aantal: " + results.size());
-        System.out.println("=============================================");
-        for (Company companyResult : results) {
-            System.out.println("Naam: " + companyResult.getName());
-            System.out.println("Telefoonnummer: " + companyResult.getTelephone());
-            System.out.println("KBC: " + companyResult.getAccountNumberBelgium());
-            System.out.println("Rabobank: " + companyResult.getAccountNumberNetherlands());
-            System.out.println("BTW-nummer: " + companyResult.getBtwNumber());
-            System.out.println("=============================================");
-        }
-
-        System.out.println();
-
-        companyDAO.deleteAll();
-
-        all = companyDAO.findAll();
-        results = all.getResults();
-        System.out.println("Company gevonden: " + searchResult.isSuccess() + ", aantal: " + results.size());
-        System.out.println("=============================================");
-        for (Company companyResult : results) {
-            System.out.println("Naam: " + companyResult.getName());
-            System.out.println("Telefoonnummer: " + companyResult.getTelephone());
-            System.out.println("KBC: " + companyResult.getAccountNumberBelgium());
-            System.out.println("Rabobank: " + companyResult.getAccountNumberNetherlands());
-            System.out.println("BTW-nummer: " + companyResult.getBtwNumber());
-            System.out.println("=============================================");
-        }
     }
 
     private static Company getCompany(long id) {
