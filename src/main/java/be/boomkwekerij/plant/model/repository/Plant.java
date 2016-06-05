@@ -1,5 +1,9 @@
-package be.boomkwekerij.plant.model;
+package be.boomkwekerij.plant.model.repository;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Plant {
 
     private long id;
@@ -12,6 +16,7 @@ public class Plant {
         return id;
     }
 
+    @XmlElement
     public void setId(long id) {
         this.id = id;
     }
@@ -20,6 +25,7 @@ public class Plant {
         return name;
     }
 
+    @XmlElement
     public void setName(String name) {
         this.name = name;
     }
@@ -28,6 +34,7 @@ public class Plant {
         return age;
     }
 
+    @XmlElement
     public void setAge(String age) {
         this.age = age;
     }
@@ -36,6 +43,7 @@ public class Plant {
         return measure;
     }
 
+    @XmlElement
     public void setMeasure(String measure) {
         this.measure = measure;
     }
@@ -44,6 +52,7 @@ public class Plant {
         return price;
     }
 
+    @XmlElement
     public void setPrice(double price) {
         this.price = price;
     }

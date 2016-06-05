@@ -1,12 +1,12 @@
-package be.boomkwekerij.plant.model;
+package be.boomkwekerij.plant.model.dto;
 
 import org.joda.time.DateTime;
 
-public class InvoiceLine {
+public class InvoiceLineDTO {
 
     private DateTime date;
     private int amount;
-    private long plantId;
+    private PlantDTO plant;
     private double price;
     private double totalPrice;
 
@@ -26,12 +26,12 @@ public class InvoiceLine {
         this.amount = amount;
     }
 
-    public long getPlantId() {
-        return plantId;
+    public PlantDTO getPlant() {
+        return plant;
     }
 
-    public void setPlantId(long plantId) {
-        this.plantId = plantId;
+    public void setPlant(PlantDTO plant) {
+        this.plant = plant;
     }
 
     public double getPrice() {

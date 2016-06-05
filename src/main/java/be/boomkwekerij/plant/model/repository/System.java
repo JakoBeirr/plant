@@ -1,5 +1,9 @@
-package be.boomkwekerij.plant.model;
+package be.boomkwekerij.plant.model.repository;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class System {
 
     private long lastCustomerId;
@@ -11,6 +15,7 @@ public class System {
         return lastCustomerId;
     }
 
+    @XmlElement
     public void setLastCustomerId(long lastCustomerId) {
         this.lastCustomerId = lastCustomerId;
     }
@@ -19,6 +24,7 @@ public class System {
         return lastInvoiceId;
     }
 
+    @XmlElement
     public void setLastInvoiceId(long lastInvoiceId) {
         this.lastInvoiceId = lastInvoiceId;
     }
@@ -27,6 +33,7 @@ public class System {
         return lastPlantId;
     }
 
+    @XmlElement
     public void setLastPlantId(long lastPlantId) {
         this.lastPlantId = lastPlantId;
     }
@@ -35,6 +42,7 @@ public class System {
         return lastInvoiceNumber;
     }
 
+    @XmlElement
     public void setLastInvoiceNumber(String lastInvoiceNumber) {
         this.lastInvoiceNumber = lastInvoiceNumber;
     }

@@ -1,5 +1,9 @@
-package be.boomkwekerij.plant.model;
+package be.boomkwekerij.plant.model.repository;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Customer {
 
     private long id;
@@ -20,6 +24,7 @@ public class Customer {
         return id;
     }
 
+    @XmlElement
     public void setId(long id) {
         this.id = id;
     }
@@ -28,6 +33,7 @@ public class Customer {
         return name1;
     }
 
+    @XmlElement
     public void setName1(String name1) {
         this.name1 = name1;
     }
@@ -36,6 +42,7 @@ public class Customer {
         return name2;
     }
 
+    @XmlElement
     public void setName2(String name2) {
         this.name2 = name2;
     }
@@ -44,6 +51,7 @@ public class Customer {
         return address1;
     }
 
+    @XmlElement
     public void setAddress1(String address1) {
         this.address1 = address1;
     }
@@ -52,6 +60,7 @@ public class Customer {
         return address2;
     }
 
+    @XmlElement
     public void setAddress2(String address2) {
         this.address2 = address2;
     }
@@ -60,6 +69,7 @@ public class Customer {
         return postalCode;
     }
 
+    @XmlElement
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
@@ -68,6 +78,7 @@ public class Customer {
         return residence;
     }
 
+    @XmlElement
     public void setResidence(String residence) {
         this.residence = residence;
     }
@@ -76,6 +87,7 @@ public class Customer {
         return country;
     }
 
+    @XmlElement
     public void setCountry(String country) {
         this.country = country;
     }
@@ -84,6 +96,7 @@ public class Customer {
         return telephone1;
     }
 
+    @XmlElement
     public void setTelephone1(String telephone1) {
         this.telephone1 = telephone1;
     }
@@ -92,6 +105,7 @@ public class Customer {
         return gsm;
     }
 
+    @XmlElement
     public void setGsm(String gsm) {
         this.gsm = gsm;
     }
@@ -100,6 +114,7 @@ public class Customer {
         return fax;
     }
 
+    @XmlElement
     public void setFax(String fax) {
         this.fax = fax;
     }
@@ -108,6 +123,7 @@ public class Customer {
         return btwNumber;
     }
 
+    @XmlElement
     public void setBtwNumber(String btwNumber) {
         this.btwNumber = btwNumber;
     }
@@ -116,6 +132,7 @@ public class Customer {
         return emailAddress;
     }
 
+    @XmlElement
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }

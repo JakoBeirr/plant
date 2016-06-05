@@ -1,6 +1,6 @@
-package be.boomkwekerij.plant.model;
+package be.boomkwekerij.plant.model.dto;
 
-public class Company {
+public class CompanyDTO {
 
     private String name;
     private String telephone;

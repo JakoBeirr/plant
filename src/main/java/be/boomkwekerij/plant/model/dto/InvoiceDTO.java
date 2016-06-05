@@ -1,17 +1,17 @@
-package be.boomkwekerij.plant.model;
+package be.boomkwekerij.plant.model.dto;
 
 import org.joda.time.DateTime;
 
 import java.util.List;
 
-public class Invoice {
+public class InvoiceDTO {
 
     private long id;
-    private long customerId;
+    private CustomerDTO customer;
     private String invoiceNumber;
     private DateTime date;
     private int amount;
-    private List<InvoiceLine> invoiceLines;
+    private List<InvoiceLineDTO> invoiceLines;
     private double totalPrice;
     private double btw;
 
@@ -23,12 +23,12 @@ public class Invoice {
         this.id = id;
     }
 
-    public long getCustomerId() {
-        return customerId;
+    public CustomerDTO getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(long customerId) {
-        this.customerId = customerId;
+    public void setCustomer(CustomerDTO customer) {
+        this.customer = customer;
     }
 
     public String getInvoiceNumber() {
@@ -55,11 +55,11 @@ public class Invoice {
         this.amount = amount;
     }
 
-    public List<InvoiceLine> getInvoiceLines() {
+    public List<InvoiceLineDTO> getInvoiceLines() {
         return invoiceLines;
     }
 
-    public void setInvoiceLines(List<InvoiceLine> invoiceLines) {
+    public void setInvoiceLines(List<InvoiceLineDTO> invoiceLines) {
         this.invoiceLines = invoiceLines;
     }
 
