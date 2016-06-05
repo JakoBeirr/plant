@@ -2,7 +2,7 @@ package be.boomkwekerij.plant.model.dto;
 
 public class CustomerDTO {
 
-    private long id;
+    private String id;
     private String name1;
     private String name2;
     private String address1;
@@ -16,11 +16,11 @@ public class CustomerDTO {
     private String btwNumber;
     private String emailAddress;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

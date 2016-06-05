@@ -6,7 +6,7 @@ import java.util.List;
 
 public class InvoiceDTO {
 
-    private long id;
+    private String id;
     private CustomerDTO customer;
     private String invoiceNumber;
     private DateTime date;
@@ -15,11 +15,11 @@ public class InvoiceDTO {
     private double totalPrice;
     private double btw;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

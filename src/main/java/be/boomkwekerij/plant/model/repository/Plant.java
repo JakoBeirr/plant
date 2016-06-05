@@ -6,18 +6,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Plant {
 
-    private long id;
+    private String id;
     private String name;
     private String age;
     private String measure;
     private double price;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
     @XmlElement
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

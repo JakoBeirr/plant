@@ -6,7 +6,7 @@ import be.boomkwekerij.plant.util.SearchResult;
 
 public class PlantDAOImpl implements PlantDAO {
 
-    public SearchResult<Plant> get(Long id) {
+    public SearchResult<Plant> get(String id) {
         return null;
     }
 
@@ -22,7 +22,7 @@ public class PlantDAOImpl implements PlantDAO {
         return null;
     }
 
-    public CrudsResult delete(Long id) {
+    public CrudsResult delete(String id) {
         return null;
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 @XmlRootElement
 public class Invoice {
 
-    private long id;
+    private String id;
     private long customerId;
     private String invoiceNumber;
     private DateTime date;
@@ -18,12 +18,12 @@ public class Invoice {
     private double totalPrice;
     private double btw;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
     @XmlElement
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

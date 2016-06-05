@@ -11,17 +11,18 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.util.UUID;
 
 public class CompanyDAOImpl implements CompanyDAO {
 
-    private static final String DATA_URI = SystemRepository.getDataUri();
+    private static final String COMPANIES_DATA_URI = SystemRepository.getDataUri() + "/companies/";
 
-    public SearchResult<Company> get(Long id) {
+    public SearchResult<Company> get(String id) {
         SearchResult<Company> searchResult = new SearchResult<Company>();
 
         try {
             Unmarshaller unmarshaller = getUnMarshaller();
-            Company company = (Company) unmarshaller.unmarshal(new File(DATA_URI + "/companies/" + id + ".xml"));
+            Company company = (Company) unmarshaller.unmarshal(new File(COMPANIES_DATA_URI + id + ".xml"));
 
             searchResult.setSuccess(true);
             searchResult.addResult(company);
@@ -38,7 +39,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 
         try {
             Unmarshaller unmarshaller = getUnMarshaller();
-            File companyDirectory = new File(DATA_URI + "/companies");
+            File companyDirectory = new File(COMPANIES_DATA_URI);
             File[] companyFiles = companyDirectory.listFiles();
             if (companyFiles != null) {
                 for (File companyFile : companyFiles) {
@@ -61,13 +62,14 @@ public class CompanyDAOImpl implements CompanyDAO {
         crudsResult.setValue(company.getName());
 
         try {
-            File file = new File(DATA_URI + "/companies/" + company.getId() + ".xml");
+            company.setId(UUID.randomUUID().toString());
+            File file = new File(COMPANIES_DATA_URI + company.getId() + ".xml");
             if (file.exists()) {
                 crudsResult.setSuccess(false);
                 crudsResult.addMessage("Company already registered!");
             } else {
                 Marshaller marshaller = getMarshaller();
-                marshaller.marshal(company, new File(DATA_URI + "/companies/" + company.getId() + ".xml"));
+                marshaller.marshal(company, new File(COMPANIES_DATA_URI + company.getId() + ".xml"));
 
                 crudsResult.setSuccess(true);
             }
@@ -84,13 +86,13 @@ public class CompanyDAOImpl implements CompanyDAO {
         crudsResult.setValue(company.getName());
 
         try {
-            File file = new File(DATA_URI + "/companies/" + company.getId() + ".xml");
+            File file = new File(COMPANIES_DATA_URI + company.getId() + ".xml");
             if (!file.exists()) {
                 crudsResult.setSuccess(false);
                 crudsResult.addMessage("Unknown company!");
             } else {
                 Marshaller marshaller = getMarshaller();
-                marshaller.marshal(company, new File(DATA_URI + "/companies/" + company.getId() + ".xml"));
+                marshaller.marshal(company, new File(COMPANIES_DATA_URI + company.getId() + ".xml"));
 
                 crudsResult.setSuccess(true);
             }
@@ -102,14 +104,14 @@ public class CompanyDAOImpl implements CompanyDAO {
         return crudsResult;
     }
 
-    public CrudsResult delete(Long id) {
+    public CrudsResult delete(String id) {
         CrudsResult crudsResult = new CrudsResult();
 
         try {
-            File companyFile = new File(DATA_URI + "/companies/" + id + ".xml");
+            File companyFile = new File(COMPANIES_DATA_URI + id + ".xml");
             boolean deleted = companyFile.delete();
             crudsResult.setSuccess(deleted);
-            crudsResult.setValue(Long.toString(id));
+            crudsResult.setValue(id);
         } catch (Exception e) {
             crudsResult.setSuccess(false);
             crudsResult.addMessage(ExceptionUtil.getStackTrace(e));
@@ -122,7 +124,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         CrudsResult crudsResult = new CrudsResult();
 
         try {
-            File companyDirectory = new File(DATA_URI + "/companies");
+            File companyDirectory = new File(COMPANIES_DATA_URI);
             File[] companyFiles = companyDirectory.listFiles();
             if (companyFiles != null) {
                 for (File companyFile : companyFiles) {

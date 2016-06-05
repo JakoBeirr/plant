@@ -21,12 +21,12 @@ public class PlantClient {
 
         CompanyDAO companyDAO = new CompanyDAOImpl();
 
-        Company company = getCompany(1);
+        Company company = getCompany();
         companyDAO.persist(company);
-        Company company2 = getCompany(2);
+        Company company2 = getCompany();
         companyDAO.persist(company2);
 
-        SearchResult<Company> searchResult = companyDAO.get((long) 1);
+        SearchResult<Company> searchResult = companyDAO.get(company.getId());
         Company first = searchResult.getFirst();
 
         System.out.println("Company gevonden: " + searchResult.isSuccess() + ", aantal: " + searchResult.getResults().size());
@@ -57,14 +57,13 @@ public class PlantClient {
         companyDAO.update(company);
 
         Company unknownCompany = new Company();
-        unknownCompany.setId(5);
+        unknownCompany.setId("1");
         CrudsResult update = companyDAO.update(unknownCompany);
         System.out.println("Update gelukt: " + update.isSuccess() + ", reden: " + update.getMessages().get(0));
     }
 
-    private static Company getCompany(long id) {
+    private static Company getCompany() {
         Company company = new Company();
-        company.setId(id);
         company.setName("test");
         company.setTelephone("test");
         company.setFax("test");

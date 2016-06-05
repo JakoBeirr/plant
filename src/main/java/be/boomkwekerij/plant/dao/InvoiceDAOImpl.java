@@ -6,7 +6,7 @@ import be.boomkwekerij.plant.util.SearchResult;
 
 public class InvoiceDAOImpl implements InvoiceDAO {
 
-    public SearchResult<Invoice> get(Long id) {
+    public SearchResult<Invoice> get(String id) {
         return null;
     }
 
@@ -22,7 +22,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         return null;
     }
 
-    public CrudsResult delete(Long id) {
+    public CrudsResult delete(String id) {
         return null;
     }
 
