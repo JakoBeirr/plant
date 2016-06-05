@@ -31,6 +31,7 @@ public class CustomerMemoryImpl implements CustomerMemory {
         return customersWithName;
     }
 
+    @SuppressWarnings("all")
     private boolean customerNameStartsWith(Customer customer, String name) {
         if (customer.getName1() != null && customer.getName1().toUpperCase().startsWith(name.toUpperCase())) {
             return true;
