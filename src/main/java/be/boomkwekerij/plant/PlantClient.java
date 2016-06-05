@@ -1,13 +1,11 @@
 package be.boomkwekerij.plant;
 
-import be.boomkwekerij.plant.dao.CompanyDAO;
-import be.boomkwekerij.plant.dao.CompanyDAOImpl;
-import be.boomkwekerij.plant.model.repository.Company;
-import be.boomkwekerij.plant.util.CrudsResult;
+import be.boomkwekerij.plant.model.dto.CustomerDTO;
+import be.boomkwekerij.plant.model.repository.Customer;
+import be.boomkwekerij.plant.service.CustomerService;
+import be.boomkwekerij.plant.service.CustomerServiceImpl;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.util.SystemRepository;
-
-import java.util.List;
 
 public class PlantClient {
 
@@ -19,68 +17,24 @@ public class PlantClient {
         String dataUri = args[0];
         SystemRepository.init(dataUri);
 
-        CompanyDAO companyDAO = new CompanyDAOImpl();
+        CustomerService customerService = new CustomerServiceImpl();
 
-        Company company = getCompany();
-        companyDAO.persist(company);
-        Company company2 = getCompany();
-        companyDAO.persist(company2);
+        //for (int i = 1; i < 1000; i++) {
+        //    CustomerDTO customerDTO = new CustomerDTO();
+        //    customerDTO.setName1(i + "name");
+        //    customerDTO.setAddress1(i + "adres");
+        //    customerDTO.setTelephone(i + "telefoon");
+        //    customerDTO.setBtwNumber(i + "btwnummer");
+        //    customerService.createCustomer(customerDTO);
+        //}
 
-        SearchResult<Company> searchResult = companyDAO.get(company.getId());
-        Company first = searchResult.getFirst();
+        SearchResult<Customer> allCustomers = customerService.getAllCustomers();
+        System.out.println("Gevonden: " + allCustomers.isSuccess() + ", aantal: " + allCustomers.getResults().size());
 
-        System.out.println("Company gevonden: " + searchResult.isSuccess() + ", aantal: " + searchResult.getResults().size());
-        System.out.println("=============================================");
-        System.out.println("Telefoonnummer: " + first.getTelephone());
-        System.out.println("KBC: " + first.getAccountNumberBelgium());
-        System.out.println("Rabobank: " + first.getAccountNumberNetherlands());
-        System.out.println("BTW-nummer: " + first.getBtwNumber());
+        SearchResult<Customer> customersWithName = customerService.getAllCustomers("1na");
+        System.out.println("Gevonden: " + customersWithName.isSuccess() + ", aantal: " + customersWithName.getResults().size());
 
-        System.out.println();
-
-        searchResult = companyDAO.get("unknown");
-
-        System.out.println("Company gevonden: " + searchResult.isSuccess() + ", aantal: " + searchResult.getResults().size());
-
-        System.out.println();
-
-        SearchResult<Company> all = companyDAO.findAll();
-        List<Company> results = all.getResults();
-        System.out.println("Company gevonden: " + all.isSuccess() + ", aantal: " + results.size());
-        System.out.println("=============================================");
-        for (Company companyResult : results) {
-            System.out.println("Naam: " + companyResult.getName());
-            System.out.println("Telefoonnummer: " + companyResult.getTelephone());
-            System.out.println("KBC: " + companyResult.getAccountNumberBelgium());
-            System.out.println("Rabobank: " + companyResult.getAccountNumberNetherlands());
-            System.out.println("BTW-nummer: " + companyResult.getBtwNumber());
-            System.out.println("=============================================");
-        }
-
-        System.out.println();
-
-        company.setName("test3");
-        companyDAO.update(company);
-
-        Company unknownCompany = new Company();
-        unknownCompany.setId("1");
-        CrudsResult update = companyDAO.update(unknownCompany);
-        System.out.println("Update gelukt: " + update.isSuccess() + ", reden: " + update.getMessages().get(0));
-    }
-
-    private static Company getCompany() {
-        Company company = new Company();
-        company.setName("test");
-        company.setTelephone("test");
-        company.setFax("test");
-        company.setGsm("test");
-        company.setAccountNumberBelgium("BEtest");
-        company.setIbanBelgium("BEtest");
-        company.setBicBelgium("BEtest");
-        company.setAccountNumberNetherlands("NLtest");
-        company.setIbanNetherlands("NLtest");
-        company.setBicNetherlands("NLtest");
-        company.setBtwNumber("test");
-        return company;
+        SearchResult<Customer> customersWitUnknownName = customerService.getAllCustomers("te");
+        System.out.println("Gevonden: " + customersWitUnknownName.isSuccess() + ", aantal: " + customersWitUnknownName.getResults().size());
     }
 }

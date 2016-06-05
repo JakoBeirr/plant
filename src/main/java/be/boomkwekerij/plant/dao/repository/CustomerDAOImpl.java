@@ -1,6 +1,6 @@
-package be.boomkwekerij.plant.dao;
+package be.boomkwekerij.plant.dao.repository;
 
-import be.boomkwekerij.plant.model.repository.System;
+import be.boomkwekerij.plant.model.repository.Customer;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.ExceptionUtil;
 import be.boomkwekerij.plant.util.SearchResult;
@@ -13,19 +13,19 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.UUID;
 
-public class SystemDAOImpl implements SystemDAO {
+public class CustomerDAOImpl implements CustomerDAO {
 
-    private static final String SYSTEM_DATA_URI = SystemRepository.getDataUri() + "/system/";
+    private static final String CUSTOMERS_DATA_URI = SystemRepository.getDataUri() + "/customers/";
 
-    public SearchResult<System> get(String id) {
-        SearchResult<System> searchResult = new SearchResult<System>();
+    public SearchResult<Customer> get(String id) {
+        SearchResult<Customer> searchResult = new SearchResult<Customer>();
 
         try {
             Unmarshaller unmarshaller = getUnMarshaller();
-            System system = (System) unmarshaller.unmarshal(new File(SYSTEM_DATA_URI + id + ".xml"));
+            Customer customer = (Customer) unmarshaller.unmarshal(new File(CUSTOMERS_DATA_URI + id + ".xml"));
 
             searchResult.setSuccess(true);
-            searchResult.addResult(system);
+            searchResult.addResult(customer);
         } catch (Exception e) {
             searchResult.setSuccess(false);
             searchResult.addMessage(ExceptionUtil.getStackTrace(e));
@@ -34,17 +34,17 @@ public class SystemDAOImpl implements SystemDAO {
         return searchResult;
     }
 
-    public SearchResult<System> findAll() {
-        SearchResult<System> searchResult = new SearchResult<System>();
+    public SearchResult<Customer> findAll() {
+        SearchResult<Customer> searchResult = new SearchResult<Customer>();
 
         try {
             Unmarshaller unmarshaller = getUnMarshaller();
-            File systemDirectory = new File(SYSTEM_DATA_URI);
-            File[] systemFiles = systemDirectory.listFiles();
-            if (systemFiles != null) {
-                for (File systemFile : systemFiles) {
-                    System system = (System) unmarshaller.unmarshal(systemFile);
-                    searchResult.addResult(system);
+            File customerDirectory = new File(CUSTOMERS_DATA_URI);
+            File[] customerFiles = customerDirectory.listFiles();
+            if (customerFiles != null) {
+                for (File customerFile : customerFiles) {
+                    Customer customer = (Customer) unmarshaller.unmarshal(customerFile);
+                    searchResult.addResult(customer);
                 }
             }
 
@@ -57,19 +57,19 @@ public class SystemDAOImpl implements SystemDAO {
         return searchResult;
     }
 
-    public CrudsResult persist(System system) {
+    public CrudsResult persist(Customer customer) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(system.getId());
+        crudsResult.setValue(customer.getId());
 
         try {
-            system.setId(UUID.randomUUID().toString());
-            File file = new File(SYSTEM_DATA_URI + system.getId() + ".xml");
+            customer.setId(UUID.randomUUID().toString());
+            File file = new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml");
             if (file.exists()) {
                 crudsResult.setSuccess(false);
-                crudsResult.addMessage("System already registered!");
+                crudsResult.addMessage("Customer already registered!");
             } else {
                 Marshaller marshaller = getMarshaller();
-                marshaller.marshal(system, new File(SYSTEM_DATA_URI + system.getId() + ".xml"));
+                marshaller.marshal(customer, new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml"));
 
                 crudsResult.setSuccess(true);
             }
@@ -81,18 +81,18 @@ public class SystemDAOImpl implements SystemDAO {
         return crudsResult;
     }
 
-    public CrudsResult update(System system) {
+    public CrudsResult update(Customer customer) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(system.getId());
+        crudsResult.setValue(customer.getId());
 
         try {
-            File file = new File(SYSTEM_DATA_URI + system.getId() + ".xml");
+            File file = new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml");
             if (!file.exists()) {
                 crudsResult.setSuccess(false);
-                crudsResult.addMessage("Unknown system!");
+                crudsResult.addMessage("Unknown customer!");
             } else {
                 Marshaller marshaller = getMarshaller();
-                marshaller.marshal(system, new File(SYSTEM_DATA_URI + system.getId() + ".xml"));
+                marshaller.marshal(customer, new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml"));
 
                 crudsResult.setSuccess(true);
             }
@@ -108,8 +108,8 @@ public class SystemDAOImpl implements SystemDAO {
         CrudsResult crudsResult = new CrudsResult();
 
         try {
-            File systemFile = new File(SYSTEM_DATA_URI + id + ".xml");
-            boolean deleted = systemFile.delete();
+            File customerFile = new File(CUSTOMERS_DATA_URI + id + ".xml");
+            boolean deleted = customerFile.delete();
             crudsResult.setSuccess(deleted);
             crudsResult.setValue(id);
         } catch (Exception e) {
@@ -124,11 +124,11 @@ public class SystemDAOImpl implements SystemDAO {
         CrudsResult crudsResult = new CrudsResult();
 
         try {
-            File systemDirectory = new File(SYSTEM_DATA_URI);
-            File[] systemFiles = systemDirectory.listFiles();
-            if (systemFiles != null) {
-                for (File systemFile : systemFiles) {
-                    boolean deleted = systemFile.delete();
+            File customerDirectory = new File(CUSTOMERS_DATA_URI);
+            File[] customerFiles = customerDirectory.listFiles();
+            if (customerFiles != null) {
+                for (File customerFile : customerFiles) {
+                    boolean deleted = customerFile.delete();
                     crudsResult.setSuccess(deleted);
                 }
             }
@@ -141,14 +141,14 @@ public class SystemDAOImpl implements SystemDAO {
     }
 
     private Marshaller getMarshaller() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(System.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         return marshaller;
     }
 
     private Unmarshaller getUnMarshaller() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(System.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
         return jaxbContext.createUnmarshaller();
     }
 }

@@ -1,6 +1,6 @@
-package be.boomkwekerij.plant.dao;
+package be.boomkwekerij.plant.dao.repository;
 
-import be.boomkwekerij.plant.model.repository.Invoice;
+import be.boomkwekerij.plant.model.repository.Company;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.ExceptionUtil;
 import be.boomkwekerij.plant.util.SearchResult;
@@ -13,19 +13,19 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.UUID;
 
-public class InvoiceDAOImpl implements InvoiceDAO {
+public class CompanyDAOImpl implements CompanyDAO {
 
-    private static final String INVOICES_DATA_URI = SystemRepository.getDataUri() + "/invoices/";
+    private static final String COMPANIES_DATA_URI = SystemRepository.getDataUri() + "/companies/";
 
-    public SearchResult<Invoice> get(String id) {
-        SearchResult<Invoice> searchResult = new SearchResult<Invoice>();
+    public SearchResult<Company> get(String id) {
+        SearchResult<Company> searchResult = new SearchResult<Company>();
 
         try {
             Unmarshaller unmarshaller = getUnMarshaller();
-            Invoice invoice = (Invoice) unmarshaller.unmarshal(new File(INVOICES_DATA_URI + id + ".xml"));
+            Company company = (Company) unmarshaller.unmarshal(new File(COMPANIES_DATA_URI + id + ".xml"));
 
             searchResult.setSuccess(true);
-            searchResult.addResult(invoice);
+            searchResult.addResult(company);
         } catch (Exception e) {
             searchResult.setSuccess(false);
             searchResult.addMessage(ExceptionUtil.getStackTrace(e));
@@ -34,17 +34,17 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         return searchResult;
     }
 
-    public SearchResult<Invoice> findAll() {
-        SearchResult<Invoice> searchResult = new SearchResult<Invoice>();
+    public SearchResult<Company> findAll() {
+        SearchResult<Company> searchResult = new SearchResult<Company>();
 
         try {
             Unmarshaller unmarshaller = getUnMarshaller();
-            File invoiceDirectory = new File(INVOICES_DATA_URI);
-            File[] invoiceFiles = invoiceDirectory.listFiles();
-            if (invoiceFiles != null) {
-                for (File invoiceFile : invoiceFiles) {
-                    Invoice invoice = (Invoice) unmarshaller.unmarshal(invoiceFile);
-                    searchResult.addResult(invoice);
+            File companyDirectory = new File(COMPANIES_DATA_URI);
+            File[] companyFiles = companyDirectory.listFiles();
+            if (companyFiles != null) {
+                for (File companyFile : companyFiles) {
+                    Company company = (Company) unmarshaller.unmarshal(companyFile);
+                    searchResult.addResult(company);
                 }
             }
 
@@ -57,19 +57,19 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         return searchResult;
     }
 
-    public CrudsResult persist(Invoice invoice) {
+    public CrudsResult persist(Company company) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(invoice.getId());
+        crudsResult.setValue(company.getId());
 
         try {
-            invoice.setId(UUID.randomUUID().toString());
-            File file = new File(INVOICES_DATA_URI + invoice.getId() + ".xml");
+            company.setId(UUID.randomUUID().toString());
+            File file = new File(COMPANIES_DATA_URI + company.getId() + ".xml");
             if (file.exists()) {
                 crudsResult.setSuccess(false);
-                crudsResult.addMessage("Invoice already registered!");
+                crudsResult.addMessage("Company already registered!");
             } else {
                 Marshaller marshaller = getMarshaller();
-                marshaller.marshal(invoice, new File(INVOICES_DATA_URI + invoice.getId() + ".xml"));
+                marshaller.marshal(company, new File(COMPANIES_DATA_URI + company.getId() + ".xml"));
 
                 crudsResult.setSuccess(true);
             }
@@ -81,18 +81,18 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         return crudsResult;
     }
 
-    public CrudsResult update(Invoice invoice) {
+    public CrudsResult update(Company company) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(invoice.getId());
+        crudsResult.setValue(company.getId());
 
         try {
-            File file = new File(INVOICES_DATA_URI + invoice.getId() + ".xml");
+            File file = new File(COMPANIES_DATA_URI + company.getId() + ".xml");
             if (!file.exists()) {
                 crudsResult.setSuccess(false);
-                crudsResult.addMessage("Unknown invoice!");
+                crudsResult.addMessage("Unknown company!");
             } else {
                 Marshaller marshaller = getMarshaller();
-                marshaller.marshal(invoice, new File(INVOICES_DATA_URI + invoice.getId() + ".xml"));
+                marshaller.marshal(company, new File(COMPANIES_DATA_URI + company.getId() + ".xml"));
 
                 crudsResult.setSuccess(true);
             }
@@ -108,8 +108,8 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         CrudsResult crudsResult = new CrudsResult();
 
         try {
-            File invoiceFile = new File(INVOICES_DATA_URI + id + ".xml");
-            boolean deleted = invoiceFile.delete();
+            File companyFile = new File(COMPANIES_DATA_URI + id + ".xml");
+            boolean deleted = companyFile.delete();
             crudsResult.setSuccess(deleted);
             crudsResult.setValue(id);
         } catch (Exception e) {
@@ -124,11 +124,11 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         CrudsResult crudsResult = new CrudsResult();
 
         try {
-            File invoiceDirectory = new File(INVOICES_DATA_URI);
-            File[] invoiceFiles = invoiceDirectory.listFiles();
-            if (invoiceFiles != null) {
-                for (File invoiceFile : invoiceFiles) {
-                    boolean deleted = invoiceFile.delete();
+            File companyDirectory = new File(COMPANIES_DATA_URI);
+            File[] companyFiles = companyDirectory.listFiles();
+            if (companyFiles != null) {
+                for (File companyFile : companyFiles) {
+                    boolean deleted = companyFile.delete();
                     crudsResult.setSuccess(deleted);
                 }
             }
@@ -141,14 +141,14 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     }
 
     private Marshaller getMarshaller() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(Invoice.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(Company.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         return marshaller;
     }
 
     private Unmarshaller getUnMarshaller() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(Invoice.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(Company.class);
         return jaxbContext.createUnmarshaller();
     }
 }

@@ -1,6 +1,6 @@
-package be.boomkwekerij.plant.dao;
+package be.boomkwekerij.plant.dao.repository;
 
-import be.boomkwekerij.plant.model.repository.Company;
+import be.boomkwekerij.plant.model.repository.System;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.ExceptionUtil;
 import be.boomkwekerij.plant.util.SearchResult;
@@ -13,19 +13,19 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.UUID;
 
-public class CompanyDAOImpl implements CompanyDAO {
+public class SystemDAOImpl implements SystemDAO {
 
-    private static final String COMPANIES_DATA_URI = SystemRepository.getDataUri() + "/companies/";
+    private static final String SYSTEM_DATA_URI = SystemRepository.getDataUri() + "/system/";
 
-    public SearchResult<Company> get(String id) {
-        SearchResult<Company> searchResult = new SearchResult<Company>();
+    public SearchResult<System> get(String id) {
+        SearchResult<System> searchResult = new SearchResult<System>();
 
         try {
             Unmarshaller unmarshaller = getUnMarshaller();
-            Company company = (Company) unmarshaller.unmarshal(new File(COMPANIES_DATA_URI + id + ".xml"));
+            System system = (System) unmarshaller.unmarshal(new File(SYSTEM_DATA_URI + id + ".xml"));
 
             searchResult.setSuccess(true);
-            searchResult.addResult(company);
+            searchResult.addResult(system);
         } catch (Exception e) {
             searchResult.setSuccess(false);
             searchResult.addMessage(ExceptionUtil.getStackTrace(e));
@@ -34,17 +34,17 @@ public class CompanyDAOImpl implements CompanyDAO {
         return searchResult;
     }
 
-    public SearchResult<Company> findAll() {
-        SearchResult<Company> searchResult = new SearchResult<Company>();
+    public SearchResult<System> findAll() {
+        SearchResult<System> searchResult = new SearchResult<System>();
 
         try {
             Unmarshaller unmarshaller = getUnMarshaller();
-            File companyDirectory = new File(COMPANIES_DATA_URI);
-            File[] companyFiles = companyDirectory.listFiles();
-            if (companyFiles != null) {
-                for (File companyFile : companyFiles) {
-                    Company company = (Company) unmarshaller.unmarshal(companyFile);
-                    searchResult.addResult(company);
+            File systemDirectory = new File(SYSTEM_DATA_URI);
+            File[] systemFiles = systemDirectory.listFiles();
+            if (systemFiles != null) {
+                for (File systemFile : systemFiles) {
+                    System system = (System) unmarshaller.unmarshal(systemFile);
+                    searchResult.addResult(system);
                 }
             }
 
@@ -57,19 +57,19 @@ public class CompanyDAOImpl implements CompanyDAO {
         return searchResult;
     }
 
-    public CrudsResult persist(Company company) {
+    public CrudsResult persist(System system) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(company.getId());
+        crudsResult.setValue(system.getId());
 
         try {
-            company.setId(UUID.randomUUID().toString());
-            File file = new File(COMPANIES_DATA_URI + company.getId() + ".xml");
+            system.setId(UUID.randomUUID().toString());
+            File file = new File(SYSTEM_DATA_URI + system.getId() + ".xml");
             if (file.exists()) {
                 crudsResult.setSuccess(false);
-                crudsResult.addMessage("Company already registered!");
+                crudsResult.addMessage("System already registered!");
             } else {
                 Marshaller marshaller = getMarshaller();
-                marshaller.marshal(company, new File(COMPANIES_DATA_URI + company.getId() + ".xml"));
+                marshaller.marshal(system, new File(SYSTEM_DATA_URI + system.getId() + ".xml"));
 
                 crudsResult.setSuccess(true);
             }
@@ -81,18 +81,18 @@ public class CompanyDAOImpl implements CompanyDAO {
         return crudsResult;
     }
 
-    public CrudsResult update(Company company) {
+    public CrudsResult update(System system) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(company.getId());
+        crudsResult.setValue(system.getId());
 
         try {
-            File file = new File(COMPANIES_DATA_URI + company.getId() + ".xml");
+            File file = new File(SYSTEM_DATA_URI + system.getId() + ".xml");
             if (!file.exists()) {
                 crudsResult.setSuccess(false);
-                crudsResult.addMessage("Unknown company!");
+                crudsResult.addMessage("Unknown system!");
             } else {
                 Marshaller marshaller = getMarshaller();
-                marshaller.marshal(company, new File(COMPANIES_DATA_URI + company.getId() + ".xml"));
+                marshaller.marshal(system, new File(SYSTEM_DATA_URI + system.getId() + ".xml"));
 
                 crudsResult.setSuccess(true);
             }
@@ -108,8 +108,8 @@ public class CompanyDAOImpl implements CompanyDAO {
         CrudsResult crudsResult = new CrudsResult();
 
         try {
-            File companyFile = new File(COMPANIES_DATA_URI + id + ".xml");
-            boolean deleted = companyFile.delete();
+            File systemFile = new File(SYSTEM_DATA_URI + id + ".xml");
+            boolean deleted = systemFile.delete();
             crudsResult.setSuccess(deleted);
             crudsResult.setValue(id);
         } catch (Exception e) {
@@ -124,11 +124,11 @@ public class CompanyDAOImpl implements CompanyDAO {
         CrudsResult crudsResult = new CrudsResult();
 
         try {
-            File companyDirectory = new File(COMPANIES_DATA_URI);
-            File[] companyFiles = companyDirectory.listFiles();
-            if (companyFiles != null) {
-                for (File companyFile : companyFiles) {
-                    boolean deleted = companyFile.delete();
+            File systemDirectory = new File(SYSTEM_DATA_URI);
+            File[] systemFiles = systemDirectory.listFiles();
+            if (systemFiles != null) {
+                for (File systemFile : systemFiles) {
+                    boolean deleted = systemFile.delete();
                     crudsResult.setSuccess(deleted);
                 }
             }
@@ -141,14 +141,14 @@ public class CompanyDAOImpl implements CompanyDAO {
     }
 
     private Marshaller getMarshaller() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(Company.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(System.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         return marshaller;
     }
 
     private Unmarshaller getUnMarshaller() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(Company.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(System.class);
         return jaxbContext.createUnmarshaller();
     }
 }

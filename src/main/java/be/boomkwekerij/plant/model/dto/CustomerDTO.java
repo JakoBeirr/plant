@@ -10,7 +10,7 @@ public class CustomerDTO {
     private String postalCode;
     private String residence;
     private String country;
-    private String telephone1;
+    private String telephone;
     private String gsm;
     private String fax;
     private String btwNumber;
@@ -80,12 +80,12 @@ public class CustomerDTO {
         this.country = country;
     }
 
-    public String getTelephone1() {
-        return telephone1;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public void setTelephone1(String telephone1) {
-        this.telephone1 = telephone1;
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     public String getGsm() {

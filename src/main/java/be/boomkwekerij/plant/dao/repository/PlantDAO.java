@@ -1,4 +1,4 @@
-package be.boomkwekerij.plant.dao;
+package be.boomkwekerij.plant.dao.repository;
 
 import be.boomkwekerij.plant.model.repository.Plant;
 
