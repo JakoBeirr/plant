@@ -62,7 +62,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 
         try {
             File file = new File(DATA_URI + "/companies/" + company.getId() + ".xml");
-            if (!file.exists()) {
+            if (file.exists()) {
                 crudsResult.setSuccess(false);
                 crudsResult.addMessage("Company already registered!");
             } else {
