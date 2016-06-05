@@ -1,32 +1,32 @@
 package be.boomkwekerij.plant.dao;
 
 import be.boomkwekerij.plant.model.repository.Plant;
-
-import java.util.List;
+import be.boomkwekerij.plant.util.CrudsResult;
+import be.boomkwekerij.plant.util.SearchResult;
 
 public class PlantDAOImpl implements PlantDAO {
 
-    public Plant get(Long id) {
+    public SearchResult<Plant> get(Long id) {
         return null;
     }
 
-    public List<Plant> findAll() {
+    public SearchResult<Plant> findAll() {
         return null;
     }
 
-    public void persist(Plant plant) {
-
+    public CrudsResult persist(Plant plant) {
+        return null;
     }
 
-    public void update(Plant plant) {
-
+    public CrudsResult update(Plant plant) {
+        return null;
     }
 
-    public void delete(Long id) {
-
+    public CrudsResult delete(Long id) {
+        return null;
     }
 
-    public void deleteAll() {
-
+    public CrudsResult deleteAll() {
+        return null;
     }
 }

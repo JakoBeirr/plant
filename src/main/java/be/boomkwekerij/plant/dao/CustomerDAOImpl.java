@@ -1,32 +1,32 @@
 package be.boomkwekerij.plant.dao;
 
 import be.boomkwekerij.plant.model.repository.Customer;
-
-import java.util.List;
+import be.boomkwekerij.plant.util.CrudsResult;
+import be.boomkwekerij.plant.util.SearchResult;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
-    public Customer get(Long id) {
+    public SearchResult<Customer> get(Long id) {
         return null;
     }
 
-    public List<Customer> findAll() {
+    public SearchResult<Customer> findAll() {
         return null;
     }
 
-    public void persist(Customer o) {
-
+    public CrudsResult persist(Customer customer) {
+        return null;
     }
 
-    public void update(Customer o) {
-
+    public CrudsResult update(Customer customer) {
+        return null;
     }
 
-    public void delete(Long id) {
-
+    public CrudsResult delete(Long id) {
+        return null;
     }
 
-    public void deleteAll() {
-
+    public CrudsResult deleteAll() {
+        return null;
     }
 }

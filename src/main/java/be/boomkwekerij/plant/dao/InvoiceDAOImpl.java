@@ -1,32 +1,32 @@
 package be.boomkwekerij.plant.dao;
 
 import be.boomkwekerij.plant.model.repository.Invoice;
-
-import java.util.List;
+import be.boomkwekerij.plant.util.CrudsResult;
+import be.boomkwekerij.plant.util.SearchResult;
 
 public class InvoiceDAOImpl implements InvoiceDAO {
 
-    public Invoice get(Long id) {
+    public SearchResult<Invoice> get(Long id) {
         return null;
     }
 
-    public List<Invoice> findAll() {
+    public SearchResult<Invoice> findAll() {
         return null;
     }
 
-    public void persist(Invoice invoice) {
-
+    public CrudsResult persist(Invoice invoice) {
+        return null;
     }
 
-    public void update(Invoice invoice) {
-
+    public CrudsResult update(Invoice invoice) {
+        return null;
     }
 
-    public void delete(Long id) {
-
+    public CrudsResult delete(Long id) {
+        return null;
     }
 
-    public void deleteAll() {
-
+    public CrudsResult deleteAll() {
+        return null;
     }
 }

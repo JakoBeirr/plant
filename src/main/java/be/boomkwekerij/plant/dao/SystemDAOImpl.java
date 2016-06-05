@@ -1,32 +1,32 @@
 package be.boomkwekerij.plant.dao;
 
 import be.boomkwekerij.plant.model.repository.System;
-
-import java.util.List;
+import be.boomkwekerij.plant.util.CrudsResult;
+import be.boomkwekerij.plant.util.SearchResult;
 
 public class SystemDAOImpl implements SystemDAO {
 
-    public System get(Long id) {
+    public SearchResult<System> get(Long id) {
         return null;
     }
 
-    public List<System> findAll() {
+    public SearchResult<System> findAll() {
         return null;
     }
 
-    public void persist(System system) {
-
+    public CrudsResult persist(System system) {
+        return null;
     }
 
-    public void update(System system) {
-
+    public CrudsResult update(System system) {
+        return null;
     }
 
-    public void delete(Long id) {
-
+    public CrudsResult delete(Long id) {
+        return null;
     }
 
-    public void deleteAll() {
-
+    public CrudsResult deleteAll() {
+        return null;
     }
 }

@@ -1,32 +1,34 @@
 package be.boomkwekerij.plant.dao;
 
 import be.boomkwekerij.plant.model.repository.Company;
+import be.boomkwekerij.plant.util.CrudsResult;
+import be.boomkwekerij.plant.util.SearchResult;
 
 import java.util.List;
 
 public class CompanyDAOImpl implements CompanyDAO {
 
-    public Company get(Long id) {
+    public SearchResult<Company> get(Long id) {
         return null;
     }
 
-    public List<Company> findAll() {
+    public SearchResult<Company> findAll() {
         return null;
     }
 
-    public void persist(Company o) {
-
+    public CrudsResult persist(Company company) {
+        return null;
     }
 
-    public void update(Company o) {
-
+    public CrudsResult update(Company company) {
+        return null;
     }
 
-    public void delete(Long id) {
-
+    public CrudsResult delete(Long id) {
+        return null;
     }
 
-    public void deleteAll() {
-
+    public CrudsResult deleteAll() {
+        return null;
     }
 }

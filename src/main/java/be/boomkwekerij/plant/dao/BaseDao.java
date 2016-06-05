@@ -1,19 +1,21 @@
 package be.boomkwekerij.plant.dao;
 
+import be.boomkwekerij.plant.util.CrudsResult;
+import be.boomkwekerij.plant.util.SearchResult;
+
 import java.io.Serializable;
-import java.util.List;
 
 public interface BaseDao<T, K extends Serializable> {
 
-    T get(K id);
+    SearchResult<T> get(K id);
 
-    List<T> findAll();
+    SearchResult<T> findAll();
 
-    void persist(T t);
+    CrudsResult persist(T t);
 
-    void update(T t);
+    CrudsResult update(T t);
 
-    void delete(K id);
+    CrudsResult delete(K id);
 
-    void deleteAll();
+    CrudsResult deleteAll();
 }
