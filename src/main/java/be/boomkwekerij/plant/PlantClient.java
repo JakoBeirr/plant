@@ -38,9 +38,15 @@ public class PlantClient {
 
         System.out.println();
 
+        searchResult = companyDAO.get("unknown");
+
+        System.out.println("Company gevonden: " + searchResult.isSuccess() + ", aantal: " + searchResult.getResults().size());
+
+        System.out.println();
+
         SearchResult<Company> all = companyDAO.findAll();
         List<Company> results = all.getResults();
-        System.out.println("Company gevonden: " + searchResult.isSuccess() + ", aantal: " + results.size());
+        System.out.println("Company gevonden: " + all.isSuccess() + ", aantal: " + results.size());
         System.out.println("=============================================");
         for (Company companyResult : results) {
             System.out.println("Naam: " + companyResult.getName());

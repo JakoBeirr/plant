@@ -59,7 +59,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     public CrudsResult persist(Company company) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(company.getName());
+        crudsResult.setValue(company.getId());
 
         try {
             company.setId(UUID.randomUUID().toString());
@@ -83,7 +83,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     public CrudsResult update(Company company) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(company.getName());
+        crudsResult.setValue(company.getId());
 
         try {
             File file = new File(COMPANIES_DATA_URI + company.getId() + ".xml");
