@@ -9,7 +9,11 @@ public interface CustomerService {
 
     CrudsResult createCustomer(CustomerDTO customer);
 
-    SearchResult<Customer> getAllCustomers();
+    SearchResult<CustomerDTO> getCustomer(String id);
 
-    SearchResult<Customer> getAllCustomers(String name);
+    SearchResult<CustomerDTO> getAllCustomers();
+
+    SearchResult<CustomerDTO> getAllCustomers(String name);
+
+    CrudsResult updateCustomer(CustomerDTO customer);
 }

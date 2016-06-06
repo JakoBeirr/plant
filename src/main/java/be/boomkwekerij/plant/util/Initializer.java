@@ -1,19 +1,29 @@
 package be.boomkwekerij.plant.util;
 
+import be.boomkwekerij.plant.dao.repository.CustomerDAO;
+import be.boomkwekerij.plant.dao.repository.CustomerDAOImpl;
+import be.boomkwekerij.plant.model.repository.Customer;
+
 import java.io.File;
+import java.util.List;
 
-public class SystemRepository {
+public class Initializer {
 
-    private static String dataUri;
+    private static CustomerDAO customerDAO;
 
-    public static String getDataUri() {
-        return dataUri;
-    }
+    private static String data_directory;
 
     public static void init(String dataUri) {
-        SystemRepository.dataUri = dataUri;
+        data_directory = dataUri;
+
+        customerDAO = new CustomerDAOImpl();
 
         initDirectoryStructure(dataUri);
+        initInMemoryDatabase();
+    }
+
+    public static String getDataUri() {
+        return data_directory;
     }
 
     private static void initDirectoryStructure(String dataUri) {
@@ -30,5 +40,10 @@ public class SystemRepository {
         if (!file.exists()) {
             file.mkdir();
         }
+    }
+
+    private static void initInMemoryDatabase() {
+        List<Customer> customers = customerDAO.findAll().getResults();
+        MemoryDatabase.getCustomerMemory().setCustomersInMemory(customers);
     }
 }

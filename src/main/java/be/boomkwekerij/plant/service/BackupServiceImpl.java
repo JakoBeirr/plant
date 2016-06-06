@@ -1,6 +1,6 @@
 package be.boomkwekerij.plant.service;
 
-import be.boomkwekerij.plant.util.SystemRepository;
+import be.boomkwekerij.plant.util.Initializer;
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 
@@ -13,7 +13,7 @@ public class BackupServiceImpl implements BackupService {
     private static final String BACKUP_DIRECTORY = "C:/Plant/backup";
 
     public void backupDatabase() throws IOException {
-        File sourceDirectory = new File(SystemRepository.getDataUri());
+        File sourceDirectory = new File(Initializer.getDataUri());
         File backupDirectory = createBackupFolder();
 
         FileUtils.copyDirectory(sourceDirectory, backupDirectory);

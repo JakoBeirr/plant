@@ -4,7 +4,7 @@ import be.boomkwekerij.plant.model.repository.Plant;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.ExceptionUtil;
 import be.boomkwekerij.plant.util.SearchResult;
-import be.boomkwekerij.plant.util.SystemRepository;
+import be.boomkwekerij.plant.util.Initializer;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class PlantDAOImpl implements PlantDAO {
 
-    private static final String PLANTS_DATA_URI = SystemRepository.getDataUri() + "/plants/";
+    private static final String PLANTS_DATA_URI = Initializer.getDataUri() + "/plants/";
 
     public SearchResult<Plant> get(String id) {
         SearchResult<Plant> searchResult = new SearchResult<Plant>();

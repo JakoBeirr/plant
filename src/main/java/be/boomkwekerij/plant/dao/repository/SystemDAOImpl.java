@@ -4,7 +4,7 @@ import be.boomkwekerij.plant.model.repository.System;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.ExceptionUtil;
 import be.boomkwekerij.plant.util.SearchResult;
-import be.boomkwekerij.plant.util.SystemRepository;
+import be.boomkwekerij.plant.util.Initializer;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class SystemDAOImpl implements SystemDAO {
 
-    private static final String SYSTEM_DATA_URI = SystemRepository.getDataUri() + "/system/";
+    private static final String SYSTEM_DATA_URI = Initializer.getDataUri() + "/system/";
 
     public SearchResult<System> get(String id) {
         SearchResult<System> searchResult = new SearchResult<System>();

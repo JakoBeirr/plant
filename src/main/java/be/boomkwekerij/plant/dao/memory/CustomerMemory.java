@@ -7,9 +7,13 @@ import java.util.List;
 
 public interface CustomerMemory {
 
+    void setCustomersInMemory(List<Customer> customers);
+
     void addCustomerToMemory(Customer customer);
 
-    void setCustomersInMemory(List<Customer> customers);
+    SearchResult<Customer> getCustomer(String id);
+
+    SearchResult<Customer> getCustomers();
 
     SearchResult<Customer> getCustomersWithName(String name);
 }

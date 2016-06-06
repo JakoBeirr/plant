@@ -4,7 +4,7 @@ import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.ExceptionUtil;
 import be.boomkwekerij.plant.util.SearchResult;
-import be.boomkwekerij.plant.util.SystemRepository;
+import be.boomkwekerij.plant.util.Initializer;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class InvoiceDAOImpl implements InvoiceDAO {
 
-    private static final String INVOICES_DATA_URI = SystemRepository.getDataUri() + "/invoices/";
+    private static final String INVOICES_DATA_URI = Initializer.getDataUri() + "/invoices/";
 
     public SearchResult<Invoice> get(String id) {
         SearchResult<Invoice> searchResult = new SearchResult<Invoice>();

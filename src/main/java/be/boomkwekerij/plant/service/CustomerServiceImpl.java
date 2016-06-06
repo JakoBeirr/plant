@@ -1,7 +1,7 @@
 package be.boomkwekerij.plant.service;
 
 import be.boomkwekerij.plant.dao.memory.CustomerMemory;
-import be.boomkwekerij.plant.dao.memory.CustomerMemoryImpl;
+import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.dao.repository.CustomerDAO;
 import be.boomkwekerij.plant.dao.repository.CustomerDAOImpl;
 import be.boomkwekerij.plant.mapper.CustomerMapper;
@@ -10,10 +10,13 @@ import be.boomkwekerij.plant.model.repository.Customer;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CustomerServiceImpl implements CustomerService {
 
     private CustomerDAO customerDAO = new CustomerDAOImpl();
-    private CustomerMemory customerMemory = new CustomerMemoryImpl();
+    private CustomerMemory customerMemory = MemoryDatabase.getCustomerMemory();
 
     private CustomerMapper customerMapper = new CustomerMapper();
 
@@ -28,17 +31,66 @@ public class CustomerServiceImpl implements CustomerService {
         return crudsResult;
     }
 
-    public SearchResult<Customer> getAllCustomers() {
-        SearchResult<Customer> searchResult = customerDAO.findAll();
+    public SearchResult<CustomerDTO> getCustomer(String id) {
+        SearchResult<Customer> searchResult = customerMemory.getCustomer(id);
 
-        if(searchResult.isSuccess()) {
-            customerMemory.setCustomersInMemory(searchResult.getResults());
+        SearchResult<CustomerDTO> customerSearchResult = new SearchResult<CustomerDTO>();
+        customerSearchResult.setSuccess(searchResult.isSuccess());
+        customerSearchResult.setMessages(searchResult.getMessages());
+
+        if (searchResult.isSuccess()) {
+            Customer customer = searchResult.getFirst();
+            CustomerDTO customerDTO = customerMapper.mapDAOToDTO(customer);
+            customerSearchResult.addResult(customerDTO);
         }
 
-        return searchResult;
+        return customerSearchResult;
     }
 
-    public SearchResult<Customer> getAllCustomers(String name) {
-        return customerMemory.getCustomersWithName(name);
+    public SearchResult<CustomerDTO> getAllCustomers() {
+        SearchResult<Customer> searchResult = customerMemory.getCustomers();
+
+        List<CustomerDTO> allCustomers = new ArrayList<CustomerDTO>();
+        if (searchResult.isSuccess()) {
+            for (Customer customer : searchResult.getResults()) {
+                CustomerDTO customerDTO = customerMapper.mapDAOToDTO(customer);
+                allCustomers.add(customerDTO);
+            }
+        }
+
+        SearchResult<CustomerDTO> allCustomersSearchResult = new SearchResult<CustomerDTO>();
+        allCustomersSearchResult.setSuccess(searchResult.isSuccess());
+        allCustomersSearchResult.setMessages(searchResult.getMessages());
+        allCustomersSearchResult.setResults(allCustomers);
+        return allCustomersSearchResult;
+    }
+
+    public SearchResult<CustomerDTO> getAllCustomers(String name) {
+        SearchResult<Customer> searchResult = customerMemory.getCustomersWithName(name);
+
+        List<CustomerDTO> allCustomersWithName = new ArrayList<CustomerDTO>();
+        if (searchResult.isSuccess()) {
+            for (Customer customer : searchResult.getResults()) {
+                CustomerDTO customerDTO = customerMapper.mapDAOToDTO(customer);
+                allCustomersWithName.add(customerDTO);
+            }
+        }
+
+        SearchResult<CustomerDTO> allCustomersWithNameSearchResult = new SearchResult<CustomerDTO>();
+        allCustomersWithNameSearchResult.setSuccess(searchResult.isSuccess());
+        allCustomersWithNameSearchResult.setMessages(searchResult.getMessages());
+        allCustomersWithNameSearchResult.setResults(allCustomersWithName);
+        return allCustomersWithNameSearchResult;
+    }
+
+    public CrudsResult updateCustomer(CustomerDTO customerDTO) {
+        Customer customer = customerMapper.mapDTOToDAO(customerDTO);
+        CrudsResult crudsResult = customerDAO.update(customer);
+
+        if(crudsResult.isSuccess()) {
+            customerMemory.addCustomerToMemory(customer);
+        }
+
+        return crudsResult;
     }
 }
