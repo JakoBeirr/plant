@@ -10,9 +10,8 @@ public class InvoiceLine {
 
     private DateTime date;
     private int amount;
-    private long plantId;
+    private String plantId;
     private double price;
-    private double totalPrice;
 
     public DateTime getDate() {
         return date;
@@ -32,12 +31,12 @@ public class InvoiceLine {
         this.amount = amount;
     }
 
-    public long getPlantId() {
+    public String getPlantId() {
         return plantId;
     }
 
     @XmlElement
-    public void setPlantId(long plantId) {
+    public void setPlantId(String plantId) {
         this.plantId = plantId;
     }
 
@@ -48,14 +47,5 @@ public class InvoiceLine {
     @XmlElement
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    @XmlElement
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
     }
 }

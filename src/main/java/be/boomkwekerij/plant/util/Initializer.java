@@ -44,6 +44,6 @@ public class Initializer {
 
     private static void initInMemoryDatabase() {
         List<Customer> customers = customerDAO.findAll().getResults();
-        MemoryDatabase.getCustomerMemory().setCustomersInMemory(customers);
+        MemoryDatabase.getCustomerMemory().createCustomers(customers);
     }
 }

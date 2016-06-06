@@ -11,14 +11,14 @@ public class CustomerMemoryImpl implements CustomerMemory {
 
     private HashMap<String, Customer> customers = new HashMap<String, Customer>();
 
-    public void setCustomersInMemory(List<Customer> customerList) {
+    public void createCustomer(Customer customer) {
+        customers.put(customer.getId(), customer);
+    }
+
+    public void createCustomers(List<Customer> customerList) {
         for (Customer customer : customerList) {
             customers.put(customer.getId(), customer);
         }
-    }
-
-    public void addCustomerToMemory(Customer customer) {
-        customers.put(customer.getId(), customer);
     }
 
     public SearchResult<Customer> getCustomer(String id) {
@@ -35,7 +35,7 @@ public class CustomerMemoryImpl implements CustomerMemory {
         return searchResult;
     }
 
-    public SearchResult<Customer> getCustomersWithName(String name) {
+    public SearchResult<Customer> getCustomers(String name) {
         SearchResult<Customer> customersWithName = new SearchResult<Customer>();
 
         for (Customer customer : customers.values()) {
@@ -57,5 +57,9 @@ public class CustomerMemoryImpl implements CustomerMemory {
             return true;
         }
         return false;
+    }
+
+    public void deleteCustomer(String id) {
+        customers.remove(id);
     }
 }

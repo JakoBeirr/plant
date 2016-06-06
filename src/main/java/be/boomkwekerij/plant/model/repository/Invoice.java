@@ -10,12 +10,10 @@ import java.util.List;
 public class Invoice {
 
     private String id;
-    private long customerId;
+    private String customerId;
     private String invoiceNumber;
     private DateTime date;
-    private int amount;
     private List<InvoiceLine> invoiceLines;
-    private double totalPrice;
     private double btw;
 
     public String getId() {
@@ -27,12 +25,12 @@ public class Invoice {
         this.id = id;
     }
 
-    public long getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
     @XmlElement
-    public void setCustomerId(long customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
@@ -54,15 +52,6 @@ public class Invoice {
         this.date = date;
     }
 
-    public int getAmount() {
-        return amount;
-    }
-
-    @XmlElement
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
     public List<InvoiceLine> getInvoiceLines() {
         return invoiceLines;
     }
@@ -70,15 +59,6 @@ public class Invoice {
     @XmlElement
     public void setInvoiceLines(List<InvoiceLine> invoiceLines) {
         this.invoiceLines = invoiceLines;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    @XmlElement
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public double getBtw() {

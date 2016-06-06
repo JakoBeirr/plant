@@ -24,8 +24,8 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerMapper.mapDTOToDAO(customerDTO);
         CrudsResult crudsResult = customerDAO.persist(customer);
 
-        if(crudsResult.isSuccess()) {
-            customerMemory.addCustomerToMemory(customer);
+        if (crudsResult.isSuccess()) {
+            customerMemory.createCustomer(customer);
         }
 
         return crudsResult;
@@ -66,7 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public SearchResult<CustomerDTO> getAllCustomers(String name) {
-        SearchResult<Customer> searchResult = customerMemory.getCustomersWithName(name);
+        SearchResult<Customer> searchResult = customerMemory.getCustomers(name);
 
         List<CustomerDTO> allCustomersWithName = new ArrayList<CustomerDTO>();
         if (searchResult.isSuccess()) {
@@ -87,8 +87,18 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerMapper.mapDTOToDAO(customerDTO);
         CrudsResult crudsResult = customerDAO.update(customer);
 
-        if(crudsResult.isSuccess()) {
-            customerMemory.addCustomerToMemory(customer);
+        if (crudsResult.isSuccess()) {
+            customerMemory.createCustomer(customer);
+        }
+
+        return crudsResult;
+    }
+
+    public CrudsResult deleteCustomer(String id) {
+        CrudsResult crudsResult = customerDAO.delete(id);
+
+        if (crudsResult.isSuccess()) {
+            customerMemory.deleteCustomer(id);
         }
 
         return crudsResult;

@@ -10,7 +10,6 @@ public class InvoiceDTO {
     private CustomerDTO customer;
     private String invoiceNumber;
     private DateTime date;
-    private int amount;
     private List<InvoiceLineDTO> invoiceLines;
     private double totalPrice;
     private double btw;
@@ -45,14 +44,6 @@ public class InvoiceDTO {
 
     public void setDate(DateTime date) {
         this.date = date;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 
     public List<InvoiceLineDTO> getInvoiceLines() {
