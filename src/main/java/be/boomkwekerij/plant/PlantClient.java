@@ -2,11 +2,9 @@ package be.boomkwekerij.plant;
 
 import be.boomkwekerij.plant.util.Initializer;
 
-import java.io.IOException;
-
 public class PlantClient {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if (args.length != 1) {
             throw new IllegalArgumentException("Data uri not specified!");
         }

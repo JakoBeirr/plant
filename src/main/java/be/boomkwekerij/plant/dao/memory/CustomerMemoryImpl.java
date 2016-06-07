@@ -59,6 +59,12 @@ public class CustomerMemoryImpl implements CustomerMemory {
         return false;
     }
 
+    public void updateCustomer(Customer customer) {
+        if (customers.get(customer.getId()) != null) {
+            customers.put(customer.getId(), customer);
+        }
+    }
+
     public void deleteCustomer(String id) {
         customers.remove(id);
     }

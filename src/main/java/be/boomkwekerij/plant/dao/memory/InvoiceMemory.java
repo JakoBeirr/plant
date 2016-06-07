@@ -17,5 +17,7 @@ public interface InvoiceMemory {
 
     SearchResult<Invoice> getInvoices(String invoiceNumber);
 
+    void updateInvoice(Invoice invoice);
+
     void deleteInvoice(String id);
 }

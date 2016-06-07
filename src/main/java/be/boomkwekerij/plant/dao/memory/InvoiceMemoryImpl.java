@@ -52,6 +52,12 @@ public class InvoiceMemoryImpl implements InvoiceMemory {
         return invoice.getInvoiceNumber() != null && invoice.getInvoiceNumber().toUpperCase().startsWith(invoiceNumber.toUpperCase());
     }
 
+    public void updateInvoice(Invoice invoice) {
+        if (invoices.get(invoice.getId()) != null) {
+            invoices.put(invoice.getId(), invoice);
+        }
+    }
+
     public void deleteInvoice(String id) {
         invoices.remove(id);
     }

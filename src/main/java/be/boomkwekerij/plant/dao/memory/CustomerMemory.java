@@ -17,5 +17,7 @@ public interface CustomerMemory {
 
     SearchResult<Customer> getCustomers(String name);
 
+    void updateCustomer(Customer customer);
+
     void deleteCustomer(String id);
 }

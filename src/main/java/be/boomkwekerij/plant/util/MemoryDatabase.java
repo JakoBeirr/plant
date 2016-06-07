@@ -8,6 +8,7 @@ public class MemoryDatabase {
     private static CustomerMemory customerMemory = new CustomerMemoryImpl();
     private static InvoiceMemory invoiceMemory = new InvoiceMemoryImpl();
     private static PlantMemory plantMemory = new PlantMemoryImpl();
+    private static SystemMemory systemMemory = new SystemMemoryImpl();
 
     public static CompanyMemory getCompanyMemory() {
         return companyMemory;
@@ -23,5 +24,9 @@ public class MemoryDatabase {
 
     public static PlantMemory getPlantMemory() {
         return plantMemory;
+    }
+
+    public static SystemMemory getSystemMemory() {
+        return systemMemory;
     }
 }

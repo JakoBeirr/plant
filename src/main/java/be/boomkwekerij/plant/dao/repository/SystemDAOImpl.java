@@ -11,18 +11,17 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
-import java.util.UUID;
 
 public class SystemDAOImpl implements SystemDAO {
 
     private static final String SYSTEM_DATA_URI = Initializer.getDataUri() + "/system/";
 
-    public SearchResult<System> get(String id) {
+    public SearchResult<System> get() {
         SearchResult<System> searchResult = new SearchResult<System>();
 
         try {
             Unmarshaller unmarshaller = getUnMarshaller();
-            System system = (System) unmarshaller.unmarshal(new File(SYSTEM_DATA_URI + id + ".xml"));
+            System system = (System) unmarshaller.unmarshal(new File(SYSTEM_DATA_URI + "system.xml"));
 
             searchResult.setSuccess(true);
             searchResult.addResult(system);
@@ -34,42 +33,17 @@ public class SystemDAOImpl implements SystemDAO {
         return searchResult;
     }
 
-    public SearchResult<System> findAll() {
-        SearchResult<System> searchResult = new SearchResult<System>();
-
-        try {
-            Unmarshaller unmarshaller = getUnMarshaller();
-            File systemDirectory = new File(SYSTEM_DATA_URI);
-            File[] systemFiles = systemDirectory.listFiles();
-            if (systemFiles != null) {
-                for (File systemFile : systemFiles) {
-                    System system = (System) unmarshaller.unmarshal(systemFile);
-                    searchResult.addResult(system);
-                }
-            }
-
-            searchResult.setSuccess(true);
-        } catch (Exception e) {
-            searchResult.setSuccess(false);
-            searchResult.addMessage(ExceptionUtil.getStackTrace(e));
-        }
-
-        return searchResult;
-    }
-
     public CrudsResult persist(System system) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(system.getId());
 
         try {
-            system.setId(UUID.randomUUID().toString());
-            File file = new File(SYSTEM_DATA_URI + system.getId() + ".xml");
+            File file = new File(SYSTEM_DATA_URI + "system.xml");
             if (file.exists()) {
                 crudsResult.setSuccess(false);
                 crudsResult.addMessage("System already registered!");
             } else {
                 Marshaller marshaller = getMarshaller();
-                marshaller.marshal(system, new File(SYSTEM_DATA_URI + system.getId() + ".xml"));
+                marshaller.marshal(system, new File(SYSTEM_DATA_URI + "system.xml"));
 
                 crudsResult.setSuccess(true);
             }
@@ -83,16 +57,15 @@ public class SystemDAOImpl implements SystemDAO {
 
     public CrudsResult update(System system) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(system.getId());
 
         try {
-            File file = new File(SYSTEM_DATA_URI + system.getId() + ".xml");
+            File file = new File(SYSTEM_DATA_URI + "system.xml");
             if (!file.exists()) {
                 crudsResult.setSuccess(false);
                 crudsResult.addMessage("Unknown system!");
             } else {
                 Marshaller marshaller = getMarshaller();
-                marshaller.marshal(system, new File(SYSTEM_DATA_URI + system.getId() + ".xml"));
+                marshaller.marshal(system, new File(SYSTEM_DATA_URI + "system.xml"));
 
                 crudsResult.setSuccess(true);
             }
@@ -104,34 +77,13 @@ public class SystemDAOImpl implements SystemDAO {
         return crudsResult;
     }
 
-    public CrudsResult delete(String id) {
+    public CrudsResult delete() {
         CrudsResult crudsResult = new CrudsResult();
 
         try {
-            File systemFile = new File(SYSTEM_DATA_URI + id + ".xml");
+            File systemFile = new File(SYSTEM_DATA_URI + "system.xml");
             boolean deleted = systemFile.delete();
             crudsResult.setSuccess(deleted);
-            crudsResult.setValue(id);
-        } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(ExceptionUtil.getStackTrace(e));
-        }
-
-        return crudsResult;
-    }
-
-    public CrudsResult deleteAll() {
-        CrudsResult crudsResult = new CrudsResult();
-
-        try {
-            File systemDirectory = new File(SYSTEM_DATA_URI);
-            File[] systemFiles = systemDirectory.listFiles();
-            if (systemFiles != null) {
-                for (File systemFile : systemFiles) {
-                    boolean deleted = systemFile.delete();
-                    crudsResult.setSuccess(deleted);
-                }
-            }
         } catch (Exception e) {
             crudsResult.setSuccess(false);
             crudsResult.addMessage(ExceptionUtil.getStackTrace(e));

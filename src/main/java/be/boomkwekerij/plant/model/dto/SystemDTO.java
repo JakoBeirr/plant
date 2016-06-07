@@ -1,10 +1,6 @@
-package be.boomkwekerij.plant.model.repository;
+package be.boomkwekerij.plant.model.dto;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
-public class System {
+public class SystemDTO {
 
     private String lastInvoiceNumber;
 
@@ -12,7 +8,6 @@ public class System {
         return lastInvoiceNumber;
     }
 
-    @XmlElement
     public void setLastInvoiceNumber(String lastInvoiceNumber) {
         this.lastInvoiceNumber = lastInvoiceNumber;
     }

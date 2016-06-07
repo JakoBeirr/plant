@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Company {
 
-    private String id;
     private String name;
     private String telephone;
     private String fax;
@@ -18,15 +17,6 @@ public class Company {
     private String ibanNetherlands;
     private String bicNetherlands;
     private String btwNumber;
-
-    public String getId() {
-        return id;
-    }
-
-    @XmlElement
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

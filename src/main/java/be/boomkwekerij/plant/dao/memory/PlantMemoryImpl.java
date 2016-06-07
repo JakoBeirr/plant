@@ -52,6 +52,12 @@ public class PlantMemoryImpl implements PlantMemory {
         return plant.getName() != null && plant.getName().toUpperCase().startsWith(name.toUpperCase());
     }
 
+    public void updatePlant(Plant plant) {
+        if (plants.get(plant.getId()) != null) {
+            plants.put(plant.getId(), plant);
+        }
+    }
+
     public void deletePlant(String id) {
         plants.remove(id);
     }

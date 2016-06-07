@@ -8,10 +8,13 @@ import be.boomkwekerij.plant.dao.repository.InvoiceDAO;
 import be.boomkwekerij.plant.dao.repository.InvoiceDAOImpl;
 import be.boomkwekerij.plant.dao.repository.PlantDAO;
 import be.boomkwekerij.plant.dao.repository.PlantDAOImpl;
+import be.boomkwekerij.plant.dao.repository.SystemDAO;
+import be.boomkwekerij.plant.dao.repository.SystemDAOImpl;
 import be.boomkwekerij.plant.model.repository.Company;
 import be.boomkwekerij.plant.model.repository.Customer;
 import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.model.repository.Plant;
+import be.boomkwekerij.plant.model.repository.System;
 
 import java.io.File;
 import java.util.List;
@@ -22,6 +25,7 @@ public class Initializer {
     private static CustomerDAO customerDAO;
     private static InvoiceDAO invoiceDAO;
     private static PlantDAO plantDAO;
+    private static SystemDAO systemDAO;
 
     private static String data_directory;
 
@@ -39,14 +43,11 @@ public class Initializer {
         customerDAO = new CustomerDAOImpl();
         invoiceDAO = new InvoiceDAOImpl();
         plantDAO = new PlantDAOImpl();
-    }
-
-    public static String getDataUri() {
-        return data_directory;
+        systemDAO = new SystemDAOImpl();
     }
 
     private static void initDirectoryStructure(String dataUri) {
-        createDirectoryWhenNotExists(dataUri, "/companies");
+        createDirectoryWhenNotExists(dataUri, "/company");
         createDirectoryWhenNotExists(dataUri, "/customers");
         createDirectoryWhenNotExists(dataUri, "/invoices");
         createDirectoryWhenNotExists(dataUri, "/plants");
@@ -62,8 +63,8 @@ public class Initializer {
     }
 
     private static void initInMemoryDatabase() {
-        List<Company> companies = companyDAO.findAll().getResults();
-        MemoryDatabase.getCompanyMemory().createCompanies(companies);
+        Company company = companyDAO.get().getFirst();
+        MemoryDatabase.getCompanyMemory().createCompany(company);
 
         List<Customer> customers = customerDAO.findAll().getResults();
         MemoryDatabase.getCustomerMemory().createCustomers(customers);
@@ -73,5 +74,12 @@ public class Initializer {
 
         List<Plant> plants = plantDAO.findAll().getResults();
         MemoryDatabase.getPlantMemory().createPlants(plants);
+
+        System system = systemDAO.get().getFirst();
+        MemoryDatabase.getSystemMemory().createSystem(system);
+    }
+
+    public static String getDataUri() {
+        return data_directory;
     }
 }

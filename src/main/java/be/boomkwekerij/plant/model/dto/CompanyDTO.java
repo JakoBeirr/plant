@@ -2,7 +2,6 @@ package be.boomkwekerij.plant.model.dto;
 
 public class CompanyDTO {
 
-    private String id;
     private String name;
     private String telephone;
     private String fax;
@@ -14,14 +13,6 @@ public class CompanyDTO {
     private String ibanNetherlands;
     private String bicNetherlands;
     private String btwNumber;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
