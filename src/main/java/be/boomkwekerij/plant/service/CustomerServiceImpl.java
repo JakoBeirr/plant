@@ -88,7 +88,7 @@ public class CustomerServiceImpl implements CustomerService {
         CrudsResult crudsResult = customerDAO.update(customer);
 
         if (crudsResult.isSuccess()) {
-            customerMemory.createCustomer(customer);
+            customerMemory.updateCustomer(customer);
         }
 
         return crudsResult;

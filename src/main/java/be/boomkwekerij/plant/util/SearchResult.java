@@ -13,6 +13,10 @@ public class SearchResult<T> {
         return success;
     }
 
+    public boolean isError() {
+        return !success;
+    }
+
     public void setSuccess(boolean success) {
         this.success = success;
     }
