@@ -11,8 +11,10 @@ public class InvoiceDTO {
     private String invoiceNumber;
     private DateTime date;
     private List<InvoiceLineDTO> invoiceLines;
-    private double totalPrice;
+    private double subTotal;
     private double btw;
+    private double btwAmount;
+    private double totalPrice;
 
     public String getId() {
         return id;
@@ -54,12 +56,12 @@ public class InvoiceDTO {
         this.invoiceLines = invoiceLines;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public double getSubTotal() {
+        return subTotal;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
     }
 
     public double getBtw() {
@@ -68,5 +70,21 @@ public class InvoiceDTO {
 
     public void setBtw(double btw) {
         this.btw = btw;
+    }
+
+    public double getBtwAmount() {
+        return btwAmount;
+    }
+
+    public void setBtwAmount(double btwAmount) {
+        this.btwAmount = btwAmount;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

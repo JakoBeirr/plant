@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Company {
 
     private String name;
+    private String address;
     private String telephone;
     private String fax;
     private String gsm;
@@ -25,6 +26,15 @@ public class Company {
     @XmlElement
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    @XmlElement
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getTelephone() {

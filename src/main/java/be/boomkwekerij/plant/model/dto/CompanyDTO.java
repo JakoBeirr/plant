@@ -3,6 +3,7 @@ package be.boomkwekerij.plant.model.dto;
 public class CompanyDTO {
 
     private String name;
+    private String address;
     private String telephone;
     private String fax;
     private String gsm;
@@ -20,6 +21,14 @@ public class CompanyDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getTelephone() {

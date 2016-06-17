@@ -48,8 +48,12 @@ public class InvoiceMapper {
         invoiceDTO.setDate(invoice.getDate());
         List<InvoiceLineDTO> invoiceLines = getInvoiceLines(invoice);
         invoiceDTO.setInvoiceLines(invoiceLines);
-        invoiceDTO.setTotalPrice(countTotalPrice(invoiceLines));
+        double subTotal = countSubTotal(invoiceLines);
+        invoiceDTO.setSubTotal(subTotal);
         invoiceDTO.setBtw(invoice.getBtw());
+        double btwAmount = countBtwAmount(subTotal, invoice.getBtw());
+        invoiceDTO.setBtwAmount(btwAmount);
+        invoiceDTO.setTotalPrice(countTotalPrice(subTotal, btwAmount));
         return invoiceDTO;
     }
 
@@ -73,7 +77,7 @@ public class InvoiceMapper {
         return invoiceLinesDTOs;
     }
 
-    private double countTotalPrice(List<InvoiceLineDTO> invoiceLines) {
+    private double countSubTotal(List<InvoiceLineDTO> invoiceLines) {
         double totalPrice = 0;
 
         for (InvoiceLineDTO invoiceLine : invoiceLines) {
@@ -81,5 +85,13 @@ public class InvoiceMapper {
         }
 
         return totalPrice;
+    }
+
+    private double countBtwAmount(double subTotal, double btw) {
+        return subTotal * btw;
+    }
+
+    private double countTotalPrice(double subTotal, double btwAmount) {
+        return subTotal + btwAmount;
     }
 }
