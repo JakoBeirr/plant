@@ -2,6 +2,7 @@ package be.boomkwekerij.plant.model.dto;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InvoiceDTO {
@@ -10,7 +11,7 @@ public class InvoiceDTO {
     private CustomerDTO customer;
     private String invoiceNumber;
     private DateTime date;
-    private List<InvoiceLineDTO> invoiceLines;
+    private List<InvoiceLineDTO> invoiceLines = new ArrayList<InvoiceLineDTO>();
     private double subTotal;
     private double btw;
     private double btwAmount;

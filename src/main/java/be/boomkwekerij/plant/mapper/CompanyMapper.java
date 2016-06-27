@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.mapper;
 
 import be.boomkwekerij.plant.model.dto.CompanyDTO;
+import be.boomkwekerij.plant.model.report.CompanyReportObject;
 import be.boomkwekerij.plant.model.repository.Company;
 
 public class CompanyMapper {
@@ -37,5 +38,35 @@ public class CompanyMapper {
         companyDTO.setBicNetherlands(company.getBicNetherlands());
         companyDTO.setBtwNumber(company.getBtwNumber());
         return companyDTO;
+    }
+
+    public CompanyReportObject mapDTOToReportObject(CompanyDTO companyDTO) {
+        CompanyReportObject companyReportObject = new CompanyReportObject();
+        companyReportObject.setAddress(getReportObjectValue(companyDTO.getAddress()));
+        companyReportObject.setTelephoneBelgium(getReportObjectValue(companyDTO.getTelephone()));
+        companyReportObject.setTelephoneNetherlands(getDutchVariant(getReportObjectValue(companyDTO.getTelephone())));
+        companyReportObject.setFaxBelgium(getReportObjectValue(companyDTO.getFax()));
+        companyReportObject.setFaxNetherlands(getDutchVariant(getReportObjectValue(companyDTO.getFax())));
+        companyReportObject.setGsmBelgium(getReportObjectValue(companyDTO.getGsm()));
+        companyReportObject.setGsmNetherlands(getDutchVariant(getReportObjectValue(companyDTO.getGsm())));
+        companyReportObject.setAccountNumberBelgium(getReportObjectValue(companyDTO.getAccountNumberBelgium()));
+        companyReportObject.setIbanBelgium(getReportObjectValue(companyDTO.getIbanBelgium()));
+        companyReportObject.setBicBelgium(getReportObjectValue(companyDTO.getBicBelgium()));
+        companyReportObject.setAccountNumberNetherlands(getReportObjectValue(companyDTO.getAccountNumberNetherlands()));
+        companyReportObject.setIbanNetherlands(getReportObjectValue(companyDTO.getIbanNetherlands()));
+        companyReportObject.setBicNetherlands(getReportObjectValue(companyDTO.getBicNetherlands()));
+        companyReportObject.setBtwNumber(getReportObjectValue(companyDTO.getBtwNumber()));
+        return companyReportObject;
+    }
+
+    private String getDutchVariant(String number) {
+        return number.replaceFirst("0", "0032");
+    }
+
+    private String getReportObjectValue(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value;
     }
 }

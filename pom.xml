@@ -36,6 +36,12 @@
             <artifactId>bcmail-jdk15</artifactId>
             <version>1.44</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>6.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>

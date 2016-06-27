@@ -59,7 +59,6 @@ public class InvoiceDAOImpl implements InvoiceDAO {
 
     public CrudsResult persist(Invoice invoice) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(invoice.getId());
 
         try {
             invoice.setId(UUID.randomUUID().toString());
@@ -71,6 +70,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
                 Marshaller marshaller = getMarshaller();
                 marshaller.marshal(invoice, new File(INVOICES_DATA_URI + invoice.getId() + ".xml"));
 
+                crudsResult.setValue(invoice.getId());
                 crudsResult.setSuccess(true);
             }
         } catch (Exception e) {

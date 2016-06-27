@@ -52,6 +52,7 @@ public class Initializer {
         createDirectoryWhenNotExists(dataUri, "/invoices");
         createDirectoryWhenNotExists(dataUri, "/plants");
         createDirectoryWhenNotExists(dataUri, "/system");
+        createDirectoryWhenNotExists(dataUri, "/files");
     }
 
     @SuppressWarnings("all")

@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.mapper;
 
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
+import be.boomkwekerij.plant.model.report.CustomerReportObject;
 import be.boomkwekerij.plant.model.repository.Customer;
 
 public class CustomerMapper {
@@ -37,5 +38,24 @@ public class CustomerMapper {
         customerDTO.setBtwNumber(customer.getBtwNumber());
         customerDTO.setEmailAddress(customer.getEmailAddress());
         return customerDTO;
+    }
+
+    public CustomerReportObject mapDTOToReportObject(CustomerDTO customerDTO) {
+        CustomerReportObject customerReportObject = new CustomerReportObject();
+        customerReportObject.setName1(getReportObjectValue(customerDTO.getName1()));
+        customerReportObject.setName2(getReportObjectValue(customerDTO.getName2()));
+        customerReportObject.setAddress1(getReportObjectValue(customerDTO.getAddress1()));
+        customerReportObject.setAddress2(getReportObjectValue(customerDTO.getAddress2()));
+        customerReportObject.setPostalCode(getReportObjectValue(customerDTO.getPostalCode()));
+        customerReportObject.setResidence(getReportObjectValue(customerDTO.getResidence()));
+        customerReportObject.setBtwNumber(getReportObjectValue(customerDTO.getBtwNumber()));
+        return customerReportObject;
+    }
+
+    private String getReportObjectValue(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value;
     }
 }

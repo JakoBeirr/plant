@@ -59,7 +59,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     public CrudsResult persist(Customer customer) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(customer.getId());
 
         try {
             customer.setId(UUID.randomUUID().toString());
@@ -71,6 +70,7 @@ public class CustomerDAOImpl implements CustomerDAO {
                 Marshaller marshaller = getMarshaller();
                 marshaller.marshal(customer, new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml"));
 
+                crudsResult.setValue(customer.getId());
                 crudsResult.setSuccess(true);
             }
         } catch (Exception e) {

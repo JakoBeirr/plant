@@ -59,7 +59,6 @@ public class PlantDAOImpl implements PlantDAO {
 
     public CrudsResult persist(Plant plant) {
         CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(plant.getId());
 
         try {
             plant.setId(UUID.randomUUID().toString());
@@ -71,6 +70,7 @@ public class PlantDAOImpl implements PlantDAO {
                 Marshaller marshaller = getMarshaller();
                 marshaller.marshal(plant, new File(PLANTS_DATA_URI + plant.getId() + ".xml"));
 
+                crudsResult.setValue(plant.getId());
                 crudsResult.setSuccess(true);
             }
         } catch (Exception e) {
