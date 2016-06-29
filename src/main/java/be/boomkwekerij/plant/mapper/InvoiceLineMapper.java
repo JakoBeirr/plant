@@ -2,9 +2,18 @@ package be.boomkwekerij.plant.mapper;
 
 import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
 import be.boomkwekerij.plant.model.dto.PlantDTO;
+import be.boomkwekerij.plant.model.report.InvoiceLineReportObject;
 import be.boomkwekerij.plant.model.repository.InvoiceLine;
+import be.boomkwekerij.plant.service.PlantService;
+import be.boomkwekerij.plant.service.PlantServiceImpl;
+import be.boomkwekerij.plant.util.DateFormatPattern;
+import be.boomkwekerij.plant.util.DateUtils;
+import be.boomkwekerij.plant.util.NumberUtils;
+import be.boomkwekerij.plant.util.SearchResult;
 
 public class InvoiceLineMapper {
+
+    private PlantService plantService = new PlantServiceImpl();
 
     public InvoiceLine mapDTOToDAO(InvoiceLineDTO invoiceLineDTO) {
         InvoiceLine invoiceLine = new InvoiceLine();
@@ -26,12 +35,28 @@ public class InvoiceLineMapper {
     }
 
     private PlantDTO getPlant(String plantId) {
-        PlantDTO plant = new PlantDTO();
-        plant.setId(plantId);
-        return plant;
+        SearchResult<PlantDTO> plantSearchResult = plantService.getPlant(plantId);
+
+        if (plantSearchResult.isSuccess()) {
+            return plantSearchResult.getFirst();
+        }
+        return null;
     }
 
     private double countTotalPrice(InvoiceLine invoiceLine) {
         return invoiceLine.getAmount() * invoiceLine.getPrice();
     }
+
+    public InvoiceLineReportObject mapDTOToReportObject(InvoiceLineDTO invoiceLineDTO) {
+        InvoiceLineReportObject invoiceLineReportObject = new InvoiceLineReportObject();
+        invoiceLineReportObject.setInvoiceLineDate(DateUtils.formatDate(invoiceLineDTO.getDate(), DateFormatPattern.DATE_NOYEAR_FORMAT));
+        invoiceLineReportObject.setPlantAmount(invoiceLineDTO.getAmount());
+        invoiceLineReportObject.setPlantSpecies(invoiceLineDTO.getPlant().getName());
+        invoiceLineReportObject.setPlantAgeAndMeasure(invoiceLineDTO.getPlant().getAge() + "/" + invoiceLineDTO.getPlant().getMeasure());
+        invoiceLineReportObject.setPrice(NumberUtils.formatDouble(invoiceLineDTO.getPrice(), 3));
+        invoiceLineReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceLineDTO.getTotalPrice(), 2));
+        return invoiceLineReportObject;
+    }
+
+
 }

@@ -3,10 +3,15 @@ package be.boomkwekerij.plant.mapper;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
+import be.boomkwekerij.plant.model.report.InvoiceLineReportObject;
+import be.boomkwekerij.plant.model.report.InvoiceReportObject;
 import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.model.repository.InvoiceLine;
 import be.boomkwekerij.plant.service.CustomerService;
 import be.boomkwekerij.plant.service.CustomerServiceImpl;
+import be.boomkwekerij.plant.util.DateFormatPattern;
+import be.boomkwekerij.plant.util.DateUtils;
+import be.boomkwekerij.plant.util.NumberUtils;
 import be.boomkwekerij.plant.util.SearchResult;
 
 import java.util.ArrayList;
@@ -78,13 +83,13 @@ public class InvoiceMapper {
     }
 
     private double countSubTotal(List<InvoiceLineDTO> invoiceLines) {
-        double totalPrice = 0;
+        double subTotal = 0;
 
         for (InvoiceLineDTO invoiceLine : invoiceLines) {
-            totalPrice += invoiceLine.getTotalPrice();
+            subTotal += invoiceLine.getTotalPrice();
         }
 
-        return totalPrice;
+        return subTotal;
     }
 
     private double countBtwAmount(double subTotal, double btw) {
@@ -93,5 +98,20 @@ public class InvoiceMapper {
 
     private double countTotalPrice(double subTotal, double btwAmount) {
         return subTotal + btwAmount;
+    }
+
+    public InvoiceReportObject mapDTOToReportObject(InvoiceDTO invoiceDTO) {
+        InvoiceReportObject invoiceReportObject = new InvoiceReportObject();
+        invoiceReportObject.setInvoiceDate(DateUtils.formatDate(invoiceDTO.getDate(), DateFormatPattern.DATE_FORMAT));
+        invoiceReportObject.setInvoiceNumber(invoiceDTO.getInvoiceNumber());
+        for (InvoiceLineDTO invoiceLineDTO : invoiceDTO.getInvoiceLines()) {
+            InvoiceLineReportObject invoiceLineReportObject = invoiceLineMapper.mapDTOToReportObject(invoiceLineDTO);
+            invoiceReportObject.getInvoiceLines().add(invoiceLineReportObject);
+        }
+        invoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
+        invoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()*100), 2));
+        invoiceReportObject.setBtwAmount(NumberUtils.formatDouble(invoiceDTO.getBtwAmount(), 2));
+        invoiceReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceDTO.getTotalPrice(), 2));
+        return invoiceReportObject;
     }
 }

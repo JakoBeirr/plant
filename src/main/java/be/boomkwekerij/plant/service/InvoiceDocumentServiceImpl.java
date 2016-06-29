@@ -2,10 +2,12 @@ package be.boomkwekerij.plant.service;
 
 import be.boomkwekerij.plant.mapper.CompanyMapper;
 import be.boomkwekerij.plant.mapper.CustomerMapper;
+import be.boomkwekerij.plant.mapper.InvoiceMapper;
 import be.boomkwekerij.plant.model.dto.CompanyDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.report.CompanyReportObject;
 import be.boomkwekerij.plant.model.report.CustomerReportObject;
+import be.boomkwekerij.plant.model.report.InvoiceReportObject;
 import be.boomkwekerij.plant.util.Initializer;
 import be.boomkwekerij.plant.util.SearchResult;
 import net.sf.jasperreports.engine.*;
@@ -24,11 +26,13 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
 
     private CompanyMapper companyMapper = new CompanyMapper();
     private CustomerMapper customerMapper = new CustomerMapper();
+    private InvoiceMapper invoiceMapper = new InvoiceMapper();
 
     public byte[] createInvoiceDocument(String id) {
         CompanyReportObject company = getCompany();
-        InvoiceDTO invoice = getInvoice(id);
-        CustomerReportObject customer = customerMapper.mapDTOToReportObject(invoice.getCustomer());
+        InvoiceDTO invoiceDTO = getInvoice(id);
+        CustomerReportObject customer = customerMapper.mapDTOToReportObject(invoiceDTO.getCustomer());
+        InvoiceReportObject invoice = invoiceMapper.mapDTOToReportObject(invoiceDTO);
 
         try {
             return createDocument(company, customer, invoice);
@@ -59,7 +63,7 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
         return invoiceSearchResult.getFirst();
     }
 
-    private byte[] createDocument(CompanyReportObject company, CustomerReportObject customer, InvoiceDTO invoice) throws IOException {
+    private byte[] createDocument(CompanyReportObject company, CustomerReportObject customer, InvoiceReportObject invoice) throws IOException {
         InputStream invoiceTemplateStream = ClassLoader.getSystemResourceAsStream("invoiceDocument/invoice.jrxml");
         JasperReport invoiceTemplate = compileStreamToReport(invoiceTemplateStream);
 
@@ -68,10 +72,11 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("company", company);
         parameters.put("customer", customer);
+        parameters.put("invoice", invoice);
         parameters.put("logo", ClassLoader.getSystemResourceAsStream("invoiceDocument/logo.jpg"));
 
         byte[] pdfReport = createPdfReport(invoiceTemplate, dataSource, parameters);
-        FileUtils.writeByteArrayToFile(new File(Initializer.getDataUri() + "/files/" + invoice.getId() + ".pdf"), pdfReport);
+        FileUtils.writeByteArrayToFile(new File(Initializer.getDataUri() + "/files/" + invoice.getInvoiceNumber() + ".pdf"), pdfReport);
         return pdfReport;
     }
 
