@@ -64,4 +64,26 @@ public class SystemServiceImpl implements SystemService {
 
         return crudsResult;
     }
+
+    public String getNextInvoiceNumber() {
+        SearchResult<SystemDTO> systemSearchResult = getSystem();
+        if (systemSearchResult.isSuccess()) {
+            SystemDTO system = systemSearchResult.getFirst();
+            return system.getLastInvoiceNumber();
+        }
+        return "";
+    }
+
+    public void setNextInvoiceNumber(String invoiceNumber) {
+        int invoiceNumberInteger = Integer.parseInt(invoiceNumber);
+        int nextInvoiceNumberInteger = invoiceNumberInteger + 1;
+        String nextInvoiceNumber = Integer.toString(nextInvoiceNumberInteger);
+
+        SearchResult<SystemDTO> systemSearchResult = getSystem();
+        if (systemSearchResult.isSuccess()) {
+            SystemDTO system = systemSearchResult.getFirst();
+            system.setLastInvoiceNumber(nextInvoiceNumber);
+            updateSystem(system);
+        }
+    }
 }

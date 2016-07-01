@@ -13,6 +13,7 @@ import be.boomkwekerij.plant.util.DateFormatPattern;
 import be.boomkwekerij.plant.util.DateUtils;
 import be.boomkwekerij.plant.util.NumberUtils;
 import be.boomkwekerij.plant.util.SearchResult;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class InvoiceMapper {
         invoice.setId(invoiceDTO.getId());
         invoice.setCustomerId(invoiceDTO.getCustomer().getId());
         invoice.setInvoiceNumber(invoiceDTO.getInvoiceNumber());
-        invoice.setDate(invoiceDTO.getDate());
+        invoice.setDate(invoiceDTO.getDate().toDate());
         invoice.setInvoiceLines(getInvoiceLines(invoiceDTO));
         invoice.setBtw(invoiceDTO.getBtw());
         return invoice;
@@ -50,7 +51,7 @@ public class InvoiceMapper {
         invoiceDTO.setId(invoice.getId());
         invoiceDTO.setCustomer(getCustomer(invoice.getCustomerId()));
         invoiceDTO.setInvoiceNumber(invoice.getInvoiceNumber());
-        invoiceDTO.setDate(invoice.getDate());
+        invoiceDTO.setDate(new DateTime(invoice.getDate()));
         List<InvoiceLineDTO> invoiceLines = getInvoiceLines(invoice);
         invoiceDTO.setInvoiceLines(invoiceLines);
         double subTotal = countSubTotal(invoiceLines);

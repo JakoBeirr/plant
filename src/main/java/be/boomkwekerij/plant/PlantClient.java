@@ -1,10 +1,6 @@
 package be.boomkwekerij.plant;
 
-import be.boomkwekerij.plant.model.dto.CompanyDTO;
-import be.boomkwekerij.plant.model.dto.CustomerDTO;
-import be.boomkwekerij.plant.model.dto.InvoiceDTO;
-import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
-import be.boomkwekerij.plant.model.dto.PlantDTO;
+import be.boomkwekerij.plant.model.dto.*;
 import be.boomkwekerij.plant.service.*;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.Initializer;
@@ -24,6 +20,10 @@ public class PlantClient {
         String dataUri = "C:\\Users\\Janse\\Desktop\\data";
 
         Initializer.init(dataUri);
+
+        SystemDTO system = new SystemDTO();
+        system.setLastInvoiceNumber("20160202");
+        new SystemServiceImpl().createSystem(system);
 
         CompanyDTO company = new CompanyDTO();
         company.setAddress("Nieuwmoersesteenweg 117, 2990 Wuustwezel");
@@ -46,6 +46,7 @@ public class PlantClient {
         customer.setPostalCode("1840");
         customer.setResidence("Londerzeel");
         customer.setBtwNumber("BE:455 427 668");
+        customer.setCountry("BE");
         CrudsResult customerResult = new CustomerServiceImpl().createCustomer(customer);
         customer.setId(customerResult.getValue());
 
@@ -65,10 +66,7 @@ public class PlantClient {
         CrudsResult plant2Result = new PlantServiceImpl().createPlant(plant2);
         plant2.setId(plant2Result.getValue());
 
-        InvoiceDTO invoice = new InvoiceDTO();
-        invoice.setCustomer(customer);
-        invoice.setInvoiceNumber("20160202");
-        invoice.setDate(new DateTime().withDayOfYear(30).withMonthOfYear(4).withYear(2016));
+        InvoiceDTO invoice = new InvoiceServiceImpl().getNewInvoiceForCustomer(customer.getId());
         InvoiceLineDTO invoiceLine = new InvoiceLineDTO();
         invoiceLine.setDate(new DateTime().withDayOfYear(7).withMonthOfYear(4).withYear(2016));
         invoiceLine.setAmount(150);
@@ -81,8 +79,25 @@ public class PlantClient {
         invoiceLine2.setPlant(plant2);
         invoiceLine2.setPrice(0.38);
         invoice.getInvoiceLines().add(invoiceLine2);
-        invoice.setBtw(0.21);
         CrudsResult invoiceResult = new InvoiceServiceImpl().createInvoice(invoice);
         byte[] invoiceDocument = new InvoiceDocumentServiceImpl().createInvoiceDocument(invoiceResult.getValue());
+
+        customer.setCountry("NL");
+        new CustomerServiceImpl().updateCustomer(customer);
+        InvoiceDTO invoice2 = new InvoiceServiceImpl().getNewInvoiceForCustomer(customer.getId());
+        InvoiceLineDTO invoiceLine3 = new InvoiceLineDTO();
+        invoiceLine3.setDate(new DateTime().withDayOfYear(7).withMonthOfYear(4).withYear(2016));
+        invoiceLine3.setAmount(100);
+        invoiceLine3.setPlant(plant);
+        invoiceLine3.setPrice(1.7);
+        invoice2.getInvoiceLines().add(invoiceLine3);
+        InvoiceLineDTO invoiceLine4 = new InvoiceLineDTO();
+        invoiceLine4.setDate(new DateTime().withDayOfYear(12).withMonthOfYear(4).withYear(2016));
+        invoiceLine4.setAmount(670);
+        invoiceLine4.setPlant(plant2);
+        invoiceLine4.setPrice(0.58);
+        invoice2.getInvoiceLines().add(invoiceLine4);
+        CrudsResult invoiceResult2 = new InvoiceServiceImpl().createInvoice(invoice2);
+        byte[] invoiceDocument2 = new InvoiceDocumentServiceImpl().createInvoiceDocument(invoiceResult2.getValue());
     }
 }

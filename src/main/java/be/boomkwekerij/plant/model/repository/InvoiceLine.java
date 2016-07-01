@@ -1,24 +1,23 @@
 package be.boomkwekerij.plant.model.repository;
 
-import org.joda.time.DateTime;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 @XmlRootElement
 public class InvoiceLine {
 
-    private DateTime date;
+    private Date date;
     private int amount;
     private String plantId;
     private double price;
 
-    public DateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
     @XmlElement
-    public void setDate(DateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

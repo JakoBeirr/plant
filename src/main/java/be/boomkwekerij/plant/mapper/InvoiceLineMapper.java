@@ -10,6 +10,7 @@ import be.boomkwekerij.plant.util.DateFormatPattern;
 import be.boomkwekerij.plant.util.DateUtils;
 import be.boomkwekerij.plant.util.NumberUtils;
 import be.boomkwekerij.plant.util.SearchResult;
+import org.joda.time.DateTime;
 
 public class InvoiceLineMapper {
 
@@ -17,7 +18,7 @@ public class InvoiceLineMapper {
 
     public InvoiceLine mapDTOToDAO(InvoiceLineDTO invoiceLineDTO) {
         InvoiceLine invoiceLine = new InvoiceLine();
-        invoiceLine.setDate(invoiceLineDTO.getDate());
+        invoiceLine.setDate(invoiceLineDTO.getDate().toDate());
         invoiceLine.setAmount(invoiceLineDTO.getAmount());
         invoiceLine.setPlantId(invoiceLineDTO.getPlant().getId());
         invoiceLine.setPrice(invoiceLineDTO.getPrice());
@@ -26,7 +27,7 @@ public class InvoiceLineMapper {
 
     public InvoiceLineDTO mapDAOToDTO(InvoiceLine invoiceLine) {
         InvoiceLineDTO invoiceLineDTO = new InvoiceLineDTO();
-        invoiceLineDTO.setDate(invoiceLine.getDate());
+        invoiceLineDTO.setDate(new DateTime(invoiceLine.getDate()));
         invoiceLineDTO.setAmount(invoiceLine.getAmount());
         invoiceLineDTO.setPlant(getPlant(invoiceLine.getPlantId()));
         invoiceLineDTO.setPrice(invoiceLine.getPrice());

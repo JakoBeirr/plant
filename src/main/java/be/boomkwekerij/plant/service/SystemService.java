@@ -14,4 +14,8 @@ public interface SystemService {
     CrudsResult updateSystem(SystemDTO system);
 
     CrudsResult deleteSystem();
+
+    String getNextInvoiceNumber();
+
+    void setNextInvoiceNumber(String invoiceNumber);
 }

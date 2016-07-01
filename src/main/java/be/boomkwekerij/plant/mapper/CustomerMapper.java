@@ -15,6 +15,7 @@ public class CustomerMapper {
         customer.setAddress2(customerDTO.getAddress2());
         customer.setPostalCode(customerDTO.getPostalCode());
         customer.setResidence(customerDTO.getResidence());
+        customer.setCountry(customerDTO.getCountry());
         customer.setTelephone(customerDTO.getTelephone());
         customer.setGsm(customerDTO.getGsm());
         customer.setFax(customerDTO.getFax());
@@ -32,6 +33,7 @@ public class CustomerMapper {
         customerDTO.setAddress2(customer.getAddress2());
         customerDTO.setPostalCode(customer.getPostalCode());
         customerDTO.setResidence(customer.getResidence());
+        customerDTO.setCountry(customer.getCountry());
         customerDTO.setTelephone(customer.getTelephone());
         customerDTO.setGsm(customer.getGsm());
         customerDTO.setFax(customer.getFax());

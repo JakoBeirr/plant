@@ -1,9 +1,8 @@
 package be.boomkwekerij.plant.model.repository;
 
-import org.joda.time.DateTime;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 import java.util.List;
 
 @XmlRootElement
@@ -12,7 +11,7 @@ public class Invoice {
     private String id;
     private String customerId;
     private String invoiceNumber;
-    private DateTime date;
+    private Date date;
     private List<InvoiceLine> invoiceLines;
     private double btw;
 
@@ -43,12 +42,12 @@ public class Invoice {
         this.invoiceNumber = invoiceNumber;
     }
 
-    public DateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
     @XmlElement
-    public void setDate(DateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
