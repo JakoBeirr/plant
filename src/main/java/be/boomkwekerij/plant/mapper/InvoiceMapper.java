@@ -16,6 +16,8 @@ import be.boomkwekerij.plant.util.SearchResult;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class InvoiceMapper {
@@ -29,7 +31,11 @@ public class InvoiceMapper {
         invoice.setId(invoiceDTO.getId());
         invoice.setCustomerId(invoiceDTO.getCustomer().getId());
         invoice.setInvoiceNumber(invoiceDTO.getInvoiceNumber());
-        invoice.setDate(invoiceDTO.getDate().toDate());
+        DateTime date = invoiceDTO.getDate();
+        if (date == null) {
+            date = new DateTime();
+        }
+        invoice.setDate(date.toDate());
         invoice.setInvoiceLines(getInvoiceLines(invoiceDTO));
         invoice.setBtw(invoiceDTO.getBtw());
         return invoice;
@@ -105,14 +111,38 @@ public class InvoiceMapper {
         InvoiceReportObject invoiceReportObject = new InvoiceReportObject();
         invoiceReportObject.setInvoiceDate(DateUtils.formatDate(invoiceDTO.getDate(), DateFormatPattern.DATE_FORMAT));
         invoiceReportObject.setInvoiceNumber(invoiceDTO.getInvoiceNumber());
-        for (InvoiceLineDTO invoiceLineDTO : invoiceDTO.getInvoiceLines()) {
+        List<InvoiceLineDTO> invoiceLines = invoiceDTO.getInvoiceLines();
+        sortInvoiceLinesByDate(invoiceLines);
+        for (InvoiceLineDTO invoiceLineDTO : invoiceLines) {
             InvoiceLineReportObject invoiceLineReportObject = invoiceLineMapper.mapDTOToReportObject(invoiceLineDTO);
             invoiceReportObject.getInvoiceLines().add(invoiceLineReportObject);
         }
+        removeUnnecessaryDates(invoiceReportObject.getInvoiceLines());
         invoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
         invoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()*100), 2));
         invoiceReportObject.setBtwAmount(NumberUtils.formatDouble(invoiceDTO.getBtwAmount(), 2));
         invoiceReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceDTO.getTotalPrice(), 2));
         return invoiceReportObject;
+    }
+
+    private void sortInvoiceLinesByDate(List<InvoiceLineDTO> invoiceLines) {
+        if (invoiceLines.size() > 0) {
+            Collections.sort(invoiceLines, new Comparator<InvoiceLineDTO>() {
+                public int compare(InvoiceLineDTO invoiceLineDTO1, InvoiceLineDTO invoiceLineDTO2) {
+                    return invoiceLineDTO1.getDate().compareTo(invoiceLineDTO2.getDate());
+                }
+            });
+        }
+    }
+
+    private void removeUnnecessaryDates(List<InvoiceLineReportObject> invoiceLines) {
+        String dateToCompare = "";
+        for (InvoiceLineReportObject invoiceLine : invoiceLines) {
+            if (invoiceLine.getInvoiceLineDate().equals(dateToCompare)) {
+                invoiceLine.setInvoiceLineDate("");
+            } else {
+                dateToCompare = invoiceLine.getInvoiceLineDate();
+            }
+        }
     }
 }

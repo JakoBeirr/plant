@@ -36,16 +36,16 @@ public class InvoiceMemoryImpl implements InvoiceMemory {
     }
 
     public SearchResult<Invoice> getInvoices(String name) {
-        SearchResult<Invoice> invoicesWithName = new SearchResult<Invoice>();
+        SearchResult<Invoice> invoicesWithInvoiceNumber = new SearchResult<Invoice>();
 
         for (Invoice invoice : invoices.values()) {
             if (invoiceNameStartsWith(invoice, name)) {
-                invoicesWithName.addResult(invoice);
+                invoicesWithInvoiceNumber.addResult(invoice);
             }
         }
 
-        invoicesWithName.setSuccess(true);
-        return invoicesWithName;
+        invoicesWithInvoiceNumber.setSuccess(true);
+        return invoicesWithInvoiceNumber;
     }
 
     private boolean invoiceNameStartsWith(Invoice invoice, String invoiceNumber) {

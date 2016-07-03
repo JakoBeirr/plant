@@ -72,21 +72,21 @@ public class InvoiceServiceImpl implements InvoiceService {
         return allInvoicesSearchResult;
     }
 
-    public SearchResult<InvoiceDTO> getAllInvoices(String name) {
-        SearchResult<Invoice> searchResult = invoiceMemory.getInvoices(name);
+    public SearchResult<InvoiceDTO> getAllInvoices(String invoiceNumber) {
+        SearchResult<Invoice> searchResult = invoiceMemory.getInvoices(invoiceNumber);
 
-        List<InvoiceDTO> allInvoicesWithName = new ArrayList<InvoiceDTO>();
+        List<InvoiceDTO> allInvoicesWithInvoiceNumber = new ArrayList<InvoiceDTO>();
         if (searchResult.isSuccess()) {
             for (Invoice invoice : searchResult.getResults()) {
                 InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice);
-                allInvoicesWithName.add(invoiceDTO);
+                allInvoicesWithInvoiceNumber.add(invoiceDTO);
             }
         }
 
         SearchResult<InvoiceDTO> allInvoicesWithNameSearchResult = new SearchResult<InvoiceDTO>();
         allInvoicesWithNameSearchResult.setSuccess(searchResult.isSuccess());
         allInvoicesWithNameSearchResult.setMessages(searchResult.getMessages());
-        allInvoicesWithNameSearchResult.setResults(allInvoicesWithName);
+        allInvoicesWithNameSearchResult.setResults(allInvoicesWithInvoiceNumber);
         return allInvoicesWithNameSearchResult;
     }
 

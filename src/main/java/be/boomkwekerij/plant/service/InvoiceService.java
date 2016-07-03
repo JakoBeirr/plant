@@ -12,7 +12,7 @@ public interface InvoiceService {
 
     SearchResult<InvoiceDTO> getAllInvoices();
 
-    SearchResult<InvoiceDTO> getAllInvoices(String name);
+    SearchResult<InvoiceDTO> getAllInvoices(String invoiceNumber);
 
     CrudsResult updateInvoice(InvoiceDTO invoice);
 

@@ -18,7 +18,11 @@ public class InvoiceLineMapper {
 
     public InvoiceLine mapDTOToDAO(InvoiceLineDTO invoiceLineDTO) {
         InvoiceLine invoiceLine = new InvoiceLine();
-        invoiceLine.setDate(invoiceLineDTO.getDate().toDate());
+        DateTime date = invoiceLineDTO.getDate();
+        if (date == null) {
+            date = new DateTime();
+        }
+        invoiceLine.setDate(date.toDate());
         invoiceLine.setAmount(invoiceLineDTO.getAmount());
         invoiceLine.setPlantId(invoiceLineDTO.getPlant().getId());
         invoiceLine.setPrice(invoiceLineDTO.getPrice());
