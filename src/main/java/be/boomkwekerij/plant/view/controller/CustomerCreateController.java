@@ -2,13 +2,14 @@ package be.boomkwekerij.plant.view.controller;
 
 import be.boomkwekerij.plant.controller.CustomerController;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
+import be.boomkwekerij.plant.util.CrudsResult;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CustomerCreateController implements Initializable {
@@ -46,6 +47,20 @@ public class CustomerCreateController implements Initializable {
     }
 
     public void createCustomer(Event event) {
+        try {
+            CrudsResult customerCreateResult = createCustomer();
+
+            if (customerCreateResult.isSuccess()) {
+                handleCreateSuccess();
+            } else {
+                handleCreateError(customerCreateResult.getMessages());
+            }
+        } catch (Exception e) {
+            handleCreateException(e);
+        }
+    }
+
+    private CrudsResult createCustomer() {
         CustomerDTO customer = new CustomerDTO();
         customer.setName1(name1.getText());
         customer.setName2(name2.getText());
@@ -59,9 +74,12 @@ public class CustomerCreateController implements Initializable {
         customer.setFax(fax.getText());
         customer.setBtwNumber(btwNumber.getText());
         customer.setEmailAddress(emailAddress.getText());
-        customerController.createCustomer(customer);
+        return customerController.createCustomer(customer);
+    }
 
+    private void handleCreateSuccess() {
         initializeTextFields();
+        AlertController.alertSuccess("Klant aangemaakt!");
     }
 
     private void initializeTextFields() {
@@ -77,5 +95,22 @@ public class CustomerCreateController implements Initializable {
         fax.setText("");
         btwNumber.setText("");
         emailAddress.setText("");
+    }
+
+    private void handleCreateError(List<String> errorMessages) {
+        StringBuilder errorBuilder = new StringBuilder("Gefaald wegens volgende fout(en): ");
+        for (int i = 0; i < errorMessages.size(); i++) {
+            String errorMessage = errorMessages.get(i);
+            errorBuilder.append(errorMessage);
+
+            if (i != (errorMessages.size()-1)) {
+                errorBuilder.append("; ");
+            }
+        }
+        AlertController.alertError("Klant aanmaken gefaald!", errorBuilder.toString());
+    }
+
+    private void handleCreateException(Exception e) {
+        AlertController.alertException("Klant aanmaken gefaald!", e);
     }
 }
