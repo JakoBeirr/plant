@@ -40,8 +40,6 @@ public class CustomerCreateController implements Initializable {
     private TextField btwNumber;
     @FXML
     private TextField emailAddress;
-    @FXML
-    private TextField error;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -50,7 +48,6 @@ public class CustomerCreateController implements Initializable {
 
     public void createCustomer(Event event) {
         try {
-            error.setText("");
             CrudsResult customerCreateResult = createCustomer();
 
             if (customerCreateResult.isSuccess()) {
