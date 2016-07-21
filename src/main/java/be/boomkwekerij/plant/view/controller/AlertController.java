@@ -31,10 +31,9 @@ public class AlertController {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("ERROR");
         alert.setHeaderText(headerMessage);
+        alert.setContentText("The exception stacktrace was:");
 
         String exceptionText = ExceptionUtil.getStackTrace(e);
-
-        Label label = new Label("The exception stacktrace was:");
 
         TextArea textArea = new TextArea(exceptionText);
         textArea.setEditable(false);
@@ -47,7 +46,6 @@ public class AlertController {
 
         GridPane exceptionContent = new GridPane();
         exceptionContent.setMaxWidth(Double.MAX_VALUE);
-        exceptionContent.add(label, 0, 0);
         exceptionContent.add(textArea, 0, 1);
         alert.getDialogPane().setExpandableContent(exceptionContent);
 

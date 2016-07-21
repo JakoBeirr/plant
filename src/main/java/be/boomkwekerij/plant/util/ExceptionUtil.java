@@ -9,6 +9,6 @@ public class ExceptionUtil {
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
         throwable.printStackTrace(printWriter);
-        return printWriter.toString();
+        return stringWriter.toString();
     }
 }

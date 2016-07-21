@@ -1,12 +1,5 @@
 package be.boomkwekerij.plant;
 
-import be.boomkwekerij.plant.controller.CompanyController;
-import be.boomkwekerij.plant.controller.CustomerController;
-import be.boomkwekerij.plant.controller.SystemController;
-import be.boomkwekerij.plant.model.dto.CompanyDTO;
-import be.boomkwekerij.plant.model.dto.CustomerDTO;
-import be.boomkwekerij.plant.model.dto.SystemDTO;
-import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.Initializer;
 import be.boomkwekerij.plant.view.MultipleScreenApplicationLoader;
 import javafx.application.Application;
@@ -37,17 +30,6 @@ public class PlantClient extends Application {
 
     private static void prepareApplication(String dataUri) {
         Initializer.init(dataUri);
-
-        /*CustomerDTO customer = new CustomerDTO();
-        customer.setName1("BVBA BOOMKWEKERIJ P.WUYTS");
-        customer.setName2("CONNIE ROOS");
-        customer.setAddress1("MEERSTRAAT 67");
-        customer.setPostalCode("1840");
-        customer.setResidence("Londerzeel");
-        customer.setBtwNumber("BE:455 427 668");
-        customer.setCountry("BE");
-        customer.setTelephone("03.313 85 71");
-        new CustomerController().createCustomer(customer);*/
     }
 
     private void prepareClient(Stage primaryStage) throws IOException {
