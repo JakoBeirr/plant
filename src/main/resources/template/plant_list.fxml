@@ -4,9 +4,41 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.VBox?>
 
-    <HBox styleClass="center-pane">
-        <Label text="planten bezien juum" />
-    </HBox>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.PlantListController">
+
+    <VBox styleClass="center-pane">
+        <Label styleClass="paneTitle" text="Planten Lijst"/>
+
+        <HBox styleClass="field-pane">
+            <TableView fx:id="plantList">
+                <columns>
+                    <TableColumn fx:id="name" text="Naam" prefWidth="200">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="age" text="Leeftijd" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="age" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="measure" text="Maat" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="measure" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="price" text="Prijs" prefWidth="50">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="price" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+        </HBox>
+    </VBox>
 </AnchorPane>

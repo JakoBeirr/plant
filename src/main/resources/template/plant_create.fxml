@@ -4,9 +4,40 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
 
-    <HBox styleClass="center-pane">
-        <Label text="planten aanmaken juum" />
-    </HBox>
+<?import javafx.scene.control.Button?>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.PlantCreateController">
+
+    <VBox styleClass="center-pane">
+        <Label styleClass="paneTitle" text="Plant Aanmaken"/>
+
+        <GridPane styleClass="field-pane">
+            <Label id="labelName" text="Naam:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label id="labelTab" text="   " GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <TextField fx:id="name" prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+
+            <Label id="labelRow" text="" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+
+            <Label id="labelAge" text="Leeftijd:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label id="labelTab" text="   " GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <TextField fx:id="age" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+
+            <Label id="labelRow" text="" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+
+            <Label id="labelMeasure" text="Maat:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <Label id="labelTab" text="   " GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            <TextField fx:id="measure" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+
+            <Label id="labelRow" text="" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+
+            <Label id="labelPrice" text="Prijs:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <Label id="labelTab" text="   " GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+            <TextField fx:id="price" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
+        </GridPane>
+
+        <Button id="createButton" mnemonicParsing="false" onMouseClicked="#createPlant" text="Aanmaken" styleClass="submit-button" />
+    </VBox>
 </AnchorPane>
