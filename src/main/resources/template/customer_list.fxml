@@ -1,0 +1,67 @@
+<?import javafx.scene.control.Label?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.control.TableView?>
+
+<?import javafx.scene.control.TableColumn?>
+
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.CustomerListController">
+
+    <VBox styleClass="center-pane">
+        <Label styleClass="paneTitle" text="Klanten Lijst"/>
+
+        <HBox styleClass="field-pane">
+            <TableView fx:id="customerList">
+                <columns>
+                    <TableColumn fx:id="name1" text="Naam 1" prefWidth="200">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name1" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="name2" text="Naam 2" prefWidth="200">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name2" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="address1" text="Adres" prefWidth="250">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="address1" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="postalCode" text="Postcode" prefWidth="75">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="postalCode" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="residence" text="Woonplaats" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="residence" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="country" text="Land" prefWidth="50">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="country" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="telephone" text="Telefoon" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="telephone" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="btwNumber" text="BTW nummer" prefWidth="200">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="btwNumber" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+        </HBox>
+    </VBox>
+</AnchorPane>

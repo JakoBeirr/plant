@@ -1,0 +1,22 @@
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+
+<MenuBar styleClass="menu-bar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.MenuController">
+    <Menu text="Klanten">
+        <MenuItem fx:id="customerList" text="Bekijken"/>
+        <MenuItem fx:id="customerCreate" text="Aanmaken"/>
+    </Menu>
+    <Menu text="Planten">
+        <MenuItem fx:id="plantList" text="Bekijken"/>
+        <MenuItem fx:id="plantCreate" text="Aanmaken"/>
+    </Menu>
+    <Menu text="Facturen">
+        <MenuItem fx:id="invoiceList" text="Bekijken"/>
+        <MenuItem fx:id="invoiceCreate" text="Aanmaken"/>
+    </Menu>
+    <Menu text="Systeem">
+        <MenuItem fx:id="companyDetails" text="Bedrijf"/>
+        <MenuItem fx:id="systemDetails" text="Systeem"/>
+    </Menu>
+</MenuBar>

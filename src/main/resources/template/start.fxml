@@ -1,0 +1,10 @@
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+
+<?import javafx.scene.layout.VBox?>
+<AnchorPane>
+
+    <VBox styleClass="center-pane">
+        <Label text="Welkom op de plant applicatie, via deze applicatie kan je uw klanten, planten en facturen beheren"/>
+    </VBox>
+</AnchorPane>
