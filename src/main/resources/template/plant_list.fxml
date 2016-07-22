@@ -15,7 +15,7 @@
         <Label styleClass="paneTitle" text="Planten Lijst"/>
 
         <HBox styleClass="field-pane">
-            <TableView fx:id="plantList">
+            <TableView fx:id="plantList" fixedCellSize="25" prefHeight="500">
                 <columns>
                     <TableColumn fx:id="name" text="Naam" prefWidth="200">
                         <cellValueFactory>
