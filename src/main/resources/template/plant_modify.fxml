@@ -47,7 +47,7 @@
                     </columns>
                 </TableView>
 
-                <Button fx:id="showModifyButton" mnemonicParsing="false" text="Bewerken" onAction="#showModify" visible="false" styleClass="submit-button" />
+                <Button fx:id="showModifyButton" mnemonicParsing="false" text="Bewerken" onAction="#showModify" visible="false" styleClass="blue-button" />
 
                 <GridPane fx:id="modifyPane" visible="false" styleClass="modifyPane">
                     <Label id="labelName" text="Naam:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
@@ -74,7 +74,7 @@
 
                     <Label id="labelRow" text="" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
 
-                    <Button id="modifyButton" mnemonicParsing="false" onMouseClicked="#modifyPlant" text="Plant bewerken" styleClass="submit-button" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                    <Button id="modifyButton" mnemonicParsing="false" onMouseClicked="#modifyPlant" text="Plant bewerken" styleClass="green-button" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
                 </GridPane>
             </VBox>
         </VBox>

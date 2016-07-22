@@ -9,36 +9,44 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ScrollPane?>
+
+<?import javafx.scene.control.Button?>
+
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.PlantListController">
 
-    <VBox styleClass="center-pane">
-        <Label styleClass="paneTitle" text="Planten Lijst"/>
+    <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox styleClass="center-pane">
+            <Label styleClass="paneTitle" text="Planten Lijst"/>
 
-        <HBox styleClass="field-pane">
-            <TableView fx:id="plantList" fixedCellSize="25" prefHeight="500">
-                <columns>
-                    <TableColumn fx:id="name" text="Naam" prefWidth="200">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="name" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="age" text="Leeftijd" prefWidth="100">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="age" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="measure" text="Maat" prefWidth="100">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="measure" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="price" text="Prijs" prefWidth="50">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="price" />
-                        </cellValueFactory>
-                    </TableColumn>
-                </columns>
-            </TableView>
-        </HBox>
-    </VBox>
+            <HBox styleClass="field-pane">
+                <TableView fx:id="plantList" fixedCellSize="25" prefHeight="500">
+                    <columns>
+                        <TableColumn fx:id="name" text="Naam" prefWidth="200">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="name" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="age" text="Leeftijd" prefWidth="100">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="age" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="measure" text="Maat" prefWidth="100">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="measure" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="price" text="Prijs" prefWidth="50">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="price" />
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+            </HBox>
+
+            <Button fx:id="deleteButton" mnemonicParsing="false" onMouseClicked="#deletePlant" visible="false" text="Plant verwijderen" styleClass="red-button"/>
+        </VBox>
+    </ScrollPane>
 </AnchorPane>
