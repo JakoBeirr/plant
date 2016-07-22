@@ -49,7 +49,7 @@ public class PlantMemoryImpl implements PlantMemory {
     }
 
     private boolean plantNameStartsWith(Plant plant, String name) {
-        return plant.getName() != null && plant.getName().toUpperCase().startsWith(name.toUpperCase());
+        return plant.getName() != null && plant.getName().toUpperCase().contains(name.toUpperCase());
     }
 
     public void updatePlant(Plant plant) {

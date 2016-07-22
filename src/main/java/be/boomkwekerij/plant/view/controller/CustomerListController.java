@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class CustomerListController implements Initializable{
+public class CustomerListController implements Initializable {
 
     private CustomerController customerController = new CustomerController();
 

@@ -39,7 +39,7 @@ public class CustomerMemoryImpl implements CustomerMemory {
         SearchResult<Customer> customersWithName = new SearchResult<Customer>();
 
         for (Customer customer : customers.values()) {
-            if (customerNameStartsWith(customer, name)) {
+            if (customerNameContains(customer, name)) {
                 customersWithName.addResult(customer);
             }
         }
@@ -49,11 +49,11 @@ public class CustomerMemoryImpl implements CustomerMemory {
     }
 
     @SuppressWarnings("all")
-    private boolean customerNameStartsWith(Customer customer, String name) {
-        if (customer.getName1() != null && customer.getName1().toUpperCase().startsWith(name.toUpperCase())) {
+    private boolean customerNameContains(Customer customer, String name) {
+        if (customer.getName1() != null && customer.getName1().toUpperCase().contains(name.toUpperCase())) {
             return true;
         }
-        if (customer.getName2() != null && customer.getName2().toUpperCase().startsWith(name.toUpperCase())) {
+        if (customer.getName2() != null && customer.getName2().toUpperCase().contains(name.toUpperCase())) {
             return true;
         }
         return false;

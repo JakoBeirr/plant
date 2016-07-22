@@ -6,10 +6,12 @@
     <Menu text="Klanten">
         <MenuItem fx:id="customerList" text="Bekijken"/>
         <MenuItem fx:id="customerCreate" text="Aanmaken"/>
+        <MenuItem fx:id="customerModify" text="Bewerken"/>
     </Menu>
     <Menu text="Planten">
         <MenuItem fx:id="plantList" text="Bekijken"/>
         <MenuItem fx:id="plantCreate" text="Aanmaken"/>
+        <MenuItem fx:id="plantModify" text="Bewerken"/>
     </Menu>
     <Menu text="Facturen">
         <MenuItem fx:id="invoiceList" text="Bekijken"/>

@@ -18,9 +18,13 @@ public class MenuController implements Initializable {
     @FXML
     private MenuItem customerCreate;
     @FXML
+    private MenuItem customerModify;
+    @FXML
     private MenuItem plantList;
     @FXML
     private MenuItem plantCreate;
+    @FXML
+    private MenuItem plantModify;
     @FXML
     private MenuItem invoiceList;
     @FXML
@@ -41,8 +45,10 @@ public class MenuController implements Initializable {
     private void initEventHandlers() {
         customerList.setOnAction(changeTab("customerList"));
         customerCreate.setOnAction(changeTab("customerCreate"));
+        customerModify.setOnAction(changeTab("customerModify"));
         plantList.setOnAction(changeTab("plantList"));
         plantCreate.setOnAction(changeTab("plantCreate"));
+        plantModify.setOnAction(changeTab("plantModify"));
         invoiceList.setOnAction(changeTab("invoiceList"));
         invoiceCreate.setOnAction(changeTab("invoiceCreate"));
         companyDetails.setOnAction(changeTab("companyDetails"));

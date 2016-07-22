@@ -10,6 +10,14 @@
     -fx-font-size: 24;
 }
 
+.modifyPane {
+    -fx-border-color: black;
+    -fx-border-radius: 2.5;
+    -fx-border-width: 0.5;
+    -fx-border-style: solid;
+    -fx-padding: 10;
+}
+
 .submit-button {
     -fx-background-color:
         rgba(0,0,0,0.08),

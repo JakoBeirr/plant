@@ -17,8 +17,10 @@ public class MultipleScreenApplicationLoader {
         templates = new HashMap<String, String>();
         templates.put("customerList", "customer_list.fxml");
         templates.put("customerCreate", "customer_create.fxml");
+        templates.put("customerModify", "customer_modify.fxml");
         templates.put("plantList", "plant_list.fxml");
         templates.put("plantCreate", "plant_create.fxml");
+        templates.put("plantModify", "plant_modify.fxml");
         templates.put("invoiceList", "invoice_list.fxml");
         templates.put("invoiceCreate", "invoice_create.fxml");
         templates.put("companyDetails", "company_details.fxml");
