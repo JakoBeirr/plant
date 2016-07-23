@@ -3,6 +3,8 @@ package be.boomkwekerij.plant.view.controller;
 import be.boomkwekerij.plant.controller.PlantController;
 import be.boomkwekerij.plant.model.dto.PlantDTO;
 import be.boomkwekerij.plant.util.CrudsResult;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,9 +27,21 @@ public class PlantCreateController implements Initializable {
     @FXML
     private TextField price;
 
+    private static final String NON_NUMERIC_CHARACTERS = "[^\\d.]";
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeTextFields();
+        initNumericField();
+    }
+
+    private void initNumericField() {
+        price.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                price.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+            }
+        });
     }
 
     public void createPlant(Event event) {
@@ -69,11 +83,7 @@ public class PlantCreateController implements Initializable {
         StringBuilder errorBuilder = new StringBuilder("Gefaald wegens volgende fout(en): ");
         for (int i = 0; i < errorMessages.size(); i++) {
             String errorMessage = errorMessages.get(i);
-            errorBuilder.append(errorMessage);
-
-            if (i != (errorMessages.size()-1)) {
-                errorBuilder.append("; ");
-            }
+            errorBuilder.append("\n").append(i+1).append(") ").append(errorMessage);
         }
         AlertController.alertError("Plant aanmaken gefaald!", errorBuilder.toString());
     }

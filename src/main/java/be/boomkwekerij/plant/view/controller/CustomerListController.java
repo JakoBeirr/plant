@@ -11,10 +11,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,6 +47,8 @@ public class CustomerListController implements Initializable {
     private TableColumn<CustomerViewModel, String> telephone;
     @FXML
     private TableColumn<CustomerViewModel, String> btwNumber;
+    @FXML
+    private Button detailsButton;
     @FXML
     private Button deleteButton;
 
@@ -109,6 +111,7 @@ public class CustomerListController implements Initializable {
         customerList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CustomerViewModel>() {
             @Override
             public void changed(ObservableValue<? extends CustomerViewModel> observable, CustomerViewModel oldValue, CustomerViewModel newValue) {
+                detailsButton.setVisible(newValue != null);
                 deleteButton.setVisible(newValue != null);
             }
         });
@@ -149,5 +152,84 @@ public class CustomerListController implements Initializable {
 
     private void handleDeleteException(Exception e) {
         AlertController.alertException("Klant verwijderen gefaald!", e);
+    }
+
+    public void showCustomer(Event event) {
+        try {
+            CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
+            SearchResult<CustomerDTO> customerSearchResult = customerController.getCustomer(selectedCustomer.getId());
+
+            if (customerSearchResult.isSuccess()) {
+                if (customerSearchResult.getResults().size() > 0) {
+                    CustomerDTO customer = customerSearchResult.getResults().get(0);
+                    showCustomerDetails(customer);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showCustomerDetails(CustomerDTO customer) {
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle(customer.getName1());
+
+        GridPane grid = new GridPane();
+        grid.setHgap(20);
+        grid.setVgap(5);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+        Label name1Label = new Label("Naam 1:");
+        name1Label.setStyle("-fx-font-weight: bold;");
+        grid.add(name1Label, 0, 0);
+        grid.add(new Label(customer.getName1()), 1, 0);
+        Label name2Label = new Label("Naam 2:");
+        name2Label.setStyle("-fx-font-weight: bold;");
+        grid.add(name2Label, 0, 1);
+        grid.add(new Label(customer.getName2()), 1, 1);
+        Label address1Label = new Label("Adres 1:");
+        address1Label.setStyle("-fx-font-weight: bold;");
+        grid.add(address1Label, 0, 2);
+        grid.add(new Label(customer.getAddress1()), 1, 2);
+        Label address2Label = new Label("Adres 2:");
+        address2Label.setStyle("-fx-font-weight: bold;");
+        grid.add(address2Label, 0, 3);
+        grid.add(new Label(customer.getAddress2()), 1, 3);
+        Label postalCodeLabel = new Label("Postcode:");
+        postalCodeLabel.setStyle("-fx-font-weight: bold;");
+        grid.add(postalCodeLabel, 0, 4);
+        grid.add(new Label(customer.getPostalCode()), 1, 4);
+        Label residenceLabel = new Label("Woonplaats:");
+        residenceLabel.setStyle("-fx-font-weight: bold;");
+        grid.add(residenceLabel, 0, 5);
+        grid.add(new Label(customer.getResidence()), 1, 5);
+        Label countryLabel = new Label("Land:");
+        countryLabel.setStyle("-fx-font-weight: bold;");
+        grid.add(countryLabel, 0, 6);
+        grid.add(new Label(customer.getCountry()), 1, 6);
+        Label telephoneLabel = new Label("Telefoon:");
+        telephoneLabel.setStyle("-fx-font-weight: bold;");
+        grid.add(telephoneLabel, 0, 7);
+        grid.add(new Label(customer.getTelephone()), 1, 7);
+        Label gsmLabel = new Label("GSM:");
+        gsmLabel.setStyle("-fx-font-weight: bold;");
+        grid.add(gsmLabel, 0, 8);
+        grid.add(new Label(customer.getGsm()), 1, 8);
+        Label faxLabel = new Label("FAX:");
+        faxLabel.setStyle("-fx-font-weight: bold;");
+        grid.add(faxLabel, 0, 9);
+        grid.add(new Label(customer.getFax()), 1, 9);
+        Label btwNumberLabel = new Label("BTW nummer:");
+        btwNumberLabel.setStyle("-fx-font-weight: bold;");
+        grid.add(btwNumberLabel, 0, 10);
+        grid.add(new Label(customer.getBtwNumber()), 1, 10);
+        Label emailAddressLabel = new Label("E-mail adres:");
+        emailAddressLabel.setStyle("-fx-font-weight: bold;");
+        grid.add(emailAddressLabel, 0, 11);
+        grid.add(new Label(customer.getEmailAddress()), 1, 11);
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+
+        dialog.showAndWait();
     }
 }

@@ -6,7 +6,6 @@ import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.view.mapper.PlantViewMapper;
 import be.boomkwekerij.plant.view.model.PlantViewModel;
-import be.boomkwekerij.plant.view.model.PlantViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -55,11 +54,23 @@ public class PlantModifyController implements Initializable {
     @FXML
     private TextField priceField;
 
+    private static final String NON_NUMERIC_CHARACTERS = "[^\\d.]";
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initNumericField();
         loadAllPlants();
         addChangeListenerToSearchField();
         addChangeListenerToPlantList();
+    }
+
+    private void initNumericField() {
+        priceField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                price.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+            }
+        });
     }
 
     private void loadAllPlants() {
@@ -191,11 +202,7 @@ public class PlantModifyController implements Initializable {
         StringBuilder errorBuilder = new StringBuilder("Gefaald wegens volgende fout(en): ");
         for (int i = 0; i < errorMessages.size(); i++) {
             String errorMessage = errorMessages.get(i);
-            errorBuilder.append(errorMessage);
-
-            if (i != (errorMessages.size()-1)) {
-                errorBuilder.append("; ");
-            }
+            errorBuilder.append("\n").append(i+1).append(") ").append(errorMessage);
         }
         AlertController.alertError("Plant bewerken gefaald!", errorBuilder.toString());
     }

@@ -11,10 +11,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,6 +39,8 @@ public class PlantListController implements Initializable {
     private TableColumn<PlantViewModel, String> measure;
     @FXML
     private TableColumn<PlantViewModel, Double> price;
+    @FXML
+    private Button detailsButton;
     @FXML
     private Button deleteButton;
 
@@ -101,6 +103,7 @@ public class PlantListController implements Initializable {
         plantList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PlantViewModel>() {
             @Override
             public void changed(ObservableValue<? extends PlantViewModel> observable, PlantViewModel oldValue, PlantViewModel newValue) {
+                detailsButton.setVisible(newValue != null);
                 deleteButton.setVisible(newValue != null);
             }
         });
@@ -141,5 +144,52 @@ public class PlantListController implements Initializable {
 
     private void handleDeleteException(Exception e) {
         AlertController.alertException("Plant verwijderen gefaald!", e);
+    }
+
+    public void showPlant(Event event) {
+        try {
+            PlantViewModel selectedPlant = plantList.getSelectionModel().getSelectedItem();
+            SearchResult<PlantDTO> plantSearchResult = plantController.getPlant(selectedPlant.getId());
+
+            if (plantSearchResult.isSuccess()) {
+                if (plantSearchResult.getResults().size() > 0) {
+                    PlantDTO plant = plantSearchResult.getResults().get(0);
+                    showPlantDetails(plant);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showPlantDetails(PlantDTO plant) {
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle(plant.getName());
+
+        GridPane grid = new GridPane();
+        grid.setHgap(20);
+        grid.setVgap(5);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+        Label name1Label = new Label("Naam:");
+        name1Label.setStyle("-fx-font-weight: bold;");
+        grid.add(name1Label, 0, 0);
+        grid.add(new Label(plant.getName()), 1, 0);
+        Label name2Label = new Label("Leeftijd:");
+        name2Label.setStyle("-fx-font-weight: bold;");
+        grid.add(name2Label, 0, 1);
+        grid.add(new Label(plant.getAge()), 1, 1);
+        Label address1Label = new Label("Maat:");
+        address1Label.setStyle("-fx-font-weight: bold;");
+        grid.add(address1Label, 0, 2);
+        grid.add(new Label(plant.getMeasure()), 1, 2);
+        Label address2Label = new Label("Prijs:");
+        address2Label.setStyle("-fx-font-weight: bold;");
+        grid.add(address2Label, 0, 3);
+        grid.add(new Label(Double.toString(plant.getPrice())), 1, 3);
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+
+        dialog.showAndWait();
     }
 }

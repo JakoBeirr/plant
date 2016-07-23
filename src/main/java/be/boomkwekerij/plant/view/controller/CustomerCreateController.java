@@ -101,11 +101,7 @@ public class CustomerCreateController implements Initializable {
         StringBuilder errorBuilder = new StringBuilder("Gefaald wegens volgende fout(en): ");
         for (int i = 0; i < errorMessages.size(); i++) {
             String errorMessage = errorMessages.get(i);
-            errorBuilder.append(errorMessage);
-
-            if (i != (errorMessages.size()-1)) {
-                errorBuilder.append("; ");
-            }
+            errorBuilder.append("\n").append(i+1).append(") ").append(errorMessage);
         }
         AlertController.alertError("Klant aanmaken gefaald!", errorBuilder.toString());
     }

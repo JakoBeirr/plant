@@ -55,7 +55,10 @@
                 </columns>
             </TableView>
 
-            <Button fx:id="deleteButton" mnemonicParsing="false" onMouseClicked="#deleteCustomer" visible="false" text="Klant verwijderen" styleClass="red-button"/>
+            <HBox spacing="5">
+                <Button fx:id="detailsButton" mnemonicParsing="false" onMouseClicked="#showCustomer" visible="false" text="Details" styleClass="blue-button"/>
+                <Button fx:id="deleteButton" mnemonicParsing="false" onMouseClicked="#deleteCustomer" visible="false" text="Klant verwijderen" styleClass="red-button"/>
+            </HBox>
         </VBox>
     </ScrollPane>
 </AnchorPane>

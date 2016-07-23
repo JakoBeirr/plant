@@ -5,11 +5,11 @@
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.PlantModifyController">
 
     <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <VBox styleClass="center-pane">
+        <VBox styleClass="center-pane" spacing="5">
             <Label styleClass="paneTitle" text="Plant Bewerken"/>
 
-            <VBox styleClass="field-pane" spacing="5">
-                <TextField fx:id="searchField" promptText="Zoeken..." prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <VBox spacing="5">
+                <TextField fx:id="searchField" promptText="Zoeken..."/>
 
                 <TableView fx:id="plantList" fixedCellSize="25" prefHeight="150">
                     <columns>
@@ -38,32 +38,22 @@
 
                 <Button fx:id="showModifyButton" mnemonicParsing="false" text="Bewerken" onAction="#showModify" visible="false" styleClass="blue-button" />
 
-                <GridPane fx:id="modifyPane" visible="false" styleClass="modifyPane">
+                <GridPane fx:id="modifyPane" hgap="10" vgap="5" visible="false" styleClass="modifyPane">
                     <Label id="labelName" text="Naam*:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                    <Label id="labelTab" text="   " GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                    <TextField fx:id="nameField" prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                    <TextField fx:id="nameField" prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-                    <Label id="labelRow" text="" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Label id="labelAge" text="Leeftijd*:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="ageField" prefColumnCount="30" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-                    <Label id="labelAge" text="Leeftijd*:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                    <Label id="labelTab" text="   " GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-                    <TextField fx:id="ageField" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                    <Label id="labelMeasure" text="Maat*:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="measureField" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-                    <Label id="labelRow" text="" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <Label id="labelPrice" text="Prijs*:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <TextField fx:id="priceField" prefColumnCount="30" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-                    <Label id="labelMeasure" text="Maat*:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                    <Label id="labelTab" text="   " GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-                    <TextField fx:id="measureField" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+                    <Label id="labelRow" text="" GridPane.rowIndex="4"/>
 
-                    <Label id="labelRow" text="" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-
-                    <Label id="labelPrice" text="Prijs*:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                    <Label id="labelTab" text="   " GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-                    <TextField fx:id="priceField" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
-
-                    <Label id="labelRow" text="" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-
-                    <Button id="modifyButton" mnemonicParsing="false" onMouseClicked="#modifyPlant" text="Plant bewerken" styleClass="green-button" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                    <Button id="modifyButton" mnemonicParsing="false" onMouseClicked="#modifyPlant" text="Plant bewerken" styleClass="green-button" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
                 </GridPane>
             </VBox>
         </VBox>

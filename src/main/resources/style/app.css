@@ -1,3 +1,8 @@
+.root{
+    -fx-font-size: 9pt;
+    -fx-font-family: "Verdana";
+}
+
 .center-pane {
     -fx-padding: 20;
 }
@@ -24,7 +29,10 @@
     -fx-background-radius: 5,5,4;
     -fx-padding: 3 30 3 30;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
+    -fx-border-color: white;
+    -fx-border-radius: 2.5;
+    -fx-border-width: 0.5;
+    -fx-border-style: solid;
 }
 
 .blue-button {
@@ -33,7 +41,10 @@
     -fx-background-radius: 5,5,4;
     -fx-padding: 3 30 3 30;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
+    -fx-border-color: white;
+    -fx-border-radius: 2.5;
+    -fx-border-width: 0.5;
+    -fx-border-style: solid;
 }
 
 .red-button {
@@ -42,5 +53,8 @@
     -fx-background-radius: 5,5,4;
     -fx-padding: 3 30 3 30;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
+    -fx-border-color: white;
+    -fx-border-radius: 2.5;
+    -fx-border-width: 0.5;
+    -fx-border-style: solid;
 }

@@ -2,7 +2,6 @@ package be.boomkwekerij.plant.view.controller;
 
 import be.boomkwekerij.plant.util.ExceptionUtil;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
