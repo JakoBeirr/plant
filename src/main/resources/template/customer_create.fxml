@@ -7,83 +7,87 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
 
+<?import javafx.scene.control.ScrollPane?>
+
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.CustomerCreateController">
 
-    <VBox styleClass="center-pane">
-        <Label styleClass="paneTitle" text="Klant Aanmaken"/>
+    <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox styleClass="center-pane">
+            <Label styleClass="paneTitle" text="Klant Aanmaken"/>
 
-        <GridPane styleClass="field-pane">
-            <Label id="labelName1" text="Naam 1:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-            <TextField fx:id="name1" prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <GridPane styleClass="field-pane">
+                <Label id="labelName1" text="Naam 1*:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <TextField fx:id="name1" prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 
-            <Label id="labelName2" text="Naam 2:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-            <TextField fx:id="name2" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                <Label id="labelName2" text="Naam 2:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <TextField fx:id="name2" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
 
-            <Label id="labelAddress1" text="Adres 1:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-            <TextField fx:id="address1" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+                <Label id="labelAddress1" text="Adres 1*:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                <TextField fx:id="address1" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
 
-            <Label id="labelAddress2" text="Adres 2:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-            <TextField fx:id="address2" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
+                <Label id="labelAddress2" text="Adres 2:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                <TextField fx:id="address2" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
 
-            <Label id="labelPostalCode" text="Postcode:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="8" GridPane.columnIndex="1"/>
-            <TextField fx:id="postalCode" prefColumnCount="30" GridPane.rowIndex="8" GridPane.columnIndex="2"/>
+                <Label id="labelPostalCode" text="Postcode*:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+                <TextField fx:id="postalCode" prefColumnCount="30" GridPane.rowIndex="8" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
 
-            <Label id="labelResidence" text="Woonplaats:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="10" GridPane.columnIndex="1"/>
-            <TextField fx:id="residence" prefColumnCount="30" GridPane.rowIndex="10" GridPane.columnIndex="2"/>
+                <Label id="labelResidence" text="Woonplaats*:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+                <TextField fx:id="residence" prefColumnCount="30" GridPane.rowIndex="10" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
 
-            <Label id="labelCountry" text="Land:" GridPane.rowIndex="12" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="12" GridPane.columnIndex="1"/>
-            <TextField fx:id="country" prefColumnCount="30" GridPane.rowIndex="12" GridPane.columnIndex="2"/>
+                <Label id="labelCountry" text="Land*:" GridPane.rowIndex="12" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="12" GridPane.columnIndex="1"/>
+                <TextField fx:id="country" prefColumnCount="30" GridPane.rowIndex="12" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="13" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="13" GridPane.columnIndex="0"/>
 
-            <Label id="labelTelephone" text="Telefoon:" GridPane.rowIndex="14" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="14" GridPane.columnIndex="1"/>
-            <TextField fx:id="telephone" prefColumnCount="30" GridPane.rowIndex="14" GridPane.columnIndex="2"/>
+                <Label id="labelTelephone" text="Telefoon:" GridPane.rowIndex="14" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="14" GridPane.columnIndex="1"/>
+                <TextField fx:id="telephone" prefColumnCount="30" GridPane.rowIndex="14" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="15" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="15" GridPane.columnIndex="0"/>
 
-            <Label id="labelGsm" text="GSM:" GridPane.rowIndex="16" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="16" GridPane.columnIndex="1"/>
-            <TextField fx:id="gsm" prefColumnCount="30" GridPane.rowIndex="16" GridPane.columnIndex="2"/>
+                <Label id="labelGsm" text="GSM:" GridPane.rowIndex="16" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="16" GridPane.columnIndex="1"/>
+                <TextField fx:id="gsm" prefColumnCount="30" GridPane.rowIndex="16" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="17" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="17" GridPane.columnIndex="0"/>
 
-            <Label id="labelFax" text="Fax:" GridPane.rowIndex="18" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="18" GridPane.columnIndex="1"/>
-            <TextField fx:id="fax" prefColumnCount="30" GridPane.rowIndex="18" GridPane.columnIndex="2"/>
+                <Label id="labelFax" text="Fax:" GridPane.rowIndex="18" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="18" GridPane.columnIndex="1"/>
+                <TextField fx:id="fax" prefColumnCount="30" GridPane.rowIndex="18" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="19" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="19" GridPane.columnIndex="0"/>
 
-            <Label id="labelBtwNumber" text="BTW nummer:" GridPane.rowIndex="20" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="20" GridPane.columnIndex="1"/>
-            <TextField fx:id="btwNumber" prefColumnCount="30" GridPane.rowIndex="20" GridPane.columnIndex="2"/>
+                <Label id="labelBtwNumber" text="BTW nummer*:" GridPane.rowIndex="20" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="20" GridPane.columnIndex="1"/>
+                <TextField fx:id="btwNumber" prefColumnCount="30" GridPane.rowIndex="20" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="21" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="21" GridPane.columnIndex="0"/>
 
-            <Label id="labelEmailAddress" text="E-mailadres:" GridPane.rowIndex="22" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="22" GridPane.columnIndex="1"/>
-            <TextField fx:id="emailAddress" prefColumnCount="30" GridPane.rowIndex="22" GridPane.columnIndex="2"/>
-        </GridPane>
+                <Label id="labelEmailAddress" text="E-mailadres:" GridPane.rowIndex="22" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="22" GridPane.columnIndex="1"/>
+                <TextField fx:id="emailAddress" prefColumnCount="30" GridPane.rowIndex="22" GridPane.columnIndex="2"/>
+            </GridPane>
 
-        <Button id="createButton" mnemonicParsing="false" onMouseClicked="#createCustomer" text="Aanmaken" styleClass="green-button" />
-    </VBox>
+            <Button id="createButton" mnemonicParsing="false" onMouseClicked="#createCustomer" text="Aanmaken" styleClass="green-button" />
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

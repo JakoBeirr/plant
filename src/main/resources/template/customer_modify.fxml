@@ -59,7 +59,7 @@
                                 <PropertyValueFactory property="telephone" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="btwNumber" text="BTW nummer" prefWidth="200">
+                        <TableColumn fx:id="btwNumber" text="BTW nummer" prefWidth="173">
                             <cellValueFactory>
                                 <PropertyValueFactory property="btwNumber" />
                             </cellValueFactory>
@@ -70,7 +70,7 @@
                 <Button fx:id="showModifyButton" mnemonicParsing="false" text="Bewerken" onAction="#showModify" visible="false" styleClass="blue-button" />
 
                 <GridPane fx:id="modifyPane" visible="false" styleClass="modifyPane">
-                    <Label id="labelName1" text="Naam 1:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label id="labelName1" text="Naam 1*:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                     <Label id="labelTab" text="   " GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                     <TextField fx:id="name1Field" prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
 
@@ -82,7 +82,7 @@
 
                     <Label id="labelRow" text="" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
 
-                    <Label id="labelAddress1" text="Adres 1:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <Label id="labelAddress1" text="Adres 1*:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
                     <Label id="labelTab" text="   " GridPane.rowIndex="4" GridPane.columnIndex="1"/>
                     <TextField fx:id="address1Field" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
 
@@ -94,19 +94,19 @@
 
                     <Label id="labelRow" text="" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
 
-                    <Label id="labelPostalCode" text="Postcode:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                    <Label id="labelPostalCode" text="Postcode*:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
                     <Label id="labelTab" text="   " GridPane.rowIndex="8" GridPane.columnIndex="1"/>
                     <TextField fx:id="postalCodeField" prefColumnCount="30" GridPane.rowIndex="8" GridPane.columnIndex="2"/>
 
                     <Label id="labelRow" text="" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
 
-                    <Label id="labelResidence" text="Woonplaats:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                    <Label id="labelResidence" text="Woonplaats*:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
                     <Label id="labelTab" text="   " GridPane.rowIndex="10" GridPane.columnIndex="1"/>
                     <TextField fx:id="residenceField" prefColumnCount="30" GridPane.rowIndex="10" GridPane.columnIndex="2"/>
 
                     <Label id="labelRow" text="" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
 
-                    <Label id="labelCountry" text="Land:" GridPane.rowIndex="12" GridPane.columnIndex="0"/>
+                    <Label id="labelCountry" text="Land*:" GridPane.rowIndex="12" GridPane.columnIndex="0"/>
                     <Label id="labelTab" text="   " GridPane.rowIndex="12" GridPane.columnIndex="1"/>
                     <TextField fx:id="countryField" prefColumnCount="30" GridPane.rowIndex="12" GridPane.columnIndex="2"/>
 
@@ -130,7 +130,7 @@
 
                     <Label id="labelRow" text="" GridPane.rowIndex="19" GridPane.columnIndex="0"/>
 
-                    <Label id="labelBtwNumber" text="BTW nummer:" GridPane.rowIndex="20" GridPane.columnIndex="0"/>
+                    <Label id="labelBtwNumber" text="BTW nummer*:" GridPane.rowIndex="20" GridPane.columnIndex="0"/>
                     <Label id="labelTab" text="   " GridPane.rowIndex="20" GridPane.columnIndex="1"/>
                     <TextField fx:id="btwNumberField" prefColumnCount="30" GridPane.rowIndex="20" GridPane.columnIndex="2"/>
 

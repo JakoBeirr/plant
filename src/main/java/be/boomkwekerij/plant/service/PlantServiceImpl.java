@@ -9,6 +9,7 @@ import be.boomkwekerij.plant.model.repository.Plant;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.util.SearchResult;
+import be.boomkwekerij.plant.validator.PlantValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,16 @@ public class PlantServiceImpl implements PlantService {
     private PlantMemory plantMemory = MemoryDatabase.getPlantMemory();
 
     private PlantMapper plantMapper = new PlantMapper();
+    private PlantValidator plantValidator = new PlantValidator();
 
     public CrudsResult createPlant(PlantDTO plantDTO) {
+        CrudsResult crudsResult = validatePlant(plantDTO);
+        if (crudsResult != null) {
+            return crudsResult;
+        }
+
         Plant plant = plantMapper.mapDTOToDAO(plantDTO);
-        CrudsResult crudsResult = plantDAO.persist(plant);
+        crudsResult = plantDAO.persist(plant);
 
         if (crudsResult.isSuccess()) {
             plantMemory.createPlant(plant);
@@ -84,8 +91,13 @@ public class PlantServiceImpl implements PlantService {
     }
 
     public CrudsResult updatePlant(PlantDTO plantDTO) {
+        CrudsResult crudsResult = validatePlant(plantDTO);
+        if (crudsResult != null) {
+            return crudsResult;
+        }
+
         Plant plant = plantMapper.mapDTOToDAO(plantDTO);
-        CrudsResult crudsResult = plantDAO.update(plant);
+        crudsResult = plantDAO.update(plant);
 
         if (crudsResult.isSuccess()) {
             plantMemory.updatePlant(plant);
@@ -102,5 +114,16 @@ public class PlantServiceImpl implements PlantService {
         }
 
         return crudsResult;
+    }
+
+    private CrudsResult validatePlant(PlantDTO plantDTO) {
+        List<String> validationResult = plantValidator.validate(plantDTO);
+        if (validationResult.size() > 0) {
+            CrudsResult crudsResult = new CrudsResult();
+            crudsResult.setSuccess(false);
+            crudsResult.setMessages(validationResult);
+            return crudsResult;
+        }
+        return null;
     }
 }

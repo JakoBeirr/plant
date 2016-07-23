@@ -8,35 +8,39 @@
 
 <?import javafx.scene.control.Button?>
 
+<?import javafx.scene.control.ScrollPane?>
+
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.PlantCreateController">
 
-    <VBox styleClass="center-pane">
-        <Label styleClass="paneTitle" text="Plant Aanmaken"/>
+    <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox styleClass="center-pane">
+            <Label styleClass="paneTitle" text="Plant Aanmaken"/>
 
-        <GridPane styleClass="field-pane">
-            <Label id="labelName" text="Naam:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-            <TextField fx:id="name" prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <GridPane styleClass="field-pane">
+                <Label id="labelName" text="Naam*:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <TextField fx:id="name" prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 
-            <Label id="labelAge" text="Leeftijd:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-            <TextField fx:id="age" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                <Label id="labelAge" text="Leeftijd*:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <TextField fx:id="age" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
 
-            <Label id="labelMeasure" text="Maat:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-            <TextField fx:id="measure" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+                <Label id="labelMeasure" text="Maat*:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                <TextField fx:id="measure" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
 
-            <Label id="labelRow" text="" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <Label id="labelRow" text="" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
 
-            <Label id="labelPrice" text="Prijs:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-            <Label id="labelTab" text="   " GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-            <TextField fx:id="price" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
-        </GridPane>
+                <Label id="labelPrice" text="Prijs*:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <Label id="labelTab" text="   " GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                <TextField fx:id="price" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
+            </GridPane>
 
-        <Button id="createButton" mnemonicParsing="false" onMouseClicked="#createPlant" text="Aanmaken" styleClass="green-button" />
-    </VBox>
+            <Button id="createButton" mnemonicParsing="false" onMouseClicked="#createPlant" text="Aanmaken" styleClass="green-button" />
+        </VBox>
+    </ScrollPane>
 </AnchorPane>
