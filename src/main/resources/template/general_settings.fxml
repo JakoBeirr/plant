@@ -1,12 +1,72 @@
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Label?>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.GeneralSettingsController">
 
-<?import javafx.scene.layout.AnchorPane?>
+    <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox styleClass="center-pane" spacing="10">
+            <Label text="Algemene instellingen" styleClass="paneTitle" />
 
-<AnchorPane>
+            <HBox spacing="10">
+                <VBox styleClass="border-pane" spacing="25">
+                    <GridPane hgap="10" vgap="10" prefWidth="350">
+                        <Label text="Systeeminstellingen" styleClass="bold-text" GridPane.rowIndex="0" GridPane.columnIndex="0" />
 
-    <HBox styleClass="center-pane">
-        <Label text="Algemene instellingen juum" />
-    </HBox>
+                        <Label text="" GridPane.rowIndex="1" />
+
+                        <Label text="Factuurnummer*:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                        <TextField fx:id="invoiceNumber" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                    </GridPane>
+
+                    <Button id="modifyButton" mnemonicParsing="false" onMouseClicked="#modifySystem" text="Systeem bewerken" styleClass="green-button"/>
+                </VBox>
+
+                <VBox styleClass="border-pane" spacing="25">
+                    <GridPane hgap="10" vgap="10" prefWidth="600">
+                        <Label text="Bedrijfsinstellingen" styleClass="bold-text" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+
+                        <Label text="" GridPane.rowIndex="1" />
+
+                        <Label text="Naam*:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                        <TextField fx:id="name" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                        <Label text="Adres*:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                        <TextField fx:id="address" prefColumnCount="30" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+                        <Label text="Telefoon*:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                        <TextField fx:id="telephone" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+                        <Label text="FAX*:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                        <TextField fx:id="fax" prefColumnCount="30" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+                        <Label text="GSM*:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+                        <TextField fx:id="gsm" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+
+                        <Label text="Kaartnummer BE*:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+                        <TextField fx:id="accountNumberBelgium" prefColumnCount="30" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+
+                        <Label text="IBAN BE*:" GridPane.rowIndex="8" GridPane.columnIndex="0" />
+                        <TextField fx:id="ibanBelgium" prefColumnCount="30" GridPane.rowIndex="8" GridPane.columnIndex="1" />
+
+                        <Label text="BIC BE*:" GridPane.rowIndex="9" GridPane.columnIndex="0" />
+                        <TextField fx:id="bicBelgium" prefColumnCount="30" GridPane.rowIndex="9" GridPane.columnIndex="1" />
+
+                        <Label text="Kaartnummer NL*:" GridPane.rowIndex="10" GridPane.columnIndex="0" />
+                        <TextField fx:id="accountNumberNetherlands" prefColumnCount="30" GridPane.rowIndex="10" GridPane.columnIndex="1" />
+
+                        <Label text="IBAN NL*:" GridPane.rowIndex="11" GridPane.columnIndex="0" />
+                        <TextField fx:id="ibanNetherlands" prefColumnCount="30" GridPane.rowIndex="11" GridPane.columnIndex="1" />
+
+                        <Label text="BIC NL*:" GridPane.rowIndex="12" GridPane.columnIndex="0" />
+                        <TextField fx:id="bicNetherlands" prefColumnCount="30" GridPane.rowIndex="12" GridPane.columnIndex="1" />
+
+                        <Label text="BTW nummer*:" GridPane.rowIndex="13" GridPane.columnIndex="0" />
+                        <TextField fx:id="btwNumber" prefColumnCount="30" GridPane.rowIndex="13" GridPane.columnIndex="1" />
+                    </GridPane>
+
+                    <Button id="modifyButton" mnemonicParsing="false" onMouseClicked="#modifyCompany" text="Bedrijf bewerken" styleClass="green-button"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

@@ -11,6 +11,14 @@
     -fx-padding: 20 0 20 0;
 }
 
+.border-pane {
+    -fx-padding: 20;
+    -fx-border-color: black;
+    -fx-border-radius: 2.5;
+    -fx-border-width: 0.5;
+    -fx-border-style: solid;
+}
+
 .paneTitle {
     -fx-font-size: 24;
 }
@@ -57,4 +65,8 @@
     -fx-border-radius: 2.5;
     -fx-border-width: 0.5;
     -fx-border-style: solid;
+}
+
+.bold-text {
+    -fx-font-weight: bold;
 }
