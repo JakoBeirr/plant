@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class BackupServiceImpl implements BackupService {
 
-    private static final String PLANT_DIRECTORY = "C:/Plant";
-    private static final String BACKUP_DIRECTORY = "C:/Plant/backup";
+    private static final String PLANT_DIRECTORY = "C:/plant";
+    private static final String BACKUP_DIRECTORY = "C:/plant/backup";
 
     public void backupDatabase() throws IOException {
         File sourceDirectory = new File(Initializer.getDataUri());

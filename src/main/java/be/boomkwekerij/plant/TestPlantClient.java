@@ -9,14 +9,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class PlantClient extends Application {
+public class TestPlantClient extends Application {
 
     public static void main(String[] args) {
-        if (args.length != 1) {
-            throw new IllegalArgumentException("Data uri not specified!");
-        }
-
-        String dataUri = args[0];
+        String dataUri = "C:\\Users\\Janse\\Desktop\\data";
         prepareApplication(dataUri);
 
         launch(args);

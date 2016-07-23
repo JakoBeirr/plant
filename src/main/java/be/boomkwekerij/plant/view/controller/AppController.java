@@ -59,7 +59,6 @@ public class AppController implements Initializable {
 
     private Dialog<SystemDTO> createSystemDialog() {
         Dialog<SystemDTO> createSystemDialog = new Dialog<SystemDTO>();
-        createSystemDialog.initStyle(StageStyle.UNDECORATED);
         createSystemDialog.setTitle("Systeem aanmaken");
         createSystemDialog.setHeaderText("Nog niet voldoende info aanwezig om te starten!\nGelieve deze eerst te voorzien!");
         return createSystemDialog;
@@ -158,7 +157,6 @@ public class AppController implements Initializable {
 
     private Dialog<CompanyDTO> createCompanyDialog() {
         Dialog<CompanyDTO> createCompanyDialog = new Dialog<CompanyDTO>();
-        createCompanyDialog.initStyle(StageStyle.UNDECORATED);
         createCompanyDialog.setTitle("Bedrijf aanmaken");
         createCompanyDialog.setHeaderText("Nog niet voldoende info aanwezig om te starten!\nGelieve eerst je bedrijfsgegevens te voorzien!");
         return createCompanyDialog;
