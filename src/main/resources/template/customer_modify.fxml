@@ -1,17 +1,6 @@
-<?import javafx.scene.layout.AnchorPane?>
-
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.GridPane?>
-
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.CustomerModifyController">
 
@@ -20,7 +9,7 @@
             <Label styleClass="paneTitle" text="Klant Bewerken"/>
 
             <VBox styleClass="field-pane" spacing="5">
-                <TextField fx:id="searchField" promptText="Zoeken..." prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <TextField fx:id="searchField" promptText="Zoeken..."/>
 
                 <TableView fx:id="customerList" fixedCellSize="25" prefHeight="150">
                     <columns>
@@ -44,7 +33,7 @@
                                 <PropertyValueFactory property="postalCode" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="residence" text="Woonplaats" prefWidth="100">
+                        <TableColumn fx:id="residence" text="Woonplaats" prefWidth="150">
                             <cellValueFactory>
                                 <PropertyValueFactory property="residence" />
                             </cellValueFactory>
@@ -59,7 +48,7 @@
                                 <PropertyValueFactory property="telephone" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="btwNumber" text="BTW nummer" prefWidth="173">
+                        <TableColumn fx:id="btwNumber" text="BTW nummer" prefWidth="150">
                             <cellValueFactory>
                                 <PropertyValueFactory property="btwNumber" />
                             </cellValueFactory>

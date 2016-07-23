@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class CustomerListController implements Initializable {
 
     private CustomerViewMapper customerViewMapper = new CustomerViewMapper();
 
+    @FXML
+    private TextField searchField;
     @FXML
     private TableView<CustomerViewModel> customerList;
     @FXML
@@ -49,13 +52,33 @@ public class CustomerListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initData();
-
+        loadAllCustomers();
+        addChangeListenerToSearchField();
         addChangeListenerToCustomerList();
     }
 
-    private void initData() {
-        ArrayList<CustomerViewModel> customers = new ArrayList<>();
+    private void loadAllCustomers() {
+        List<CustomerViewModel> customers = getAllCustomers();
+        customerList.getItems().setAll(customers);
+    }
+
+    private void addChangeListenerToSearchField() {
+        searchField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                List<CustomerViewModel> allCustomers;
+                if (newValue.length() >= 2) {
+                    allCustomers = getAllCustomersWithName(newValue);
+                } else {
+                    allCustomers = getAllCustomers();
+                }
+                customerList.getItems().setAll(allCustomers);
+            }
+        });
+    }
+
+    private List<CustomerViewModel> getAllCustomers() {
+        List<CustomerViewModel> customers = new ArrayList<>();
 
         SearchResult<CustomerDTO> customerSearchResult = customerController.getAllCustomers();
         if (customerSearchResult.isSuccess()) {
@@ -65,7 +88,21 @@ public class CustomerListController implements Initializable {
             }
         }
 
-        customerList.getItems().setAll(customers);
+        return customers;
+    }
+
+    private List<CustomerViewModel> getAllCustomersWithName(String name) {
+        ArrayList<CustomerViewModel> customers = new ArrayList<>();
+
+        SearchResult<CustomerDTO> customerSearchResult = customerController.getAllCustomersWithName(name);
+        if (customerSearchResult.isSuccess()) {
+            for (CustomerDTO customerDTO : customerSearchResult.getResults()) {
+                CustomerViewModel customerViewModel = customerViewMapper.mapDTOToViewModel(customerDTO);
+                customers.add(customerViewModel);
+            }
+        }
+
+        return customers;
     }
 
     private void addChangeListenerToCustomerList() {
@@ -93,7 +130,7 @@ public class CustomerListController implements Initializable {
     }
 
     private void handleDeleteSuccess() {
-        initData();
+        loadAllCustomers();
         AlertController.alertSuccess("Klant verwijderd!");
     }
 

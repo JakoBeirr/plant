@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class PlantListController implements Initializable {
 
     private PlantViewMapper plantViewMapper = new PlantViewMapper();
 
+    @FXML
+    private TextField searchField;
     @FXML
     private TableView<PlantViewModel> plantList;
     @FXML
@@ -41,13 +44,33 @@ public class PlantListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initData();
-
+        loadAllPlants();
+        addChangeListenerToSearchField();
         addChangeListenerToPlantList();
     }
 
-    private void initData() {
-        ArrayList<PlantViewModel> plants = new ArrayList<>();
+    private void loadAllPlants() {
+        List<PlantViewModel> allPlants = getAllPlants();
+        plantList.getItems().setAll(allPlants);
+    }
+
+    private void addChangeListenerToSearchField() {
+        searchField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                List<PlantViewModel> allPlants;
+                if (newValue.length() >= 2) {
+                    allPlants = getAllPlantsWithName(newValue);
+                } else {
+                    allPlants = getAllPlants();
+                }
+                plantList.getItems().setAll(allPlants);
+            }
+        });
+    }
+
+    private List<PlantViewModel> getAllPlants() {
+        List<PlantViewModel> plants = new ArrayList<>();
 
         SearchResult<PlantDTO> plantSearchResult = plantController.getAllPlants();
         if (plantSearchResult.isSuccess()) {
@@ -57,7 +80,21 @@ public class PlantListController implements Initializable {
             }
         }
 
-        plantList.getItems().setAll(plants);
+        return plants;
+    }
+
+    private List<PlantViewModel> getAllPlantsWithName(String name) {
+        ArrayList<PlantViewModel> plants = new ArrayList<>();
+
+        SearchResult<PlantDTO> plantSearchResult = plantController.getAllPlantsWithName(name);
+        if (plantSearchResult.isSuccess()) {
+            for (PlantDTO plantDTO : plantSearchResult.getResults()) {
+                PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
+                plants.add(plantViewModel);
+            }
+        }
+
+        return plants;
     }
 
     private void addChangeListenerToPlantList() {
@@ -85,7 +122,7 @@ public class PlantListController implements Initializable {
     }
 
     private void handleDeleteSuccess() {
-        initData();
+        loadAllPlants();
         AlertController.alertSuccess("Plant verwijderd!");
     }
 
