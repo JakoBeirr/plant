@@ -146,7 +146,7 @@ public class CustomerModifyController implements Initializable {
         CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
         SearchResult<CustomerDTO> customerResult = customerController.getCustomer(selectedCustomer.getId());
         if (customerResult.isSuccess()) {
-            CustomerDTO customer = customerResult.getResults().get(0);
+            CustomerDTO customer = customerResult.getFirst();
             name1Field.setText(customer.getName1());
             name2Field.setText(customer.getName2());
             address1Field.setText(customer.getAddress1());

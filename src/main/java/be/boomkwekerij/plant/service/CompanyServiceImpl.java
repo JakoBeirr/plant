@@ -9,6 +9,9 @@ import be.boomkwekerij.plant.model.repository.Company;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.util.SearchResult;
+import be.boomkwekerij.plant.validator.CompanyValidator;
+
+import java.util.List;
 
 public class CompanyServiceImpl implements CompanyService {
 
@@ -16,10 +19,16 @@ public class CompanyServiceImpl implements CompanyService {
     private CompanyMemory companyMemory = MemoryDatabase.getCompanyMemory();
 
     private CompanyMapper companyMapper = new CompanyMapper();
+    private CompanyValidator companyValidator = new CompanyValidator();
 
     public CrudsResult createCompany(CompanyDTO companyDTO) {
+        CrudsResult crudsResult = validateCompany(companyDTO);
+        if (crudsResult != null) {
+            return crudsResult;
+        }
+
         Company company = companyMapper.mapDTOToDAO(companyDTO);
-        CrudsResult crudsResult = companyDAO.persist(company);
+        crudsResult = companyDAO.persist(company);
 
         if (crudsResult.isSuccess()) {
             companyMemory.createCompany(company);
@@ -45,8 +54,13 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     public CrudsResult updateCompany(CompanyDTO companyDTO) {
+        CrudsResult crudsResult = validateCompany(companyDTO);
+        if (crudsResult != null) {
+            return crudsResult;
+        }
+
         Company company = companyMapper.mapDTOToDAO(companyDTO);
-        CrudsResult crudsResult = companyDAO.update(company);
+        crudsResult = companyDAO.update(company);
 
         if (crudsResult.isSuccess()) {
             companyMemory.updateCompany(company);
@@ -63,5 +77,16 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
         return crudsResult;
+    }
+
+    private CrudsResult validateCompany(CompanyDTO companyDTO) {
+        List<String> validationResult = companyValidator.validate(companyDTO);
+        if (validationResult.size() > 0) {
+            CrudsResult crudsResult = new CrudsResult();
+            crudsResult.setSuccess(false);
+            crudsResult.setMessages(validationResult);
+            return crudsResult;
+        }
+        return null;
     }
 }

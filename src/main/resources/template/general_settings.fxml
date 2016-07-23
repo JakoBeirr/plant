@@ -7,6 +7,6 @@
 <AnchorPane>
 
     <HBox styleClass="center-pane">
-        <Label text="systeemvariabelen bezien juum" />
+        <Label text="Algemene instellingen juum" />
     </HBox>
 </AnchorPane>

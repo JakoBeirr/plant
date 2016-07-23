@@ -9,6 +9,9 @@ import be.boomkwekerij.plant.model.repository.System;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.util.SearchResult;
+import be.boomkwekerij.plant.validator.SystemValidator;
+
+import java.util.List;
 
 public class SystemServiceImpl implements SystemService {
 
@@ -16,10 +19,16 @@ public class SystemServiceImpl implements SystemService {
     private SystemMemory systemMemory = MemoryDatabase.getSystemMemory();
 
     private SystemMapper systemMapper = new SystemMapper();
+    private SystemValidator systemValidator = new SystemValidator();
 
     public CrudsResult createSystem(SystemDTO systemDTO) {
+        CrudsResult crudsResult = validateSystem(systemDTO);
+        if (crudsResult != null) {
+            return crudsResult;
+        }
+
         System system = systemMapper.mapDTOToDAO(systemDTO);
-        CrudsResult crudsResult = systemDAO.persist(system);
+        crudsResult = systemDAO.persist(system);
 
         if (crudsResult.isSuccess()) {
             systemMemory.createSystem(system);
@@ -45,8 +54,13 @@ public class SystemServiceImpl implements SystemService {
     }
 
     public CrudsResult updateSystem(SystemDTO systemDTO) {
+        CrudsResult crudsResult = validateSystem(systemDTO);
+        if (crudsResult != null) {
+            return crudsResult;
+        }
+
         System system = systemMapper.mapDTOToDAO(systemDTO);
-        CrudsResult crudsResult = systemDAO.update(system);
+        crudsResult = systemDAO.update(system);
 
         if (crudsResult.isSuccess()) {
             systemMemory.updateSystem(system);
@@ -69,7 +83,7 @@ public class SystemServiceImpl implements SystemService {
         SearchResult<SystemDTO> systemSearchResult = getSystem();
         if (systemSearchResult.isSuccess()) {
             SystemDTO system = systemSearchResult.getFirst();
-            return system.getLastInvoiceNumber();
+            return system.getNextInvoiceNumber();
         }
         return "";
     }
@@ -82,8 +96,19 @@ public class SystemServiceImpl implements SystemService {
         SearchResult<SystemDTO> systemSearchResult = getSystem();
         if (systemSearchResult.isSuccess()) {
             SystemDTO system = systemSearchResult.getFirst();
-            system.setLastInvoiceNumber(nextInvoiceNumber);
+            system.setNextInvoiceNumber(nextInvoiceNumber);
             updateSystem(system);
         }
+    }
+
+    private CrudsResult validateSystem(SystemDTO systemDTO) {
+        List<String> validationResult = systemValidator.validate(systemDTO);
+        if (validationResult.size() > 0) {
+            CrudsResult crudsResult = new CrudsResult();
+            crudsResult.setSuccess(false);
+            crudsResult.setMessages(validationResult);
+            return crudsResult;
+        }
+        return null;
     }
 }

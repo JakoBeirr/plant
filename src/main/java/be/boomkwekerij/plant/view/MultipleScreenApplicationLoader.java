@@ -23,8 +23,7 @@ public class MultipleScreenApplicationLoader {
         templates.put("plantModify", "plant_modify.fxml");
         templates.put("invoiceList", "invoice_list.fxml");
         templates.put("invoiceCreate", "invoice_create.fxml");
-        templates.put("companyDetails", "company_details.fxml");
-        templates.put("systemDetails", "system_details.fxml");
+        templates.put("generalSettings", "general_settings.fxml");
     }
 
     public void load() throws IOException {

@@ -153,7 +153,7 @@ public class PlantListController implements Initializable {
 
             if (plantSearchResult.isSuccess()) {
                 if (plantSearchResult.getResults().size() > 0) {
-                    PlantDTO plant = plantSearchResult.getResults().get(0);
+                    PlantDTO plant = plantSearchResult.getFirst();
                     showPlantDetails(plant);
                 }
             }
@@ -163,8 +163,8 @@ public class PlantListController implements Initializable {
     }
 
     private void showPlantDetails(PlantDTO plant) {
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle(plant.getName());
+        Dialog detailsDialog = new Dialog();
+        detailsDialog.setTitle("Plant: " + plant.getName());
 
         GridPane grid = new GridPane();
         grid.setHgap(20);
@@ -186,10 +186,10 @@ public class PlantListController implements Initializable {
         address2Label.setStyle("-fx-font-weight: bold;");
         grid.add(address2Label, 0, 3);
         grid.add(new Label(Double.toString(plant.getPrice())), 1, 3);
-        dialog.getDialogPane().setContent(grid);
+        detailsDialog.getDialogPane().setContent(grid);
 
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+        detailsDialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
 
-        dialog.showAndWait();
+        detailsDialog.showAndWait();
     }
 }

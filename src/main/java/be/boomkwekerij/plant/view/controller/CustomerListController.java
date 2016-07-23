@@ -161,7 +161,7 @@ public class CustomerListController implements Initializable {
 
             if (customerSearchResult.isSuccess()) {
                 if (customerSearchResult.getResults().size() > 0) {
-                    CustomerDTO customer = customerSearchResult.getResults().get(0);
+                    CustomerDTO customer = customerSearchResult.getFirst();
                     showCustomerDetails(customer);
                 }
             }
@@ -171,8 +171,8 @@ public class CustomerListController implements Initializable {
     }
 
     private void showCustomerDetails(CustomerDTO customer) {
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle(customer.getName1());
+        Dialog detailsDialog = new Dialog();
+        detailsDialog.setTitle("Klant: " + customer.getName1());
 
         GridPane grid = new GridPane();
         grid.setHgap(20);
@@ -226,10 +226,10 @@ public class CustomerListController implements Initializable {
         emailAddressLabel.setStyle("-fx-font-weight: bold;");
         grid.add(emailAddressLabel, 0, 11);
         grid.add(new Label(customer.getEmailAddress()), 1, 11);
-        dialog.getDialogPane().setContent(grid);
+        detailsDialog.getDialogPane().setContent(grid);
 
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+        detailsDialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
 
-        dialog.showAndWait();
+        detailsDialog.showAndWait();
     }
 }

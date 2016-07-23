@@ -134,7 +134,7 @@ public class PlantModifyController implements Initializable {
         PlantViewModel selectedPlant = plantList.getSelectionModel().getSelectedItem();
         SearchResult<PlantDTO> plantResult = plantController.getPlant(selectedPlant.getId());
         if (plantResult.isSuccess()) {
-            PlantDTO plant = plantResult.getResults().get(0);
+            PlantDTO plant = plantResult.getFirst();
             nameField.setText(plant.getName());
             ageField.setText(plant.getAge());
             measureField.setText(plant.getMeasure());

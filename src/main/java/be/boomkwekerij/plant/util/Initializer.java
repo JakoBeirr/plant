@@ -15,8 +15,10 @@ import be.boomkwekerij.plant.model.repository.Customer;
 import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.model.repository.Plant;
 import be.boomkwekerij.plant.model.repository.System;
+import org.joda.time.DateTime;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 public class Initializer {
@@ -47,12 +49,21 @@ public class Initializer {
     }
 
     private static void initDirectoryStructure(String dataUri) {
+        createDataDirectoryWhenNotExists(dataUri);
         createDirectoryWhenNotExists(dataUri, "/company");
         createDirectoryWhenNotExists(dataUri, "/customers");
         createDirectoryWhenNotExists(dataUri, "/invoices");
         createDirectoryWhenNotExists(dataUri, "/plants");
         createDirectoryWhenNotExists(dataUri, "/system");
         createDirectoryWhenNotExists(dataUri, "/files");
+    }
+
+    @SuppressWarnings("all")
+    private static void createDataDirectoryWhenNotExists(String dataUri) {
+        File file = new File(dataUri);
+        if (!file.exists()) {
+            file.mkdir();
+        }
     }
 
     @SuppressWarnings("all")

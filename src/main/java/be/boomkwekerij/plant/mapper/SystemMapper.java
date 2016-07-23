@@ -7,13 +7,13 @@ public class SystemMapper {
 
     public System mapDTOToDAO(SystemDTO systemDTO) {
         System system = new System();
-        system.setLastInvoiceNumber(systemDTO.getLastInvoiceNumber());
+        system.setNextInvoiceNumber(systemDTO.getNextInvoiceNumber());
         return system;
     }
 
     public SystemDTO mapDAOToDTO(System system) {
         SystemDTO systemDTO = new SystemDTO();
-        systemDTO.setLastInvoiceNumber(system.getLastInvoiceNumber());
+        systemDTO.setNextInvoiceNumber(system.getNextInvoiceNumber());
         return systemDTO;
     }
 }

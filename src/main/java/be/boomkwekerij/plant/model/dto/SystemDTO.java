@@ -2,13 +2,13 @@ package be.boomkwekerij.plant.model.dto;
 
 public class SystemDTO {
 
-    private String lastInvoiceNumber;
+    private String nextInvoiceNumber;
 
-    public String getLastInvoiceNumber() {
-        return lastInvoiceNumber;
+    public String getNextInvoiceNumber() {
+        return nextInvoiceNumber;
     }
 
-    public void setLastInvoiceNumber(String lastInvoiceNumber) {
-        this.lastInvoiceNumber = lastInvoiceNumber;
+    public void setNextInvoiceNumber(String nextInvoiceNumber) {
+        this.nextInvoiceNumber = nextInvoiceNumber;
     }
 }

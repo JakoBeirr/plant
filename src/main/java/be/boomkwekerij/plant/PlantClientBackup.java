@@ -11,7 +11,6 @@ import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
 import be.boomkwekerij.plant.model.dto.PlantDTO;
 import be.boomkwekerij.plant.model.dto.SystemDTO;
-import be.boomkwekerij.plant.service.InvoiceDocumentServiceImpl;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.Initializer;
 import org.joda.time.DateTime;
@@ -32,7 +31,7 @@ public class PlantClientBackup {
         Initializer.init(dataUri);
 
         SystemDTO system = new SystemDTO();
-        system.setLastInvoiceNumber("20160202");
+        system.setNextInvoiceNumber("20160202");
         new SystemController().createSystem(system);
 
         CompanyDTO company = new CompanyDTO();

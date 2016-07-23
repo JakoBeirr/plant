@@ -30,9 +30,7 @@ public class MenuController implements Initializable {
     @FXML
     private MenuItem invoiceCreate;
     @FXML
-    private MenuItem companyDetails;
-    @FXML
-    private MenuItem systemDetails;
+    private MenuItem generalSettings;
 
     private MultipleScreenApplicationLoader applicationLoader;
 
@@ -51,8 +49,7 @@ public class MenuController implements Initializable {
         plantModify.setOnAction(changeTab("plantModify"));
         invoiceList.setOnAction(changeTab("invoiceList"));
         invoiceCreate.setOnAction(changeTab("invoiceCreate"));
-        companyDetails.setOnAction(changeTab("companyDetails"));
-        systemDetails.setOnAction(changeTab("systemDetails"));
+        generalSettings.setOnAction(changeTab("generalSettings"));
     }
 
     private EventHandler<ActionEvent> changeTab(String tab) {

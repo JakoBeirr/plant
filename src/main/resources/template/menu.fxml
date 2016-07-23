@@ -18,7 +18,6 @@
         <MenuItem fx:id="invoiceCreate" text="Aanmaken"/>
     </Menu>
     <Menu text="Systeem">
-        <MenuItem fx:id="companyDetails" text="Bedrijf"/>
-        <MenuItem fx:id="systemDetails" text="Systeem"/>
+        <MenuItem fx:id="generalSettings" text="Algemene instellingen"/>
     </Menu>
 </MenuBar>
