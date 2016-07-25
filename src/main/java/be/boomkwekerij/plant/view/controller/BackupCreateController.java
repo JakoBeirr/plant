@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BackupViewController implements Initializable {
+public class BackupCreateController implements Initializable {
 
     private BackupController backupController = new BackupController();
 
