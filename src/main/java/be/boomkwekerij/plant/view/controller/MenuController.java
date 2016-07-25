@@ -31,6 +31,8 @@ public class MenuController implements Initializable {
     private MenuItem invoiceCreate;
     @FXML
     private MenuItem generalSettings;
+    @FXML
+    private MenuItem backup;
 
     private MultipleScreenApplicationLoader applicationLoader;
 
@@ -50,6 +52,7 @@ public class MenuController implements Initializable {
         invoiceList.setOnAction(changeTab("invoiceList"));
         invoiceCreate.setOnAction(changeTab("invoiceCreate"));
         generalSettings.setOnAction(changeTab("generalSettings"));
+        backup.setOnAction(changeTab("backup"));
     }
 
     private EventHandler<ActionEvent> changeTab(String tab) {

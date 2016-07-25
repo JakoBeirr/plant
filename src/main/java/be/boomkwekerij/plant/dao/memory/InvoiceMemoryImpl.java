@@ -61,4 +61,9 @@ public class InvoiceMemoryImpl implements InvoiceMemory {
     public void deleteInvoice(String id) {
         invoices.remove(id);
     }
+
+    @Override
+    public void deleteAllInvoices() {
+        invoices = new HashMap<>();
+    }
 }

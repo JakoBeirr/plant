@@ -61,4 +61,9 @@ public class PlantMemoryImpl implements PlantMemory {
     public void deletePlant(String id) {
         plants.remove(id);
     }
+
+    @Override
+    public void deleteAllPlants() {
+        plants = new HashMap<>();
+    }
 }

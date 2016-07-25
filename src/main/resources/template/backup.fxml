@@ -1,0 +1,25 @@
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.BackupViewController">
+
+    <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox styleClass="center-pane" spacing="10">
+            <Label text="Backup" styleClass="paneTitle" />
+
+            <HBox spacing="10">
+                <VBox styleClass="border-pane" spacing="25">
+                    <Label text="Backup database" />
+
+                    <Button id="backupButton" mnemonicParsing="false" onMouseClicked="#backupButton" text="Backup" styleClass="blue-button"/>
+                </VBox>
+
+                <VBox styleClass="border-pane" spacing="25">
+                    <Label text="Herstel laatste database backup" />
+
+                    <Button id="restoreBackupButton" mnemonicParsing="false" onMouseClicked="#restoreBackupButton" text="Herstel backup" styleClass="blue-button"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

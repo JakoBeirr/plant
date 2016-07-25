@@ -1,5 +1,6 @@
 package be.boomkwekerij.plant;
 
+import be.boomkwekerij.plant.service.BackupServiceImpl;
 import be.boomkwekerij.plant.util.Initializer;
 import be.boomkwekerij.plant.view.MultipleScreenApplicationLoader;
 import javafx.application.Application;

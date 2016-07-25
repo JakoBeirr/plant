@@ -20,4 +20,6 @@ public interface PlantMemory {
     void updatePlant(Plant plant);
 
     void deletePlant(String id);
+
+    void deleteAllPlants();
 }

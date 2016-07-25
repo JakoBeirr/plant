@@ -4,6 +4,7 @@ import be.boomkwekerij.plant.model.repository.Customer;
 import be.boomkwekerij.plant.util.SearchResult;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -67,5 +68,10 @@ public class CustomerMemoryImpl implements CustomerMemory {
 
     public void deleteCustomer(String id) {
         customers.remove(id);
+    }
+
+    @Override
+    public void deleteAllCustomers() {
+        customers = new HashMap<>();
     }
 }

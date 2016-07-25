@@ -19,5 +19,6 @@
     </Menu>
     <Menu text="Algemeen">
         <MenuItem fx:id="generalSettings" text="Algemene instellingen"/>
+        <MenuItem fx:id="backup" text="Backup"/>
     </Menu>
 </MenuBar>

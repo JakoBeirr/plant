@@ -20,4 +20,6 @@ public interface CustomerMemory {
     void updateCustomer(Customer customer);
 
     void deleteCustomer(String id);
+
+    void deleteAllCustomers();
 }

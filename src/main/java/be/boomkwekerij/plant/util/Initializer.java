@@ -91,6 +91,29 @@ public class Initializer {
         MemoryDatabase.getSystemMemory().createSystem(system);
     }
 
+    public static void reloadInMemoryDatabase() {
+        MemoryDatabase.getCompanyMemory().deleteCompany();
+        MemoryDatabase.getCustomerMemory().deleteAllCustomers();
+        MemoryDatabase.getInvoiceMemory().deleteAllInvoices();
+        MemoryDatabase.getPlantMemory().deleteAllPlants();
+        MemoryDatabase.getSystemMemory().deleteSystem();
+
+        Company company = companyDAO.get().getFirst();
+        MemoryDatabase.getCompanyMemory().createCompany(company);
+
+        List<Customer> customers = customerDAO.findAll().getResults();
+        MemoryDatabase.getCustomerMemory().createCustomers(customers);
+
+        List<Invoice> invoices = invoiceDAO.findAll().getResults();
+        MemoryDatabase.getInvoiceMemory().createInvoices(invoices);
+
+        List<Plant> plants = plantDAO.findAll().getResults();
+        MemoryDatabase.getPlantMemory().createPlants(plants);
+
+        System system = systemDAO.get().getFirst();
+        MemoryDatabase.getSystemMemory().createSystem(system);
+    }
+
     public static String getDataUri() {
         return data_directory;
     }

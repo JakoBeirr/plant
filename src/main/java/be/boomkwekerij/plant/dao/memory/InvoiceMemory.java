@@ -20,4 +20,6 @@ public interface InvoiceMemory {
     void updateInvoice(Invoice invoice);
 
     void deleteInvoice(String id);
+
+    void deleteAllInvoices();
 }
