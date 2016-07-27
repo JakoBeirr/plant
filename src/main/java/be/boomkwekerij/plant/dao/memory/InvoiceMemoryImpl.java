@@ -52,6 +52,24 @@ public class InvoiceMemoryImpl implements InvoiceMemory {
         return invoice.getInvoiceNumber() != null && invoice.getInvoiceNumber().toUpperCase().startsWith(invoiceNumber.toUpperCase());
     }
 
+    @Override
+    public SearchResult<Invoice> getInvoicesFromCustomer(String customerId) {
+        SearchResult<Invoice> invoicesFromCustomer = new SearchResult<Invoice>();
+
+        for (Invoice invoice : invoices.values()) {
+            if (invoiceFromCustomer(invoice, customerId)) {
+                invoicesFromCustomer.addResult(invoice);
+            }
+        }
+
+        invoicesFromCustomer.setSuccess(true);
+        return invoicesFromCustomer;
+    }
+
+    private boolean invoiceFromCustomer(Invoice invoice, String customerId) {
+        return invoice.getCustomerId() != null && invoice.getCustomerId().equals(customerId);
+    }
+
     public void updateInvoice(Invoice invoice) {
         if (invoices.get(invoice.getId()) != null) {
             invoices.put(invoice.getId(), invoice);

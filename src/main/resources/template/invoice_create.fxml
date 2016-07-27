@@ -1,12 +1,146 @@
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Label?>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.InvoiceCreateController">
 
-<?import javafx.scene.layout.AnchorPane?>
+    <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox styleClass="center-pane" spacing="5">
+            <Label styleClass="paneTitle" text="Klant Aanmaken"/>
 
-<AnchorPane>
+            <VBox spacing="5">
+                <TextField fx:id="customerSearchField" promptText="Klant zoeken..."/>
 
-    <HBox styleClass="center-pane">
-        <Label text="facturen aanmaken juum" />
-    </HBox>
+                <TableView fx:id="customerList" fixedCellSize="25" prefHeight="150">
+                    <columns>
+                        <TableColumn fx:id="name1" text="Naam 1" prefWidth="200">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="name1" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="name2" text="Naam 2" prefWidth="200">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="name2" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="address1" text="Adres" prefWidth="250">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="address1" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="postalCode" text="Postcode" prefWidth="75">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="postalCode" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="residence" text="Woonplaats" prefWidth="150">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="residence" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="country" text="Land" prefWidth="50">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="country" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="telephone" text="Telefoon" prefWidth="100">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="telephone" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="btwNumber" text="BTW nummer" prefWidth="150">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="btwNumber" />
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+
+                <Button fx:id="startCreateInvoiceButton" mnemonicParsing="false" text="Maak factuur" onAction="#startInvoiceCreation" visible="false" styleClass="blue-button" />
+
+                <GridPane fx:id="createInvoicePane" styleClass="modifyPane" visible="false" hgap="10" vgap="10">
+                    <Label id="labelCustomer" text="Klant:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="customer" disable="true" prefColumnCount="30" GridPane.fillWidth="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label id="labelInvoiceNumber" text="Factuurnummer:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="invoiceNumber" disable="true" prefColumnCount="30" GridPane.fillWidth="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label id="labelInvoiceDate" text="Datum:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <DatePicker fx:id="invoiceDate" GridPane.rowIndex="2" GridPane.fillWidth="false" GridPane.columnIndex="1"/>
+
+                    <Label fx:id="labelInvoiceLinesList" text="Factuurlijnen:" GridPane.valignment="TOP" visible="false" managed="false" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <VBox fx:id="createdInvoiceLines" spacing="5" visible="false" managed="false" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                    </VBox>
+
+                    <Label fx:id="labelInvoiceLinesCreate" text="Factuurlijnen:" GridPane.valignment="TOP" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <HBox spacing="5" GridPane.fillWidth="false" GridPane.rowIndex="4" GridPane.columnIndex="1">
+                        <VBox spacing="5">
+                            <Label text="Plant:" />
+
+                            <TextField fx:id="plantSearchField" prefColumnCount="45" promptText="Plant zoeken..." />
+
+                            <TableView fx:id="plantList" visible="false" managed="false" fixedCellSize="25" prefHeight="150">
+                                <columns>
+                                    <TableColumn fx:id="name" text="Naam" prefWidth="200">
+                                        <cellValueFactory>
+                                            <PropertyValueFactory property="name" />
+                                        </cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn fx:id="age" text="Leeftijd" prefWidth="125">
+                                        <cellValueFactory>
+                                            <PropertyValueFactory property="age" />
+                                        </cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn fx:id="measure" text="Maat" prefWidth="125">
+                                        <cellValueFactory>
+                                            <PropertyValueFactory property="measure" />
+                                        </cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn fx:id="price" text="Prijs" prefWidth="73">
+                                        <cellValueFactory>
+                                            <PropertyValueFactory property="price" />
+                                        </cellValueFactory>
+                                    </TableColumn>
+                                </columns>
+                            </TableView>
+
+                            <Label fx:id="chosenPlant" managed="false" visible="false" />
+
+                            <Button fx:id="choosePlantButton" mnemonicParsing="false" text="Kies plant" onAction="#choosePlant" managed="false" visible="false" styleClass="blue-button" />
+                        </VBox>
+                        <HBox spacing="5">
+                            <VBox spacing="5">
+                                <Label text="Datum:" />
+                                <DatePicker fx:id="invoiceLineDate" />
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Aantal:" />
+                                <TextField fx:id="amount" prefColumnCount="3" />
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="Prijs:" />
+                                <TextField fx:id="alternativePlantPrice" prefColumnCount="5" />
+                            </VBox>
+                            <VBox spacing="5">
+                                <Label text="" />
+                                <HBox spacing="5">
+                                    <Button text="Maak aan" mnemonicParsing="false" onAction="#createInvoiceLine" styleClass="green-button" />
+                                    <Button text="Leeg rij" mnemonicParsing="false" onAction="#clearInvoiceLine" styleClass="red-button" />
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    </HBox>
+
+                    <Label id="labelRow" text="" GridPane.rowIndex="5"/>
+
+                    <Label id="labelBtw" text="BTW:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                    <TextField fx:id="btw" prefColumnCount="6" GridPane.fillWidth="false" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                    <Label id="labelRow" text="" GridPane.rowIndex="7"/>
+
+                    <Button id="createButton" mnemonicParsing="false" onMouseClicked="#createInvoice" text="Aanmaken" GridPane.rowIndex="8" GridPane.columnIndex="1" styleClass="green-button" />
+                </GridPane>
+            </VBox>
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

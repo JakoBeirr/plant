@@ -1,12 +1,47 @@
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Label?>
+<?import be.boomkwekerij.plant.view.helper.CheckboxCellFactory?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.InvoiceListController">
 
-<AnchorPane>
+    <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox styleClass="center-pane" spacing="5">
+            <Label styleClass="paneTitle" text="Facturen Lijst"/>
 
-    <HBox styleClass="center-pane">
-        <Label text="facturen bezien juum" />
-    </HBox>
+            <!--<TextField fx:id="searchField" promptText="Zoeken..."/>-->
+
+            <TableView fx:id="invoiceList" fixedCellSize="25" prefHeight="450">
+                <columns>
+                    <TableColumn fx:id="customerName" text="Klant" prefWidth="250">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="customerName" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="invoiceNumber" text="Factuurnummer" prefWidth="150">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="invoiceNumber" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="date" text="Datum" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="date" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="totalPrice" text="Totaal" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="totalPrice" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="payed" text="Betaald" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="payed" />
+                        </cellValueFactory>
+                        <cellFactory><CheckboxCellFactory /></cellFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

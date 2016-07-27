@@ -15,12 +15,20 @@ public class PlantViewModel {
         return id.get();
     }
 
+    public SimpleStringProperty idProperty() {
+        return id;
+    }
+
     public void setId(String id) {
         this.id.set(id);
     }
 
     public String getName() {
         return name.get();
+    }
+
+    public SimpleStringProperty nameProperty() {
+        return name;
     }
 
     public void setName(String name) {
@@ -31,6 +39,10 @@ public class PlantViewModel {
         return age.get();
     }
 
+    public SimpleStringProperty ageProperty() {
+        return age;
+    }
+
     public void setAge(String age) {
         this.age.set(age);
     }
@@ -39,12 +51,20 @@ public class PlantViewModel {
         return measure.get();
     }
 
+    public SimpleStringProperty measureProperty() {
+        return measure;
+    }
+
     public void setMeasure(String measure) {
         this.measure.set(measure);
     }
 
     public double getPrice() {
         return price.get();
+    }
+
+    public SimpleDoubleProperty priceProperty() {
+        return price;
     }
 
     public void setPrice(double price) {

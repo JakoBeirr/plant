@@ -143,6 +143,8 @@ public class CustomerModifyController implements Initializable {
     }
 
     public void showModify(ActionEvent actionEvent) {
+        customerList.setDisable(true);
+        searchField.setDisable(true);
         CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
         SearchResult<CustomerDTO> customerResult = customerController.getCustomer(selectedCustomer.getId());
         if (customerResult.isSuccess()) {
@@ -202,6 +204,8 @@ public class CustomerModifyController implements Initializable {
         modifyPane.setVisible(false);
         customerList.getSelectionModel().clearSelection();
         loadAllCustomersWithName();
+        customerList.setDisable(false);
+        searchField.setDisable(false);
         AlertController.alertSuccess("Klant bewerkt!");
     }
 

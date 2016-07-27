@@ -73,6 +73,14 @@ public class InvoiceController {
         }
     }
 
+    public SearchResult<InvoiceDTO> getAllInvoicesFromCustomer(String customerId) {
+        try {
+            return invoiceService.getAllInvoicesFromCustomer(customerId);
+        } catch (Exception e) {
+            return createSearchError(e);
+        }
+    }
+
     private SearchResult<InvoiceDTO> createSearchError(Exception e) {
         SearchResult<InvoiceDTO> failure = new SearchResult<InvoiceDTO>();
         failure.setSuccess(false);

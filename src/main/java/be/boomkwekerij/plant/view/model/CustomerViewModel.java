@@ -22,12 +22,20 @@ public class CustomerViewModel {
         return id.get();
     }
 
+    public SimpleStringProperty idProperty() {
+        return id;
+    }
+
     public void setId(String id) {
         this.id.set(id);
     }
 
     public String getName1() {
         return name1.get();
+    }
+
+    public SimpleStringProperty name1Property() {
+        return name1;
     }
 
     public void setName1(String name1) {
@@ -38,12 +46,20 @@ public class CustomerViewModel {
         return name2.get();
     }
 
+    public SimpleStringProperty name2Property() {
+        return name2;
+    }
+
     public void setName2(String name2) {
         this.name2.set(name2);
     }
 
     public String getAddress1() {
         return address1.get();
+    }
+
+    public SimpleStringProperty address1Property() {
+        return address1;
     }
 
     public void setAddress1(String address1) {
@@ -54,12 +70,20 @@ public class CustomerViewModel {
         return address2.get();
     }
 
+    public SimpleStringProperty address2Property() {
+        return address2;
+    }
+
     public void setAddress2(String address2) {
         this.address2.set(address2);
     }
 
     public String getPostalCode() {
         return postalCode.get();
+    }
+
+    public SimpleStringProperty postalCodeProperty() {
+        return postalCode;
     }
 
     public void setPostalCode(String postalCode) {
@@ -70,12 +94,20 @@ public class CustomerViewModel {
         return residence.get();
     }
 
+    public SimpleStringProperty residenceProperty() {
+        return residence;
+    }
+
     public void setResidence(String residence) {
         this.residence.set(residence);
     }
 
     public String getCountry() {
         return country.get();
+    }
+
+    public SimpleStringProperty countryProperty() {
+        return country;
     }
 
     public void setCountry(String country) {
@@ -86,12 +118,20 @@ public class CustomerViewModel {
         return telephone.get();
     }
 
+    public SimpleStringProperty telephoneProperty() {
+        return telephone;
+    }
+
     public void setTelephone(String telephone) {
         this.telephone.set(telephone);
     }
 
     public String getGsm() {
         return gsm.get();
+    }
+
+    public SimpleStringProperty gsmProperty() {
+        return gsm;
     }
 
     public void setGsm(String gsm) {
@@ -102,6 +142,10 @@ public class CustomerViewModel {
         return fax.get();
     }
 
+    public SimpleStringProperty faxProperty() {
+        return fax;
+    }
+
     public void setFax(String fax) {
         this.fax.set(fax);
     }
@@ -110,12 +154,20 @@ public class CustomerViewModel {
         return btwNumber.get();
     }
 
+    public SimpleStringProperty btwNumberProperty() {
+        return btwNumber;
+    }
+
     public void setBtwNumber(String btwNumber) {
         this.btwNumber.set(btwNumber);
     }
 
     public String getEmailAddress() {
         return emailAddress.get();
+    }
+
+    public SimpleStringProperty emailAddressProperty() {
+        return emailAddress;
     }
 
     public void setEmailAddress(String emailAddress) {

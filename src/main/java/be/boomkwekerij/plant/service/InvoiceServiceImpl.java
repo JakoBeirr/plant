@@ -13,6 +13,8 @@ import be.boomkwekerij.plant.util.SearchResult;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class InvoiceServiceImpl implements InvoiceService {
@@ -65,6 +67,8 @@ public class InvoiceServiceImpl implements InvoiceService {
             }
         }
 
+        sortInvoicesByDate(allInvoices);
+
         SearchResult<InvoiceDTO> allInvoicesSearchResult = new SearchResult<InvoiceDTO>();
         allInvoicesSearchResult.setSuccess(searchResult.isSuccess());
         allInvoicesSearchResult.setMessages(searchResult.getMessages());
@@ -83,11 +87,42 @@ public class InvoiceServiceImpl implements InvoiceService {
             }
         }
 
+        sortInvoicesByDate(allInvoicesWithInvoiceNumber);
+
         SearchResult<InvoiceDTO> allInvoicesWithNameSearchResult = new SearchResult<InvoiceDTO>();
         allInvoicesWithNameSearchResult.setSuccess(searchResult.isSuccess());
         allInvoicesWithNameSearchResult.setMessages(searchResult.getMessages());
         allInvoicesWithNameSearchResult.setResults(allInvoicesWithInvoiceNumber);
         return allInvoicesWithNameSearchResult;
+    }
+
+    @Override
+    public SearchResult<InvoiceDTO> getAllInvoicesFromCustomer(String customerId) {
+        SearchResult<Invoice> searchResult = invoiceMemory.getInvoicesFromCustomer(customerId);
+
+        List<InvoiceDTO> allInvoicesFromCustomer = new ArrayList<InvoiceDTO>();
+        if (searchResult.isSuccess()) {
+            for (Invoice invoice : searchResult.getResults()) {
+                InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice);
+                allInvoicesFromCustomer.add(invoiceDTO);
+            }
+        }
+
+        sortInvoicesByDate(allInvoicesFromCustomer);
+
+        SearchResult<InvoiceDTO> allInvoicesFromCustomerSearchResult = new SearchResult<InvoiceDTO>();
+        allInvoicesFromCustomerSearchResult.setSuccess(searchResult.isSuccess());
+        allInvoicesFromCustomerSearchResult.setMessages(searchResult.getMessages());
+        allInvoicesFromCustomerSearchResult.setResults(allInvoicesFromCustomer);
+        return allInvoicesFromCustomerSearchResult;
+    }
+
+    private void sortInvoicesByDate(List<InvoiceDTO> invoices) {
+        Collections.sort(invoices, new Comparator<InvoiceDTO>() {
+            public int compare(InvoiceDTO o1, InvoiceDTO o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
     }
 
     public CrudsResult updateInvoice(InvoiceDTO invoiceDTO) {

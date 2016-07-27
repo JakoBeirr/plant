@@ -131,6 +131,8 @@ public class PlantModifyController implements Initializable {
     }
 
     public void showModify(ActionEvent actionEvent) {
+        plantList.setDisable(true);
+        searchField.setDisable(true);
         PlantViewModel selectedPlant = plantList.getSelectionModel().getSelectedItem();
         SearchResult<PlantDTO> plantResult = plantController.getPlant(selectedPlant.getId());
         if (plantResult.isSuccess()) {
@@ -174,6 +176,8 @@ public class PlantModifyController implements Initializable {
         modifyPane.setVisible(false);
         plantList.getSelectionModel().clearSelection();
         loadAllPlantsWithName();
+        plantList.setDisable(false);
+        searchField.setDisable(false);
         AlertController.alertSuccess("Plant bewerkt!");
     }
 

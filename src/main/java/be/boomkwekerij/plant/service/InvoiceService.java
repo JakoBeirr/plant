@@ -14,6 +14,8 @@ public interface InvoiceService {
 
     SearchResult<InvoiceDTO> getAllInvoices(String invoiceNumber);
 
+    SearchResult<InvoiceDTO> getAllInvoicesFromCustomer(String customerId);
+
     CrudsResult updateInvoice(InvoiceDTO invoice);
 
     CrudsResult deleteInvoice(String id);

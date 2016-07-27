@@ -22,4 +22,22 @@ public class CustomerViewMapper {
         customerViewModel.setEmailAddress(customerDTO.getEmailAddress());
         return customerViewModel;
     }
+
+    public CustomerDTO mapViewModelToDTO(CustomerViewModel customerViewModel) {
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setId(customerViewModel.getId());
+        customerDTO.setName1(customerViewModel.getName1());
+        customerDTO.setName2(customerViewModel.getName2());
+        customerDTO.setAddress1(customerViewModel.getAddress1());
+        customerDTO.setAddress2(customerViewModel.getAddress2());
+        customerDTO.setPostalCode(customerViewModel.getPostalCode());
+        customerDTO.setResidence(customerViewModel.getResidence());
+        customerDTO.setCountry(customerViewModel.getCountry());
+        customerDTO.setTelephone(customerViewModel.getTelephone());
+        customerDTO.setGsm(customerViewModel.getGsm());
+        customerDTO.setFax(customerViewModel.getFax());
+        customerDTO.setBtwNumber(customerViewModel.getBtwNumber());
+        customerDTO.setEmailAddress(customerViewModel.getEmailAddress());
+        return customerDTO;
+    }
 }
