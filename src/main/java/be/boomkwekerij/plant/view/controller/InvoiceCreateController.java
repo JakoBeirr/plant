@@ -3,6 +3,7 @@ package be.boomkwekerij.plant.view.controller;
 import be.boomkwekerij.plant.controller.CustomerController;
 import be.boomkwekerij.plant.controller.InvoiceController;
 import be.boomkwekerij.plant.controller.PlantController;
+import be.boomkwekerij.plant.exception.ItemNotFoundException;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
@@ -31,10 +32,7 @@ import org.joda.time.DateTime;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class InvoiceCreateController implements Initializable {
 
@@ -326,6 +324,7 @@ public class InvoiceCreateController implements Initializable {
                 HBox createdInvoiceLine = (HBox) node;
                 ObservableList<Node> children = createdInvoiceLine.getChildren();
                 Label createdChosenPlant = (Label) children.get(0);
+                TextField createdPlant = (TextField) children.get(1);
                 DatePicker createdInvoiceLineDate = (DatePicker) children.get(2);
                 TextField createdAmount = (TextField) children.get(3);
                 TextField createdPrice = (TextField) children.get(4);
@@ -338,6 +337,8 @@ public class InvoiceCreateController implements Initializable {
                 if (plantSearchResult.isSuccess()) {
                     PlantDTO selectedPlant = plantSearchResult.getFirst();
                     invoiceLineDTO.setPlant(selectedPlant);
+                } else {
+                    throw new ItemNotFoundException("Kon plant " + createdPlant.getText() + " niet vinden!");
                 }
                 invoiceLineDTO.setPrice(Double.parseDouble(createdPrice.getText()));
                 invoiceDTO.getInvoiceLines().add(invoiceLineDTO);
@@ -350,6 +351,8 @@ public class InvoiceCreateController implements Initializable {
             } else {
                 handleCreateError(invoiceCreateResult.getMessages());
             }
+        } catch (ItemNotFoundException e) {
+            handleCreateError(Arrays.asList(e.getMessage()));
         } catch (Exception e) {
             handleCreateException(e);
         }
