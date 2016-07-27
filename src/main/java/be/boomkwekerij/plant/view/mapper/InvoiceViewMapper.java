@@ -14,7 +14,7 @@ public class InvoiceViewMapper {
         invoiceViewModel.setInvoiceNumber(invoiceDTO.getInvoiceNumber());
         invoiceViewModel.setDate(DateUtils.formatDate(invoiceDTO.getDate(), DateFormatPattern.DATE_FORMAT));
         invoiceViewModel.setTotalPrice(invoiceDTO.getTotalPrice());
-        invoiceViewModel.setPayed(false);
+        invoiceViewModel.setPayed(invoiceDTO.isPayed());
         return invoiceViewModel;
     }
 }

@@ -16,6 +16,7 @@ public class InvoiceDTO {
     private double btw;
     private double btwAmount;
     private double totalPrice;
+    private boolean payed;
 
     public String getId() {
         return id;
@@ -87,5 +88,13 @@ public class InvoiceDTO {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public boolean isPayed() {
+        return payed;
+    }
+
+    public void setPayed(boolean payed) {
+        this.payed = payed;
     }
 }

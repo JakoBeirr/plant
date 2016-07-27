@@ -81,12 +81,29 @@ public class InvoiceController {
         }
     }
 
+    public CrudsResult payInvoice(String invoiceId) {
+        try {
+            return invoiceService.payInvoice(invoiceId);
+        } catch (Exception e) {
+            return createCrudsError(e);
+        }
+    }
+
+    public CrudsResult unPayInvoice(String invoiceId) {
+        try {
+            return invoiceService.unPayInvoice(invoiceId);
+        } catch (Exception e) {
+            return createCrudsError(e);
+        }
+    }
+
     private SearchResult<InvoiceDTO> createSearchError(Exception e) {
         SearchResult<InvoiceDTO> failure = new SearchResult<InvoiceDTO>();
         failure.setSuccess(false);
         failure.getMessages().add(ExceptionUtil.getStackTrace(e));
         return failure;
     }
+
 
     private CrudsResult createCrudsError(Exception e) {
         CrudsResult failure = new CrudsResult();

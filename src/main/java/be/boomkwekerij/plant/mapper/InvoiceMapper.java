@@ -38,6 +38,7 @@ public class InvoiceMapper {
         invoice.setDate(date.toDate());
         invoice.setInvoiceLines(getInvoiceLines(invoiceDTO));
         invoice.setBtw(invoiceDTO.getBtw());
+        invoice.setPayed(invoiceDTO.isPayed());
         return invoice;
     }
 
@@ -66,6 +67,7 @@ public class InvoiceMapper {
         double btwAmount = countBtwAmount(subTotal, invoice.getBtw());
         invoiceDTO.setBtwAmount(btwAmount);
         invoiceDTO.setTotalPrice(countTotalPrice(subTotal, btwAmount));
+        invoiceDTO.setPayed(invoice.isPayed());
         return invoiceDTO;
     }
 

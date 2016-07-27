@@ -21,4 +21,8 @@ public interface InvoiceService {
     CrudsResult deleteInvoice(String id);
 
     InvoiceDTO getNewInvoiceForCustomer(String customerId);
+
+    CrudsResult payInvoice(String id);
+
+    CrudsResult unPayInvoice(String id);
 }

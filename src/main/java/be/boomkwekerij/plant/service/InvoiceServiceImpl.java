@@ -178,4 +178,46 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         return 0.21;
     }
+
+    @Override
+    public CrudsResult payInvoice(String id) {
+        CrudsResult crudsResult = new CrudsResult();
+
+        SearchResult<InvoiceDTO> invoiceResult = getInvoice(id);
+        if (invoiceResult.isSuccess()) {
+            InvoiceDTO invoice = invoiceResult.getFirst();
+            invoice.setPayed(true);
+            CrudsResult updateInvoiceResult = updateInvoice(invoice);
+
+            crudsResult.setSuccess(updateInvoiceResult.isSuccess());
+            crudsResult.setMessages(updateInvoiceResult.getMessages());
+            crudsResult.setValue(updateInvoiceResult.getValue());
+        } else {
+            crudsResult.setSuccess(false);
+            crudsResult.setMessages(invoiceResult.getMessages());
+        }
+
+        return crudsResult;
+    }
+
+    @Override
+    public CrudsResult unPayInvoice(String id) {
+        CrudsResult crudsResult = new CrudsResult();
+
+        SearchResult<InvoiceDTO> invoiceResult = getInvoice(id);
+        if (invoiceResult.isSuccess()) {
+            InvoiceDTO invoice = invoiceResult.getFirst();
+            invoice.setPayed(false);
+            CrudsResult updateInvoiceResult = updateInvoice(invoice);
+
+            crudsResult.setSuccess(updateInvoiceResult.isSuccess());
+            crudsResult.setMessages(updateInvoiceResult.getMessages());
+            crudsResult.setValue(updateInvoiceResult.getValue());
+        } else {
+            crudsResult.setSuccess(false);
+            crudsResult.setMessages(invoiceResult.getMessages());
+        }
+
+        return crudsResult;
+    }
 }
