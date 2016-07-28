@@ -10,7 +10,7 @@
         <VBox styleClass="center-pane" spacing="5">
             <Label styleClass="paneTitle" text="Facturen Lijst"/>
 
-            <!--<TextField fx:id="searchField" promptText="Zoeken..."/>-->
+            <TextField fx:id="searchField" promptText="Zoeken..."/>
 
             <TableView fx:id="invoiceList" fixedCellSize="25" prefHeight="450">
                 <columns>

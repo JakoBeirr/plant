@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class InvoiceListController implements Initializable {
 
     private InvoiceViewMapper invoiceViewMapper = new InvoiceViewMapper();
 
+    @FXML
+    private TextField searchField;
     @FXML
     private TableView<InvoiceViewModel> invoiceList;
     @FXML
@@ -48,6 +51,7 @@ public class InvoiceListController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadAllInvoices();
+        addChangeListenerToField();
         addChangeListenersToList();
     }
 
@@ -56,10 +60,39 @@ public class InvoiceListController implements Initializable {
         invoiceList.getItems().setAll(allInvoices);
     }
 
+    private void addChangeListenerToField() {
+        searchField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                List<InvoiceViewModel> invoices;
+                if (newValue.length() > 2) {
+                    invoices = getInvoicesWithNumber(newValue);
+                } else {
+                    invoices = getAllInvoices();
+                }
+                invoiceList.getItems().setAll(invoices);
+            }
+        });
+    }
+
     private List<InvoiceViewModel> getAllInvoices() {
         List<InvoiceViewModel> invoices = new ArrayList<>();
 
         SearchResult<InvoiceDTO> invoiceSearchResult = invoiceController.getAllInvoices();
+        if (invoiceSearchResult.isSuccess()) {
+            for (InvoiceDTO invoiceDTO : invoiceSearchResult.getResults()) {
+                InvoiceViewModel invoiceViewModel = invoiceViewMapper.mapDTOToViewModel(invoiceDTO);
+                invoices.add(invoiceViewModel);
+            }
+        }
+
+        return invoices;
+    }
+
+    private List<InvoiceViewModel> getInvoicesWithNumber(String invoiceNumber) {
+        List<InvoiceViewModel> invoices = new ArrayList<>();
+
+        SearchResult<InvoiceDTO> invoiceSearchResult = invoiceController.getAllInvoicesWithInvoiceNumber(invoiceNumber);
         if (invoiceSearchResult.isSuccess()) {
             for (InvoiceDTO invoiceDTO : invoiceSearchResult.getResults()) {
                 InvoiceViewModel invoiceViewModel = invoiceViewMapper.mapDTOToViewModel(invoiceDTO);

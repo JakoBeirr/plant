@@ -258,12 +258,7 @@ public class InvoiceCreateController implements Initializable {
     }
 
     public void clearInvoiceLine(ActionEvent actionEvent) {
-        chosenPlant.setText("");
-        plantSearchField.setText("");
-        amount.setText("");
-        alternativePlantPrice.setText("");
-        invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
-        plantSearchField.setDisable(false);
+        resetInvoiceLine();
     }
 
     public void createInvoiceLine(ActionEvent actionEvent) {
@@ -301,13 +296,17 @@ public class InvoiceCreateController implements Initializable {
             invoiceLine.getChildren().add(deleteRow);
             createdInvoiceLines.getChildren().add(invoiceLine);
 
-            chosenPlant.setText("");
-            plantSearchField.setText("");
-            amount.setText("");
-            alternativePlantPrice.setText("");
-            invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
-            plantSearchField.setDisable(false);
+            resetInvoiceLine();
         }
+    }
+
+    private void resetInvoiceLine() {
+        chosenPlant.setText("");
+        plantSearchField.setText("");
+        amount.setText("");
+        alternativePlantPrice.setText("");
+        invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
+        plantSearchField.setDisable(false);
     }
 
     public void createInvoice(Event event) {
@@ -364,6 +363,7 @@ public class InvoiceCreateController implements Initializable {
         customerSearchField.setDisable(false);
         createInvoicePane.setVisible(false);
         createdInvoiceLines.getChildren().setAll(Collections.emptyList());
+        resetInvoiceLine();
         AlertController.alertSuccess("Factuur aangemaakt!");
     }
 

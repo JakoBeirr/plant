@@ -59,7 +59,11 @@ public class InvoicePDFCreator {
 
     private byte[] createPDF(InvoiceReportObject invoice, JasperReport invoiceTemplate, JRDataSource dataSource, Map<String, Object> parameters) throws IOException {
         byte[] pdfReport = createPdfReport(invoiceTemplate, dataSource, parameters);
-        FileUtils.writeByteArrayToFile(new File(Initializer.getDataUri() + "/files/" + invoice.getInvoiceNumber() + ".pdf"), pdfReport);
+        File invoiceFile = new File(Initializer.getDataUri() + "/files/" + invoice.getInvoiceNumber() + ".pdf");
+        if (invoiceFile.exists()) {
+            invoiceFile.delete();
+        }
+        FileUtils.writeByteArrayToFile(invoiceFile, pdfReport);
         return pdfReport;
     }
 
