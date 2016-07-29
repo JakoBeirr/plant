@@ -47,6 +47,8 @@ public class InvoiceListController implements Initializable {
     private Button unPayButton;
     @FXML
     private Button printButton;
+    @FXML
+    private Button deleteButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -113,12 +115,14 @@ public class InvoiceListController implements Initializable {
                     unPayButton.setManaged(newValue.getPayed());
                     unPayButton.setVisible(newValue.getPayed());
                     printButton.setVisible(true);
+                    deleteButton.setVisible(true);
                 } else {
                     payButton.setManaged(false);
                     payButton.setVisible(false);
                     unPayButton.setManaged(false);
                     unPayButton.setVisible(false);
                     printButton.setVisible(false);
+                    deleteButton.setVisible(false);
                 }
             }
         });
@@ -160,5 +164,42 @@ public class InvoiceListController implements Initializable {
             errorBuilder.append("\n").append(i+1).append(") ").append(errorMessage);
         }
         AlertController.alertError("Factuur aanmaken gefaald!", errorBuilder.toString());
+    }
+
+    public void deleteInvoice(ActionEvent actionEvent) {
+        try {
+            InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
+            CrudsResult crudsResult = invoiceController.deleteInvoice(selectedInvoice.getId());
+
+            if (crudsResult.isSuccess()) {
+                handleDeleteSuccess();
+            } else {
+                handleDeleteError(crudsResult.getMessages());
+            }
+        } catch (Exception e) {
+            handleDeleteException(e);
+        }
+    }
+
+    private void handleDeleteSuccess() {
+        loadAllInvoices();
+        AlertController.alertSuccess("Factuur verwijderd!");
+    }
+
+    private void handleDeleteError(List<String> errorMessages) {
+        StringBuilder errorBuilder = new StringBuilder("Gefaald wegens volgende fout(en): ");
+        for (int i = 0; i < errorMessages.size(); i++) {
+            String errorMessage = errorMessages.get(i);
+            errorBuilder.append(errorMessage);
+
+            if (i != (errorMessages.size()-1)) {
+                errorBuilder.append("; ");
+            }
+        }
+        AlertController.alertError("Factuur verwijderen gefaald!", errorBuilder.toString());
+    }
+
+    private void handleDeleteException(Exception e) {
+        AlertController.alertException("Factuur verwijderen gefaald!", e);
     }
 }

@@ -62,14 +62,14 @@ public class CustomerController {
     private SearchResult<CustomerDTO> createSearchError(Exception e) {
         SearchResult<CustomerDTO> failure = new SearchResult<CustomerDTO>();
         failure.setSuccess(false);
-        failure.getMessages().add(ExceptionUtil.getStackTrace(e));
+        failure.getMessages().add(e.getMessage());
         return failure;
     }
 
     private CrudsResult createCrudsError(Exception e) {
         CrudsResult failure = new CrudsResult();
         failure.setSuccess(false);
-        failure.getMessages().add(ExceptionUtil.getStackTrace(e));
+        failure.getMessages().add(e.getMessage());
         return failure;
     }
 }

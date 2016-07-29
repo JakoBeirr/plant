@@ -38,14 +38,14 @@ public class CompanyController {
     private SearchResult<CompanyDTO> createSearchError(Exception e) {
         SearchResult<CompanyDTO> failure = new SearchResult<CompanyDTO>();
         failure.setSuccess(false);
-        failure.getMessages().add(ExceptionUtil.getStackTrace(e));
+        failure.getMessages().add(e.getMessage());
         return failure;
     }
 
     private CrudsResult createCrudsError(Exception e) {
         CrudsResult failure = new CrudsResult();
         failure.setSuccess(false);
-        failure.getMessages().add(ExceptionUtil.getStackTrace(e));
+        failure.getMessages().add(e.getMessage());
         return failure;
     }
 }

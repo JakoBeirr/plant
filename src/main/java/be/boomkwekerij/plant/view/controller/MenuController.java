@@ -30,6 +30,8 @@ public class MenuController implements Initializable {
     @FXML
     private MenuItem invoiceCreate;
     @FXML
+    private MenuItem invoiceModify;
+    @FXML
     private MenuItem generalSettings;
     @FXML
     private MenuItem backup;
@@ -51,6 +53,7 @@ public class MenuController implements Initializable {
         plantModify.setOnAction(changeTab("plantModify"));
         invoiceList.setOnAction(changeTab("invoiceList"));
         invoiceCreate.setOnAction(changeTab("invoiceCreate"));
+        invoiceModify.setOnAction(changeTab("invoiceModify"));
         generalSettings.setOnAction(changeTab("generalSettings"));
         backup.setOnAction(changeTab("backup"));
     }

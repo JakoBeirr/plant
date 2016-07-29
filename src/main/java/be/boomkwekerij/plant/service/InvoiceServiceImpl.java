@@ -10,6 +10,7 @@ import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.util.SearchResult;
+import be.boomkwekerij.plant.validator.InvoiceValidator;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -23,13 +24,19 @@ public class InvoiceServiceImpl implements InvoiceService {
     private InvoiceMemory invoiceMemory = MemoryDatabase.getInvoiceMemory();
 
     private InvoiceMapper invoiceMapper = new InvoiceMapper();
+    private InvoiceValidator invoiceValidator = new InvoiceValidator();
 
     private SystemService systemService = new SystemServiceImpl();
     private CustomerService customerService = new CustomerServiceImpl();
 
     public CrudsResult createInvoice(InvoiceDTO invoiceDTO) {
+        CrudsResult crudsResult = validateInvoice(invoiceDTO);
+        if (crudsResult != null) {
+            return crudsResult;
+        }
+
         Invoice invoice = invoiceMapper.mapDTOToDAO(invoiceDTO);
-        CrudsResult crudsResult = invoiceDAO.persist(invoice);
+        crudsResult = invoiceDAO.persist(invoice);
 
         if (crudsResult.isSuccess()) {
             invoiceMemory.createInvoice(invoice);
@@ -126,8 +133,13 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     public CrudsResult updateInvoice(InvoiceDTO invoiceDTO) {
+        CrudsResult crudsResult = validateInvoice(invoiceDTO);
+        if (crudsResult != null) {
+            return crudsResult;
+        }
+
         Invoice invoice = invoiceMapper.mapDTOToDAO(invoiceDTO);
-        CrudsResult crudsResult = invoiceDAO.update(invoice);
+        crudsResult = invoiceDAO.update(invoice);
 
         if (crudsResult.isSuccess()) {
             invoiceMemory.updateInvoice(invoice);
@@ -219,5 +231,16 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
 
         return crudsResult;
+    }
+
+    private CrudsResult validateInvoice(InvoiceDTO invoiceDTO) {
+        List<String> validationResult = invoiceValidator.validate(invoiceDTO);
+        if (validationResult.size() > 0) {
+            CrudsResult crudsResult = new CrudsResult();
+            crudsResult.setSuccess(false);
+            crudsResult.setMessages(validationResult);
+            return crudsResult;
+        }
+        return null;
     }
 }

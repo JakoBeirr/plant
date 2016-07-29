@@ -62,14 +62,14 @@ public class PlantController {
     private SearchResult<PlantDTO> createSearchError(Exception e) {
         SearchResult<PlantDTO> failure = new SearchResult<PlantDTO>();
         failure.setSuccess(false);
-        failure.getMessages().add(ExceptionUtil.getStackTrace(e));
+        failure.getMessages().add(e.getMessage());
         return failure;
     }
 
     private CrudsResult createCrudsError(Exception e) {
         CrudsResult failure = new CrudsResult();
         failure.setSuccess(false);
-        failure.getMessages().add(ExceptionUtil.getStackTrace(e));
+        failure.getMessages().add(e.getMessage());
         return failure;
     }
 }

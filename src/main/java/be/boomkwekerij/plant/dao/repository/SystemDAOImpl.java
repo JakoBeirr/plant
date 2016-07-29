@@ -27,7 +27,7 @@ public class SystemDAOImpl implements SystemDAO {
             searchResult.addResult(system);
         } catch (Exception e) {
             searchResult.setSuccess(false);
-            searchResult.addMessage(ExceptionUtil.getStackTrace(e));
+            searchResult.addMessage(e.getMessage());
         }
 
         return searchResult;
@@ -49,7 +49,7 @@ public class SystemDAOImpl implements SystemDAO {
             }
         } catch (Exception e) {
             crudsResult.setSuccess(false);
-            crudsResult.addMessage(ExceptionUtil.getStackTrace(e));
+            crudsResult.addMessage(e.getMessage());
         }
 
         return crudsResult;
@@ -71,7 +71,7 @@ public class SystemDAOImpl implements SystemDAO {
             }
         } catch (Exception e) {
             crudsResult.setSuccess(false);
-            crudsResult.addMessage(ExceptionUtil.getStackTrace(e));
+            crudsResult.addMessage(e.getMessage());
         }
 
         return crudsResult;
@@ -86,7 +86,7 @@ public class SystemDAOImpl implements SystemDAO {
             crudsResult.setSuccess(deleted);
         } catch (Exception e) {
             crudsResult.setSuccess(false);
-            crudsResult.addMessage(ExceptionUtil.getStackTrace(e));
+            crudsResult.addMessage(e.getMessage());
         }
 
         return crudsResult;

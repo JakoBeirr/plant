@@ -97,21 +97,6 @@ public class InvoiceController {
         }
     }
 
-    private SearchResult<InvoiceDTO> createSearchError(Exception e) {
-        SearchResult<InvoiceDTO> failure = new SearchResult<InvoiceDTO>();
-        failure.setSuccess(false);
-        failure.getMessages().add(ExceptionUtil.getStackTrace(e));
-        return failure;
-    }
-
-
-    private CrudsResult createCrudsError(Exception e) {
-        CrudsResult failure = new CrudsResult();
-        failure.setSuccess(false);
-        failure.getMessages().add(ExceptionUtil.getStackTrace(e));
-        return failure;
-    }
-
     public CrudsResult printInvoiceDocument(String invoiceId) {
         CrudsResult printResult = new CrudsResult();
         printResult.setValue(invoiceId);
@@ -121,10 +106,23 @@ public class InvoiceController {
             printerService.printDocument(invoiceDocument);
             printResult.setSuccess(true);
         } catch (Exception e) {
-            printResult.setSuccess(false);
-            printResult.getMessages().add(ExceptionUtil.getStackTrace(e));
+            return createCrudsError(e);
         }
 
         return printResult;
+    }
+
+    private SearchResult<InvoiceDTO> createSearchError(Exception e) {
+        SearchResult<InvoiceDTO> failure = new SearchResult<InvoiceDTO>();
+        failure.setSuccess(false);
+        failure.getMessages().add(e.getMessage());
+        return failure;
+    }
+
+    private CrudsResult createCrudsError(Exception e) {
+        CrudsResult failure = new CrudsResult();
+        failure.setSuccess(false);
+        failure.getMessages().add(e.getMessage());
+        return failure;
     }
 }

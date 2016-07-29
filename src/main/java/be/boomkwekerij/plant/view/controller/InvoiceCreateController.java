@@ -240,7 +240,7 @@ public class InvoiceCreateController implements Initializable {
         invoiceNumber.setText(invoiceDTO.getInvoiceNumber());
         DateTime invoiceDTODate = invoiceDTO.getDate();
         invoiceDate.setValue(LocalDate.of(invoiceDTODate.getYear(), invoiceDTODate.getMonthOfYear(), invoiceDTODate.getDayOfMonth()));
-        invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
+        resetInvoiceLine();
         btw.setText(Double.toString(invoiceDTO.getBtw()));
     }
 
@@ -318,7 +318,11 @@ public class InvoiceCreateController implements Initializable {
             invoiceDTO.setCustomer(selectedCustomerDTO);
             invoiceDTO.setInvoiceNumber(invoiceNumber.getText());
             LocalDate invoiceDate = this.invoiceDate.getValue();
-            invoiceDTO.setDate(new DateTime(invoiceDate.getYear(), invoiceDate.getMonthValue(), invoiceDate.getDayOfMonth(), 0, 0, 0, 0));
+            if (invoiceDate != null) {
+                invoiceDTO.setDate(new DateTime(invoiceDate.getYear(), invoiceDate.getMonthValue(), invoiceDate.getDayOfMonth(), 0, 0, 0, 0));
+            } else {
+                invoiceDTO.setDate(null);
+            }
             for (Node node : createdInvoiceLines.getChildren()) {
                 HBox createdInvoiceLine = (HBox) node;
                 ObservableList<Node> children = createdInvoiceLine.getChildren();
@@ -343,6 +347,7 @@ public class InvoiceCreateController implements Initializable {
                 invoiceDTO.getInvoiceLines().add(invoiceLineDTO);
             }
             invoiceDTO.setBtw(Double.parseDouble(btw.getText()));
+            invoiceDTO.setPayed(false);
 
             CrudsResult invoiceCreateResult = invoiceController.createInvoice(invoiceDTO);
             if (invoiceCreateResult.isSuccess()) {

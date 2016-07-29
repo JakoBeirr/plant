@@ -28,7 +28,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             searchResult.addResult(invoice);
         } catch (Exception e) {
             searchResult.setSuccess(false);
-            searchResult.addMessage(ExceptionUtil.getStackTrace(e));
+            searchResult.addMessage(e.getMessage());
         }
 
         return searchResult;
@@ -51,7 +51,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             searchResult.setSuccess(true);
         } catch (Exception e) {
             searchResult.setSuccess(false);
-            searchResult.addMessage(ExceptionUtil.getStackTrace(e));
+            searchResult.addMessage(e.getMessage());
         }
 
         return searchResult;
@@ -75,7 +75,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             }
         } catch (Exception e) {
             crudsResult.setSuccess(false);
-            crudsResult.addMessage(ExceptionUtil.getStackTrace(e));
+            crudsResult.addMessage(e.getMessage());
         }
 
         return crudsResult;
@@ -98,7 +98,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             }
         } catch (Exception e) {
             crudsResult.setSuccess(false);
-            crudsResult.addMessage(ExceptionUtil.getStackTrace(e));
+            crudsResult.addMessage(e.getMessage());
         }
 
         return crudsResult;
@@ -114,7 +114,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             crudsResult.setValue(id);
         } catch (Exception e) {
             crudsResult.setSuccess(false);
-            crudsResult.addMessage(ExceptionUtil.getStackTrace(e));
+            crudsResult.addMessage(e.getMessage());
         }
 
         return crudsResult;
@@ -134,7 +134,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             }
         } catch (Exception e) {
             crudsResult.setSuccess(false);
-            crudsResult.addMessage(ExceptionUtil.getStackTrace(e));
+            crudsResult.addMessage(e.getMessage());
         }
 
         return crudsResult;

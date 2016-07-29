@@ -1,68 +1,55 @@
+<?import be.boomkwekerij.plant.view.helper.CheckboxCellFactory?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.InvoiceCreateController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.InvoiceModifyController">
 
     <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <VBox styleClass="center-pane" spacing="5">
-            <Label styleClass="paneTitle" text="Klant Aanmaken"/>
+            <Label styleClass="paneTitle" text="Factuur Bewerken"/>
 
-            <TextField fx:id="customerSearchField" promptText="Klant zoeken..."/>
+            <TextField fx:id="searchField" promptText="Zoeken..."/>
 
-            <TableView fx:id="customerList" fixedCellSize="25" prefHeight="150">
+            <TableView fx:id="invoiceList" fixedCellSize="25" prefHeight="150">
                 <columns>
-                    <TableColumn fx:id="name1" text="Naam 1" prefWidth="200">
+                    <TableColumn fx:id="customerName" text="Klant" prefWidth="250">
                         <cellValueFactory>
-                            <PropertyValueFactory property="name1" />
+                            <PropertyValueFactory property="customerName" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="name2" text="Naam 2" prefWidth="200">
+                    <TableColumn fx:id="invoiceNumber" text="Factuurnummer" prefWidth="150">
                         <cellValueFactory>
-                            <PropertyValueFactory property="name2" />
+                            <PropertyValueFactory property="invoiceNumber" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="address1" text="Adres" prefWidth="250">
+                    <TableColumn fx:id="date" text="Datum" prefWidth="100">
                         <cellValueFactory>
-                            <PropertyValueFactory property="address1" />
+                            <PropertyValueFactory property="date" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="postalCode" text="Postcode" prefWidth="75">
+                    <TableColumn fx:id="totalPrice" text="Totaal" prefWidth="100">
                         <cellValueFactory>
-                            <PropertyValueFactory property="postalCode" />
+                            <PropertyValueFactory property="totalPrice" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="residence" text="Woonplaats" prefWidth="150">
+                    <TableColumn fx:id="payed" text="Betaald" prefWidth="100">
                         <cellValueFactory>
-                            <PropertyValueFactory property="residence" />
+                            <PropertyValueFactory property="payed" />
                         </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="country" text="Land" prefWidth="50">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="country" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="telephone" text="Telefoon" prefWidth="100">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="telephone" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="btwNumber" text="BTW nummer" prefWidth="150">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="btwNumber" />
-                        </cellValueFactory>
+                        <cellFactory><CheckboxCellFactory /></cellFactory>
                     </TableColumn>
                 </columns>
             </TableView>
 
-            <Button fx:id="startCreateInvoiceButton" mnemonicParsing="false" text="Maak factuur" onAction="#startInvoiceCreation" visible="false" styleClass="blue-button" />
+            <Button fx:id="startUpdateInvoiceButton" mnemonicParsing="false" text="Bewerk factuur" onAction="#startInvoiceUpdate" visible="false" styleClass="blue-button" />
 
-            <GridPane fx:id="createInvoicePane" styleClass="modifyPane" visible="false" hgap="10" vgap="10">
+            <GridPane fx:id="updateInvoicePane" styleClass="modifyPane" visible="false" hgap="10" vgap="10">
                 <Label id="labelCustomer" text="Klant:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="customer" disable="true" prefColumnCount="30" GridPane.fillWidth="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                 <Label id="labelInvoiceNumber" text="Factuurnummer:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <TextField fx:id="invoiceNumber" disable="true" prefColumnCount="30" GridPane.fillWidth="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <TextField fx:id="invoiceNumberField" disable="true" prefColumnCount="30" GridPane.fillWidth="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                 <Label id="labelInvoiceDate" text="Datum:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <DatePicker fx:id="invoiceDate" GridPane.rowIndex="2" GridPane.fillWidth="false" GridPane.columnIndex="1"/>
@@ -137,7 +124,7 @@
 
                 <Label id="labelRow" text="" GridPane.rowIndex="7"/>
 
-                <Button id="createButton" mnemonicParsing="false" onMouseClicked="#createInvoice" text="Aanmaken" GridPane.rowIndex="8" GridPane.columnIndex="1" styleClass="green-button" />
+                <Button id="updateButton" mnemonicParsing="false" onMouseClicked="#updateInvoice" text="Bewerken" GridPane.rowIndex="8" GridPane.columnIndex="1" styleClass="green-button" />
             </GridPane>
         </VBox>
     </ScrollPane>

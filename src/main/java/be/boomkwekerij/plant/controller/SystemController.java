@@ -38,14 +38,14 @@ public class SystemController {
     private SearchResult<SystemDTO> createSearchError(Exception e) {
         SearchResult<SystemDTO> failure = new SearchResult<SystemDTO>();
         failure.setSuccess(false);
-        failure.getMessages().add(ExceptionUtil.getStackTrace(e));
+        failure.getMessages().add(e.getMessage());
         return failure;
     }
 
     private CrudsResult createCrudsError(Exception e) {
         CrudsResult failure = new CrudsResult();
         failure.setSuccess(false);
-        failure.getMessages().add(ExceptionUtil.getStackTrace(e));
+        failure.getMessages().add(e.getMessage());
         return failure;
     }
 }
