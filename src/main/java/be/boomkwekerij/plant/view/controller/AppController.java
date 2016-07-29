@@ -119,7 +119,7 @@ public class AppController implements Initializable {
             fieldPane.add(new Label("GSM:"), 0, 4);
             fieldPane.add(gsmField, 1, 4);
             TextField accountNumberBelgiumField = new TextField();
-            fieldPane.add(new Label("Kaartnummer BE:"), 0, 5);
+            fieldPane.add(new Label("KBC:"), 0, 5);
             fieldPane.add(accountNumberBelgiumField, 1, 5);
             TextField ibanBelgiumField = new TextField();
             fieldPane.add(new Label("IBAN BE:"), 0, 6);
@@ -128,7 +128,7 @@ public class AppController implements Initializable {
             fieldPane.add(new Label("BIC BE:"), 0, 7);
             fieldPane.add(bicBelgiumField, 1, 7);
             TextField accountNumberNetherlandsField = new TextField();
-            fieldPane.add(new Label("Kaartnummer NL:"), 0, 8);
+            fieldPane.add(new Label("Rabobank Zundert:"), 0, 8);
             fieldPane.add(accountNumberNetherlandsField, 1, 8);
             TextField ibanNetherlandsField = new TextField();
             fieldPane.add(new Label("IBAN NL:"), 0, 9);

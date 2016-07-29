@@ -110,19 +110,23 @@ public class InvoiceListController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends InvoiceViewModel> observable, InvoiceViewModel oldValue, InvoiceViewModel newValue) {
                 if (newValue != null) {
-                    payButton.setManaged(!newValue.getPayed());
                     payButton.setVisible(!newValue.getPayed());
-                    unPayButton.setManaged(newValue.getPayed());
+                    payButton.setManaged(!newValue.getPayed());
                     unPayButton.setVisible(newValue.getPayed());
+                    unPayButton.setManaged(newValue.getPayed());
                     printButton.setVisible(true);
+                    printButton.setManaged(true);
                     deleteButton.setVisible(true);
+                    deleteButton.setManaged(true);
                 } else {
-                    payButton.setManaged(false);
                     payButton.setVisible(false);
-                    unPayButton.setManaged(false);
+                    payButton.setManaged(false);
                     unPayButton.setVisible(false);
+                    unPayButton.setManaged(false);
                     printButton.setVisible(false);
+                    printButton.setManaged(false);
                     deleteButton.setVisible(false);
+                    deleteButton.setManaged(false);
                 }
             }
         });
@@ -151,7 +155,7 @@ public class InvoiceListController implements Initializable {
         CrudsResult printResult = invoiceController.printInvoiceDocument(selectedInvoice.getId());
 
         if (printResult.isSuccess()) {
-            AlertController.alertSuccess("Factuur aangemaakt!");
+            AlertController.alertSuccess("Factuur klaar!");
         } else {
             handlePrintError(printResult.getMessages());
         }

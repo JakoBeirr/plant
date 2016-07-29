@@ -5,7 +5,8 @@ public class InvoiceLineReportObject {
     private String invoiceLineDate;
     private Integer plantAmount;
     private String plantSpecies;
-    private String plantAgeAndMeasure;
+    private String plantAge;
+    private String plantMeasure;
     private String price;
     private String totalPrice;
 
@@ -33,12 +34,20 @@ public class InvoiceLineReportObject {
         this.plantSpecies = plantSpecies;
     }
 
-    public String getPlantAgeAndMeasure() {
-        return plantAgeAndMeasure;
+    public String getPlantAge() {
+        return plantAge;
     }
 
-    public void setPlantAgeAndMeasure(String plantAgeAndMeasure) {
-        this.plantAgeAndMeasure = plantAgeAndMeasure;
+    public void setPlantAge(String plantAge) {
+        this.plantAge = plantAge;
+    }
+
+    public String getPlantMeasure() {
+        return plantMeasure;
+    }
+
+    public void setPlantMeasure(String plantMeasure) {
+        this.plantMeasure = plantMeasure;
     }
 
     public String getPrice() {

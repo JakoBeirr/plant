@@ -57,7 +57,8 @@ public class InvoiceLineMapper {
         invoiceLineReportObject.setInvoiceLineDate(DateUtils.formatDate(invoiceLineDTO.getDate(), DateFormatPattern.DATE_NOYEAR_FORMAT));
         invoiceLineReportObject.setPlantAmount(invoiceLineDTO.getAmount());
         invoiceLineReportObject.setPlantSpecies(invoiceLineDTO.getPlant().getName());
-        invoiceLineReportObject.setPlantAgeAndMeasure(invoiceLineDTO.getPlant().getAge() + "/" + invoiceLineDTO.getPlant().getMeasure());
+        invoiceLineReportObject.setPlantAge(invoiceLineDTO.getPlant().getAge());
+        invoiceLineReportObject.setPlantMeasure(invoiceLineDTO.getPlant().getMeasure());
         invoiceLineReportObject.setPrice(NumberUtils.formatDouble(invoiceLineDTO.getPrice(), 3));
         invoiceLineReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceLineDTO.getTotalPrice(), 2));
         return invoiceLineReportObject;

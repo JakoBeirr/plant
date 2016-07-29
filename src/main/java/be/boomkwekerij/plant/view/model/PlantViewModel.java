@@ -9,7 +9,7 @@ public class PlantViewModel {
     private final SimpleStringProperty name = new SimpleStringProperty("");
     private final SimpleStringProperty age = new SimpleStringProperty("");
     private final SimpleStringProperty measure = new SimpleStringProperty("");
-    private final SimpleDoubleProperty price = new SimpleDoubleProperty(0.0);
+    private final SimpleStringProperty price = new SimpleStringProperty("");
 
     public String getId() {
         return id.get();
@@ -59,15 +59,15 @@ public class PlantViewModel {
         this.measure.set(measure);
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price.get();
     }
 
-    public SimpleDoubleProperty priceProperty() {
+    public SimpleStringProperty priceProperty() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price.set(price);
     }
 }

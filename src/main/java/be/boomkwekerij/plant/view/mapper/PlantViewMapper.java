@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.view.mapper;
 
 import be.boomkwekerij.plant.model.dto.PlantDTO;
+import be.boomkwekerij.plant.util.NumberUtils;
 import be.boomkwekerij.plant.view.model.PlantViewModel;
 
 public class PlantViewMapper {
@@ -11,7 +12,7 @@ public class PlantViewMapper {
         plantViewModel.setName(plantDTO.getName());
         plantViewModel.setAge(plantDTO.getAge());
         plantViewModel.setMeasure(plantDTO.getMeasure());
-        plantViewModel.setPrice(plantDTO.getPrice());
+        plantViewModel.setPrice(NumberUtils.formatDouble(plantDTO.getPrice(), 2));
         return plantViewModel;
     }
 }

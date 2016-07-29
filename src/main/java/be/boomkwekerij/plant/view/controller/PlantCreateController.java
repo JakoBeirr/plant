@@ -27,7 +27,7 @@ public class PlantCreateController implements Initializable {
     @FXML
     private TextField price;
 
-    private static final String NON_NUMERIC_CHARACTERS = "[^\\d.]";
+    private static final String NON_DECIMAL_NUMERIC_CHARACTERS = "[^\\d.]";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -39,7 +39,7 @@ public class PlantCreateController implements Initializable {
         price.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                price.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+                price.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
             }
         });
     }

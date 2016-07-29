@@ -6,11 +6,11 @@
 
     <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <VBox styleClass="center-pane" spacing="5">
-            <Label styleClass="paneTitle" text="Klant Aanmaken"/>
+            <Label styleClass="paneTitle" text="Factuur Aanmaken"/>
 
-            <TextField fx:id="customerSearchField" promptText="Klant zoeken..."/>
+            <TextField fx:id="customerSearchField" promptText="Klant zoeken..." maxWidth="1177" />
 
-            <TableView fx:id="customerList" fixedCellSize="25" prefHeight="150">
+            <TableView fx:id="customerList" fixedCellSize="25" maxWidth="1177" prefHeight="150">
                 <columns>
                     <TableColumn fx:id="name1" text="Naam 1" prefWidth="200">
                         <cellValueFactory>
@@ -76,26 +76,26 @@
                     <VBox spacing="5">
                         <Label text="Plant:" />
 
-                        <TextField fx:id="plantSearchField" prefColumnCount="45" promptText="Plant zoeken..." />
+                        <TextField fx:id="plantSearchField" prefColumnCount="45" promptText="Plant zoeken..." maxWidth="527" />
 
-                        <TableView fx:id="plantList" visible="false" managed="false" fixedCellSize="25" prefHeight="150">
+                        <TableView fx:id="plantList" visible="false" managed="false" fixedCellSize="25" maxWidth="527" prefHeight="135">
                             <columns>
-                                <TableColumn fx:id="name" text="Naam" prefWidth="200">
+                                <TableColumn fx:id="name" text="Naam" prefWidth="250">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="name" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="age" text="Leeftijd" prefWidth="125">
+                                <TableColumn fx:id="age" text="Leeftijd" prefWidth="100">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="age" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="measure" text="Maat" prefWidth="125">
+                                <TableColumn fx:id="measure" text="Maat" prefWidth="100">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="measure" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="price" text="Prijs" prefWidth="73">
+                                <TableColumn fx:id="price" text="Prijs" prefWidth="75">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="price" />
                                     </cellValueFactory>

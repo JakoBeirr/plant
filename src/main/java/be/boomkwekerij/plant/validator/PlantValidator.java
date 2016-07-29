@@ -19,8 +19,6 @@ public class PlantValidator {
 
     private void validateRequiredFields(PlantDTO plant, List<String> validationErrors) {
         validateRequiredField("naam", plant.getName(), validationErrors);
-        validateRequiredField("leeftijd", plant.getAge(), validationErrors);
-        validateRequiredField("maat", plant.getMeasure(), validationErrors);
         if (plant.getPrice() == 0.0) {
             validationErrors.add(REQUIRED_FIELD + "prijs");
         }

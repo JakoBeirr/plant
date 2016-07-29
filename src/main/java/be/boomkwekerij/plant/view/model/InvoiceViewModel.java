@@ -10,7 +10,7 @@ public class InvoiceViewModel {
     private SimpleStringProperty customerName = new SimpleStringProperty("");
     private SimpleStringProperty invoiceNumber = new SimpleStringProperty("");
     private SimpleStringProperty date = new SimpleStringProperty("");
-    private SimpleDoubleProperty totalPrice = new SimpleDoubleProperty(0.0);
+    private SimpleStringProperty totalPrice = new SimpleStringProperty("");
     private SimpleBooleanProperty payed = new SimpleBooleanProperty(false);
 
     public String getId() {
@@ -61,15 +61,15 @@ public class InvoiceViewModel {
         this.date.set(date);
     }
 
-    public double getTotalPrice() {
+    public String getTotalPrice() {
         return totalPrice.get();
     }
 
-    public SimpleDoubleProperty totalPriceProperty() {
+    public SimpleStringProperty totalPriceProperty() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(String totalPrice) {
         this.totalPrice.set(totalPrice);
     }
 

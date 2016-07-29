@@ -44,13 +44,13 @@ public class CustomerMapper {
 
     public CustomerReportObject mapDTOToReportObject(CustomerDTO customerDTO) {
         CustomerReportObject customerReportObject = new CustomerReportObject();
-        customerReportObject.setName1(getReportObjectValue(customerDTO.getName1()));
-        customerReportObject.setName2(getReportObjectValue(customerDTO.getName2()));
-        customerReportObject.setAddress1(getReportObjectValue(customerDTO.getAddress1()));
-        customerReportObject.setAddress2(getReportObjectValue(customerDTO.getAddress2()));
-        customerReportObject.setPostalCode(getReportObjectValue(customerDTO.getPostalCode()));
-        customerReportObject.setResidence(getReportObjectValue(customerDTO.getResidence()));
-        customerReportObject.setBtwNumber(getReportObjectValue(customerDTO.getBtwNumber()));
+        customerReportObject.setName1(getReportObjectValue(customerDTO.getName1()).toUpperCase());
+        customerReportObject.setName2(getReportObjectValue(customerDTO.getName2()).toUpperCase());
+        customerReportObject.setAddress1(getReportObjectValue(customerDTO.getAddress1()).toUpperCase());
+        customerReportObject.setAddress2(getReportObjectValue(customerDTO.getAddress2()).toUpperCase());
+        customerReportObject.setPostalCode(getReportObjectValue(customerDTO.getPostalCode()).toUpperCase());
+        customerReportObject.setResidence(getReportObjectValue(customerDTO.getResidence()).toUpperCase());
+        customerReportObject.setBtwNumber(getReportObjectValue(customerDTO.getBtwNumber()).toUpperCase());
         return customerReportObject;
     }
 

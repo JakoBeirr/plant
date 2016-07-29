@@ -11,10 +11,10 @@
                 <Label id="labelName" text="Naam*:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="name" prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-                <Label id="labelAge" text="Leeftijd*:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label id="labelAge" text="Leeftijd:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <TextField fx:id="age" prefColumnCount="30" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-                <Label id="labelMeasure" text="Maat*:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label id="labelMeasure" text="Maat:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <TextField fx:id="measure" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
                 <Label id="labelPrice" text="Prijs*:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>

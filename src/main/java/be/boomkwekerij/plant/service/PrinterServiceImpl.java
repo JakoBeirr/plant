@@ -20,5 +20,6 @@ public class PrinterServiceImpl implements PrinterService {
         PrinterJob job = PrinterJob.getPrinterJob();
         job.setPageable(new PDFPageable(document));
         job.print();
+        document.close();
     }
 }

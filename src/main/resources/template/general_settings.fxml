@@ -42,7 +42,7 @@
                         <Label text="GSM*:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
                         <TextField fx:id="gsm" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="1" />
 
-                        <Label text="Kaartnummer BE*:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+                        <Label text="KBC*:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
                         <TextField fx:id="accountNumberBelgium" prefColumnCount="30" GridPane.rowIndex="7" GridPane.columnIndex="1" />
 
                         <Label text="IBAN BE*:" GridPane.rowIndex="8" GridPane.columnIndex="0" />
@@ -51,7 +51,7 @@
                         <Label text="BIC BE*:" GridPane.rowIndex="9" GridPane.columnIndex="0" />
                         <TextField fx:id="bicBelgium" prefColumnCount="30" GridPane.rowIndex="9" GridPane.columnIndex="1" />
 
-                        <Label text="Kaartnummer NL*:" GridPane.rowIndex="10" GridPane.columnIndex="0" />
+                        <Label text="Rabobank Zundert*:" GridPane.rowIndex="10" GridPane.columnIndex="0" />
                         <TextField fx:id="accountNumberNetherlands" prefColumnCount="30" GridPane.rowIndex="10" GridPane.columnIndex="1" />
 
                         <Label text="IBAN NL*:" GridPane.rowIndex="11" GridPane.columnIndex="0" />

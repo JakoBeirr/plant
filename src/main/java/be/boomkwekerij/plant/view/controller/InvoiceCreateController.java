@@ -104,11 +104,15 @@ public class InvoiceCreateController implements Initializable {
     @FXML
     private TextField btw;
 
+    private static final String NON_NUMERIC_CHARACTERS = "[^\\d]";
+    private static final String NON_DECIMAL_NUMERIC_CHARACTERS = "[^\\d.]";
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadAllCustomers();
         addChangeListenerToSearchFields();
         addChangeListenersToList();
+        initNumericFields();
     }
 
     private void loadAllCustomers() {
@@ -225,6 +229,27 @@ public class InvoiceCreateController implements Initializable {
         });
     }
 
+    private void initNumericFields() {
+        amount.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                amount.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+            }
+        });
+        alternativePlantPrice.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                alternativePlantPrice.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+            }
+        });
+        btw.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                btw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+            }
+        });
+    }
+
     public void startInvoiceCreation(ActionEvent actionEvent) {
         customerList.setDisable(true);
         customerSearchField.setDisable(true);
@@ -248,8 +273,8 @@ public class InvoiceCreateController implements Initializable {
         PlantViewModel selectedPlant = plantList.getSelectionModel().getSelectedItem();
 
         chosenPlant.setText(selectedPlant.getId());
-        plantSearchField.setText(selectedPlant.getName());
-        alternativePlantPrice.setText(Double.toString(selectedPlant.getPrice()));
+        plantSearchField.setText(selectedPlant.getName() + "    (" + selectedPlant.getAge() + " - " + selectedPlant.getMeasure() + ")");
+        alternativePlantPrice.setText(selectedPlant.getPrice().replaceAll(",", "."));
         plantList.setVisible(false);
         plantList.setManaged(false);
         plantSearchField.setDisable(true);

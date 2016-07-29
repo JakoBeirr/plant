@@ -8,9 +8,9 @@
         <VBox styleClass="center-pane" spacing="5">
             <Label styleClass="paneTitle" text="Klant Bewerken"/>
 
-            <TextField fx:id="searchField" promptText="Zoeken..."/>
+            <TextField fx:id="searchField" promptText="Zoeken..." maxWidth="1177" />
 
-            <TableView fx:id="customerList" fixedCellSize="25" prefHeight="150">
+            <TableView fx:id="customerList" fixedCellSize="25" maxWidth="1177" prefHeight="150">
                 <columns>
                     <TableColumn fx:id="name1" text="Naam 1" prefWidth="200">
                         <cellValueFactory>
