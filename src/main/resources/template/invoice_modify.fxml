@@ -9,9 +9,9 @@
         <VBox styleClass="center-pane" spacing="5">
             <Label styleClass="paneTitle" text="Factuur Bewerken"/>
 
-            <TextField fx:id="searchField" promptText="Zoeken..."/>
+            <TextField fx:id="searchField" promptText="Zoeken..." maxWidth="702" />
 
-            <TableView fx:id="invoiceList" fixedCellSize="25" prefHeight="150">
+            <TableView fx:id="invoiceList" fixedCellSize="25" maxWidth="702" prefHeight="150">
                 <columns>
                     <TableColumn fx:id="customerName" text="Klant" prefWidth="250">
                         <cellValueFactory>
