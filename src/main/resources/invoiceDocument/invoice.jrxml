@@ -351,7 +351,7 @@ geschillenregeling door arbitrage, maakt deel uit van de
 algemene verkoops voorwaarden, op keerzijde vermeld."]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="70" width="495" height="40" uuid="617ddce7-5b94-4307-b7cb-8718f5d838e6">
+				<reportElement x="0" y="70" width="495" height="45" uuid="617ddce7-5b94-4307-b7cb-8718f5d838e6">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -360,8 +360,8 @@ algemene verkoops voorwaarden, op keerzijde vermeld."]]></text>
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[EG-PLANTENPASPOORT.BE
-FAVV-PRIMAIRE PLANTAARDIGE PRODUKTIE
+				<text><![CDATA[EG-PLANTENPASPOORT-BE
+FAVV PRIMAIRE PLANTAARDIGE PRODUKTIE
 REGNR 40121	EG KWALITEIT	BE-ALV]]></text>
 			</staticText>
 		</band>
