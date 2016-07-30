@@ -86,7 +86,7 @@ public class InvoicePDFCreator {
         parameters.put("company", company);
         parameters.put("customer", customer);
         parameters.put("invoice", invoice);
-        parameters.put("logo", ClassLoader.getSystemResourceAsStream("invoiceDocument/logo.jpg"));
+        parameters.put("logo", ClassLoader.getSystemResourceAsStream("invoiceDocument/logo.png"));
         return parameters;
     }
 
@@ -95,7 +95,7 @@ public class InvoicePDFCreator {
         parameters.put("company", company);
         parameters.put("customer", customer);
         parameters.put("invoice", invoice);
-        parameters.put("logo", ClassLoader.getSystemResourceAsStream("invoiceDocument/logo.jpg"));
+        parameters.put("logo", ClassLoader.getSystemResourceAsStream("invoiceDocument/logo.png"));
         return parameters;
     }
 
