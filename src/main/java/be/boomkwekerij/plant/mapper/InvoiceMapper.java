@@ -4,7 +4,8 @@ import be.boomkwekerij.plant.model.dto.CustomerDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
 import be.boomkwekerij.plant.model.report.InvoiceLineReportObject;
-import be.boomkwekerij.plant.model.report.InvoiceReportObject;
+import be.boomkwekerij.plant.model.report.MultiplePagedInvoiceReportObject;
+import be.boomkwekerij.plant.model.report.OnePagedInvoiceReportObject;
 import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.model.repository.InvoiceLine;
 import be.boomkwekerij.plant.service.CustomerService;
@@ -109,22 +110,59 @@ public class InvoiceMapper {
         return subTotal + btwAmount;
     }
 
-    public InvoiceReportObject mapDTOToReportObject(InvoiceDTO invoiceDTO) {
-        InvoiceReportObject invoiceReportObject = new InvoiceReportObject();
-        invoiceReportObject.setInvoiceDate(DateUtils.formatDate(invoiceDTO.getDate(), DateFormatPattern.DATE_FORMAT));
-        invoiceReportObject.setInvoiceNumber(invoiceDTO.getInvoiceNumber());
+    public OnePagedInvoiceReportObject mapDTOToOnePagedReportObject(InvoiceDTO invoiceDTO) {
+        OnePagedInvoiceReportObject onePagedInvoiceReportObject = new OnePagedInvoiceReportObject();
+        onePagedInvoiceReportObject.setInvoiceDate(DateUtils.formatDate(invoiceDTO.getDate(), DateFormatPattern.DATE_FORMAT));
+        onePagedInvoiceReportObject.setInvoiceNumber(invoiceDTO.getInvoiceNumber());
         List<InvoiceLineDTO> invoiceLines = invoiceDTO.getInvoiceLines();
         sortInvoiceLinesByDate(invoiceLines);
         for (InvoiceLineDTO invoiceLineDTO : invoiceLines) {
             InvoiceLineReportObject invoiceLineReportObject = invoiceLineMapper.mapDTOToReportObject(invoiceLineDTO);
-            invoiceReportObject.getInvoiceLines().add(invoiceLineReportObject);
+            onePagedInvoiceReportObject.getInvoiceLines().add(invoiceLineReportObject);
         }
-        removeUnnecessaryDates(invoiceReportObject.getInvoiceLines());
-        invoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
-        invoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()*100), 2));
-        invoiceReportObject.setBtwAmount(NumberUtils.formatDouble(invoiceDTO.getBtwAmount(), 2));
-        invoiceReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceDTO.getTotalPrice(), 2));
-        return invoiceReportObject;
+        removeUnnecessaryDates(onePagedInvoiceReportObject.getInvoiceLines());
+        onePagedInvoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
+        onePagedInvoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()*100), 2));
+        onePagedInvoiceReportObject.setBtwAmount(NumberUtils.formatDouble(invoiceDTO.getBtwAmount(), 2));
+        onePagedInvoiceReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceDTO.getTotalPrice(), 2));
+        return onePagedInvoiceReportObject;
+    }
+
+    public List<MultiplePagedInvoiceReportObject> mapDTOToMultiplePagedReportObject(InvoiceDTO invoiceDTO, int amountOfPages) {
+        List<MultiplePagedInvoiceReportObject> multiplePagedInvoiceReportObjects = new ArrayList<>();
+        for (int i = 1; i <= amountOfPages; i++) {
+            MultiplePagedInvoiceReportObject multiplePagedInvoiceReportObject = new MultiplePagedInvoiceReportObject();
+            multiplePagedInvoiceReportObject.setInvoiceDate(DateUtils.formatDate(invoiceDTO.getDate(), DateFormatPattern.DATE_FORMAT));
+            multiplePagedInvoiceReportObject.setInvoiceNumber(invoiceDTO.getInvoiceNumber());
+            List<InvoiceLineDTO> invoiceLines = getInvoiceLinesToMap(invoiceDTO, i);
+            sortInvoiceLinesByDate(invoiceLines);
+            for (InvoiceLineDTO invoiceLineDTO : invoiceLines) {
+                InvoiceLineReportObject invoiceLineReportObject = invoiceLineMapper.mapDTOToReportObject(invoiceLineDTO);
+                multiplePagedInvoiceReportObject.getInvoiceLines().add(invoiceLineReportObject);
+            }
+            if (i == 1) {
+                multiplePagedInvoiceReportObject.setTransportPreviousPage(NumberUtils.formatDouble(0.0, 2));
+            } else {
+                List<InvoiceLineDTO> previousPageInvoiceLines = getInvoiceLinesToMap(invoiceDTO, i-1);
+                multiplePagedInvoiceReportObject.setTransportPreviousPage(NumberUtils.formatDouble(countSubTotal(previousPageInvoiceLines), 2));
+            }
+            multiplePagedInvoiceReportObject.setTransportCurrentPage(NumberUtils.formatDouble(countSubTotal(invoiceLines), 2));
+            removeUnnecessaryDates(multiplePagedInvoiceReportObject.getInvoiceLines());
+            multiplePagedInvoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
+            multiplePagedInvoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()*100), 2));
+            multiplePagedInvoiceReportObject.setBtwAmount(NumberUtils.formatDouble(invoiceDTO.getBtwAmount(), 2));
+            multiplePagedInvoiceReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceDTO.getTotalPrice(), 2));
+            multiplePagedInvoiceReportObjects.add(multiplePagedInvoiceReportObject);
+        }
+        return multiplePagedInvoiceReportObjects;
+    }
+
+    private List<InvoiceLineDTO> getInvoiceLinesToMap(InvoiceDTO invoiceDTO, int pageCount) {
+        int fromIndex = (pageCount - 1) * 16;
+        int expectedToIndex = pageCount * 16;
+        int maximumToIndex = invoiceDTO.getInvoiceLines().size();
+        int toIndex = expectedToIndex > maximumToIndex ? maximumToIndex : expectedToIndex;
+        return invoiceDTO.getInvoiceLines().subList(fromIndex, toIndex);
     }
 
     private void sortInvoiceLinesByDate(List<InvoiceLineDTO> invoiceLines) {

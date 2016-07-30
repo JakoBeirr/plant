@@ -3,11 +3,13 @@ package be.boomkwekerij.plant.model.report;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InvoiceReportObject {
+public class MultiplePagedInvoiceReportObject {
 
     private String invoiceDate;
     private String invoiceNumber;
     private List<InvoiceLineReportObject> invoiceLines = new ArrayList<InvoiceLineReportObject>();
+    private String transportPreviousPage;
+    private String transportCurrentPage;
     private String subTotal;
     private String btw;
     private String btwAmount;
@@ -35,6 +37,22 @@ public class InvoiceReportObject {
 
     public void setInvoiceLines(List<InvoiceLineReportObject> invoiceLines) {
         this.invoiceLines = invoiceLines;
+    }
+
+    public String getTransportPreviousPage() {
+        return transportPreviousPage;
+    }
+
+    public void setTransportPreviousPage(String transportPreviousPage) {
+        this.transportPreviousPage = transportPreviousPage;
+    }
+
+    public String getTransportCurrentPage() {
+        return transportCurrentPage;
+    }
+
+    public void setTransportCurrentPage(String transportCurrentPage) {
+        this.transportCurrentPage = transportCurrentPage;
     }
 
     public String getSubTotal() {

@@ -6,11 +6,15 @@ import be.boomkwekerij.plant.mapper.CustomerMapper;
 import be.boomkwekerij.plant.mapper.InvoiceMapper;
 import be.boomkwekerij.plant.model.dto.CompanyDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
+import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
 import be.boomkwekerij.plant.model.report.CompanyReportObject;
 import be.boomkwekerij.plant.model.report.CustomerReportObject;
-import be.boomkwekerij.plant.model.report.InvoiceReportObject;
+import be.boomkwekerij.plant.model.report.MultiplePagedInvoiceReportObject;
+import be.boomkwekerij.plant.model.report.OnePagedInvoiceReportObject;
 import be.boomkwekerij.plant.util.InvoicePDFCreator;
 import be.boomkwekerij.plant.util.SearchResult;
+
+import java.util.List;
 
 public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
 
@@ -27,9 +31,13 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
         CompanyReportObject company = getCompany();
         InvoiceDTO invoiceDTO = getInvoice(id);
         CustomerReportObject customer = customerMapper.mapDTOToReportObject(invoiceDTO.getCustomer());
-        InvoiceReportObject invoice = invoiceMapper.mapDTOToReportObject(invoiceDTO);
+        int amountOfPages = getAmountOfPages(invoiceDTO.getInvoiceLines());
 
-        return invoicePDFCreator.createInvoicePdf(company, customer, invoice);
+        if (amountOfPages == 1) {
+            return createOnePagedInvoice(company, invoiceDTO, customer);
+        } else {
+            return createMultiplePagedInvoice(company, invoiceDTO, customer, amountOfPages);
+        }
     }
 
     private CompanyReportObject getCompany() {
@@ -51,5 +59,21 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
         }
 
         return invoiceSearchResult.getFirst();
+    }
+
+    private int getAmountOfPages(List<InvoiceLineDTO> invoiceLines) {
+        double size = (double) invoiceLines.size();
+        double max = (double) 16;
+        return (int) Math.ceil(size / max);
+    }
+
+    private byte[] createOnePagedInvoice(CompanyReportObject company, InvoiceDTO invoiceDTO, CustomerReportObject customer) throws ReportException {
+        OnePagedInvoiceReportObject invoice = invoiceMapper.mapDTOToOnePagedReportObject(invoiceDTO);
+        return invoicePDFCreator.createOnePagedInvoiceDocument(company, customer, invoice);
+    }
+
+    private byte[] createMultiplePagedInvoice(CompanyReportObject company, InvoiceDTO invoiceDTO, CustomerReportObject customer, int amountOfPages) throws ReportException {
+        List<MultiplePagedInvoiceReportObject> invoiceParts = invoiceMapper.mapDTOToMultiplePagedReportObject(invoiceDTO, amountOfPages);
+        return invoicePDFCreator.createMultiplePagedInvoiceDocument(company, customer, invoiceParts);
     }
 }
