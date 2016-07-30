@@ -1,11 +1,8 @@
 package be.boomkwekerij.plant.service;
 
-import be.boomkwekerij.plant.model.dto.InvoiceDTO;
-
-import java.awt.print.PrinterException;
-import java.io.IOException;
+import be.boomkwekerij.plant.exception.PrintException;
 
 public interface PrinterService {
 
-    void printDocument(byte[] invoiceDocument) throws IOException, PrinterException;
+    void printDocument(byte[] invoiceDocument) throws PrintException;
 }

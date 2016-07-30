@@ -263,10 +263,11 @@ public class InvoiceModifyController implements Initializable {
             invoiceDate.setValue(LocalDate.of(invoiceDTODate.getYear(), invoiceDTODate.getMonthOfYear(), invoiceDTODate.getDayOfMonth()));
             for (InvoiceLineDTO invoiceLineDTO : invoiceDTO.getInvoiceLines()) {
                 DateTime invoiceLineDate = invoiceLineDTO.getDate();
+                String plantName = invoiceLineDTO.getPlant().getName() + "    (" + invoiceLineDTO.getPlant().getAge() + " - " + invoiceLineDTO.getPlant().getMeasure() + ")";
                 LocalDate invoiceLineLocalDate = LocalDate.of(invoiceLineDate.getYear(), invoiceLineDate.getMonthOfYear(), invoiceLineDate.getDayOfMonth());
                 String amount = Integer.toString(invoiceLineDTO.getAmount());
                 String price = Double.toString(invoiceLineDTO.getPrice());
-                addCreatedInvoiceLine(invoiceLineDTO.getPlant().getId(), invoiceLineDTO.getPlant().getName(), invoiceLineLocalDate, amount, price);
+                addCreatedInvoiceLine(invoiceLineDTO.getPlant().getId(), plantName, invoiceLineLocalDate, amount, price);
             }
             resetInvoiceLine();
             btw.setText(Double.toString(invoiceDTO.getBtw()));

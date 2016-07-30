@@ -1,16 +1,10 @@
 package be.boomkwekerij.plant.util;
 
+import be.boomkwekerij.plant.exception.ReportException;
 import be.boomkwekerij.plant.model.report.CompanyReportObject;
 import be.boomkwekerij.plant.model.report.CustomerReportObject;
 import be.boomkwekerij.plant.model.report.InvoiceReportObject;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -21,15 +15,19 @@ import java.util.Map;
 
 public class InvoicePDFCreator {
 
-    public byte[] createInvoicePdf(CompanyReportObject company, CustomerReportObject customer, InvoiceReportObject invoice) throws IOException {
-        JasperReport invoiceTemplate = getTemplate();
-        JRDataSource dataSource = getDataSource();
-        Map<String, Object> parameters = getParameters(company, customer, invoice);
+    public byte[] createInvoicePdf(CompanyReportObject company, CustomerReportObject customer, InvoiceReportObject invoice) throws ReportException {
+        try {
+            JasperReport invoiceTemplate = getTemplate();
+            JRDataSource dataSource = getDataSource();
+            Map<String, Object> parameters = getParameters(company, customer, invoice);
 
-        return createPDF(invoice, invoiceTemplate, dataSource, parameters);
+            return createPDF(invoice, invoiceTemplate, dataSource, parameters);
+        } catch (JRException | IOException e) {
+            throw new ReportException(e.getMessage());
+        }
     }
 
-    private JasperReport getTemplate() {
+    private JasperReport getTemplate() throws JRException {
         InputStream invoiceTemplateStream = ClassLoader.getSystemResourceAsStream("invoiceDocument/invoice.jrxml");
         return compileStreamToReport(invoiceTemplateStream);
     }
@@ -47,17 +45,13 @@ public class InvoicePDFCreator {
         return parameters;
     }
 
-    private JasperReport compileStreamToReport(InputStream inputStream) {
+    private JasperReport compileStreamToReport(InputStream inputStream) throws JRException {
         JasperReport jasperReport = null;
-        try {
-            jasperReport = JasperCompileManager.compileReport(inputStream);
-        } catch (JRException e) {
-            e.printStackTrace();
-        }
+        jasperReport = JasperCompileManager.compileReport(inputStream);
         return jasperReport;
     }
 
-    private byte[] createPDF(InvoiceReportObject invoice, JasperReport invoiceTemplate, JRDataSource dataSource, Map<String, Object> parameters) throws IOException {
+    private byte[] createPDF(InvoiceReportObject invoice, JasperReport invoiceTemplate, JRDataSource dataSource, Map<String, Object> parameters) throws IOException, JRException {
         byte[] pdfReport = createPdfReport(invoiceTemplate, dataSource, parameters);
         File invoiceFile = new File(Initializer.getDataUri() + "/files/" + invoice.getInvoiceNumber() + ".pdf");
         if (invoiceFile.exists()) {
@@ -67,15 +61,11 @@ public class InvoicePDFCreator {
         return pdfReport;
     }
 
-    private byte[] createPdfReport(JasperReport template, JRDataSource dataSource, Map<String, Object> parameters) {
-        try {
-            JasperPrint printFile = JasperFillManager.fillReport(template, parameters, dataSource);
-            if (printFile != null) {
-                return JasperExportManager.exportReportToPdf(printFile);
-            }
-            return null;
-        } catch (JRException e) {
-            return null;
+    private byte[] createPdfReport(JasperReport template, JRDataSource dataSource, Map<String, Object> parameters) throws JRException {
+        JasperPrint printFile = JasperFillManager.fillReport(template, parameters, dataSource);
+        if (printFile != null) {
+            return JasperExportManager.exportReportToPdf(printFile);
         }
+        throw new IllegalArgumentException("Kon factuur niet aanmaken");
     }
 }

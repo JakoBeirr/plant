@@ -1,5 +1,6 @@
 package be.boomkwekerij.plant.service;
 
+import be.boomkwekerij.plant.exception.ReportException;
 import be.boomkwekerij.plant.mapper.CompanyMapper;
 import be.boomkwekerij.plant.mapper.CustomerMapper;
 import be.boomkwekerij.plant.mapper.InvoiceMapper;
@@ -10,8 +11,6 @@ import be.boomkwekerij.plant.model.report.CustomerReportObject;
 import be.boomkwekerij.plant.model.report.InvoiceReportObject;
 import be.boomkwekerij.plant.util.InvoicePDFCreator;
 import be.boomkwekerij.plant.util.SearchResult;
-
-import java.io.IOException;
 
 public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
 
@@ -24,18 +23,13 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
 
     private InvoicePDFCreator invoicePDFCreator = new InvoicePDFCreator();
 
-    public byte[] createInvoiceDocument(String id) {
+    public byte[] createInvoiceDocument(String id) throws ReportException {
         CompanyReportObject company = getCompany();
         InvoiceDTO invoiceDTO = getInvoice(id);
         CustomerReportObject customer = customerMapper.mapDTOToReportObject(invoiceDTO.getCustomer());
         InvoiceReportObject invoice = invoiceMapper.mapDTOToReportObject(invoiceDTO);
 
-        try {
-            return invoicePDFCreator.createInvoicePdf(company, customer, invoice);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return invoicePDFCreator.createInvoicePdf(company, customer, invoice);
     }
 
     private CompanyReportObject getCompany() {

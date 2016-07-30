@@ -1,14 +1,8 @@
 package be.boomkwekerij.plant.controller;
 
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
-import be.boomkwekerij.plant.service.InvoiceDocumentService;
-import be.boomkwekerij.plant.service.InvoiceDocumentServiceImpl;
-import be.boomkwekerij.plant.service.InvoiceService;
-import be.boomkwekerij.plant.service.InvoiceServiceImpl;
-import be.boomkwekerij.plant.service.PrinterService;
-import be.boomkwekerij.plant.service.PrinterServiceImpl;
+import be.boomkwekerij.plant.service.*;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.ExceptionUtil;
 import be.boomkwekerij.plant.util.SearchResult;
 
 public class InvoiceController {
