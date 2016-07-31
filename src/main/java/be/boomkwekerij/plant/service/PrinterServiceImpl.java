@@ -11,17 +11,18 @@ import java.io.IOException;
 
 public class PrinterServiceImpl implements PrinterService {
 
-    public void printDocument(byte[] invoiceDocument) throws PrintException {
+    public void printDocument(String name, byte[] invoiceDocument) throws PrintException {
         try {
             PDDocument document = PDDocument.load(invoiceDocument);
-            print(document);
+            print(name, document);
         } catch (IOException | PrinterException e) {
             throw new PrintException(e.getMessage());
         }
     }
 
-    private void print(PDDocument document) throws IOException, PrinterException {
+    private void print(String name, PDDocument document) throws IOException, PrinterException {
         PrinterJob job = PrinterJob.getPrinterJob();
+        job.setJobName(name + ".pdf");
         job.setPageable(new PDFPageable(document));
 
         Paper paper = new Paper();

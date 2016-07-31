@@ -83,7 +83,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<printWhenExpression><![CDATA[new Boolean($P{customer}.getCountry().equals(""))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[!$P{customer}.isAbroad()]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[$P{customer}.getName1() +
 				"\n" + $P{customer}.getName2() +
@@ -97,7 +97,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<printWhenExpression><![CDATA[!new Boolean($P{customer}.getCountry().equals(""))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{customer}.isAbroad()]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[$P{customer}.getName1() +
 				"\n" + $P{customer}.getName2() +

@@ -51,6 +51,7 @@ public class CustomerMapper {
         customerReportObject.setAddress2(getReportObjectValue(customerDTO.getAddress2()).toUpperCase());
         customerReportObject.setPostalCode(getReportObjectValue(customerDTO.getPostalCode()).toUpperCase());
         customerReportObject.setResidence(getReportObjectValue(customerDTO.getResidence()).toUpperCase());
+        customerReportObject.setAbroad(isAbroad(customerDTO));
         customerReportObject.setCountry(getCountry(customerDTO));
         customerReportObject.setBtwNumber(getReportObjectValue(customerDTO.getBtwNumber()).toUpperCase());
         return customerReportObject;

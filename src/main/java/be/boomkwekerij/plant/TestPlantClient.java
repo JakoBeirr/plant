@@ -4,6 +4,7 @@ import be.boomkwekerij.plant.util.Initializer;
 import be.boomkwekerij.plant.view.MultipleScreenApplicationLoader;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -31,6 +32,7 @@ public class TestPlantClient extends Application {
         MultipleScreenApplicationLoader applicationLoader = new MultipleScreenApplicationLoader();
         applicationLoader.load();
 
+        primaryStage.getIcons().add(new Image(ClassLoader.getSystemResourceAsStream("invoiceDocument/logo.png")));
         primaryStage.setTitle("Plant");
         primaryStage.setScene(getScene(applicationLoader.getRoot()));
         primaryStage.setMaximized(true);

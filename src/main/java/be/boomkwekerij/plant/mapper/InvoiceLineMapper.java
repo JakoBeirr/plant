@@ -24,8 +24,11 @@ public class InvoiceLineMapper {
         }
         invoiceLine.setDate(date.toDate());
         invoiceLine.setAmount(invoiceLineDTO.getAmount());
-        invoiceLine.setPlantId(invoiceLineDTO.getPlant().getId());
-        invoiceLine.setPrice(invoiceLineDTO.getPrice());
+        invoiceLine.setPlantId(invoiceLineDTO.getPlantId());
+        invoiceLine.setPlantName(invoiceLineDTO.getPlantName());
+        invoiceLine.setPlantAge(invoiceLineDTO.getPlantAge());
+        invoiceLine.setPlantMeasure(invoiceLineDTO.getPlantMeasure());
+        invoiceLine.setPlantPrice(invoiceLineDTO.getPlantPrice());
         return invoiceLine;
     }
 
@@ -33,33 +36,27 @@ public class InvoiceLineMapper {
         InvoiceLineDTO invoiceLineDTO = new InvoiceLineDTO();
         invoiceLineDTO.setDate(new DateTime(invoiceLine.getDate()));
         invoiceLineDTO.setAmount(invoiceLine.getAmount());
-        invoiceLineDTO.setPlant(getPlant(invoiceLine.getPlantId()));
-        invoiceLineDTO.setPrice(invoiceLine.getPrice());
+        invoiceLineDTO.setPlantId(invoiceLine.getPlantId());
+        invoiceLineDTO.setPlantName(invoiceLine.getPlantName());
+        invoiceLineDTO.setPlantAge(invoiceLine.getPlantAge());
+        invoiceLineDTO.setPlantMeasure(invoiceLine.getPlantMeasure());
+        invoiceLineDTO.setPlantPrice(invoiceLine.getPlantPrice());
         invoiceLineDTO.setTotalPrice(countTotalPrice(invoiceLine));
         return invoiceLineDTO;
     }
 
-    private PlantDTO getPlant(String plantId) {
-        SearchResult<PlantDTO> plantSearchResult = plantService.getPlant(plantId);
-
-        if (plantSearchResult.isSuccess()) {
-            return plantSearchResult.getFirst();
-        }
-        return null;
-    }
-
     private double countTotalPrice(InvoiceLine invoiceLine) {
-        return invoiceLine.getAmount() * invoiceLine.getPrice();
+        return invoiceLine.getAmount() * invoiceLine.getPlantPrice();
     }
 
     public InvoiceLineReportObject mapDTOToReportObject(InvoiceLineDTO invoiceLineDTO) {
         InvoiceLineReportObject invoiceLineReportObject = new InvoiceLineReportObject();
         invoiceLineReportObject.setInvoiceLineDate(DateUtils.formatDate(invoiceLineDTO.getDate(), DateFormatPattern.DATE_NOYEAR_FORMAT));
         invoiceLineReportObject.setPlantAmount(invoiceLineDTO.getAmount());
-        invoiceLineReportObject.setPlantSpecies(invoiceLineDTO.getPlant().getName());
-        invoiceLineReportObject.setPlantAge(invoiceLineDTO.getPlant().getAge());
-        invoiceLineReportObject.setPlantMeasure(invoiceLineDTO.getPlant().getMeasure());
-        invoiceLineReportObject.setPrice(NumberUtils.formatDouble(invoiceLineDTO.getPrice(), 3));
+        invoiceLineReportObject.setPlantSpecies(invoiceLineDTO.getPlantName());
+        invoiceLineReportObject.setPlantAge(invoiceLineDTO.getPlantAge());
+        invoiceLineReportObject.setPlantMeasure(invoiceLineDTO.getPlantMeasure());
+        invoiceLineReportObject.setPrice(NumberUtils.formatDouble(invoiceLineDTO.getPlantPrice(), 3));
         invoiceLineReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceLineDTO.getTotalPrice(), 2));
         return invoiceLineReportObject;
     }

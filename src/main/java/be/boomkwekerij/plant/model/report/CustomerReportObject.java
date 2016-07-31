@@ -8,6 +8,7 @@ public class CustomerReportObject {
     private String address2;
     private String postalCode;
     private String residence;
+    private boolean isAbroad;
     private String country;
     private String btwNumber;
 
@@ -57,6 +58,14 @@ public class CustomerReportObject {
 
     public void setResidence(String residence) {
         this.residence = residence;
+    }
+
+    public boolean isAbroad() {
+        return isAbroad;
+    }
+
+    public void setAbroad(boolean abroad) {
+        isAbroad = abroad;
     }
 
     public String getCountry() {

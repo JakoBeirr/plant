@@ -364,11 +364,14 @@ public class InvoiceCreateController implements Initializable {
                 SearchResult<PlantDTO> plantSearchResult = plantController.getPlant(createdChosenPlant.getText());
                 if (plantSearchResult.isSuccess()) {
                     PlantDTO selectedPlant = plantSearchResult.getFirst();
-                    invoiceLineDTO.setPlant(selectedPlant);
+                    invoiceLineDTO.setPlantId(selectedPlant.getId());
+                    invoiceLineDTO.setPlantName(selectedPlant.getName());
+                    invoiceLineDTO.setPlantAge(selectedPlant.getAge());
+                    invoiceLineDTO.setPlantMeasure(selectedPlant.getMeasure());
                 } else {
                     throw new ItemNotFoundException("Kon plant " + createdPlant.getText() + " niet vinden!");
                 }
-                invoiceLineDTO.setPrice(Double.parseDouble(createdPrice.getText()));
+                invoiceLineDTO.setPlantPrice(Double.parseDouble(createdPrice.getText()));
                 invoiceDTO.getInvoiceLines().add(invoiceLineDTO);
             }
             invoiceDTO.setBtw(Double.parseDouble(btw.getText()));

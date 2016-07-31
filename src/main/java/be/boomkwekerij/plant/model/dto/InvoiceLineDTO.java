@@ -6,8 +6,11 @@ public class InvoiceLineDTO {
 
     private DateTime date;
     private int amount;
-    private PlantDTO plant;
-    private double price;
+    private String plantId;
+    private String plantName;
+    private String plantAge;
+    private String plantMeasure;
+    private double plantPrice;
     private double totalPrice;
 
     public DateTime getDate() {
@@ -26,20 +29,44 @@ public class InvoiceLineDTO {
         this.amount = amount;
     }
 
-    public PlantDTO getPlant() {
-        return plant;
+    public String getPlantId() {
+        return plantId;
     }
 
-    public void setPlant(PlantDTO plant) {
-        this.plant = plant;
+    public void setPlantId(String plantId) {
+        this.plantId = plantId;
     }
 
-    public double getPrice() {
-        return price;
+    public String getPlantName() {
+        return plantName;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPlantName(String plantName) {
+        this.plantName = plantName;
+    }
+
+    public String getPlantAge() {
+        return plantAge;
+    }
+
+    public void setPlantAge(String plantAge) {
+        this.plantAge = plantAge;
+    }
+
+    public String getPlantMeasure() {
+        return plantMeasure;
+    }
+
+    public void setPlantMeasure(String plantMeasure) {
+        this.plantMeasure = plantMeasure;
+    }
+
+    public double getPlantPrice() {
+        return plantPrice;
+    }
+
+    public void setPlantPrice(double plantPrice) {
+        this.plantPrice = plantPrice;
     }
 
     public double getTotalPrice() {

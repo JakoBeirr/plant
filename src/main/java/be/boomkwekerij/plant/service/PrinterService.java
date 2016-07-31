@@ -4,5 +4,5 @@ import be.boomkwekerij.plant.exception.PrintException;
 
 public interface PrinterService {
 
-    void printDocument(byte[] invoiceDocument) throws PrintException;
+    void printDocument(String name, byte[] invoiceDocument) throws PrintException;
 }

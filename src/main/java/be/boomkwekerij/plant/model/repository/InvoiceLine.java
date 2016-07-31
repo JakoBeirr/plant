@@ -10,7 +10,10 @@ public class InvoiceLine {
     private Date date;
     private int amount;
     private String plantId;
-    private double price;
+    private String plantName;
+    private String plantAge;
+    private String plantMeasure;
+    private double plantPrice;
 
     public Date getDate() {
         return date;
@@ -39,12 +42,39 @@ public class InvoiceLine {
         this.plantId = plantId;
     }
 
-    public double getPrice() {
-        return price;
+    public String getPlantName() {
+        return plantName;
     }
 
     @XmlElement
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPlantName(String plantName) {
+        this.plantName = plantName;
+    }
+
+    public String getPlantAge() {
+        return plantAge;
+    }
+
+    @XmlElement
+    public void setPlantAge(String plantAge) {
+        this.plantAge = plantAge;
+    }
+
+    public String getPlantMeasure() {
+        return plantMeasure;
+    }
+
+    @XmlElement
+    public void setPlantMeasure(String plantMeasure) {
+        this.plantMeasure = plantMeasure;
+    }
+
+    public double getPlantPrice() {
+        return plantPrice;
+    }
+
+    @XmlElement
+    public void setPlantPrice(double plantPrice) {
+        this.plantPrice = plantPrice;
     }
 }

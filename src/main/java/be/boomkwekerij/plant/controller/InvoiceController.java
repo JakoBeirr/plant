@@ -96,9 +96,15 @@ public class InvoiceController {
         printResult.setValue(invoiceId);
 
         try {
-            byte[] invoiceDocument = invoiceDocumentService.createInvoiceDocument(invoiceId);
-            printerService.printDocument(invoiceDocument);
-            printResult.setSuccess(true);
+            SearchResult<InvoiceDTO> invoiceSearchResult = invoiceService.getInvoice(invoiceId);
+            if (invoiceSearchResult.isSuccess()) {
+                InvoiceDTO invoiceDTO = invoiceSearchResult.getFirst();
+                byte[] invoiceDocument = invoiceDocumentService.createInvoiceDocument(invoiceDTO);
+                printerService.printDocument(invoiceDTO.getInvoiceNumber(), invoiceDocument);
+                printResult.setSuccess(true);
+            } else {
+                printResult.setSuccess(false);
+            }
         } catch (Exception e) {
             return createCrudsError(e);
         }

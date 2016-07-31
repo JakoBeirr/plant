@@ -27,9 +27,8 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
 
     private InvoicePDFCreator invoicePDFCreator = new InvoicePDFCreator();
 
-    public byte[] createInvoiceDocument(String id) throws ReportException {
+    public byte[] createInvoiceDocument(InvoiceDTO invoiceDTO) throws ReportException {
         CompanyReportObject company = getCompany();
-        InvoiceDTO invoiceDTO = getInvoice(id);
         CustomerReportObject customer = customerMapper.mapDTOToReportObject(invoiceDTO.getCustomer());
         int amountOfPages = getAmountOfPages(invoiceDTO.getInvoiceLines());
 
@@ -49,16 +48,6 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
 
         CompanyDTO companyDTO = companySearchResult.getFirst();
         return companyMapper.mapDTOToReportObject(companyDTO);
-    }
-
-    private InvoiceDTO getInvoice(String id) {
-        SearchResult<InvoiceDTO> invoiceSearchResult = invoiceService.getInvoice(id);
-
-        if (invoiceSearchResult.isError()) {
-            throw new IllegalArgumentException("Invoice not found!");
-        }
-
-        return invoiceSearchResult.getFirst();
     }
 
     private int getAmountOfPages(List<InvoiceLineDTO> invoiceLines) {
