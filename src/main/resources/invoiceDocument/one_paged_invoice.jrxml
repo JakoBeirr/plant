@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-07-31T14:42:38 -->
+<!-- 2016-07-31T21:32:50 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="845" columnWidth="495" leftMargin="50" rightMargin="50" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="invoiceLines" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
@@ -257,12 +257,11 @@
 				</jr:list>
 			</componentElement>
 			<textField>
-				<reportElement key="" positionType="Float" x="400" y="29" width="95" height="30" isRemoveLineWhenBlank="true" uuid="c112b888-b3d8-4af9-8015-79757f5fd90a">
+				<reportElement key="" positionType="Float" x="400" y="29" width="95" height="30" uuid="c112b888-b3d8-4af9-8015-79757f5fd90a">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<printWhenExpression><![CDATA[!new Boolean($P{invoice}.getBtw().equals("0,00"))]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA["EUR  " + $P{invoice}.getSubTotal() + "\nEUR  " + $P{invoice}.getBtwAmount()]]></textFieldExpression>
 			</textField>
@@ -277,13 +276,12 @@
 				<textFieldExpression><![CDATA["SUBTOTAAL\nBTW " +$P{invoice}.getBtw() + "%"]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="" positionType="Float" x="400" y="24" width="95" height="1" isRemoveLineWhenBlank="true" uuid="cbb4fe1a-1a36-49f6-a19d-b1ab6e7ab638">
+				<reportElement key="" positionType="Float" x="400" y="24" width="95" height="1" uuid="cbb4fe1a-1a36-49f6-a19d-b1ab6e7ab638">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<printWhenExpression><![CDATA[!new Boolean($P{invoice}.getBtw().equals("0,00"))]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
 					<pen lineStyle="Dashed"/>
@@ -345,6 +343,16 @@
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<textFieldExpression><![CDATA["BTW-Nummer afnemer :  " +$P{customer}.getBtwNumber()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" positionType="Float" x="325" y="29" width="75" height="30" isRemoveLineWhenBlank="true" uuid="19fb2d42-52dd-4452-b530-f076ef7f0114">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<printWhenExpression><![CDATA[new Boolean($P{invoice}.getBtw().equals("0,00"))]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA["SUBTOTAAL\nBTW verlegd"]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
