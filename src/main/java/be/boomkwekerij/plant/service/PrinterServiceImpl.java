@@ -35,5 +35,7 @@ public class PrinterServiceImpl implements PrinterService {
         job.setPageable(book);
 
         job.print();
+
+        document.close();
     }
 }
