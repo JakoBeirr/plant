@@ -97,7 +97,7 @@ public class InvoiceController {
 
         try {
             byte[] invoiceDocument = invoiceDocumentService.createInvoiceDocument(invoiceId);
-            printerService.printDocument(invoiceDocument);
+            //printerService.printDocument(invoiceDocument);
             printResult.setSuccess(true);
         } catch (Exception e) {
             return createCrudsError(e);

@@ -42,7 +42,7 @@ public class InvoicePDFCreator {
             }
 
             return createPDF(invoiceParts.get(0).getInvoiceNumber(), pages);
-        } catch (JRException | IOException e) {
+        } catch (Exception e) {
             throw new ReportException(e.getMessage());
         }
     }
@@ -58,6 +58,8 @@ public class InvoicePDFCreator {
             invoiceTemplate = getFirstMultiplePagedTemplate();
         } else if (counter == invoiceParts.size()) {
             invoiceTemplate = getLastMultiplePagedTemplate();
+        } else {
+            invoiceTemplate = getMiddleMultiplePagedTemplate();
         }
         return invoiceTemplate;
     }

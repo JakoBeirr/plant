@@ -140,13 +140,8 @@ public class InvoiceMapper {
                 InvoiceLineReportObject invoiceLineReportObject = invoiceLineMapper.mapDTOToReportObject(invoiceLineDTO);
                 multiplePagedInvoiceReportObject.getInvoiceLines().add(invoiceLineReportObject);
             }
-            if (i == 1) {
-                multiplePagedInvoiceReportObject.setTransportPreviousPage(NumberUtils.formatDouble(0.0, 2));
-            } else {
-                List<InvoiceLineDTO> previousPageInvoiceLines = getInvoiceLinesToMap(invoiceDTO, i-1);
-                multiplePagedInvoiceReportObject.setTransportPreviousPage(NumberUtils.formatDouble(countSubTotal(previousPageInvoiceLines), 2));
-            }
-            multiplePagedInvoiceReportObject.setTransportCurrentPage(NumberUtils.formatDouble(countSubTotal(invoiceLines), 2));
+            multiplePagedInvoiceReportObject.setTransportPreviousPage(NumberUtils.formatDouble(getTotalPricePage(invoiceDTO, i-1), 2));
+            multiplePagedInvoiceReportObject.setTransportCurrentPage(NumberUtils.formatDouble(getTotalPricePage(invoiceDTO, i), 2));
             removeUnnecessaryDates(multiplePagedInvoiceReportObject.getInvoiceLines());
             multiplePagedInvoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
             multiplePagedInvoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()*100), 2));
@@ -157,6 +152,16 @@ public class InvoiceMapper {
         return multiplePagedInvoiceReportObjects;
     }
 
+    private void sortInvoiceLinesByDate(List<InvoiceLineDTO> invoiceLines) {
+        if (invoiceLines.size() > 0) {
+            Collections.sort(invoiceLines, new Comparator<InvoiceLineDTO>() {
+                public int compare(InvoiceLineDTO invoiceLineDTO1, InvoiceLineDTO invoiceLineDTO2) {
+                    return invoiceLineDTO1.getDate().compareTo(invoiceLineDTO2.getDate());
+                }
+            });
+        }
+    }
+
     private List<InvoiceLineDTO> getInvoiceLinesToMap(InvoiceDTO invoiceDTO, int pageCount) {
         int fromIndex = (pageCount - 1) * 16;
         int expectedToIndex = pageCount * 16;
@@ -165,13 +170,16 @@ public class InvoiceMapper {
         return invoiceDTO.getInvoiceLines().subList(fromIndex, toIndex);
     }
 
-    private void sortInvoiceLinesByDate(List<InvoiceLineDTO> invoiceLines) {
-        if (invoiceLines.size() > 0) {
-            Collections.sort(invoiceLines, new Comparator<InvoiceLineDTO>() {
-                public int compare(InvoiceLineDTO invoiceLineDTO1, InvoiceLineDTO invoiceLineDTO2) {
-                    return invoiceLineDTO1.getDate().compareTo(invoiceLineDTO2.getDate());
-                }
-            });
+    private double getTotalPricePage(InvoiceDTO invoiceDTO, int pageCount) {
+        if (pageCount == 0) {
+            return 0.0;
+        } else {
+            double totalPrice = 0.0;
+            for (int i = pageCount; i > 0; i--) {
+                List<InvoiceLineDTO> invoiceLinesOfPage = getInvoiceLinesToMap(invoiceDTO, i);
+                totalPrice += countSubTotal(invoiceLinesOfPage);
+            }
+            return totalPrice;
         }
     }
 
