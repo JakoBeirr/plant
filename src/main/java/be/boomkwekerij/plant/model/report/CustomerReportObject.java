@@ -8,7 +8,7 @@ public class CustomerReportObject {
     private String address2;
     private String postalCode;
     private String residence;
-    private String countryCode;
+    private String country;
     private String btwNumber;
 
     public String getName1() {
@@ -59,12 +59,12 @@ public class CustomerReportObject {
         this.residence = residence;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getBtwNumber() {

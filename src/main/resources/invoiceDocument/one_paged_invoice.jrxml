@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-07-31T13:13:08 -->
+<!-- 2016-07-31T14:42:38 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="845" columnWidth="495" leftMargin="50" rightMargin="50" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="invoiceLines" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
@@ -83,7 +83,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<printWhenExpression><![CDATA[!new Boolean($P{customer}.getCountryCode().equals("NL"))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[!new Boolean($P{customer}.getCountry().equals(""))]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[$P{customer}.getName1() +
 				"\n" + $P{customer}.getName2() +
@@ -92,19 +92,19 @@
 				"\n" + $P{customer}.getPostalCode() + "  " + $P{customer}.getResidence()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="295" y="115" width="200" height="85" uuid="ed086b74-ec2d-44ec-b70d-426824c92579">
+				<reportElement stretchType="RelativeToTallestObject" x="295" y="120" width="200" height="80" uuid="ed086b74-ec2d-44ec-b70d-426824c92579">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<printWhenExpression><![CDATA[new Boolean($P{customer}.getCountryCode().equals("NL"))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[new Boolean($P{customer}.getCountry().equals(""))]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[$P{customer}.getName1() +
 				"\n" + $P{customer}.getName2() +
 				"\n" + $P{customer}.getAddress1() +
 				"\n" + $P{customer}.getAddress2() +
 				"\n" + $P{customer}.getPostalCode() + "  " + $P{customer}.getResidence() +
-				"\nNederland"]]></textFieldExpression>
+				"\n" + $P{customer}.getCountry()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -338,7 +338,7 @@
 				<text><![CDATA[TOTAAL]]></text>
 			</staticText>
 			<textField>
-				<reportElement key="" positionType="Float" x="0" y="115" width="495" height="15" uuid="10a87260-8e80-4c65-b44b-b8428752ce94">
+				<reportElement key="" positionType="Float" x="0" y="105" width="495" height="15" isRemoveLineWhenBlank="true" uuid="10a87260-8e80-4c65-b44b-b8428752ce94">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -349,24 +349,19 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="85">
+		<band height="115">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<printWhenExpression><![CDATA[new Boolean($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber") != null)]]></printWhenExpression>
 			<textField>
-				<reportElement key="" x="0" y="15" width="495" height="70" uuid="25f2d20e-5f8c-4b93-91a6-f62212662245">
+				<reportElement key="" x="0" y="0" width="495" height="70" uuid="25f2d20e-5f8c-4b93-91a6-f62212662245">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<printWhenExpression><![CDATA[new Boolean($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber") != null)]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA["  Betaling binnen 30 dagen\n\n\"Een wederzijdse garantie en verbintenis tot snelle\ngeschillenregeling door arbitrage, maakt deel uit van de\nalgemene verkoops voorwaarden, op keerzijde vermeld.\""]]></textFieldExpression>
 			</textField>
-		</band>
-	</columnFooter>
-	<pageFooter>
-		<band height="60">
-			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement x="0" y="10" width="495" height="40" uuid="0e3ae1c3-eb89-4f92-8101-e8aa5e5bfeec">
+				<reportElement x="0" y="75" width="495" height="40" uuid="0e3ae1c3-eb89-4f92-8101-e8aa5e5bfeec">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -378,7 +373,7 @@
 				<textFieldExpression><![CDATA["EG-PLANTENPASPOORT-BE\nFAVV PRIMAIRE PLANTAARDIGE PRODUKTIE\nREGNR 40121	EG KWALITEIT	BE-ALV"]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageFooter>
+	</columnFooter>
 	<summary>
 		<band height="1">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
