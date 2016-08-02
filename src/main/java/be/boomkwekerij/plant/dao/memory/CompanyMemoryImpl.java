@@ -14,7 +14,9 @@ public class CompanyMemoryImpl implements CompanyMemory {
     public SearchResult<Company> getCompany() {
         SearchResult<Company> searchResult = new SearchResult<Company>();
         searchResult.setSuccess(true);
-        searchResult.addResult(company);
+        if (company != null) {
+            searchResult.addResult(company);
+        }
         return searchResult;
     }
 

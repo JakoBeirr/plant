@@ -56,8 +56,10 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         if (searchResult.isSuccess()) {
             Invoice invoice = searchResult.getFirst();
-            InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice);
-            invoiceSearchResult.addResult(invoiceDTO);
+            if (invoice != null) {
+                InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice);
+                invoiceSearchResult.addResult(invoiceDTO);
+            }
         }
 
         return invoiceSearchResult;

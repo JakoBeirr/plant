@@ -47,8 +47,10 @@ public class PlantServiceImpl implements PlantService {
 
         if (searchResult.isSuccess()) {
             Plant plant = searchResult.getFirst();
-            PlantDTO plantDTO = plantMapper.mapDAOToDTO(plant);
-            plantSearchResult.addResult(plantDTO);
+            if (plant != null) {
+                PlantDTO plantDTO = plantMapper.mapDAOToDTO(plant);
+                plantSearchResult.addResult(plantDTO);
+            }
         }
 
         return plantSearchResult;

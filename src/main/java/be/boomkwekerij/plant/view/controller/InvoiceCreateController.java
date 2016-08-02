@@ -80,6 +80,8 @@ public class InvoiceCreateController implements Initializable {
     @FXML
     private Label labelInvoiceLinesCreate;
     @FXML
+    private TextField orderNumber;
+    @FXML
     private DatePicker invoiceLineDate;
     @FXML
     private TextField amount;
@@ -294,8 +296,11 @@ public class InvoiceCreateController implements Initializable {
             createdChosenPlant.setManaged(false);
             createdChosenPlant.setVisible(false);
             TextField createdPlant = new TextField(plantSearchField.getText());
-            createdPlant.setPrefColumnCount(45);
+            createdPlant.setPrefColumnCount(40);
             createdPlant.setDisable(true);
+            TextField createdOrderNumber = new TextField(orderNumber.getText());
+            createdOrderNumber.setPrefColumnCount(10);
+            createdOrderNumber.setDisable(true);
             DatePicker createdInvoiceLineDate = new DatePicker(invoiceLineDate.getValue());
             createdInvoiceLineDate.setDisable(true);
             TextField createdAmount = new TextField(amount.getText());
@@ -315,6 +320,7 @@ public class InvoiceCreateController implements Initializable {
 
             invoiceLine.getChildren().add(createdChosenPlant);
             invoiceLine.getChildren().add(createdPlant);
+            invoiceLine.getChildren().add(createdOrderNumber);
             invoiceLine.getChildren().add(createdInvoiceLineDate);
             invoiceLine.getChildren().add(createdAmount);
             invoiceLine.getChildren().add(createdPrice);
@@ -328,6 +334,7 @@ public class InvoiceCreateController implements Initializable {
     private void resetInvoiceLine() {
         chosenPlant.setText("");
         plantSearchField.setText("");
+        orderNumber.setText("");
         amount.setText("");
         alternativePlantPrice.setText("");
         invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
@@ -353,11 +360,13 @@ public class InvoiceCreateController implements Initializable {
                 ObservableList<Node> children = createdInvoiceLine.getChildren();
                 Label createdChosenPlant = (Label) children.get(0);
                 TextField createdPlant = (TextField) children.get(1);
-                DatePicker createdInvoiceLineDate = (DatePicker) children.get(2);
-                TextField createdAmount = (TextField) children.get(3);
-                TextField createdPrice = (TextField) children.get(4);
+                TextField createdOrderNumber = (TextField) children.get(2);
+                DatePicker createdInvoiceLineDate = (DatePicker) children.get(3);
+                TextField createdAmount = (TextField) children.get(4);
+                TextField createdPrice = (TextField) children.get(5);
 
                 InvoiceLineDTO invoiceLineDTO = new InvoiceLineDTO();
+                invoiceLineDTO.setOrderNumber(createdOrderNumber.getText());
                 LocalDate invoiceLineDate = createdInvoiceLineDate.getValue();
                 invoiceLineDTO.setDate(new DateTime(invoiceLineDate.getYear(), invoiceLineDate.getMonthValue(), invoiceLineDate.getDayOfMonth(), 0, 0, 0, 0));
                 invoiceLineDTO.setAmount(Integer.parseInt(createdAmount.getText()));

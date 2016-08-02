@@ -46,8 +46,10 @@ public class CompanyServiceImpl implements CompanyService {
 
         if (searchResult.isSuccess()) {
             Company company = searchResult.getFirst();
-            CompanyDTO companyDTO = companyMapper.mapDAOToDTO(company);
-            customerSearchResult.addResult(companyDTO);
+            if (company != null) {
+                CompanyDTO companyDTO = companyMapper.mapDAOToDTO(company);
+                customerSearchResult.addResult(companyDTO);
+            }
         }
 
         return customerSearchResult;

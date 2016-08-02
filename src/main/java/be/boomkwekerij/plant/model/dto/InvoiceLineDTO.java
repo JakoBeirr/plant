@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 public class InvoiceLineDTO {
 
     private DateTime date;
+    private String orderNumber;
     private int amount;
     private String plantId;
     private String plantName;
@@ -19,6 +20,14 @@ public class InvoiceLineDTO {
 
     public void setDate(DateTime date) {
         this.date = date;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public int getAmount() {

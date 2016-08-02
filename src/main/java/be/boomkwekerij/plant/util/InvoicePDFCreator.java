@@ -3,10 +3,7 @@ package be.boomkwekerij.plant.util;
 import be.boomkwekerij.plant.exception.ReportException;
 import be.boomkwekerij.plant.model.report.*;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.export.*;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,12 +12,14 @@ import java.util.*;
 
 public class InvoicePDFCreator {
 
+    private PDFHelper pdfHelper = new PDFHelper();
+
     public byte[] createOnePagedInvoiceDocument(CompanyReportObject company, CustomerReportObject customer, OnePagedInvoiceReportObject invoice) throws ReportException {
         try {
             JasperReport invoiceTemplate = getOnePagedTemplate();
             Map<String, Object> parameters = getOnePagedInvoiceParameters(company, customer, invoice);
             JRDataSource dataSource = getDataSource();
-            JasperPrint page = JasperFillManager.fillReport(invoiceTemplate, parameters, dataSource);
+            JasperPrint page = pdfHelper.fillPDF(invoiceTemplate, parameters, dataSource);
 
             return createPDF(invoice.getInvoiceNumber(), Arrays.asList(page));
         } catch (JRException | IOException e) {
@@ -37,7 +36,7 @@ public class InvoicePDFCreator {
                 JasperReport invoiceTemplate = getTemplate(invoiceParts, i);
                 Map<String, Object> parameters = getMultiplePagedInvoiceParameters(company, customer, invoice);
                 JRDataSource dataSource = getDataSource();
-                JasperPrint page = JasperFillManager.fillReport(invoiceTemplate, parameters, dataSource);
+                JasperPrint page = pdfHelper.fillPDF(invoiceTemplate, parameters, dataSource);
                 pages.add(page);
             }
 
@@ -49,7 +48,7 @@ public class InvoicePDFCreator {
 
     private JasperReport getOnePagedTemplate() throws JRException {
         InputStream invoiceTemplateStream = ClassLoader.getSystemResourceAsStream("invoiceDocument/one_paged_invoice.jrxml");
-        return compileStreamToReport(invoiceTemplateStream);
+        return pdfHelper.compileStreamToReport(invoiceTemplateStream);
     }
 
     private JasperReport getTemplate(List<MultiplePagedInvoiceReportObject> invoiceParts, int counter) throws JRException {
@@ -66,17 +65,17 @@ public class InvoicePDFCreator {
 
     private JasperReport getFirstMultiplePagedTemplate() throws JRException {
         InputStream invoiceTemplateStream = ClassLoader.getSystemResourceAsStream("invoiceDocument/first_page_multiple_paged_invoice.jrxml");
-        return compileStreamToReport(invoiceTemplateStream);
+        return pdfHelper.compileStreamToReport(invoiceTemplateStream);
     }
 
     private JasperReport getMiddleMultiplePagedTemplate() throws JRException {
         InputStream invoiceTemplateStream = ClassLoader.getSystemResourceAsStream("invoiceDocument/middle_page_multiple_paged_invoice.jrxml");
-        return compileStreamToReport(invoiceTemplateStream);
+        return pdfHelper.compileStreamToReport(invoiceTemplateStream);
     }
 
     private JasperReport getLastMultiplePagedTemplate() throws JRException {
         InputStream invoiceTemplateStream = ClassLoader.getSystemResourceAsStream("invoiceDocument/last_page_multiple_paged_invoice.jrxml");
-        return compileStreamToReport(invoiceTemplateStream);
+        return pdfHelper.compileStreamToReport(invoiceTemplateStream);
     }
 
     private JRDataSource getDataSource() {
@@ -101,30 +100,10 @@ public class InvoicePDFCreator {
         return parameters;
     }
 
-    private JasperReport compileStreamToReport(InputStream inputStream) throws JRException {
-        JasperReport jasperReport = null;
-        jasperReport = JasperCompileManager.compileReport(inputStream);
-        return jasperReport;
-    }
-
     private byte[] createPDF(String invoiceNumber, List<JasperPrint> pages) throws IOException, JRException {
-        byte[] pdfReport = createPdfReport(pages);
+        byte[] pdfReport = pdfHelper.createPdfReport(pages);
         writeFileToFileSystem(invoiceNumber, pdfReport);
         return pdfReport;
-    }
-
-    private byte[] createPdfReport(List<JasperPrint> pages) throws JRException {
-        JRPdfExporter pdfExporter = new JRPdfExporter();
-        ByteArrayOutputStream pdfOutputStream = new ByteArrayOutputStream();
-        List<ExporterInputItem> exporterInputItems = new ArrayList<>(pages.size());
-        for (JasperPrint page : pages) {
-            ExporterInputItem exporterInputItem = new SimpleExporterInputItem(page);
-            exporterInputItems.add(exporterInputItem);
-        }
-        pdfExporter.setExporterInput(new SimpleExporterInput(exporterInputItems));
-        pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfOutputStream));
-        pdfExporter.exportReport();
-        return pdfOutputStream.toByteArray();
     }
 
     private void writeFileToFileSystem(String invoiceNumber, byte[] pdfReport) throws IOException {

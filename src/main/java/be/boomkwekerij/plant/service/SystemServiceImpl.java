@@ -46,8 +46,10 @@ public class SystemServiceImpl implements SystemService {
 
         if (searchResult.isSuccess()) {
             System system = searchResult.getFirst();
-            SystemDTO systemDTO = systemMapper.mapDAOToDTO(system);
-            customerSearchResult.addResult(systemDTO);
+            if (system != null) {
+                SystemDTO systemDTO = systemMapper.mapDAOToDTO(system);
+                customerSearchResult.addResult(systemDTO);
+            }
         }
 
         return customerSearchResult;

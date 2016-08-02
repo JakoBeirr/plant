@@ -31,6 +31,8 @@ public class Initializer {
 
     private static String data_directory;
 
+    public static final int MAX_INVOICELINES = 18;
+
     public static void init(String dataUri) {
         data_directory = dataUri;
 

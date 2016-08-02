@@ -46,7 +46,8 @@
             <HBox spacing="5">
                 <Button fx:id="payButton" text="Betaald" mnemonicParsing="false" onAction="#payInvoice" visible="false" managed="false" styleClass="blue-button" />
                 <Button fx:id="unPayButton" text="Niet betaald" mnemonicParsing="false" onAction="#unPayInvoice" visible="false" managed="false" styleClass="blue-button" />
-                <Button fx:id="printButton" text="Print" mnemonicParsing="false" onAction="#printInvoice" visible="false" managed="false" styleClass="blue-button" />
+                <Button fx:id="printInvoiceButton" text="Print Factuur" mnemonicParsing="false" onAction="#printInvoice" visible="false" managed="false" styleClass="blue-button" />
+                <Button fx:id="printSellingConditionsButton" text="Print Algemene voorwaarden" mnemonicParsing="false" onAction="#printSellingConditions" styleClass="blue-button" />
                 <Button fx:id="deleteButton" text="Verwijder" mnemonicParsing="false" onAction="#deleteInvoice" visible="false" managed="false" styleClass="red-button" />
             </HBox>
         </VBox>

@@ -8,6 +8,7 @@ import java.util.Date;
 public class InvoiceLine {
 
     private Date date;
+    private String orderNumber;
     private int amount;
     private String plantId;
     private String plantName;
@@ -26,6 +27,15 @@ public class InvoiceLine {
 
     public int getAmount() {
         return amount;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    @XmlElement
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     @XmlElement

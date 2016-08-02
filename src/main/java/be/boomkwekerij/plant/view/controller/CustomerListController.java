@@ -118,17 +118,19 @@ public class CustomerListController implements Initializable {
     }
 
     public void deleteCustomer(Event event) {
-        try {
-            CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
-            CrudsResult deleteResult = customerController.deleteCustomer(selectedCustomer.getId());
+        if (AlertController.areYouSure("Bent u zeker dat u deze klant wil verwijderen?", "Bedenk dat dit enkel mogelijk is indien er geen facturen gelinkt zijn aan deze klant!")) {
+            try {
+                CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
+                CrudsResult deleteResult = customerController.deleteCustomer(selectedCustomer.getId());
 
-            if (deleteResult.isSuccess()) {
-                handleDeleteSuccess();
-            } else {
-                handleDeleteError(deleteResult.getMessages());
+                if (deleteResult.isSuccess()) {
+                    handleDeleteSuccess();
+                } else {
+                    handleDeleteError(deleteResult.getMessages());
+                }
+            } catch (Exception e) {
+                handleDeleteException(e);
             }
-        } catch (Exception e) {
-            handleDeleteException(e);
         }
     }
 

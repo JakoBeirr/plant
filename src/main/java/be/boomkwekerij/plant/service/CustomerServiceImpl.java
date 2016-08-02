@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.service;
 
 import be.boomkwekerij.plant.dao.memory.CustomerMemory;
+import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.dao.repository.CustomerDAO;
 import be.boomkwekerij.plant.dao.repository.CustomerDAOImpl;
@@ -47,8 +48,10 @@ public class CustomerServiceImpl implements CustomerService {
 
         if (searchResult.isSuccess()) {
             Customer customer = searchResult.getFirst();
-            CustomerDTO customerDTO = customerMapper.mapDAOToDTO(customer);
-            customerSearchResult.addResult(customerDTO);
+            if (customer != null) {
+                CustomerDTO customerDTO = customerMapper.mapDAOToDTO(customer);
+                customerSearchResult.addResult(customerDTO);
+            }
         }
 
         return customerSearchResult;

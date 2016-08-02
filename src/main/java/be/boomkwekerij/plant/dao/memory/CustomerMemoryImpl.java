@@ -24,8 +24,17 @@ public class CustomerMemoryImpl implements CustomerMemory {
 
     public SearchResult<Customer> getCustomer(String id) {
         SearchResult<Customer> searchResult = new SearchResult<Customer>();
-        searchResult.setSuccess(true);
-        searchResult.addResult(customers.get(id));
+
+        if (id == null) {
+            searchResult.setSuccess(false);
+            searchResult.addMessage("Kon geen klant vinden voor id null!");
+        } else {
+            searchResult.setSuccess(true);
+            Customer customer = customers.get(id);
+            if (customer != null) {
+                searchResult.addResult(customer);
+            }
+        }
         return searchResult;
     }
 
@@ -39,13 +48,18 @@ public class CustomerMemoryImpl implements CustomerMemory {
     public SearchResult<Customer> getCustomers(String name) {
         SearchResult<Customer> customersWithName = new SearchResult<Customer>();
 
-        for (Customer customer : customers.values()) {
-            if (customerNameContains(customer, name)) {
-                customersWithName.addResult(customer);
+        if (name == null) {
+            customersWithName.setSuccess(false);
+            customersWithName.addMessage("Kon geen klant vinden voor naam null!");
+        } else {
+            customersWithName.setSuccess(true);
+            for (Customer customer : customers.values()) {
+                if (customerNameContains(customer, name)) {
+                    customersWithName.addResult(customer);
+                }
             }
         }
 
-        customersWithName.setSuccess(true);
         return customersWithName;
     }
 

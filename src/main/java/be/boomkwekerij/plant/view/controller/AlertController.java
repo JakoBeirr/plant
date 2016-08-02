@@ -2,9 +2,12 @@ package be.boomkwekerij.plant.view.controller;
 
 import be.boomkwekerij.plant.util.ExceptionUtil;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+
+import java.util.Optional;
 
 public class AlertController {
 
@@ -49,5 +52,15 @@ public class AlertController {
         alert.getDialogPane().setExpandableContent(exceptionContent);
 
         alert.showAndWait();
+    }
+
+    public static boolean areYouSure(String headerMessage, String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("BEVESTIGING");
+        alert.setHeaderText(headerMessage);
+        alert.setContentText(message);
+
+        Optional<ButtonType> buttonType = alert.showAndWait();
+        return buttonType.get() == ButtonType.OK;
     }
 }

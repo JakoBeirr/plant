@@ -46,7 +46,9 @@ public class InvoiceListController implements Initializable {
     @FXML
     private Button unPayButton;
     @FXML
-    private Button printButton;
+    private Button printInvoiceButton;
+    @FXML
+    private Button printSellingConditionsButton;
     @FXML
     private Button deleteButton;
 
@@ -114,8 +116,8 @@ public class InvoiceListController implements Initializable {
                     payButton.setManaged(!newValue.getPayed());
                     unPayButton.setVisible(newValue.getPayed());
                     unPayButton.setManaged(newValue.getPayed());
-                    printButton.setVisible(true);
-                    printButton.setManaged(true);
+                    printInvoiceButton.setVisible(true);
+                    printInvoiceButton.setManaged(true);
                     deleteButton.setVisible(true);
                     deleteButton.setManaged(true);
                 } else {
@@ -123,8 +125,8 @@ public class InvoiceListController implements Initializable {
                     payButton.setManaged(false);
                     unPayButton.setVisible(false);
                     unPayButton.setManaged(false);
-                    printButton.setVisible(false);
-                    printButton.setManaged(false);
+                    printInvoiceButton.setVisible(false);
+                    printInvoiceButton.setManaged(false);
                     deleteButton.setVisible(false);
                     deleteButton.setManaged(false);
                 }
@@ -161,6 +163,16 @@ public class InvoiceListController implements Initializable {
         }
     }
 
+    public void printSellingConditions(ActionEvent actionEvent) {
+        CrudsResult printResult = invoiceController.printSellingConditions();
+
+        if (printResult.isSuccess()) {
+            AlertController.alertSuccess("Algemene voorwaarden klaar!");
+        } else {
+            handlePrintError(printResult.getMessages());
+        }
+    }
+
     private void handlePrintError(List<String> errorMessages) {
         StringBuilder errorBuilder = new StringBuilder("Gefaald wegens volgende fout(en): ");
         for (int i = 0; i < errorMessages.size(); i++) {
@@ -171,17 +183,19 @@ public class InvoiceListController implements Initializable {
     }
 
     public void deleteInvoice(ActionEvent actionEvent) {
-        try {
-            InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
-            CrudsResult crudsResult = invoiceController.deleteInvoice(selectedInvoice.getId());
+        if (AlertController.areYouSure("Bent u zeker dat u deze factuur wil verwijderen?", "Bedenk dat u deze factuur nadien niet meer zal kunnen herstellen!")) {
+            try {
+                InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
+                CrudsResult crudsResult = invoiceController.deleteInvoice(selectedInvoice.getId());
 
-            if (crudsResult.isSuccess()) {
-                handleDeleteSuccess();
-            } else {
-                handleDeleteError(crudsResult.getMessages());
+                if (crudsResult.isSuccess()) {
+                    handleDeleteSuccess();
+                } else {
+                    handleDeleteError(crudsResult.getMessages());
+                }
+            } catch (Exception e) {
+                handleDeleteException(e);
             }
-        } catch (Exception e) {
-            handleDeleteException(e);
         }
     }
 

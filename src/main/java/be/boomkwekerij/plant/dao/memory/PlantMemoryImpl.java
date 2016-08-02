@@ -23,8 +23,18 @@ public class PlantMemoryImpl implements PlantMemory {
 
     public SearchResult<Plant> getPlant(String id) {
         SearchResult<Plant> searchResult = new SearchResult<Plant>();
-        searchResult.setSuccess(true);
-        searchResult.addResult(plants.get(id));
+
+        if (id == null) {
+            searchResult.setSuccess(false);
+            searchResult.addMessage("Kon geen plant vinden voor id null!");
+        } else {
+            searchResult.setSuccess(true);
+            Plant plant = plants.get(id);
+            if (plant != null) {
+                searchResult.addResult(plant);
+            }
+        }
+
         return searchResult;
     }
 
@@ -38,13 +48,18 @@ public class PlantMemoryImpl implements PlantMemory {
     public SearchResult<Plant> getPlants(String name) {
         SearchResult<Plant> plantsWithName = new SearchResult<Plant>();
 
-        for (Plant plant : plants.values()) {
-            if (plantNameStartsWith(plant, name)) {
-                plantsWithName.addResult(plant);
+        if (name == null) {
+            plantsWithName.setSuccess(false);
+            plantsWithName.addMessage("Kon geen plant vinden voor name null!");
+        } else {
+            plantsWithName.setSuccess(true);
+            for (Plant plant : plants.values()) {
+                if (plantNameStartsWith(plant, name)) {
+                    plantsWithName.addResult(plant);
+                }
             }
         }
 
-        plantsWithName.setSuccess(true);
         return plantsWithName;
     }
 

@@ -10,10 +10,7 @@ import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.model.repository.InvoiceLine;
 import be.boomkwekerij.plant.service.CustomerService;
 import be.boomkwekerij.plant.service.CustomerServiceImpl;
-import be.boomkwekerij.plant.util.DateFormatPattern;
-import be.boomkwekerij.plant.util.DateUtils;
-import be.boomkwekerij.plant.util.NumberUtils;
-import be.boomkwekerij.plant.util.SearchResult;
+import be.boomkwekerij.plant.util.*;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -163,8 +160,8 @@ public class InvoiceMapper {
     }
 
     private List<InvoiceLineDTO> getInvoiceLinesToMap(InvoiceDTO invoiceDTO, int pageCount) {
-        int fromIndex = (pageCount - 1) * 16;
-        int expectedToIndex = pageCount * 16;
+        int fromIndex = (pageCount - 1) * Initializer.MAX_INVOICELINES;
+        int expectedToIndex = pageCount * Initializer.MAX_INVOICELINES;
         int maximumToIndex = invoiceDTO.getInvoiceLines().size();
         int toIndex = expectedToIndex > maximumToIndex ? maximumToIndex : expectedToIndex;
         return invoiceDTO.getInvoiceLines().subList(fromIndex, toIndex);

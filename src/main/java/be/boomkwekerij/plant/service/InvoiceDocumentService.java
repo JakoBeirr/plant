@@ -6,4 +6,6 @@ import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 public interface InvoiceDocumentService {
 
     byte[] createInvoiceDocument(InvoiceDTO invoiceDTO) throws ReportException;
+
+    byte[] createSellingConditionsDocument() throws ReportException;
 }

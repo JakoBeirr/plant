@@ -109,14 +109,16 @@
                     </VBox>
                     <HBox spacing="5">
                         <VBox spacing="5">
+                            <Label text="Ordernummer:" />
+                            <TextField fx:id="orderNumber" prefColumnCount="10" />
+
                             <Label text="Datum:" />
                             <DatePicker fx:id="invoiceLineDate" />
                         </VBox>
                         <VBox spacing="5">
                             <Label text="Aantal:" />
                             <TextField fx:id="amount" prefColumnCount="3" />
-                        </VBox>
-                        <VBox spacing="5">
+
                             <Label text="Prijs:" />
                             <TextField fx:id="alternativePlantPrice" prefColumnCount="5" />
                         </VBox>

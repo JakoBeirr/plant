@@ -1,5 +1,6 @@
 package be.boomkwekerij.plant.controller;
 
+import be.boomkwekerij.plant.exception.ReportException;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.service.*;
 import be.boomkwekerij.plant.util.CrudsResult;
@@ -105,6 +106,20 @@ public class InvoiceController {
             } else {
                 printResult.setSuccess(false);
             }
+        } catch (Exception e) {
+            return createCrudsError(e);
+        }
+
+        return printResult;
+    }
+
+    public CrudsResult printSellingConditions() {
+        CrudsResult printResult = new CrudsResult();
+
+        try {
+            byte[] sellingConditionsDocument = invoiceDocumentService.createSellingConditionsDocument();
+            printerService.printDocument("selling_condition.pdf", sellingConditionsDocument);
+            printResult.setSuccess(true);
         } catch (Exception e) {
             return createCrudsError(e);
         }

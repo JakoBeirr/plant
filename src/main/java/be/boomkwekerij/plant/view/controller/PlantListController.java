@@ -110,17 +110,19 @@ public class PlantListController implements Initializable {
     }
 
     public void deletePlant(Event event) {
-        try {
-            PlantViewModel selectedPlant = plantList.getSelectionModel().getSelectedItem();
-            CrudsResult deleteResult = plantController.deletePlant(selectedPlant.getId());
+        if (AlertController.areYouSure("Bent u zeker dat u deze plant wil verwijderen?", "Bedenk dat deze plant misschien reeds aan een factuur gekoppeld is!")) {
+            try {
+                PlantViewModel selectedPlant = plantList.getSelectionModel().getSelectedItem();
+                CrudsResult deleteResult = plantController.deletePlant(selectedPlant.getId());
 
-            if (deleteResult.isSuccess()) {
-                handleDeleteSuccess();
-            } else {
-                handleDeleteError(deleteResult.getMessages());
+                if (deleteResult.isSuccess()) {
+                    handleDeleteSuccess();
+                } else {
+                    handleDeleteError(deleteResult.getMessages());
+                }
+            } catch (Exception e) {
+                handleDeleteException(e);
             }
-        } catch (Exception e) {
-            handleDeleteException(e);
         }
     }
 

@@ -3,6 +3,7 @@ package be.boomkwekerij.plant.model.report;
 public class InvoiceLineReportObject {
 
     private String invoiceLineDate;
+    private String orderNumber;
     private Integer plantAmount;
     private String plantSpecies;
     private String plantAge;
@@ -16,6 +17,14 @@ public class InvoiceLineReportObject {
 
     public void setInvoiceLineDate(String invoiceLineDate) {
         this.invoiceLineDate = invoiceLineDate;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public Integer getPlantAmount() {

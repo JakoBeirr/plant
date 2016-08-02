@@ -23,8 +23,18 @@ public class InvoiceMemoryImpl implements InvoiceMemory {
 
     public SearchResult<Invoice> getInvoice(String id) {
         SearchResult<Invoice> searchResult = new SearchResult<Invoice>();
-        searchResult.setSuccess(true);
-        searchResult.addResult(invoices.get(id));
+
+        if (id == null) {
+            searchResult.setSuccess(false);
+            searchResult.addMessage("Kon geen factuur vinden voor id null!");
+        } else {
+            searchResult.setSuccess(true);
+            Invoice invoice = invoices.get(id);
+            if (invoice != null) {
+                searchResult.addResult(invoice);
+            }
+        }
+
         return searchResult;
     }
 
@@ -38,13 +48,18 @@ public class InvoiceMemoryImpl implements InvoiceMemory {
     public SearchResult<Invoice> getInvoices(String name) {
         SearchResult<Invoice> invoicesWithInvoiceNumber = new SearchResult<Invoice>();
 
-        for (Invoice invoice : invoices.values()) {
-            if (invoiceNameStartsWith(invoice, name)) {
-                invoicesWithInvoiceNumber.addResult(invoice);
+        if (name == null) {
+            invoicesWithInvoiceNumber.setSuccess(false);
+            invoicesWithInvoiceNumber.addMessage("Kon geen factuur vinden voor name null!");
+        } else {
+            invoicesWithInvoiceNumber.setSuccess(true);
+            for (Invoice invoice : invoices.values()) {
+                if (invoiceNameStartsWith(invoice, name)) {
+                    invoicesWithInvoiceNumber.addResult(invoice);
+                }
             }
         }
 
-        invoicesWithInvoiceNumber.setSuccess(true);
         return invoicesWithInvoiceNumber;
     }
 
@@ -56,13 +71,18 @@ public class InvoiceMemoryImpl implements InvoiceMemory {
     public SearchResult<Invoice> getInvoicesFromCustomer(String customerId) {
         SearchResult<Invoice> invoicesFromCustomer = new SearchResult<Invoice>();
 
-        for (Invoice invoice : invoices.values()) {
-            if (invoiceFromCustomer(invoice, customerId)) {
-                invoicesFromCustomer.addResult(invoice);
+        if (customerId == null) {
+            invoicesFromCustomer.setSuccess(false);
+            invoicesFromCustomer.addMessage("Kon geen factuur vinden voor klant met id null!");
+        } else {
+            invoicesFromCustomer.setSuccess(true);
+            for (Invoice invoice : invoices.values()) {
+                if (invoiceFromCustomer(invoice, customerId)) {
+                    invoicesFromCustomer.addResult(invoice);
+                }
             }
         }
 
-        invoicesFromCustomer.setSuccess(true);
         return invoicesFromCustomer;
     }
 

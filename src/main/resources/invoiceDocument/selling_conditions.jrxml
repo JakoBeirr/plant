@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-08-02T23:21:24 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="invoiceLines" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="invoiceLineDate" class="java.lang.String"/>
+		<field name="plantAmount" class="java.lang.Integer"/>
+		<field name="orderNumber" class="java.lang.String"/>
+		<field name="plantSpecies" class="java.lang.String"/>
+		<field name="plantAge" class="java.lang.String"/>
+		<field name="plantMeasure" class="java.lang.String"/>
+		<field name="price" class="java.lang.String"/>
+		<field name="totalPrice" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="company" class="be.boomkwekerij.plant.model.report.CompanyReportObject"/>
+	<parameter name="customer" class="be.boomkwekerij.plant.model.report.CustomerReportObject"/>
+	<parameter name="invoice" class="be.boomkwekerij.plant.model.report.OnePagedInvoiceReportObject"/>
+	<parameter name="logo" class="Object"/>
+	<detail>
+		<band height="130">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="0" y="0" width="535" height="130" uuid="ac6af073-fdbb-41a6-bfe0-b79b5aa87e95">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Algemene Verkoopsvoorwaarden"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[new Boolean($P{REPORT_PARAMETERS_MAP}.put("LastPageNumber",$V{PAGE_NUMBER}).equals("dummyPrintWhen"))]]></printWhenExpression>
+		</band>
+	</summary>
+</jasperReport>

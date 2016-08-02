@@ -14,7 +14,9 @@ public class SystemMemoryImpl implements SystemMemory {
     public SearchResult<System> getSystem() {
         SearchResult<System> searchResult = new SearchResult<System>();
         searchResult.setSuccess(true);
-        searchResult.addResult(system);
+        if (system != null) {
+            searchResult.addResult(system);
+        }
         return searchResult;
     }
 

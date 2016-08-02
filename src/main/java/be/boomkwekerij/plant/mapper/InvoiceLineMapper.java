@@ -23,6 +23,7 @@ public class InvoiceLineMapper {
             date = new DateTime();
         }
         invoiceLine.setDate(date.toDate());
+        invoiceLine.setOrderNumber(invoiceLineDTO.getOrderNumber());
         invoiceLine.setAmount(invoiceLineDTO.getAmount());
         invoiceLine.setPlantId(invoiceLineDTO.getPlantId());
         invoiceLine.setPlantName(invoiceLineDTO.getPlantName());
@@ -35,6 +36,7 @@ public class InvoiceLineMapper {
     public InvoiceLineDTO mapDAOToDTO(InvoiceLine invoiceLine) {
         InvoiceLineDTO invoiceLineDTO = new InvoiceLineDTO();
         invoiceLineDTO.setDate(new DateTime(invoiceLine.getDate()));
+        invoiceLineDTO.setOrderNumber(invoiceLine.getOrderNumber());
         invoiceLineDTO.setAmount(invoiceLine.getAmount());
         invoiceLineDTO.setPlantId(invoiceLine.getPlantId());
         invoiceLineDTO.setPlantName(invoiceLine.getPlantName());
@@ -52,11 +54,12 @@ public class InvoiceLineMapper {
     public InvoiceLineReportObject mapDTOToReportObject(InvoiceLineDTO invoiceLineDTO) {
         InvoiceLineReportObject invoiceLineReportObject = new InvoiceLineReportObject();
         invoiceLineReportObject.setInvoiceLineDate(DateUtils.formatDate(invoiceLineDTO.getDate(), DateFormatPattern.DATE_NOYEAR_FORMAT));
+        invoiceLineReportObject.setOrderNumber(invoiceLineDTO.getOrderNumber());
         invoiceLineReportObject.setPlantAmount(invoiceLineDTO.getAmount());
         invoiceLineReportObject.setPlantSpecies(invoiceLineDTO.getPlantName());
         invoiceLineReportObject.setPlantAge(invoiceLineDTO.getPlantAge());
         invoiceLineReportObject.setPlantMeasure(invoiceLineDTO.getPlantMeasure());
-        invoiceLineReportObject.setPrice(NumberUtils.formatDouble(invoiceLineDTO.getPlantPrice(), 3));
+        invoiceLineReportObject.setPrice(NumberUtils.formatDouble(invoiceLineDTO.getPlantPrice(), 2));
         invoiceLineReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceLineDTO.getTotalPrice(), 2));
         return invoiceLineReportObject;
     }
