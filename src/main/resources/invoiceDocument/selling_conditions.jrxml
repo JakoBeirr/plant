@@ -1,44 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-08-02T23:21:24 -->
+<!-- 2016-08-06T18:51:09 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<subDataset name="invoiceLines" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
-		<queryString>
-			<![CDATA[]]>
-		</queryString>
-		<field name="invoiceLineDate" class="java.lang.String"/>
-		<field name="plantAmount" class="java.lang.Integer"/>
-		<field name="orderNumber" class="java.lang.String"/>
-		<field name="plantSpecies" class="java.lang.String"/>
-		<field name="plantAge" class="java.lang.String"/>
-		<field name="plantMeasure" class="java.lang.String"/>
-		<field name="price" class="java.lang.String"/>
-		<field name="totalPrice" class="java.lang.String"/>
-	</subDataset>
-	<parameter name="company" class="be.boomkwekerij.plant.model.report.CompanyReportObject"/>
-	<parameter name="customer" class="be.boomkwekerij.plant.model.report.CustomerReportObject"/>
-	<parameter name="invoice" class="be.boomkwekerij.plant.model.report.OnePagedInvoiceReportObject"/>
-	<parameter name="logo" class="Object"/>
 	<detail>
-		<band height="130">
+		<band height="785">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement x="0" y="0" width="535" height="130" uuid="ac6af073-fdbb-41a6-bfe0-b79b5aa87e95">
+				<reportElement x="0" y="0" width="535" height="20" uuid="0932c258-8789-4452-87af-3fdf01cd6f61">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" markup="html">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<u>ALGEMENE VERKOOPSVOORWAARDEN</u>"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="25" width="535" height="760" uuid="ac6af073-fdbb-41a6-bfe0-b79b5aa87e95">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font isBold="true"/>
+					<font size="7.5" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Algemene Verkoopsvoorwaarden"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Door het overmaken van een order aanvaardt de koper uitsluitend de geldigheid van onderhavige algemene verkoops- en leveringsvoorwaarden\n" +
+"zonder rekening te houden met de algemene aankoopsvoorwaardne die op zijn handelsformulieren zouden vermeld zijn.\n\n" +
+"1. Aanbiedingen : Alle aanbiedingen zijn vrijblijvend\n" +
+"2. Orders : Een ingezonden order, zelfs door tussenkosmt van een reizeiger, is slechts binden voor de verkoper na schrijftelijke bevestiging van\n" +
+"zijnentwege.\n" +
+"De afgifte van een pro-forma rekening geldt niet als schriftelijke aanvaarding.\n" +
+"3. Opzeg : Een order kan door de VERKOPER geannuleerd worden zonder schadevergoeding, ook wanneer het reeds schrijftelijk bevestigd is:\n" +
+"\ta) wanneer de koper een vroegere verbintenis niet is nagekomen ;\n" +
+"\tb) wanneer de ingewonnen inlichtingen door de verkoper niet bevredigend worden geacht ;\n" +
+"\tc) in geval van heirkracht of misgewas.\n" +
+"Worden als heirkracht aanzien : oorlog - staking - lock-out - opstand - muiterij - ongunstige weergesteltenis of vooruitzichten en alle\n" +
+"omstandigheden die een normale levering en/of verzending der goederen beletten.\n" +
+"Wanneer de koper geheel of gedeeltelijk annuleert, is hij gehouden de verloren handelswinst aan de verkoper te betalen. Deze wordt forfetair\n" +
+"geschat op minimaal 20% van het geannuleerde bedrag, maar kan oplopen tot 100%, indien de geannuleerde goederen enkel nog kunnen vernietigd\n" +
+"worden.\n" +
+"4. Prijzen : Tenzij uitdrukkelijk anders overeengekomen worden de prijzen bepaald in EURO. Ze zijn vrijblijvend, netto vertrek verkopers-bedrijf,\n" +
+"dus zonder korting, vracht noch verpakking\n" +
+"5. Garanties : Verdere groei en bloei worden niet gegarandeerd. Het phylosanitair getuigschrijft , afgeleverd door de Belgische dienst voor\n" +
+"Plantenbescherming is geldig onder partijen, zelfs in geval van afkeuring door de diensten van het land van bestemming.\n" +
+"6. Soorten en maten : in geval de levering van de bestelde soorten en maten niet mogelijk is, heeft de VERKOPER het recht deze door de dichtst\n" +
+"benaderende te vervangen, tenware anders overeengekomen.\n" +
+"7. Levering : De goederen worden aanvaard of geacht aanvaard te zijn op het bedrijf van de verkoper. De volledige verzendingonderrichtingen\n" +
+"dienen door de koper tegelijk met zijn order verstrekt. In zover de koper geen of onvolledige onderrichtingen met zijn order verstrekt heeft,\n" +
+"geschied de verzending naar best vermogen in het belang van de koper. De verpakkingskosten en andere voorgeschoten kosten worden\n" +
+"aangerekend tegen kostprijs en tegen rembours genomen.\n" +
+"8. Verzending : De goederen reizen voor rekening en gevaar van de koper. Ze worden slechts verzekerd, hetzij tegen gewone transport risico's\n" +
+"hetzij tegen << ALL RISKS >> (zoals omschreven in de verzekeringspolis), ingevolge de uitdrukkelijke en schrijftelijke opdracht van de koper en op\n" +
+"zijn kosten, voor zover de verzekeringsorder aanvaard wordt door een plaatselijke verzekeringsmaatschappij.\n" +
+"9. Klachten : In geval van transportschade of tekort moet de koper onmiddelijk na de aankomst der goederen zijn verhaal nemen tegen de\n" +
+"vervoerder en tegen de verzekeringsmaatschappij onder opname van een protocol door een bevoegd averijagent. Andere klachten kunnen slechts\n" +
+"in aanmerking komen, wanneer ze uiterlijk acht dagen na aankomst der goederen per aangetekend schrijven ingezonden worden of per fax.\n" +
+"10. Betaling : De goederen zijn betaalbaar, netto zonder korting, hetzij tegen rembours, hetzij tegen onherroepelijk bevestigd documentair krediet,\n" +
+"hetzij anders overeengekomen. Bij ontstentenis van een uitdrukkelijke overeenkosmt zal de betaling dertig dagen na factuurdatum, netto zonder\n" +
+"korting moeten geschieden. Bij laattijdige betaling is van rechtswege en zonder aanmaning een intrest van 1% per maand verschuldigd. Bovendien\n" +
+"blijft de koper aansprakelijk voor gebeurlijk koersverlies ontstaan door de laattijdigheid. Indien de koper op een ongerechtvaardigde wijze in\n" +
+"gebreke blijft de factuur te betalen op de vervaldag en vruchteloos werd aangemaand, zal het nog verschuldigde bedrag ten titel van\n" +
+"schadevergoeding met 15% verhoogd met een minimum van 40 EURO.\n" +
+"11. Als wederzijdse garantie en verbintenis tot snelle geschillenregeling door arbitrage, is de B.A.I. (Belgische Arbitrage Instelling) belast met de\n" +
+"aanstelling van scheidsrechters welke bevoegd zullen zijn elk geschil definitief te beslechten conform haar werkingsreglement, dat kosteloos kan\n" +
+"bekomen worden bij de B.A.I., Lieven Bauwenstraat 20 te 8200 Brugge (tel. 050/32.35.95 en fax 050/45.60.74). Deze clausule maakt integraal\n" +
+"deel uit van de verkoopsvoorwaarden en varvangt alle hiermee strijdige bevoegdheidsclausules.\n" +
+"12. Wissels : De verkoper is gerechtigd wissel te trekken op de koper. Het trekken van wissel doet geen schuldhernieuwing ontstaan en er wordt\n" +
+"erdoor niet afgeweken van onderhavige verkoopsvoorwaarden."]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<summary>
-		<band height="1">
-			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<printWhenExpression><![CDATA[new Boolean($P{REPORT_PARAMETERS_MAP}.put("LastPageNumber",$V{PAGE_NUMBER}).equals("dummyPrintWhen"))]]></printWhenExpression>
-		</band>
-	</summary>
 </jasperReport>

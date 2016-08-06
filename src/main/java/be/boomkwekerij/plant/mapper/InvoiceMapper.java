@@ -118,6 +118,7 @@ public class InvoiceMapper {
             onePagedInvoiceReportObject.getInvoiceLines().add(invoiceLineReportObject);
         }
         removeUnnecessaryDates(onePagedInvoiceReportObject.getInvoiceLines());
+        onePagedInvoiceReportObject.setHasOrderNumbers(checkIfInvoiceHasOrderNumbers(invoiceLines));
         onePagedInvoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
         onePagedInvoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()*100), 2));
         onePagedInvoiceReportObject.setBtwAmount(NumberUtils.formatDouble(invoiceDTO.getBtwAmount(), 2));
@@ -140,6 +141,7 @@ public class InvoiceMapper {
             multiplePagedInvoiceReportObject.setTransportPreviousPage(NumberUtils.formatDouble(getTotalPricePage(invoiceDTO, i-1), 2));
             multiplePagedInvoiceReportObject.setTransportCurrentPage(NumberUtils.formatDouble(getTotalPricePage(invoiceDTO, i), 2));
             removeUnnecessaryDates(multiplePagedInvoiceReportObject.getInvoiceLines());
+            multiplePagedInvoiceReportObject.setHasOrderNumbers(checkIfInvoiceHasOrderNumbers(invoiceDTO.getInvoiceLines()));
             multiplePagedInvoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
             multiplePagedInvoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()*100), 2));
             multiplePagedInvoiceReportObject.setBtwAmount(NumberUtils.formatDouble(invoiceDTO.getBtwAmount(), 2));
@@ -178,6 +180,15 @@ public class InvoiceMapper {
             }
             return totalPrice;
         }
+    }
+
+    private Boolean checkIfInvoiceHasOrderNumbers(List<InvoiceLineDTO> invoiceLines) {
+        for (InvoiceLineDTO invoiceLineDTO : invoiceLines) {
+            if (!invoiceLineDTO.getOrderNumber().trim().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void removeUnnecessaryDates(List<InvoiceLineReportObject> invoiceLines) {

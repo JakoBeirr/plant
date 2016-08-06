@@ -8,6 +8,7 @@ public class OnePagedInvoiceReportObject {
     private String invoiceDate;
     private String invoiceNumber;
     private List<InvoiceLineReportObject> invoiceLines = new ArrayList<InvoiceLineReportObject>();
+    private Boolean hasOrderNumbers;
     private String subTotal;
     private String btw;
     private String btwAmount;
@@ -35,6 +36,14 @@ public class OnePagedInvoiceReportObject {
 
     public void setInvoiceLines(List<InvoiceLineReportObject> invoiceLines) {
         this.invoiceLines = invoiceLines;
+    }
+
+    public Boolean getHasOrderNumbers() {
+        return hasOrderNumbers;
+    }
+
+    public void setHasOrderNumbers(Boolean hasOrderNumbers) {
+        this.hasOrderNumbers = hasOrderNumbers;
     }
 
     public String getSubTotal() {
