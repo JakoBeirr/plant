@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-08-06T18:51:09 -->
+<!-- 2016-08-06T20:39:32 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<detail>
@@ -28,9 +28,9 @@
 					<font size="7.5" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Door het overmaken van een order aanvaardt de koper uitsluitend de geldigheid van onderhavige algemene verkoops- en leveringsvoorwaarden\n" +
-"zonder rekening te houden met de algemene aankoopsvoorwaardne die op zijn handelsformulieren zouden vermeld zijn.\n\n" +
+"zonder rekening te houden met de algemene aankoopsvoorwaarden die op zijn handelsformulieren zouden vermeld zijn.\n\n" +
 "1. Aanbiedingen : Alle aanbiedingen zijn vrijblijvend\n" +
-"2. Orders : Een ingezonden order, zelfs door tussenkosmt van een reizeiger, is slechts binden voor de verkoper na schrijftelijke bevestiging van\n" +
+"2. Orders : Een ingezonden order, zelfs door tussenkomst van een reiziger, is slechts bindend voor de verkoper na schrijftelijke bevestiging van\n" +
 "zijnentwege.\n" +
 "De afgifte van een pro-forma rekening geldt niet als schriftelijke aanvaarding.\n" +
 "3. Opzeg : Een order kan door de VERKOPER geannuleerd worden zonder schadevergoeding, ook wanneer het reeds schrijftelijk bevestigd is:\n" +
@@ -44,7 +44,7 @@
 "worden.\n" +
 "4. Prijzen : Tenzij uitdrukkelijk anders overeengekomen worden de prijzen bepaald in EURO. Ze zijn vrijblijvend, netto vertrek verkopers-bedrijf,\n" +
 "dus zonder korting, vracht noch verpakking\n" +
-"5. Garanties : Verdere groei en bloei worden niet gegarandeerd. Het phylosanitair getuigschrijft , afgeleverd door de Belgische dienst voor\n" +
+"5. Garanties : Verdere groei en bloei worden niet gegarandeerd. Het phytosanitair getuigschrijft , afgeleverd door de Belgische dienst voor\n" +
 "Plantenbescherming is geldig onder partijen, zelfs in geval van afkeuring door de diensten van het land van bestemming.\n" +
 "6. Soorten en maten : in geval de levering van de bestelde soorten en maten niet mogelijk is, heeft de VERKOPER het recht deze door de dichtst\n" +
 "benaderende te vervangen, tenware anders overeengekomen.\n" +
@@ -59,7 +59,7 @@
 "vervoerder en tegen de verzekeringsmaatschappij onder opname van een protocol door een bevoegd averijagent. Andere klachten kunnen slechts\n" +
 "in aanmerking komen, wanneer ze uiterlijk acht dagen na aankomst der goederen per aangetekend schrijven ingezonden worden of per fax.\n" +
 "10. Betaling : De goederen zijn betaalbaar, netto zonder korting, hetzij tegen rembours, hetzij tegen onherroepelijk bevestigd documentair krediet,\n" +
-"hetzij anders overeengekomen. Bij ontstentenis van een uitdrukkelijke overeenkosmt zal de betaling dertig dagen na factuurdatum, netto zonder\n" +
+"hetzij anders overeengekomen. Bij ontstentenis van een uitdrukkelijke overeenkomst zal de betaling dertig dagen na factuurdatum, netto zonder\n" +
 "korting moeten geschieden. Bij laattijdige betaling is van rechtswege en zonder aanmaning een intrest van 1% per maand verschuldigd. Bovendien\n" +
 "blijft de koper aansprakelijk voor gebeurlijk koersverlies ontstaan door de laattijdigheid. Indien de koper op een ongerechtvaardigde wijze in\n" +
 "gebreke blijft de factuur te betalen op de vervaldag en vruchteloos werd aangemaand, zal het nog verschuldigde bedrag ten titel van\n" +

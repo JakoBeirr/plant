@@ -91,9 +91,7 @@ public class SystemServiceImpl implements SystemService {
     }
 
     public void setNextInvoiceNumber(String invoiceNumber) {
-        int invoiceNumberInteger = Integer.parseInt(invoiceNumber);
-        int nextInvoiceNumberInteger = invoiceNumberInteger + 1;
-        String nextInvoiceNumber = Integer.toString(nextInvoiceNumberInteger);
+        String nextInvoiceNumber = getNextInvoiceNumber(invoiceNumber);
 
         SearchResult<SystemDTO> systemSearchResult = getSystem();
         if (systemSearchResult.isSuccess()) {
@@ -101,6 +99,16 @@ public class SystemServiceImpl implements SystemService {
             system.setNextInvoiceNumber(nextInvoiceNumber);
             updateSystem(system);
         }
+    }
+
+    private String getNextInvoiceNumber(String invoiceNumber) {
+        String invoiceYear = invoiceNumber.substring(0,4);
+        String invoiceNumberPart = invoiceNumber.substring(4, invoiceNumber.length());
+        int invoiceNumberPartLength = invoiceNumberPart.length();
+
+        int invoiceNumberPartInteger = Integer.parseInt(invoiceNumberPart);
+        int nextInvoiceNumberPartInteger = invoiceNumberPartInteger + 1;
+        return invoiceYear + String.format("%0" + invoiceNumberPartLength + "d", nextInvoiceNumberPartInteger);
     }
 
     private CrudsResult validateSystem(SystemDTO systemDTO) {
