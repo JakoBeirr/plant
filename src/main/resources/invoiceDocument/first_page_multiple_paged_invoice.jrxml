@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-08-06T19:21:33 -->
+<!-- 2016-09-04T18:12:36 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="invoiceLines" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
@@ -284,10 +284,10 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
-				<textElement>
+				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["EUR  " + $P{invoice}.getTransportCurrentPage()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{invoice}.getTransportCurrentPage() + " EUR"]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement key="" positionType="Float" x="440" y="54" width="95" height="1" uuid="c2f53a31-7e45-4ff3-98df-4a8ae9f1e70b">
@@ -373,17 +373,17 @@
 						</textField>
 						<textField>
 							<reportElement x="385" y="0" width="55" height="13" uuid="d51966de-0ddb-418c-a8bd-f0f869e1e080"/>
-							<textElement>
+							<textElement textAlignment="Right">
 								<font size="9"/>
 							</textElement>
-							<textFieldExpression><![CDATA["EUR  " + $F{price}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{price} + " EUR"]]></textFieldExpression>
 						</textField>
 						<textField>
 							<reportElement x="440" y="0" width="95" height="13" uuid="97544650-67c5-4dcc-a542-71aa3cd1bb08"/>
-							<textElement>
+							<textElement textAlignment="Right">
 								<font size="9"/>
 							</textElement>
-							<textFieldExpression><![CDATA["EUR  " + $F{totalPrice}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{totalPrice} + " EUR"]]></textFieldExpression>
 						</textField>
 					</jr:listContents>
 				</jr:list>
@@ -442,17 +442,17 @@
 						</textField>
 						<textField>
 							<reportElement x="385" y="0" width="55" height="13" uuid="6cdd4403-151d-4aa6-a73d-54b2df59e643"/>
-							<textElement>
+							<textElement textAlignment="Right">
 								<font size="9"/>
 							</textElement>
-							<textFieldExpression><![CDATA["EUR  " + $F{price}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{price} + " EUR"]]></textFieldExpression>
 						</textField>
 						<textField>
 							<reportElement x="440" y="0" width="95" height="13" uuid="d922e034-efd5-4ba9-a012-62363efb6b68"/>
-							<textElement>
+							<textElement textAlignment="Right">
 								<font size="9"/>
 							</textElement>
-							<textFieldExpression><![CDATA["EUR  " + $F{totalPrice}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{totalPrice} + " EUR"]]></textFieldExpression>
 						</textField>
 					</jr:listContents>
 				</jr:list>
