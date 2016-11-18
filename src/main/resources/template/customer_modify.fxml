@@ -88,7 +88,7 @@
                 <Label id="labelFax" text="Fax:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
                 <TextField fx:id="faxField" prefColumnCount="30" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
 
-                <Label id="labelBtwNumber" text="BTW nummer*:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                <Label id="labelBtwNumber" text="BTW nummer:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
                 <TextField fx:id="btwNumberField" prefColumnCount="30" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
 
                 <Label id="labelEmailAddress" text="E-mailadres:" GridPane.rowIndex="11" GridPane.columnIndex="0"/>

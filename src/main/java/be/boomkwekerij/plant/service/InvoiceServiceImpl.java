@@ -11,6 +11,7 @@ import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.validator.InvoiceValidator;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class InvoiceServiceImpl implements InvoiceService {
+
+    private static final String EMPTY_BTW_NUMBER = "/";
 
     private InvoiceDAO invoiceDAO = new InvoiceDAOImpl();
     private InvoiceMemory invoiceMemory = MemoryDatabase.getInvoiceMemory();
@@ -182,6 +185,10 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     private double getBtw(CustomerDTO customerDTO) {
+        if (StringUtils.isBlank(customerDTO.getBtwNumber()) || EMPTY_BTW_NUMBER.equals(customerDTO.getBtwNumber())) {
+            return 0.0;
+        }
+
         String country = customerDTO.getCountry();
         if (country != null) {
             if (country.equals("NL")) {

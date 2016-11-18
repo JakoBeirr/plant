@@ -26,7 +26,6 @@ public class CustomerValidator {
         validateRequiredField("postcode", customer.getPostalCode(), validationErrors);
         validateRequiredField("woonplaats", customer.getResidence(), validationErrors);
         validateRequiredField("land", customer.getCountry(), validationErrors);
-        validateRequiredField("BTW nummer", customer.getBtwNumber(), validationErrors);
     }
 
     private void validateRequiredField(String field, String fieldValue, List<String> validationErrors) {
