@@ -100,7 +100,7 @@ public class InvoiceMapper {
     }
 
     private double countBtwAmount(double subTotal, double btw) {
-        return subTotal * btw;
+        return subTotal * (btw / 100);
     }
 
     private double countTotalPrice(double subTotal, double btwAmount) {
@@ -120,7 +120,7 @@ public class InvoiceMapper {
         removeUnnecessaryDates(onePagedInvoiceReportObject.getInvoiceLines());
         onePagedInvoiceReportObject.setHasOrderNumbers(checkIfInvoiceHasOrderNumbers(invoiceLines));
         onePagedInvoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
-        onePagedInvoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()*100), 2));
+        onePagedInvoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()), 2));
         onePagedInvoiceReportObject.setBtwAmount(NumberUtils.formatDouble(invoiceDTO.getBtwAmount(), 2));
         onePagedInvoiceReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceDTO.getTotalPrice(), 2));
         return onePagedInvoiceReportObject;
@@ -143,7 +143,7 @@ public class InvoiceMapper {
             removeUnnecessaryDates(multiplePagedInvoiceReportObject.getInvoiceLines());
             multiplePagedInvoiceReportObject.setHasOrderNumbers(checkIfInvoiceHasOrderNumbers(invoiceDTO.getInvoiceLines()));
             multiplePagedInvoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
-            multiplePagedInvoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()*100), 2));
+            multiplePagedInvoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()), 2));
             multiplePagedInvoiceReportObject.setBtwAmount(NumberUtils.formatDouble(invoiceDTO.getBtwAmount(), 2));
             multiplePagedInvoiceReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceDTO.getTotalPrice(), 2));
             multiplePagedInvoiceReportObjects.add(multiplePagedInvoiceReportObject);

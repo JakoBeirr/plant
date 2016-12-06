@@ -134,7 +134,7 @@ public class AppController implements Initializable {
             fieldPane.add(new Label("IBAN NL:"), 0, 9);
             fieldPane.add(ibanNetherlandsField, 1, 9);
             TextField bicNetherlandsField = new TextField();
-            fieldPane.add(new Label("BIC BE:"), 0, 10);
+            fieldPane.add(new Label("BIC NL:"), 0, 10);
             fieldPane.add(bicNetherlandsField, 1, 10);
             TextField btwNumberField = new TextField();
             fieldPane.add(new Label("BTW nummer:"), 0, 11);

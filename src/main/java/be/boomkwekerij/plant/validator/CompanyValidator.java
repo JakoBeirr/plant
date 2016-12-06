@@ -23,10 +23,8 @@ public class CompanyValidator {
         validateRequiredField("telefoon", company.getTelephone(), validationErrors);
         validateRequiredField("fax", company.getFax(), validationErrors);
         validateRequiredField("gsm", company.getGsm(), validationErrors);
-        validateRequiredField("kaartnummer BE", company.getAccountNumberBelgium(), validationErrors);
         validateRequiredField("IBAN BE", company.getIbanBelgium(), validationErrors);
         validateRequiredField("BIC BE", company.getBicBelgium(), validationErrors);
-        validateRequiredField("kaartnummer NL", company.getAccountNumberNetherlands(), validationErrors);
         validateRequiredField("IBAN NL", company.getIbanNetherlands(), validationErrors);
         validateRequiredField("BIC NL", company.getBicNetherlands(), validationErrors);
         validateRequiredField("BTW nummer", company.getBtwNumber(), validationErrors);

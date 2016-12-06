@@ -194,10 +194,10 @@ public class InvoiceServiceImpl implements InvoiceService {
             if (country.equals("NL")) {
                 return 0.0;
             } else if (country.equals("BE")) {
-                return 0.06;
+                return 6.0;
             }
         }
-        return 0.21;
+        return 21.0;
     }
 
     @Override

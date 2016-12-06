@@ -3,6 +3,7 @@
 <!-- 2016-09-04T18:12:36 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
 	<subDataset name="invoiceLines" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
 		<queryString>
 			<![CDATA[]]>
@@ -72,9 +73,9 @@
 				"\nTel. " + $P{company}.getTelephoneBelgium() + "  -  vanuit NL: " + $P{company}.getTelephoneNetherlands() +
 				"\nFax. " + $P{company}.getFaxBelgium() + "  -  vanuit NL: " + $P{company}.getFaxNetherlands() +
 				"\nGsm. " + $P{company}.getGsmBelgium() + "  -  vanuit NL: " + $P{company}.getGsmNetherlands() +
-				"\nKBC: " + $P{company}.getAccountNumberBelgium() +
+				"\nKBC" +
 				"\nIBAN: " + $P{company}.getIbanBelgium() + "  -  BIC: " + $P{company}.getBicBelgium() +
-				"\nRabobank Zundert: " + $P{company}.getAccountNumberNetherlands() +
+				"\nRabobank Zundert" +
 				"\nIBAN: " + $P{company}.getIbanNetherlands() + "  -  BIC: " + $P{company}.getBicNetherlands() +
 				"\nBTW: " + $P{company}.getBtwNumber()]]></textFieldExpression>
 			</textField>
@@ -152,7 +153,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Prijs]]></text>
@@ -164,7 +165,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Totaal]]></text>

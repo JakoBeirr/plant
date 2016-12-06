@@ -28,8 +28,8 @@ public class InvoiceValidator {
     }
 
     private void validatePercentField(InvoiceDTO invoice, List<String> validationErrors) {
-        if (invoice.getBtw() < 0 || invoice.getBtw() > 1) {
-            validationErrors.add("BTW moet een getal tussen 0 en 1 zijn");
+        if (invoice.getBtw() < 0 || invoice.getBtw() > 100) {
+            validationErrors.add("BTW moet een getal tussen 0 en 100 zijn");
         }
     }
 }

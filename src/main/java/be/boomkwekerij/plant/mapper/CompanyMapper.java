@@ -49,10 +49,8 @@ public class CompanyMapper {
         companyReportObject.setFaxNetherlands(getDutchVariant(getReportObjectValue(companyDTO.getFax())));
         companyReportObject.setGsmBelgium(getReportObjectValue(companyDTO.getGsm()));
         companyReportObject.setGsmNetherlands(getDutchVariant(getReportObjectValue(companyDTO.getGsm())));
-        companyReportObject.setAccountNumberBelgium(getReportObjectValue(companyDTO.getAccountNumberBelgium()));
         companyReportObject.setIbanBelgium(getReportObjectValue(companyDTO.getIbanBelgium()));
         companyReportObject.setBicBelgium(getReportObjectValue(companyDTO.getBicBelgium()));
-        companyReportObject.setAccountNumberNetherlands(getReportObjectValue(companyDTO.getAccountNumberNetherlands()));
         companyReportObject.setIbanNetherlands(getReportObjectValue(companyDTO.getIbanNetherlands()));
         companyReportObject.setBicNetherlands(getReportObjectValue(companyDTO.getBicNetherlands()));
         companyReportObject.setBtwNumber(getReportObjectValue(companyDTO.getBtwNumber()));

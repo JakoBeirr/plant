@@ -9,10 +9,8 @@ public class CompanyReportObject {
     private String faxNetherlands;
     private String gsmBelgium;
     private String gsmNetherlands;
-    private String accountNumberBelgium;
     private String ibanBelgium;
     private String bicBelgium;
-    private String accountNumberNetherlands;
     private String ibanNetherlands;
     private String bicNetherlands;
     private String btwNumber;
@@ -73,14 +71,6 @@ public class CompanyReportObject {
         this.gsmNetherlands = gsmNetherlands;
     }
 
-    public String getAccountNumberBelgium() {
-        return accountNumberBelgium;
-    }
-
-    public void setAccountNumberBelgium(String accountNumberBelgium) {
-        this.accountNumberBelgium = accountNumberBelgium;
-    }
-
     public String getIbanBelgium() {
         return ibanBelgium;
     }
@@ -95,14 +85,6 @@ public class CompanyReportObject {
 
     public void setBicBelgium(String bicBelgium) {
         this.bicBelgium = bicBelgium;
-    }
-
-    public String getAccountNumberNetherlands() {
-        return accountNumberNetherlands;
-    }
-
-    public void setAccountNumberNetherlands(String accountNumberNetherlands) {
-        this.accountNumberNetherlands = accountNumberNetherlands;
     }
 
     public String getIbanNetherlands() {
