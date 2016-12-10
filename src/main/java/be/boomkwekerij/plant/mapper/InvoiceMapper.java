@@ -1,8 +1,10 @@
 package be.boomkwekerij.plant.mapper;
 
+import be.boomkwekerij.plant.model.dto.BtwDTO;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
+import be.boomkwekerij.plant.model.report.BtwReportObject;
 import be.boomkwekerij.plant.model.report.InvoiceLineReportObject;
 import be.boomkwekerij.plant.model.report.MultiplePagedInvoiceReportObject;
 import be.boomkwekerij.plant.model.report.OnePagedInvoiceReportObject;
@@ -13,10 +15,7 @@ import be.boomkwekerij.plant.service.CustomerServiceImpl;
 import be.boomkwekerij.plant.util.*;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class InvoiceMapper {
 
@@ -35,7 +34,6 @@ public class InvoiceMapper {
         }
         invoice.setDate(date.toDate());
         invoice.setInvoiceLines(getInvoiceLines(invoiceDTO));
-        invoice.setBtw(invoiceDTO.getBtw());
         invoice.setPayed(invoiceDTO.isPayed());
         return invoice;
     }
@@ -59,14 +57,55 @@ public class InvoiceMapper {
         invoiceDTO.setDate(new DateTime(invoice.getDate()));
         List<InvoiceLineDTO> invoiceLines = getInvoiceLines(invoice);
         invoiceDTO.setInvoiceLines(invoiceLines);
+
         double subTotal = countSubTotal(invoiceLines);
         invoiceDTO.setSubTotal(subTotal);
-        invoiceDTO.setBtw(invoice.getBtw());
-        double btwAmount = countBtwAmount(subTotal, invoice.getBtw());
-        invoiceDTO.setBtwAmount(btwAmount);
+
+        Map<Double, Double> btwMap = determineBtw(invoiceLines);
+        List<BtwDTO> btwList = mapToList(btwMap);
+        invoiceDTO.setBtw(btwList);
+
+        double btwAmount = countBtwAmount(btwMap);
         invoiceDTO.setTotalPrice(countTotalPrice(subTotal, btwAmount));
+
         invoiceDTO.setPayed(invoice.isPayed());
         return invoiceDTO;
+    }
+
+    private List<BtwDTO> mapToList(Map<Double, Double> btwMap) {
+        List<BtwDTO> btwList = new ArrayList<>();
+        for (Double btwPercentage : btwMap.keySet()) {
+            BtwDTO btwDTO = new BtwDTO();
+            btwDTO.setBtwPercentage(btwPercentage);
+            btwDTO.setBtwAmount(btwMap.get(btwPercentage));
+            btwList.add(btwDTO);
+        }
+        return btwList;
+    }
+
+    private double countBtwAmount(Map<Double, Double> btwList) {
+        double btwAmount = 0;
+        for (Double btw : btwList.values()) {
+            btwAmount += btw;
+        }
+        return btwAmount;
+    }
+
+    private Map<Double, Double> determineBtw(List<InvoiceLineDTO> invoiceLines) {
+        Map<Double, Double> btwList = new HashMap<>();
+        for (InvoiceLineDTO invoiceLine : invoiceLines) {
+            double invoiceLineBtwPercentage = invoiceLine.getBtw();
+            double invoiceLineBtwAmount = invoiceLine.getBtwAmount();
+
+            Double existingBtwAmount = btwList.get(invoiceLineBtwPercentage);
+            if (existingBtwAmount == null) {
+                existingBtwAmount = (double) 0;
+            }
+
+            double newBtwAmount = existingBtwAmount + invoiceLineBtwAmount;
+            btwList.put(invoiceLineBtwPercentage, newBtwAmount);
+        }
+        return btwList;
     }
 
     private CustomerDTO getCustomer(String id) {
@@ -99,10 +138,6 @@ public class InvoiceMapper {
         return subTotal;
     }
 
-    private double countBtwAmount(double subTotal, double btw) {
-        return subTotal * (btw / 100);
-    }
-
     private double countTotalPrice(double subTotal, double btwAmount) {
         return subTotal + btwAmount;
     }
@@ -120,8 +155,9 @@ public class InvoiceMapper {
         removeUnnecessaryDates(onePagedInvoiceReportObject.getInvoiceLines());
         onePagedInvoiceReportObject.setHasOrderNumbers(checkIfInvoiceHasOrderNumbers(invoiceLines));
         onePagedInvoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
-        onePagedInvoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()), 2));
-        onePagedInvoiceReportObject.setBtwAmount(NumberUtils.formatDouble(invoiceDTO.getBtwAmount(), 2));
+        List<BtwDTO> btwList = invoiceDTO.getBtw();
+        sortBtwByPercentage(btwList);
+        onePagedInvoiceReportObject.setBtw(mapToBtwReportObject(btwList));
         onePagedInvoiceReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceDTO.getTotalPrice(), 2));
         return onePagedInvoiceReportObject;
     }
@@ -143,8 +179,9 @@ public class InvoiceMapper {
             removeUnnecessaryDates(multiplePagedInvoiceReportObject.getInvoiceLines());
             multiplePagedInvoiceReportObject.setHasOrderNumbers(checkIfInvoiceHasOrderNumbers(invoiceDTO.getInvoiceLines()));
             multiplePagedInvoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
-            multiplePagedInvoiceReportObject.setBtw(NumberUtils.formatDouble((invoiceDTO.getBtw()), 2));
-            multiplePagedInvoiceReportObject.setBtwAmount(NumberUtils.formatDouble(invoiceDTO.getBtwAmount(), 2));
+            List<BtwDTO> btwList = invoiceDTO.getBtw();
+            sortBtwByPercentage(btwList);
+            multiplePagedInvoiceReportObject.setBtw(mapToBtwReportObject(btwList));
             multiplePagedInvoiceReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceDTO.getTotalPrice(), 2));
             multiplePagedInvoiceReportObjects.add(multiplePagedInvoiceReportObject);
         }
@@ -199,6 +236,37 @@ public class InvoiceMapper {
             } else {
                 dateToCompare = invoiceLine.getInvoiceLineDate();
             }
+        }
+    }
+
+    private List<BtwReportObject> mapToBtwReportObject(List<BtwDTO> btw) {
+        List<BtwReportObject> btwList = new ArrayList<>();
+
+        if (btw.size() == 1 && btw.get(0).getBtwPercentage() == 0.0) {
+            BtwReportObject btwReportObject = new BtwReportObject();
+            btwReportObject.setBtwPercentage("verlegd");
+            btwReportObject.setBtwAmount("");
+            btwList.add(btwReportObject);
+        } else {
+            for (BtwDTO btwDTO : btw) {
+                if (btwDTO.getBtwPercentage() != 0.0) {
+                    BtwReportObject btwReportObject = new BtwReportObject();
+                    btwReportObject.setBtwPercentage(Double.toString(btwDTO.getBtwPercentage()) + "%");
+                    btwReportObject.setBtwAmount(NumberUtils.formatDouble(btwDTO.getBtwAmount(), 2));
+                    btwList.add(btwReportObject);
+                }
+            }
+        }
+        return btwList;
+    }
+
+    private void sortBtwByPercentage(List<BtwDTO> btwList) {
+        if (btwList.size() > 0) {
+            Collections.sort(btwList, new Comparator<BtwDTO>() {
+                public int compare(BtwDTO btwDTO1, BtwDTO btwDTO2) {
+                    return (int) btwDTO1.getBtwPercentage() - (int) btwDTO2.getBtwPercentage();
+                }
+            });
         }
     }
 }

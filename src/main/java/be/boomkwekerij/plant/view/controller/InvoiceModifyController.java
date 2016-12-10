@@ -44,6 +44,8 @@ public class InvoiceModifyController implements Initializable {
     private CustomerViewMapper customerViewMapper = new CustomerViewMapper();
     private PlantViewMapper plantViewMapper = new PlantViewMapper();
 
+    InvoiceDTO invoice;
+
     @FXML
     private TextField searchField;
     @FXML
@@ -79,6 +81,8 @@ public class InvoiceModifyController implements Initializable {
     @FXML
     private DatePicker invoiceLineDate;
     @FXML
+    private TextField invoiceLineBtw;
+    @FXML
     private TextField amount;
     @FXML
     private TextField alternativePlantPrice;
@@ -98,8 +102,6 @@ public class InvoiceModifyController implements Initializable {
     private Label chosenPlant;
     @FXML
     private Button choosePlantButton;
-    @FXML
-    private TextField btw;
 
     private static final String NON_NUMERIC_CHARACTERS = "[^\\d]";
     private static final String NON_DECIMAL_NUMERIC_CHARACTERS = "[^\\d.]";
@@ -109,6 +111,7 @@ public class InvoiceModifyController implements Initializable {
         loadAllInvoices();
         addChangeListenerToSearchFields();
         addChangeListenersToList();
+        initNumericFields();
     }
 
     private void loadAllInvoices() {
@@ -238,10 +241,10 @@ public class InvoiceModifyController implements Initializable {
                 alternativePlantPrice.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
             }
         });
-        btw.textProperty().addListener(new ChangeListener<String>() {
+        invoiceLineBtw.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                btw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+                invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
             }
         });
     }
@@ -258,22 +261,22 @@ public class InvoiceModifyController implements Initializable {
         SearchResult<InvoiceDTO> searchResult = invoiceController.getInvoice(selectedInvoice.getId());
 
         if (searchResult.isSuccess()) {
-            InvoiceDTO invoiceDTO = searchResult.getFirst();
-            customer.setText(invoiceDTO.getCustomer().getName1());
-            invoiceNumberField.setText(invoiceDTO.getInvoiceNumber());
-            DateTime invoiceDTODate = invoiceDTO.getDate();
+            invoice = searchResult.getFirst();
+            customer.setText(invoice.getCustomer().getName1());
+            invoiceNumberField.setText(invoice.getInvoiceNumber());
+            DateTime invoiceDTODate = invoice.getDate();
             invoiceDate.setValue(LocalDate.of(invoiceDTODate.getYear(), invoiceDTODate.getMonthOfYear(), invoiceDTODate.getDayOfMonth()));
-            for (InvoiceLineDTO invoiceLineDTO : invoiceDTO.getInvoiceLines()) {
+            for (InvoiceLineDTO invoiceLineDTO : invoice.getInvoiceLines()) {
                 DateTime invoiceLineDate = invoiceLineDTO.getDate();
                 String plantName = invoiceLineDTO.getPlantName() + "    (" + invoiceLineDTO.getPlantAge() + " - " + invoiceLineDTO.getPlantMeasure() + ")";
                 String orderNumber = invoiceLineDTO.getOrderNumber();
                 LocalDate invoiceLineLocalDate = LocalDate.of(invoiceLineDate.getYear(), invoiceLineDate.getMonthOfYear(), invoiceLineDate.getDayOfMonth());
                 String amount = Integer.toString(invoiceLineDTO.getAmount());
+                String invoiceLineBtw = Double.toString(invoiceLineDTO.getBtw());
                 String price = Double.toString(invoiceLineDTO.getPlantPrice());
-                addCreatedInvoiceLine(invoiceLineDTO.getPlantId(), plantName, orderNumber, invoiceLineLocalDate, amount, price);
+                addCreatedInvoiceLine(invoiceLineDTO.getPlantId(), plantName, orderNumber, invoiceLineLocalDate, amount, invoiceLineBtw, price);
             }
             resetInvoiceLine();
-            btw.setText(Double.toString(invoiceDTO.getBtw()));
         }
     }
 
@@ -296,20 +299,20 @@ public class InvoiceModifyController implements Initializable {
 
     public void createInvoiceLine(ActionEvent actionEvent) {
         if (!chosenPlant.getText().trim().isEmpty() && !plantSearchField.getText().trim().isEmpty() && invoiceLineDate.getValue() != null && !amount.getText().trim().isEmpty() && !alternativePlantPrice.getText().trim().isEmpty()) {
-            addCreatedInvoiceLine(chosenPlant.getText(), plantSearchField.getText(), orderNumber.getText(), invoiceLineDate.getValue(), amount.getText(), alternativePlantPrice.getText());
+            addCreatedInvoiceLine(chosenPlant.getText(), plantSearchField.getText(), orderNumber.getText(), invoiceLineDate.getValue(), amount.getText(), invoiceLineBtw.getText(), alternativePlantPrice.getText());
 
             resetInvoiceLine();
         }
     }
 
-    private void addCreatedInvoiceLine(String chosenPlant, String plantSearchField, String orderNumber, LocalDate invoiceLineDate, String amount, String alternativePlantPrice) {
+    private void addCreatedInvoiceLine(String chosenPlant, String plantSearchField, String orderNumber, LocalDate invoiceLineDate, String amount, String invoiceLineBtw, String alternativePlantPrice) {
         HBox invoiceLine = new HBox(5);
 
         Label createdChosenPlant = new Label(chosenPlant);
         createdChosenPlant.setManaged(false);
         createdChosenPlant.setVisible(false);
         TextField createdPlant = new TextField(plantSearchField);
-        createdPlant.setPrefColumnCount(40);
+        createdPlant.setPrefColumnCount(37);
         createdPlant.setDisable(true);
         TextField createdOrderNumber = new TextField(orderNumber);
         createdOrderNumber.setPrefColumnCount(10);
@@ -319,6 +322,9 @@ public class InvoiceModifyController implements Initializable {
         TextField createdAmount = new TextField(amount);
         createdAmount.setPrefColumnCount(3);
         createdAmount.setDisable(true);
+        TextField createdInvoiceLineBtw = new TextField(invoiceLineBtw);
+        createdInvoiceLineBtw.setPrefColumnCount(3);
+        createdInvoiceLineBtw.setDisable(true);
         TextField createdPrice = new TextField(alternativePlantPrice);
         createdPrice.setPrefColumnCount(5);
         createdPrice.setDisable(true);
@@ -336,6 +342,7 @@ public class InvoiceModifyController implements Initializable {
         invoiceLine.getChildren().add(createdOrderNumber);
         invoiceLine.getChildren().add(createdInvoiceLineDate);
         invoiceLine.getChildren().add(createdAmount);
+        invoiceLine.getChildren().add(createdInvoiceLineBtw);
         invoiceLine.getChildren().add(createdPrice);
         invoiceLine.getChildren().add(deleteRow);
         createdInvoiceLines.getChildren().add(invoiceLine);
@@ -348,6 +355,7 @@ public class InvoiceModifyController implements Initializable {
         amount.setText("");
         alternativePlantPrice.setText("");
         invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
+        invoiceLineBtw.setText(Double.toString(invoice.getDefaultBtw()));
         plantSearchField.setDisable(false);
     }
 
@@ -376,7 +384,8 @@ public class InvoiceModifyController implements Initializable {
                     TextField createdOrderNumber = (TextField) children.get(2);
                     DatePicker createdInvoiceLineDate = (DatePicker) children.get(3);
                     TextField createdAmount = (TextField) children.get(4);
-                    TextField createdPrice = (TextField) children.get(5);
+                    TextField createdInvoiceLineBtw = (TextField) children.get(5);
+                    TextField createdPrice = (TextField) children.get(6);
 
                     InvoiceLineDTO invoiceLineDTO = new InvoiceLineDTO();
                     invoiceLineDTO.setOrderNumber(createdOrderNumber.getText());
@@ -393,10 +402,10 @@ public class InvoiceModifyController implements Initializable {
                     } else {
                         throw new ItemNotFoundException("Kon plant " + createdPlant.getText() + " niet vinden!");
                     }
+                    invoiceLineDTO.setBtw(Double.parseDouble(createdInvoiceLineBtw.getText()));
                     invoiceLineDTO.setPlantPrice(Double.parseDouble(createdPrice.getText()));
                     invoiceDTO.getInvoiceLines().add(invoiceLineDTO);
                 }
-                invoiceDTO.setBtw(Double.parseDouble(btw.getText()));
                 invoiceDTO.setPayed(invoice.isPayed());
 
                 CrudsResult invoiceCreateResult = invoiceController.updateInvoice(invoiceDTO);

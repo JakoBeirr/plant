@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.validator;
 
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
+import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,10 @@ public class InvoiceValidator {
     }
 
     private void validatePercentField(InvoiceDTO invoice, List<String> validationErrors) {
-        if (invoice.getBtw() < 0 || invoice.getBtw() > 100) {
-            validationErrors.add("BTW moet een getal tussen 0 en 100 zijn");
+        for (InvoiceLineDTO invoiceLineDTO : invoice.getInvoiceLines()) {
+            if (invoiceLineDTO.getBtw() < 0 || invoiceLineDTO.getBtw() > 100) {
+                validationErrors.add("BTW " + invoiceLineDTO.getBtw() + "% voor factuurlijn: " + invoiceLineDTO.getPlantName() + " (" + invoiceLineDTO.getPlantAge() + " - " + invoiceLineDTO.getPlantMeasure() + ") is incorrect, dit moet een getal tussen 0 en 100 zijn");
+            }
         }
     }
 }

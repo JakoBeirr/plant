@@ -61,6 +61,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             Invoice invoice = searchResult.getFirst();
             if (invoice != null) {
                 InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice);
+                invoiceDTO.setDefaultBtw(getBtw(invoiceDTO.getCustomer()));
                 invoiceSearchResult.addResult(invoiceDTO);
             }
         }
@@ -170,7 +171,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceDTO.setInvoiceNumber(systemService.getNextInvoiceNumber());
         invoiceDTO.setCustomer(customerDTO);
         invoiceDTO.setDate(new DateTime());
-        invoiceDTO.setBtw(getBtw(customerDTO));
+        invoiceDTO.setDefaultBtw(getBtw(customerDTO));
         return invoiceDTO;
     }
 

@@ -30,6 +30,7 @@ public class InvoiceLineMapper {
         invoiceLine.setPlantAge(invoiceLineDTO.getPlantAge());
         invoiceLine.setPlantMeasure(invoiceLineDTO.getPlantMeasure());
         invoiceLine.setPlantPrice(invoiceLineDTO.getPlantPrice());
+        invoiceLine.setPlantBtw(invoiceLineDTO.getBtw());
         return invoiceLine;
     }
 
@@ -43,12 +44,19 @@ public class InvoiceLineMapper {
         invoiceLineDTO.setPlantAge(invoiceLine.getPlantAge());
         invoiceLineDTO.setPlantMeasure(invoiceLine.getPlantMeasure());
         invoiceLineDTO.setPlantPrice(invoiceLine.getPlantPrice());
-        invoiceLineDTO.setTotalPrice(countTotalPrice(invoiceLine));
+        double totalPrice = countTotalPrice(invoiceLine);
+        invoiceLineDTO.setTotalPrice(totalPrice);
+        invoiceLineDTO.setBtw(invoiceLine.getPlantBtw());
+        invoiceLineDTO.setBtwAmount(countBtwAmount(totalPrice, invoiceLine.getPlantBtw()));
         return invoiceLineDTO;
     }
 
     private double countTotalPrice(InvoiceLine invoiceLine) {
         return invoiceLine.getAmount() * invoiceLine.getPlantPrice();
+    }
+
+    private double countBtwAmount(double totalPrice, double plantBtw) {
+        return totalPrice * (plantBtw / 100);
     }
 
     public InvoiceLineReportObject mapDTOToReportObject(InvoiceLineDTO invoiceLineDTO) {

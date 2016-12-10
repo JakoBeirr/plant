@@ -12,8 +12,7 @@ public class MultiplePagedInvoiceReportObject {
     private String transportPreviousPage;
     private String transportCurrentPage;
     private String subTotal;
-    private String btw;
-    private String btwAmount;
+    private List<BtwReportObject> btw;
     private String totalPrice;
 
     public String getInvoiceDate() {
@@ -72,20 +71,12 @@ public class MultiplePagedInvoiceReportObject {
         this.subTotal = subTotal;
     }
 
-    public String getBtw() {
+    public List<BtwReportObject> getBtw() {
         return btw;
     }
 
-    public void setBtw(String btw) {
+    public void setBtw(List<BtwReportObject> btw) {
         this.btw = btw;
-    }
-
-    public String getBtwAmount() {
-        return btwAmount;
-    }
-
-    public void setBtwAmount(String btwAmount) {
-        this.btwAmount = btwAmount;
     }
 
     public String getTotalPrice() {

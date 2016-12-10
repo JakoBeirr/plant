@@ -13,10 +13,10 @@ public class InvoiceDTO {
     private DateTime date;
     private List<InvoiceLineDTO> invoiceLines = new ArrayList<InvoiceLineDTO>();
     private double subTotal;
-    private double btw;
-    private double btwAmount;
+    private List<BtwDTO> btw;
     private double totalPrice;
     private boolean payed;
+    private double defaultBtw;
 
     public String getId() {
         return id;
@@ -66,20 +66,12 @@ public class InvoiceDTO {
         this.subTotal = subTotal;
     }
 
-    public double getBtw() {
+    public List<BtwDTO> getBtw() {
         return btw;
     }
 
-    public void setBtw(double btw) {
+    public void setBtw(List<BtwDTO> btw) {
         this.btw = btw;
-    }
-
-    public double getBtwAmount() {
-        return btwAmount;
-    }
-
-    public void setBtwAmount(double btwAmount) {
-        this.btwAmount = btwAmount;
     }
 
     public double getTotalPrice() {
@@ -96,5 +88,13 @@ public class InvoiceDTO {
 
     public void setPayed(boolean payed) {
         this.payed = payed;
+    }
+
+    public double getDefaultBtw() {
+        return defaultBtw;
+    }
+
+    public void setDefaultBtw(double defaultBtw) {
+        this.defaultBtw = defaultBtw;
     }
 }

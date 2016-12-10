@@ -15,6 +15,7 @@ public class InvoiceLine {
     private String plantAge;
     private String plantMeasure;
     private double plantPrice;
+    private double plantBtw;
 
     public Date getDate() {
         return date;
@@ -86,5 +87,14 @@ public class InvoiceLine {
     @XmlElement
     public void setPlantPrice(double plantPrice) {
         this.plantPrice = plantPrice;
+    }
+
+    public double getPlantBtw() {
+        return plantBtw;
+    }
+
+    @XmlElement
+    public void setPlantBtw(double plantBtw) {
+        this.plantBtw = plantBtw;
     }
 }

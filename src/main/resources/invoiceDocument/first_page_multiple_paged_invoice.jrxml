@@ -123,6 +123,97 @@
 				<textFieldExpression><![CDATA["FACTUUR\nWUUSTWEZEL, " + $P{invoice}.getInvoiceDate() + "\nNummer : " + $P{invoice}.getInvoiceNumber()]]></textFieldExpression>
 			</textField>
 			<staticText>
+				<reportElement positionType="Float" x="0" y="55" width="40" height="15" uuid="93f80925-5733-482c-a9a8-3054ac9a353b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
+				</reportElement>
+				<textElement markup="none">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="55" width="50" height="15" uuid="18990a87-8dbb-4c8c-9806-81e04eec8824">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[!$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
+				</reportElement>
+				<textElement markup="none">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="40" y="55" width="42" height="15" uuid="d4280cdd-29d4-4912-9890-61e9245db67f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aantal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="50" y="55" width="50" height="15" uuid="040cde55-2fac-4820-bc12-5dfbd36362fa">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[!$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aantal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" positionType="Float" x="82" y="55" width="78" height="15" uuid="11466e31-375a-4f2c-bb5f-a222f7ffd898">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ordernummer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="100" y="55" width="195" height="15" uuid="5577ae32-aa3f-4687-bf4b-197d585adba8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[!$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Soort]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="160" y="55" width="135" height="15" uuid="cbf0a65a-7c3c-4eb4-b68f-56abbf8e0bd1">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Soort]]></text>
+			</staticText>
+			<staticText>
 				<reportElement positionType="Float" x="295" y="55" width="45" height="15" uuid="a79e29f4-16b3-43b3-97c0-0ac657a222b4">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -170,150 +261,11 @@
 				</textElement>
 				<text><![CDATA[Totaal]]></text>
 			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="160" y="55" width="135" height="15" uuid="cbf0a65a-7c3c-4eb4-b68f-56abbf8e0bd1">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Soort]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="" positionType="Float" x="82" y="55" width="78" height="15" uuid="11466e31-375a-4f2c-bb5f-a222f7ffd898">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Ordernummer]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="40" y="55" width="42" height="15" uuid="d4280cdd-29d4-4912-9890-61e9245db67f">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Aantal]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="0" y="55" width="40" height="15" uuid="93f80925-5733-482c-a9a8-3054ac9a353b">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
-				</reportElement>
-				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Datum]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="0" y="55" width="50" height="15" uuid="18990a87-8dbb-4c8c-9806-81e04eec8824">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<printWhenExpression><![CDATA[!$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
-				</reportElement>
-				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Datum]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="50" y="55" width="50" height="15" uuid="040cde55-2fac-4820-bc12-5dfbd36362fa">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<printWhenExpression><![CDATA[!$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Aantal]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="100" y="55" width="195" height="15" uuid="5577ae32-aa3f-4687-bf4b-197d585adba8">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<printWhenExpression><![CDATA[!$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Soort]]></text>
-			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="130">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<line>
-				<reportElement key="" positionType="Float" x="440" y="24" width="95" height="1" uuid="ea6a267f-70e2-449b-95d2-dd4107081270">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-				</reportElement>
-				<graphicElement>
-					<pen lineStyle="Dashed"/>
-				</graphicElement>
-			</line>
-			<textField>
-				<reportElement key="" positionType="Float" x="440" y="34" width="95" height="15" uuid="4c53c354-484a-4c8f-ac65-2baf27c7a9fc">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Right">
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{invoice}.getTransportCurrentPage() + " EUR"]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement key="" positionType="Float" x="440" y="54" width="95" height="1" uuid="c2f53a31-7e45-4ff3-98df-4a8ae9f1e70b">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-				</reportElement>
-				<graphicElement>
-					<pen lineStyle="Double"/>
-				</graphicElement>
-			</line>
-			<staticText>
-				<reportElement key="" positionType="Float" x="340" y="34" width="100" height="15" uuid="29511313-11bd-4c71-b32c-2c24a205451a">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<textElement>
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[TRANSPORT]]></text>
-			</staticText>
 			<componentElement>
 				<reportElement key="" positionType="Float" x="0" y="0" width="535" height="13" uuid="445501a3-16b5-436a-baef-758ab9fbfdf0">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
@@ -458,6 +410,54 @@
 					</jr:listContents>
 				</jr:list>
 			</componentElement>
+			<line>
+				<reportElement key="" positionType="Float" x="440" y="24" width="95" height="1" uuid="ea6a267f-70e2-449b-95d2-dd4107081270">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement key="" positionType="Float" x="340" y="34" width="100" height="15" uuid="29511313-11bd-4c71-b32c-2c24a205451a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRANSPORT]]></text>
+			</staticText>
+			<textField>
+				<reportElement key="" positionType="Float" x="440" y="34" width="95" height="15" uuid="4c53c354-484a-4c8f-ac65-2baf27c7a9fc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{invoice}.getTransportCurrentPage() + " EUR"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement key="" positionType="Float" x="440" y="54" width="95" height="1" uuid="c2f53a31-7e45-4ff3-98df-4a8ae9f1e70b">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Double"/>
+				</graphicElement>
+			</line>
 		</band>
 	</detail>
 	<columnFooter>

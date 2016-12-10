@@ -13,6 +13,8 @@ public class InvoiceLineDTO {
     private String plantMeasure;
     private double plantPrice;
     private double totalPrice;
+    private double btw;
+    private double btwAmount;
 
     public DateTime getDate() {
         return date;
@@ -84,5 +86,21 @@ public class InvoiceLineDTO {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public double getBtw() {
+        return btw;
+    }
+
+    public void setBtw(double btw) {
+        this.btw = btw;
+    }
+
+    public double getBtwAmount() {
+        return btwAmount;
+    }
+
+    public void setBtwAmount(double btwAmount) {
+        this.btwAmount = btwAmount;
     }
 }

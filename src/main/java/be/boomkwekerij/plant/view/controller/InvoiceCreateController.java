@@ -43,6 +43,8 @@ public class InvoiceCreateController implements Initializable {
     private CustomerViewMapper customerViewMapper = new CustomerViewMapper();
     private PlantViewMapper plantViewMapper = new PlantViewMapper();
 
+    private InvoiceDTO newInvoice;
+
     @FXML
     private TextField customerSearchField;
     @FXML
@@ -84,6 +86,8 @@ public class InvoiceCreateController implements Initializable {
     @FXML
     private DatePicker invoiceLineDate;
     @FXML
+    private TextField invoiceLineBtw;
+    @FXML
     private TextField amount;
     @FXML
     private TextField alternativePlantPrice;
@@ -103,8 +107,6 @@ public class InvoiceCreateController implements Initializable {
     private Label chosenPlant;
     @FXML
     private Button choosePlantButton;
-    @FXML
-    private TextField btw;
 
     private static final String NON_NUMERIC_CHARACTERS = "[^\\d]";
     private static final String NON_DECIMAL_NUMERIC_CHARACTERS = "[^\\d.]";
@@ -244,10 +246,10 @@ public class InvoiceCreateController implements Initializable {
                 alternativePlantPrice.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
             }
         });
-        btw.textProperty().addListener(new ChangeListener<String>() {
+        invoiceLineBtw.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                btw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+                invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
             }
         });
     }
@@ -261,14 +263,13 @@ public class InvoiceCreateController implements Initializable {
 
     private void initializeKnownInvoiceProperties() {
         CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
-        InvoiceDTO invoiceDTO = invoiceController.makeNewInvoice(selectedCustomer.getId());
+        newInvoice = invoiceController.makeNewInvoice(selectedCustomer.getId());
 
-        customer.setText(invoiceDTO.getCustomer().getName1());
-        invoiceNumber.setText(invoiceDTO.getInvoiceNumber());
-        DateTime invoiceDTODate = invoiceDTO.getDate();
+        customer.setText(newInvoice.getCustomer().getName1());
+        invoiceNumber.setText(newInvoice.getInvoiceNumber());
+        DateTime invoiceDTODate = newInvoice.getDate();
         invoiceDate.setValue(LocalDate.of(invoiceDTODate.getYear(), invoiceDTODate.getMonthOfYear(), invoiceDTODate.getDayOfMonth()));
         resetInvoiceLine();
-        btw.setText(Double.toString(invoiceDTO.getBtw()));
     }
 
     public void choosePlant(ActionEvent actionEvent) {
@@ -296,7 +297,7 @@ public class InvoiceCreateController implements Initializable {
             createdChosenPlant.setManaged(false);
             createdChosenPlant.setVisible(false);
             TextField createdPlant = new TextField(plantSearchField.getText());
-            createdPlant.setPrefColumnCount(40);
+            createdPlant.setPrefColumnCount(37);
             createdPlant.setDisable(true);
             TextField createdOrderNumber = new TextField(orderNumber.getText());
             createdOrderNumber.setPrefColumnCount(10);
@@ -306,6 +307,9 @@ public class InvoiceCreateController implements Initializable {
             TextField createdAmount = new TextField(amount.getText());
             createdAmount.setPrefColumnCount(3);
             createdAmount.setDisable(true);
+            TextField createdInvoiceLineBtw = new TextField(invoiceLineBtw.getText());
+            createdInvoiceLineBtw.setPrefColumnCount(3);
+            createdInvoiceLineBtw.setDisable(true);
             TextField createdPrice = new TextField(alternativePlantPrice.getText());
             createdPrice.setPrefColumnCount(5);
             createdPrice.setDisable(true);
@@ -323,6 +327,7 @@ public class InvoiceCreateController implements Initializable {
             invoiceLine.getChildren().add(createdOrderNumber);
             invoiceLine.getChildren().add(createdInvoiceLineDate);
             invoiceLine.getChildren().add(createdAmount);
+            invoiceLine.getChildren().add(createdInvoiceLineBtw);
             invoiceLine.getChildren().add(createdPrice);
             invoiceLine.getChildren().add(deleteRow);
             createdInvoiceLines.getChildren().add(invoiceLine);
@@ -338,6 +343,7 @@ public class InvoiceCreateController implements Initializable {
         amount.setText("");
         alternativePlantPrice.setText("");
         invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
+        invoiceLineBtw.setText(Double.toString(newInvoice.getDefaultBtw()));
         plantSearchField.setDisable(false);
     }
 
@@ -363,7 +369,8 @@ public class InvoiceCreateController implements Initializable {
                 TextField createdOrderNumber = (TextField) children.get(2);
                 DatePicker createdInvoiceLineDate = (DatePicker) children.get(3);
                 TextField createdAmount = (TextField) children.get(4);
-                TextField createdPrice = (TextField) children.get(5);
+                TextField createdInvoiceLineBtw = (TextField) children.get(5);
+                TextField createdPrice = (TextField) children.get(6);
 
                 InvoiceLineDTO invoiceLineDTO = new InvoiceLineDTO();
                 invoiceLineDTO.setOrderNumber(createdOrderNumber.getText());
@@ -380,10 +387,10 @@ public class InvoiceCreateController implements Initializable {
                 } else {
                     throw new ItemNotFoundException("Kon plant " + createdPlant.getText() + " niet vinden!");
                 }
+                invoiceLineDTO.setBtw(Double.parseDouble(createdInvoiceLineBtw.getText()));
                 invoiceLineDTO.setPlantPrice(Double.parseDouble(createdPrice.getText()));
                 invoiceDTO.getInvoiceLines().add(invoiceLineDTO);
             }
-            invoiceDTO.setBtw(Double.parseDouble(btw.getText()));
             invoiceDTO.setPayed(false);
 
             CrudsResult invoiceCreateResult = invoiceController.createInvoice(invoiceDTO);

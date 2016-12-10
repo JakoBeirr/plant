@@ -102,6 +102,10 @@ public class SystemServiceImpl implements SystemService {
     }
 
     private String getNextInvoiceNumber(String invoiceNumber) {
+        if (invoiceNumber.length() < 5) {
+            throw new IllegalArgumentException("InvoiceNumber moet minstens 5 tekens lang zijn");
+        }
+
         String invoiceYear = invoiceNumber.substring(0,4);
         String invoiceNumberPart = invoiceNumber.substring(4, invoiceNumber.length());
         int invoiceNumberPartLength = invoiceNumberPart.length();

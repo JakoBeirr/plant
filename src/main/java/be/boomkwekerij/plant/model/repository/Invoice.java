@@ -13,7 +13,6 @@ public class Invoice {
     private String invoiceNumber;
     private Date date;
     private List<InvoiceLine> invoiceLines;
-    private double btw;
     private boolean payed;
 
     public String getId() {
@@ -59,15 +58,6 @@ public class Invoice {
     @XmlElement
     public void setInvoiceLines(List<InvoiceLine> invoiceLines) {
         this.invoiceLines = invoiceLines;
-    }
-
-    public double getBtw() {
-        return btw;
-    }
-
-    @XmlElement
-    public void setBtw(double btw) {
-        this.btw = btw;
     }
 
     public boolean isPayed() {

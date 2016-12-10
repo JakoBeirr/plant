@@ -112,8 +112,17 @@
                             <Label text="Ordernummer:" />
                             <TextField fx:id="orderNumber" prefColumnCount="10" />
 
-                            <Label text="Datum:" />
-                            <DatePicker fx:id="invoiceLineDate" />
+                            <HBox spacing="5">
+                                <VBox spacing="5">
+                                    <Label text="Datum:" />
+                                    <DatePicker fx:id="invoiceLineDate" />
+                                </VBox>
+
+                                <VBox spacing="5">
+                                    <Label text="BTW:" />
+                                    <TextField fx:id="invoiceLineBtw" prefColumnCount="3" />
+                                </VBox>
+                            </HBox>
                         </VBox>
                         <VBox spacing="5">
                             <Label text="Aantal:" />
@@ -134,12 +143,7 @@
 
                 <Label id="labelRow" text="" GridPane.rowIndex="5"/>
 
-                <Label id="labelBtw" text="BTW:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                <TextField fx:id="btw" prefColumnCount="6" GridPane.fillWidth="false" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-
-                <Label id="labelRow" text="" GridPane.rowIndex="7"/>
-
-                <Button id="createButton" mnemonicParsing="false" onMouseClicked="#createInvoice" text="Aanmaken" GridPane.rowIndex="8" GridPane.columnIndex="1" styleClass="green-button" />
+                <Button id="createButton" mnemonicParsing="false" onMouseClicked="#createInvoice" text="Aanmaken" GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="green-button" />
             </GridPane>
         </VBox>
     </ScrollPane>
