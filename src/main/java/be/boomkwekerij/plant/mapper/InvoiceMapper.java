@@ -252,7 +252,7 @@ public class InvoiceMapper {
                 if (btwDTO.getBtwPercentage() != 0.0) {
                     BtwReportObject btwReportObject = new BtwReportObject();
                     btwReportObject.setBtwPercentage(Double.toString(btwDTO.getBtwPercentage()) + "%");
-                    btwReportObject.setBtwAmount(NumberUtils.formatDouble(btwDTO.getBtwAmount(), 2));
+                    btwReportObject.setBtwAmount(NumberUtils.formatDouble(btwDTO.getBtwAmount(), 2) + " EUR");
                     btwList.add(btwReportObject);
                 }
             }
