@@ -22,7 +22,7 @@ public class BackupCreateController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-    public void backupButton(Event event) {
+    public void backup(Event event) {
         try {
             backupController.backupDatabase();
             AlertController.alertSuccess("Backup aangemaakt en is te vinden op volgende locatie: C:/plant/backup");
@@ -31,7 +31,7 @@ public class BackupCreateController implements Initializable {
         }
     }
 
-    public void restoreBackupButton(Event event) {
+    public void restoreBackup(Event event) {
         try {
             backupController.restoreBackupDatabase();
             AlertController.alertSuccess("Laatste backup is hersteld");
