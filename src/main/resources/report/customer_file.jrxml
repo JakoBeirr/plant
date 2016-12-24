@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-12-13T21:49:57 -->
+<!-- 2016-12-24T16:40:29 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="customerFile" pageWidth="845" pageHeight="595" columnWidth="785" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
@@ -28,7 +28,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Bedrijf\t:\t" + $P{customerFile}.getCompanyName() +
 "\nDatum\t:\t" + $P{customerFile}.getReportDate()]]></textFieldExpression>
@@ -39,110 +39,110 @@
 		<band height="25">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="0" width="125" height="15" uuid="18990a87-8dbb-4c8c-9806-81e04eec8824">
+				<reportElement positionType="Float" x="0" y="0" width="120" height="15" uuid="18990a87-8dbb-4c8c-9806-81e04eec8824">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Naam]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="125" y="0" width="125" height="15" uuid="2958e6f3-9f24-455d-8746-a938d4125dc7">
+				<reportElement positionType="Float" x="120" y="0" width="120" height="15" uuid="2958e6f3-9f24-455d-8746-a938d4125dc7">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Adres]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="250" y="0" width="60" height="15" uuid="5577ae32-aa3f-4687-bf4b-197d585adba8">
+				<reportElement positionType="Float" x="240" y="0" width="55" height="15" uuid="5577ae32-aa3f-4687-bf4b-197d585adba8">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Postcode]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="310" y="0" width="75" height="15" uuid="c90a8089-d4d7-42ed-9123-cad0d8134807">
+				<reportElement positionType="Float" x="295" y="0" width="70" height="15" uuid="c90a8089-d4d7-42ed-9123-cad0d8134807">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Woonplaats]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="385" y="0" width="75" height="15" uuid="f9a30eb6-ff2d-48ef-8927-f4604ca23ea0">
+				<reportElement positionType="Float" x="365" y="0" width="70" height="15" uuid="f9a30eb6-ff2d-48ef-8927-f4604ca23ea0">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Telefoon]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="460" y="0" width="75" height="15" uuid="89eba197-e276-4604-a3c1-fa8b1b105ab1">
+				<reportElement positionType="Float" x="435" y="0" width="70" height="15" uuid="89eba197-e276-4604-a3c1-fa8b1b105ab1">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Gsm]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="535" y="0" width="75" height="15" uuid="27aa358f-8f1e-4eb0-b25c-0455dff521a2">
+				<reportElement positionType="Float" x="505" y="0" width="70" height="15" uuid="27aa358f-8f1e-4eb0-b25c-0455dff521a2">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fax]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="610" y="0" width="100" height="15" uuid="90423b95-8d5f-4191-9774-5fd564c2ab5a">
+				<reportElement positionType="Float" x="575" y="0" width="95" height="15" uuid="90423b95-8d5f-4191-9774-5fd564c2ab5a">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[BTW-nummer]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="710" y="0" width="75" height="15" uuid="93f0539c-c0b0-4aaf-98d2-d5c7c682aacc">
+				<reportElement positionType="Float" x="670" y="0" width="115" height="15" uuid="93f0539c-c0b0-4aaf-98d2-d5c7c682aacc">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[E-mail adres]]></text>
 			</staticText>
@@ -156,11 +156,11 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="130">
+		<band height="13">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<componentElement>
-				<reportElement key="" positionType="Float" x="0" y="0" width="785" height="130" uuid="9ece598a-2426-400f-98da-c6eabe6b3e64">
+				<reportElement key="" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="785" height="13" uuid="9ece598a-2426-400f-98da-c6eabe6b3e64">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
 					<property name="net.sf.jasperreports.export.headertoolbar.table.name" value=""/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -173,67 +173,67 @@
 					<datasetRun subDataset="customers" uuid="264ea965-6ba3-4e35-981a-114d6a842cdc">
 						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{customerFile}.getCustomers())]]></dataSourceExpression>
 					</datasetRun>
-					<jr:listContents height="130" width="785">
+					<jr:listContents height="13" width="785">
 						<textField>
-							<reportElement x="0" y="0" width="125" height="13" uuid="e5097808-4c59-40d0-a51f-c03e5b63ce32"/>
+							<reportElement x="0" y="0" width="120" height="13" uuid="e5097808-4c59-40d0-a51f-c03e5b63ce32"/>
 							<textElement>
-								<font size="9"/>
+								<font size="8"/>
 							</textElement>
 							<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="125" y="0" width="125" height="13" uuid="9c255a6b-108c-4333-aee8-afd407071781"/>
+							<reportElement x="120" y="0" width="120" height="13" uuid="9c255a6b-108c-4333-aee8-afd407071781"/>
 							<textElement>
-								<font size="9"/>
+								<font size="8"/>
 							</textElement>
 							<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="250" y="0" width="60" height="13" uuid="9c255a6b-108c-4333-aee8-afd407071781"/>
+							<reportElement x="240" y="0" width="55" height="13" uuid="9c255a6b-108c-4333-aee8-afd407071781"/>
 							<textElement>
-								<font size="9"/>
+								<font size="8"/>
 							</textElement>
 							<textFieldExpression><![CDATA[$F{postalCode}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="310" y="0" width="75" height="13" uuid="d6fb92f7-ca95-4732-8a96-f0291f6e477b"/>
+							<reportElement x="295" y="0" width="70" height="13" uuid="d6fb92f7-ca95-4732-8a96-f0291f6e477b"/>
 							<textElement>
-								<font size="9"/>
+								<font size="8"/>
 							</textElement>
 							<textFieldExpression><![CDATA[$F{residence}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="385" y="0" width="75" height="13" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809"/>
+							<reportElement x="365" y="0" width="70" height="13" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809"/>
 							<textElement>
-								<font size="9"/>
+								<font size="8"/>
 							</textElement>
 							<textFieldExpression><![CDATA[$F{telephone}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="460" y="0" width="75" height="13" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809"/>
+							<reportElement x="435" y="0" width="70" height="13" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809"/>
 							<textElement>
-								<font size="9"/>
+								<font size="8"/>
 							</textElement>
 							<textFieldExpression><![CDATA[$F{gsm}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="535" y="0" width="75" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+							<reportElement x="505" y="0" width="70" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 							<textElement>
-								<font size="9"/>
+								<font size="8"/>
 							</textElement>
 							<textFieldExpression><![CDATA[$F{fax}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="610" y="0" width="100" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+							<reportElement x="575" y="0" width="95" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 							<textElement>
-								<font size="9"/>
+								<font size="8"/>
 							</textElement>
 							<textFieldExpression><![CDATA[$F{btwNumber}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="710" y="0" width="75" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+							<reportElement x="670" y="0" width="115" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 							<textElement>
-								<font size="9"/>
+								<font size="8"/>
 							</textElement>
 							<textFieldExpression><![CDATA[$F{emailAddress}]]></textFieldExpression>
 						</textField>

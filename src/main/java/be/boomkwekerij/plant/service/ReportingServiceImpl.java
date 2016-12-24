@@ -2,6 +2,7 @@ package be.boomkwekerij.plant.service;
 
 import be.boomkwekerij.plant.exception.ReportException;
 import be.boomkwekerij.plant.mapper.CustomerMapper;
+import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.model.dto.CompanyDTO;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
 import be.boomkwekerij.plant.model.report.CustomerFileReportObject;
@@ -22,7 +23,7 @@ public class ReportingServiceImpl implements ReportingService {
     private ReportPDFCreator reportPDFCreator = new ReportPDFCreator();
 
     @Override
-    public byte[] createCustomerFileReport() throws ReportException {
+    public BestandDTO createCustomerFileReport() throws ReportException {
         List<CustomerDTO> customers = findAllCustomers();
         CompanyDTO company = findCompany();
         DateTime reportDate = new DateTime();
@@ -48,12 +49,12 @@ public class ReportingServiceImpl implements ReportingService {
     }
 
     @Override
-    public byte[] createUnpayedInvoicesReport() {
-        return new byte[0];
+    public BestandDTO createUnpayedInvoicesReport() {
+        return new BestandDTO();
     }
 
     @Override
-    public byte[] createInvoicesReportForMonth(Month month) {
-        return new byte[0];
+    public BestandDTO createInvoicesReportForMonth(Month month) {
+        return new BestandDTO();
     }
 }

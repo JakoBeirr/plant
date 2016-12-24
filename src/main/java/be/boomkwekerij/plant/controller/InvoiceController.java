@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.controller;
 
 import be.boomkwekerij.plant.exception.ReportException;
+import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.service.*;
 import be.boomkwekerij.plant.util.CrudsResult;
@@ -100,8 +101,8 @@ public class InvoiceController {
             SearchResult<InvoiceDTO> invoiceSearchResult = invoiceService.getInvoice(invoiceId);
             if (invoiceSearchResult.isSuccess()) {
                 InvoiceDTO invoiceDTO = invoiceSearchResult.getFirst();
-                byte[] invoiceDocument = invoiceDocumentService.createInvoiceDocument(invoiceDTO);
-                printerService.printDocument(invoiceDTO.getInvoiceNumber(), invoiceDocument);
+                BestandDTO invoice = invoiceDocumentService.createInvoiceDocument(invoiceDTO);
+                printerService.printDocument_Portrait(invoice);
                 printResult.setSuccess(true);
             } else {
                 printResult.setSuccess(false);
@@ -117,8 +118,8 @@ public class InvoiceController {
         CrudsResult printResult = new CrudsResult();
 
         try {
-            byte[] sellingConditionsDocument = invoiceDocumentService.createSellingConditionsDocument();
-            printerService.printDocument("selling_condition.pdf", sellingConditionsDocument);
+            BestandDTO sellingConditions = invoiceDocumentService.createSellingConditionsDocument();
+            printerService.printDocument_Portrait(sellingConditions);
             printResult.setSuccess(true);
         } catch (Exception e) {
             return createCrudsError(e);

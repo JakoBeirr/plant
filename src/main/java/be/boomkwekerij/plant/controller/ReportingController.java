@@ -1,5 +1,6 @@
 package be.boomkwekerij.plant.controller;
 
+import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.service.PrinterService;
 import be.boomkwekerij.plant.service.PrinterServiceImpl;
 import be.boomkwekerij.plant.service.ReportingService;
@@ -15,8 +16,8 @@ public class ReportingController {
         CrudsResult printResult = new CrudsResult();
 
         try {
-            byte[] invoiceDocument = reportingService.createCustomerFileReport();
-            printerService.printDocument("klantenbestand", invoiceDocument);
+            BestandDTO report = reportingService.createCustomerFileReport();
+            printerService.printDocument_LandScape(report);
             printResult.setSuccess(true);
         } catch (Exception e) {
             return createCrudsError(e);

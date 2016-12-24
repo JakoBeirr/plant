@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.util;
 
 import be.boomkwekerij.plant.exception.ReportException;
+import be.boomkwekerij.plant.model.dto.BestandDTO;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -17,7 +18,7 @@ public class SellingConditionsPDFCreator {
 
     private PDFHelper pdfHelper = new PDFHelper();
 
-    public byte[] createSellingConditionsDocument() throws ReportException {
+    public BestandDTO createSellingConditionsDocument() throws ReportException {
         try {
             List<JasperPrint> pages = new ArrayList<>();
 
@@ -27,7 +28,12 @@ public class SellingConditionsPDFCreator {
             JasperPrint page = pdfHelper.fillPDF(sellingConditionsTemplate, parameters, dataSource);
             pages.add(page);
 
-            return pdfHelper.createPdfReport(pages);
+            byte[] sellingConditions = pdfHelper.createPDF(pages);
+
+            BestandDTO bestand = new BestandDTO();
+            bestand.setName("selling_conditions.pdf");
+            bestand.setFile(sellingConditions);
+            return bestand;
         } catch (JRException e) {
             throw new ReportException(e.getMessage());
         }

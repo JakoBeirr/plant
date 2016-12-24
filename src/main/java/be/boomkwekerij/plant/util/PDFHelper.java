@@ -23,7 +23,7 @@ public class PDFHelper {
         return JasperFillManager.fillReport(invoiceTemplate, parameters, dataSource);
     }
 
-    public byte[] createPdfReport(List<JasperPrint> pages) throws JRException {
+    public byte[] createPDF(List<JasperPrint> pages) throws JRException {
         JRPdfExporter pdfExporter = new JRPdfExporter();
         ByteArrayOutputStream pdfOutputStream = new ByteArrayOutputStream();
         List<ExporterInputItem> exporterInputItems = new ArrayList<>(pages.size());

@@ -4,6 +4,7 @@ import be.boomkwekerij.plant.exception.ReportException;
 import be.boomkwekerij.plant.mapper.CompanyMapper;
 import be.boomkwekerij.plant.mapper.CustomerMapper;
 import be.boomkwekerij.plant.mapper.InvoiceMapper;
+import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.model.dto.CompanyDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
@@ -30,7 +31,7 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
     private SellingConditionsPDFCreator sellingConditionsPDFCreator = new SellingConditionsPDFCreator();
 
     @Override
-    public byte[] createInvoiceDocument(InvoiceDTO invoiceDTO) throws ReportException {
+    public BestandDTO createInvoiceDocument(InvoiceDTO invoiceDTO) throws ReportException {
         CompanyReportObject company = getCompany();
         CustomerReportObject customer = customerMapper.mapDTOToReportObject(invoiceDTO.getCustomer());
         int amountOfPages = getAmountOfPages(invoiceDTO.getInvoiceLines());
@@ -59,18 +60,18 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
         return (int) Math.ceil(size / max);
     }
 
-    private byte[] createOnePagedInvoice(CompanyReportObject company, InvoiceDTO invoiceDTO, CustomerReportObject customer) throws ReportException {
+    private BestandDTO createOnePagedInvoice(CompanyReportObject company, InvoiceDTO invoiceDTO, CustomerReportObject customer) throws ReportException {
         OnePagedInvoiceReportObject invoice = invoiceMapper.mapDTOToOnePagedReportObject(invoiceDTO);
         return invoicePDFCreator.createOnePagedInvoiceDocument(company, customer, invoice);
     }
 
-    private byte[] createMultiplePagedInvoice(CompanyReportObject company, InvoiceDTO invoiceDTO, CustomerReportObject customer, int amountOfPages) throws ReportException {
+    private BestandDTO createMultiplePagedInvoice(CompanyReportObject company, InvoiceDTO invoiceDTO, CustomerReportObject customer, int amountOfPages) throws ReportException {
         List<MultiplePagedInvoiceReportObject> invoiceParts = invoiceMapper.mapDTOToMultiplePagedReportObject(invoiceDTO, amountOfPages);
         return invoicePDFCreator.createMultiplePagedInvoiceDocument(company, customer, invoiceParts);
     }
 
     @Override
-    public byte[] createSellingConditionsDocument() throws ReportException {
+    public BestandDTO createSellingConditionsDocument() throws ReportException {
         return sellingConditionsPDFCreator.createSellingConditionsDocument();
     }
 }

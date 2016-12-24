@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.util;
 
 import be.boomkwekerij.plant.exception.ReportException;
+import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.model.report.*;
 import net.sf.jasperreports.engine.*;
 import org.apache.commons.io.FileUtils;
@@ -14,7 +15,7 @@ public class InvoicePDFCreator {
 
     private PDFHelper pdfHelper = new PDFHelper();
 
-    public byte[] createOnePagedInvoiceDocument(CompanyReportObject company, CustomerReportObject customer, OnePagedInvoiceReportObject invoice) throws ReportException {
+    public BestandDTO createOnePagedInvoiceDocument(CompanyReportObject company, CustomerReportObject customer, OnePagedInvoiceReportObject invoice) throws ReportException {
         try {
             JasperReport invoiceTemplate = getOnePagedTemplate();
             Map<String, Object> parameters = getOnePagedInvoiceParameters(company, customer, invoice);
@@ -27,7 +28,7 @@ public class InvoicePDFCreator {
         }
     }
 
-    public byte[] createMultiplePagedInvoiceDocument(CompanyReportObject company, CustomerReportObject customer, List<MultiplePagedInvoiceReportObject> invoiceParts) throws ReportException {
+    public BestandDTO createMultiplePagedInvoiceDocument(CompanyReportObject company, CustomerReportObject customer, List<MultiplePagedInvoiceReportObject> invoiceParts) throws ReportException {
         try {
             List<JasperPrint> pages = new ArrayList<>();
             for (int i = 1; i <= invoiceParts.size(); i++) {
@@ -100,17 +101,22 @@ public class InvoicePDFCreator {
         return parameters;
     }
 
-    private byte[] createPDF(String invoiceNumber, List<JasperPrint> pages) throws IOException, JRException {
-        byte[] pdfReport = pdfHelper.createPdfReport(pages);
-        writeFileToFileSystem(invoiceNumber, pdfReport);
-        return pdfReport;
+    private BestandDTO createPDF(String invoiceNumber, List<JasperPrint> pages) throws IOException, JRException {
+        byte[] pdfReport = pdfHelper.createPDF(pages);
+
+        BestandDTO bestandDTO = new BestandDTO();
+        bestandDTO.setName(invoiceNumber + ".pdf");
+        bestandDTO.setFile(pdfReport);
+        writeFileToFileSystem(bestandDTO);
+
+        return bestandDTO;
     }
 
-    private void writeFileToFileSystem(String invoiceNumber, byte[] pdfReport) throws IOException {
-        File invoiceFile = new File(Initializer.getDataUri() + "/files/" + invoiceNumber + ".pdf");
-        if (invoiceFile.exists()) {
-            invoiceFile.delete();
+    private void writeFileToFileSystem(BestandDTO report) throws IOException {
+        File file = new File(Initializer.getDataUri() + "/files/" + report.getName());
+        if (file.exists()) {
+            file.delete();
         }
-        FileUtils.writeByteArrayToFile(invoiceFile, pdfReport);
+        FileUtils.writeByteArrayToFile(file, report.getFile());
     }
 }

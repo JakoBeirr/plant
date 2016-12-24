@@ -1,9 +1,11 @@
 package be.boomkwekerij.plant.util;
 
 import be.boomkwekerij.plant.exception.ReportException;
+import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.model.report.CustomerFileReportObject;
 import net.sf.jasperreports.engine.*;
 import org.apache.commons.io.FileUtils;
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,14 +19,14 @@ public class ReportPDFCreator {
 
     private PDFHelper pdfHelper = new PDFHelper();
 
-    public byte[] createCustomerFileReport(CustomerFileReportObject customerFileReportObject) throws ReportException {
+    public BestandDTO createCustomerFileReport(CustomerFileReportObject customerFileReportObject) throws ReportException {
         try {
             JasperReport template = getCustomerFileTemplate();
             Map<String, Object> parameters = getCustomerFileParameters(customerFileReportObject);
             JRDataSource dataSource = getDataSource();
             JasperPrint page = pdfHelper.fillPDF(template, parameters, dataSource);
 
-            return createPDF("klantenbestand", Arrays.asList(page));
+            return createPDF("klantenbestand_" + DateUtils.formatDate(new DateTime(), DateFormatPattern.DATE_FORMAT), Arrays.asList(page));
         } catch (JRException | IOException e) {
             throw new ReportException(e.getMessage());
         }
@@ -45,17 +47,22 @@ public class ReportPDFCreator {
         return parameters;
     }
 
-    private byte[] createPDF(String fileName, List<JasperPrint> pages) throws IOException, JRException {
-        byte[] pdfReport = pdfHelper.createPdfReport(pages);
-        writeFileToFileSystem(fileName, pdfReport);
-        return pdfReport;
+    private BestandDTO createPDF(String fileName, List<JasperPrint> pages) throws IOException, JRException {
+        byte[] pdfReport = pdfHelper.createPDF(pages);
+
+        BestandDTO bestandDTO = new BestandDTO();
+        bestandDTO.setName(fileName + ".pdf");
+        bestandDTO.setFile(pdfReport);
+        writeFileToFileSystem(bestandDTO);
+
+        return bestandDTO;
     }
 
-    private void writeFileToFileSystem(String fileName, byte[] pdfReport) throws IOException {
-        File file = new File(Initializer.getDataUri() + "/files/" + fileName + ".pdf");
+    private void writeFileToFileSystem(BestandDTO report) throws IOException {
+        File file = new File(Initializer.getDataUri() + "/files/" + report.getName());
         if (file.exists()) {
             file.delete();
         }
-        FileUtils.writeByteArrayToFile(file, pdfReport);
+        FileUtils.writeByteArrayToFile(file, report.getFile());
     }
 }
