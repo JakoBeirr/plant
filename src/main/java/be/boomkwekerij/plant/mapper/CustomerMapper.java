@@ -90,14 +90,14 @@ public class CustomerMapper {
         customerFileReportObject.setReportDate(DateUtils.formatDate(reportDate, DateFormatPattern.DATE_FORMAT));
         List<CustomerFileCustomerReportObject> customerReportObjects = new ArrayList<>();
         for (CustomerDTO customer : customers) {
-            CustomerFileCustomerReportObject customerFileCustomerReportObject = mapoCustomerFileCustomerReportObject(customer);
+            CustomerFileCustomerReportObject customerFileCustomerReportObject = mapCustomerToCustomerFileCustomerReport(customer);
             customerReportObjects.add(customerFileCustomerReportObject);
         }
         customerFileReportObject.setCustomers(customerReportObjects);
         return customerFileReportObject;
     }
 
-    private CustomerFileCustomerReportObject mapoCustomerFileCustomerReportObject(CustomerDTO customer) {
+    private CustomerFileCustomerReportObject mapCustomerToCustomerFileCustomerReport(CustomerDTO customer) {
         CustomerFileCustomerReportObject customerFileCustomerReportObject = new CustomerFileCustomerReportObject();
         customerFileCustomerReportObject.setName(customer.getName1());
         customerFileCustomerReportObject.setAddress(customer.getAddress1());

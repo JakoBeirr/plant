@@ -8,7 +8,7 @@ public interface ReportingService {
 
     BestandDTO createCustomerFileReport() throws ReportException;
 
-    BestandDTO createUnpayedInvoicesReport();
+    BestandDTO createUnpayedInvoicesReport() throws ReportException;
 
-    BestandDTO createInvoicesReportForMonth(Month month);
+    BestandDTO createInvoicesReportForMonth(Month month, int year) throws ReportException;
 }

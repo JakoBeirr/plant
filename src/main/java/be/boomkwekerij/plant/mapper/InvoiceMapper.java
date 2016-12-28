@@ -1,13 +1,7 @@
 package be.boomkwekerij.plant.mapper;
 
-import be.boomkwekerij.plant.model.dto.BtwDTO;
-import be.boomkwekerij.plant.model.dto.CustomerDTO;
-import be.boomkwekerij.plant.model.dto.InvoiceDTO;
-import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
-import be.boomkwekerij.plant.model.report.BtwReportObject;
-import be.boomkwekerij.plant.model.report.InvoiceLineReportObject;
-import be.boomkwekerij.plant.model.report.MultiplePagedInvoiceReportObject;
-import be.boomkwekerij.plant.model.report.OnePagedInvoiceReportObject;
+import be.boomkwekerij.plant.model.dto.*;
+import be.boomkwekerij.plant.model.report.*;
 import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.model.repository.InvoiceLine;
 import be.boomkwekerij.plant.service.CustomerService;
@@ -268,5 +262,26 @@ public class InvoiceMapper {
                 }
             });
         }
+    }
+
+    public InvoicesReportObject mapToInvoicesReportObject(List<InvoiceDTO> invoices, CompanyDTO companyDTO, DateTime reportDate, String period, String reportTitle) {
+        InvoicesReportObject invoicesReportObject = new InvoicesReportObject();
+        invoicesReportObject.setCompanyName(companyDTO.getName());
+        invoicesReportObject.setReportDate(DateUtils.formatDate(reportDate, DateFormatPattern.DATE_FORMAT));
+        invoicesReportObject.setPeriod(period);
+        invoicesReportObject.setReportTitle(reportTitle);
+        List<InvoicesInvoiceReportObject> invoicesInvoiceReportObjects = new ArrayList<>();
+        for (InvoiceDTO invoice : invoices) {
+            InvoicesInvoiceReportObject invoiceReportObject = new InvoicesInvoiceReportObject();
+            invoiceReportObject.setInvoiceNumber(invoice.getInvoiceNumber());
+            invoiceReportObject.setCustomer(invoice.getCustomer().getName1());
+            invoiceReportObject.setInvoiceDate(DateUtils.formatDate(invoice.getDate(), DateFormatPattern.DATE_FORMAT));
+            invoiceReportObject.setTotalAmountExclusive(Double.toString(invoice.getSubTotal()));
+            invoiceReportObject.setTotalAmountInclusive(Double.toString(invoice.getTotalPrice()));
+            invoiceReportObject.setPayed(invoice.isPayed());
+            invoicesInvoiceReportObjects.add(invoiceReportObject);
+        }
+        invoicesReportObject.setInvoices(invoicesInvoiceReportObjects);
+        return invoicesReportObject;
     }
 }

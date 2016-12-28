@@ -2,22 +2,28 @@ package be.boomkwekerij.plant.service;
 
 import be.boomkwekerij.plant.exception.ReportException;
 import be.boomkwekerij.plant.mapper.CustomerMapper;
+import be.boomkwekerij.plant.mapper.InvoiceMapper;
 import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.model.dto.CompanyDTO;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
+import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.report.CustomerFileReportObject;
+import be.boomkwekerij.plant.model.report.InvoicesReportObject;
 import be.boomkwekerij.plant.util.Month;
 import be.boomkwekerij.plant.util.ReportPDFCreator;
 import be.boomkwekerij.plant.util.SearchResult;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReportingServiceImpl implements ReportingService {
 
+    private InvoiceService invoiceService = new InvoiceServiceImpl();
     private CustomerService customerService = new CustomerServiceImpl();
     private CompanyService companyService = new CompanyServiceImpl();
 
+    private InvoiceMapper invoiceMapper = new InvoiceMapper();
     private CustomerMapper customerMapper = new CustomerMapper();
 
     private ReportPDFCreator reportPDFCreator = new ReportPDFCreator();
@@ -49,12 +55,57 @@ public class ReportingServiceImpl implements ReportingService {
     }
 
     @Override
-    public BestandDTO createUnpayedInvoicesReport() {
-        return new BestandDTO();
+    public BestandDTO createUnpayedInvoicesReport() throws ReportException {
+        List<InvoiceDTO> allInvoices = findAllInvoices();
+        List<InvoiceDTO> unpayedInvoices = filterUnpayed(allInvoices);
+        CompanyDTO company = findCompany();
+        DateTime reportDate = new DateTime();
+        String period = "/";
+        String title = "Onbetaalde facturen";
+
+        InvoicesReportObject invoicesReportObject = invoiceMapper.mapToInvoicesReportObject(unpayedInvoices, company, reportDate, period, title);
+        return reportPDFCreator.createUnpayedInvoicesReport(invoicesReportObject);
+    }
+
+    private List<InvoiceDTO> filterUnpayed(List<InvoiceDTO> allInvoices) {
+        List<InvoiceDTO> unpayedInvoices = new ArrayList<>();
+        for (InvoiceDTO invoice : allInvoices) {
+            if (!invoice.isPayed()) {
+                unpayedInvoices.add(invoice);
+            }
+        }
+        return unpayedInvoices;
     }
 
     @Override
-    public BestandDTO createInvoicesReportForMonth(Month month) {
-        return new BestandDTO();
+    public BestandDTO createInvoicesReportForMonth(Month month, int year) throws ReportException {
+        List<InvoiceDTO> allInvoices = findAllInvoices();
+        List<InvoiceDTO> invoicesInMonth = filterMonth(allInvoices, month, year);
+        CompanyDTO company = findCompany();
+        DateTime reportDate = new DateTime();
+        String period = month.translation() + " " + Integer.toString(year);
+        String title = "Alle facturen";
+
+        InvoicesReportObject invoicesReportObject = invoiceMapper.mapToInvoicesReportObject(invoicesInMonth, company, reportDate, period, title);
+        return reportPDFCreator.createInvoicesReport(invoicesReportObject);
+    }
+
+    private List<InvoiceDTO> filterMonth(List<InvoiceDTO> allInvoices, Month month, int year) {
+        List<InvoiceDTO> invoicesInMonth = new ArrayList<>();
+        for (InvoiceDTO invoice : allInvoices) {
+            DateTime invoiceDate = invoice.getDate();
+            if (invoiceDate.getMonthOfYear() == month.code() && invoiceDate.getYear() == year) {
+                invoicesInMonth.add(invoice);
+            }
+        }
+        return invoicesInMonth;
+    }
+
+    private List<InvoiceDTO> findAllInvoices() {
+        SearchResult<InvoiceDTO> searchResult = invoiceService.getAllInvoices();
+        if (searchResult.isSuccess()) {
+            return searchResult.getResults();
+        }
+        throw new IllegalArgumentException("Fout tijdens zoeken van facturen");
     }
 }
