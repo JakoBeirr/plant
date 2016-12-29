@@ -276,12 +276,30 @@ public class InvoiceMapper {
             invoiceReportObject.setInvoiceNumber(invoice.getInvoiceNumber());
             invoiceReportObject.setCustomer(invoice.getCustomer().getName1());
             invoiceReportObject.setInvoiceDate(DateUtils.formatDate(invoice.getDate(), DateFormatPattern.DATE_FORMAT));
-            invoiceReportObject.setTotalAmountExclusive(Double.toString(invoice.getSubTotal()));
-            invoiceReportObject.setTotalAmountInclusive(Double.toString(invoice.getTotalPrice()));
+            invoiceReportObject.setTotalAmountExclusive("EUR " + Double.toString(invoice.getSubTotal()));
+            invoiceReportObject.setTotalAmountInclusive("EUR " + Double.toString(invoice.getTotalPrice()));
             invoiceReportObject.setPayed(invoice.isPayed());
             invoicesInvoiceReportObjects.add(invoiceReportObject);
         }
         invoicesReportObject.setInvoices(invoicesInvoiceReportObjects);
+        invoicesReportObject.setTotalExclusive("EUR " + Double.toString(countTotalExclusive(invoices)));
+        invoicesReportObject.setTotalInclusive("EUR " + Double.toString(countTotalInclusive(invoices)));
         return invoicesReportObject;
+    }
+
+    private Double countTotalExclusive(List<InvoiceDTO> invoices) {
+        Double totalExclusive = 0.0;
+        for (InvoiceDTO invoice : invoices) {
+            totalExclusive += invoice.getSubTotal();
+        }
+        return totalExclusive;
+    }
+
+    private Double countTotalInclusive(List<InvoiceDTO> invoices) {
+        Double totalInclusive = 0.0;
+        for (InvoiceDTO invoice : invoices) {
+            totalInclusive += invoice.getTotalPrice();
+        }
+        return totalInclusive;
     }
 }

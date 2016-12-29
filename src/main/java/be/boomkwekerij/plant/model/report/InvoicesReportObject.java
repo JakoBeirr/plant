@@ -9,6 +9,8 @@ public class InvoicesReportObject {
     private String period;
     private String reportTitle;
     private List<InvoicesInvoiceReportObject> invoices;
+    private String totalExclusive;
+    private String totalInclusive;
 
     public String getCompanyName() {
         return companyName;
@@ -48,5 +50,21 @@ public class InvoicesReportObject {
 
     public void setInvoices(List<InvoicesInvoiceReportObject> invoices) {
         this.invoices = invoices;
+    }
+
+    public String getTotalExclusive() {
+        return totalExclusive;
+    }
+
+    public void setTotalExclusive(String totalExclusive) {
+        this.totalExclusive = totalExclusive;
+    }
+
+    public String getTotalInclusive() {
+        return totalInclusive;
+    }
+
+    public void setTotalInclusive(String totalInclusive) {
+        this.totalInclusive = totalInclusive;
     }
 }

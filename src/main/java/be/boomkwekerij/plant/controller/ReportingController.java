@@ -32,7 +32,7 @@ public class ReportingController {
 
         try {
             BestandDTO report = reportingService.createUnpayedInvoicesReport();
-            printerService.printDocument_Portrait(report);
+            //printerService.printDocument_Portrait(report);
             printResult.setSuccess(true);
         } catch (Exception e) {
             return createCrudsError(e);
@@ -46,7 +46,7 @@ public class ReportingController {
 
         try {
             BestandDTO report = reportingService.createInvoicesReportForMonth(Month.fromTranslation(month), year);
-            printerService.printDocument_Portrait(report);
+            //printerService.printDocument_Portrait(report);
             printResult.setSuccess(true);
         } catch (Exception e) {
             return createCrudsError(e);

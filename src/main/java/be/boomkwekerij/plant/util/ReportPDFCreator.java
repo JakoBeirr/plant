@@ -33,27 +33,14 @@ public class ReportPDFCreator {
         }
     }
 
-    public BestandDTO createUnpayedInvoicesReport(InvoicesReportObject invoicesReportObject) throws ReportException {
+    public BestandDTO createInvoiceReport(InvoicesReportObject invoicesReportObject) throws ReportException {
         try {
             JasperReport template = getInvoiceReportTemplate();
             Map<String, Object> parameters = getInvoicesParameters(invoicesReportObject);
             JRDataSource dataSource = getDataSource();
             JasperPrint page = pdfHelper.fillPDF(template, parameters, dataSource);
 
-            return createPDF("onbetaalde_facturen_" + DateUtils.formatDate(new DateTime(), DateFormatPattern.DATE_FORMAT), Arrays.asList(page));
-        } catch (JRException | IOException e) {
-            throw new ReportException(e.getMessage());
-        }
-    }
-
-    public BestandDTO createInvoicesReport(InvoicesReportObject invoicesReportObject) throws ReportException {
-        try {
-            JasperReport template = getInvoiceReportTemplate();
-            Map<String, Object> parameters = getInvoicesParameters(invoicesReportObject);
-            JRDataSource dataSource = getDataSource();
-            JasperPrint page = pdfHelper.fillPDF(template, parameters, dataSource);
-
-            return createPDF("alle_facturen_" + DateUtils.formatDate(new DateTime(), DateFormatPattern.DATE_FORMAT), Arrays.asList(page));
+            return createPDF(invoicesReportObject.getReportTitle().toLowerCase().replace(" ", "_") + "_" + invoicesReportObject.getPeriod().toLowerCase().replace(" ", "_") + "_" + invoicesReportObject.getReportDate(), Arrays.asList(page));
         } catch (JRException | IOException e) {
             throw new ReportException(e.getMessage());
         }

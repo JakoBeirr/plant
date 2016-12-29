@@ -60,11 +60,11 @@ public class ReportingServiceImpl implements ReportingService {
         List<InvoiceDTO> unpayedInvoices = filterUnpayed(allInvoices);
         CompanyDTO company = findCompany();
         DateTime reportDate = new DateTime();
-        String period = "/";
-        String title = "Onbetaalde facturen";
+        String period = "NVT";
+        String title = "OVERZICHT ONBETAALDE FACTUREN";
 
         InvoicesReportObject invoicesReportObject = invoiceMapper.mapToInvoicesReportObject(unpayedInvoices, company, reportDate, period, title);
-        return reportPDFCreator.createUnpayedInvoicesReport(invoicesReportObject);
+        return reportPDFCreator.createInvoiceReport(invoicesReportObject);
     }
 
     private List<InvoiceDTO> filterUnpayed(List<InvoiceDTO> allInvoices) {
@@ -84,10 +84,10 @@ public class ReportingServiceImpl implements ReportingService {
         CompanyDTO company = findCompany();
         DateTime reportDate = new DateTime();
         String period = month.translation() + " " + Integer.toString(year);
-        String title = "Alle facturen";
+        String title = "OVERZICHT ALLE FACTUREN";
 
         InvoicesReportObject invoicesReportObject = invoiceMapper.mapToInvoicesReportObject(invoicesInMonth, company, reportDate, period, title);
-        return reportPDFCreator.createInvoicesReport(invoicesReportObject);
+        return reportPDFCreator.createInvoiceReport(invoicesReportObject);
     }
 
     private List<InvoiceDTO> filterMonth(List<InvoiceDTO> allInvoices, Month month, int year) {
