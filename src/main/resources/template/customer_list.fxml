@@ -8,7 +8,7 @@
         <VBox styleClass="center-pane" spacing="5">
             <Label styleClass="paneTitle" text="Klanten Lijst"/>
 
-            <TextField fx:id="searchField" promptText="Zoeken..." maxWidth="1177" />
+            <TextField fx:id="customerSearchField" promptText="Zoeken..." maxWidth="1177" />
 
             <TableView fx:id="customerList" fixedCellSize="25" maxWidth="1177" prefHeight="450">
                 <columns>
@@ -56,8 +56,8 @@
             </TableView>
 
             <HBox spacing="5">
-                <Button fx:id="detailsButton" mnemonicParsing="false" onMouseClicked="#showCustomer" visible="false" text="Details" styleClass="blue-button"/>
-                <Button fx:id="deleteButton" mnemonicParsing="false" onMouseClicked="#deleteCustomer" visible="false" text="Klant verwijderen" styleClass="red-button"/>
+                <Button fx:id="customerDetailsButton" mnemonicParsing="false" onMouseClicked="#showCustomer" visible="false" text="Details" styleClass="blue-button"/>
+                <Button fx:id="customerDeleteButton" mnemonicParsing="false" onMouseClicked="#deleteCustomer" visible="false" text="Klant verwijderen" styleClass="red-button"/>
             </HBox>
         </VBox>
     </ScrollPane>

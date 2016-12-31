@@ -1,0 +1,126 @@
+package be.boomkwekerij.plant.view.services;
+
+import be.boomkwekerij.plant.controller.ReportingController;
+import be.boomkwekerij.plant.util.CrudsResult;
+import javafx.beans.binding.Bindings;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.scene.Cursor;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+
+import java.util.Arrays;
+
+public class ReportService {
+
+    private ReportingController reportingController = new ReportingController();
+
+    private Button customerFileButton;
+    private Button unpayedInvoicesButton;
+    private Button allInvoicesButton;
+    private ComboBox<String> months;
+    private TextField year;
+
+    public final Service customerFileService = new Service() {
+        @Override
+        protected Task createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    updateTitle("Aanmaken klantenbestand");
+
+                    CrudsResult printResult = reportingController.printCustomerFileReport();
+                    if (printResult.isError()) {
+                        throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
+                    }
+
+                    return null;
+                }
+            };
+        }
+    };
+
+    public final Service unpayedInvoiceService = new Service() {
+        @Override
+        protected Task createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    updateTitle("Aanmaken rapport onbetaalde facturen");
+
+                    CrudsResult printResult = reportingController.printUnpayedInvoicesReport();
+                    if (printResult.isError()) {
+                        throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
+                    }
+
+                    return null;
+                }
+            };
+        }
+    };
+
+    public final Service allInvoiceService = new Service() {
+        @Override
+        protected Task createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    updateTitle("Aanmaken rapport alle facturen");
+
+                    String selectedMonth = months.getSelectionModel().getSelectedItem();
+                    int selectedYear = Integer.parseInt(year.getText());
+
+                    CrudsResult printResult = reportingController.printInvoicesReport(selectedMonth, selectedYear);
+                    if (printResult.isError()) {
+                        throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
+                    }
+
+                    return null;
+                }
+            };
+        }
+    };
+
+    public void setCustomerFileButton(Button customerFileButton) {
+        this.customerFileButton = customerFileButton;
+    }
+
+    public void setUnpayedInvoicesButton(Button unpayedInvoicesButton) {
+        this.unpayedInvoicesButton = unpayedInvoicesButton;
+    }
+
+    public void setAllInvoicesButton(Button allInvoicesButton) {
+        this.allInvoicesButton = allInvoicesButton;
+    }
+
+    public void setMonths(ComboBox<String> months) {
+        this.months = months;
+    }
+
+    public void setYear(TextField year) {
+        this.year = year;
+    }
+
+    public void init(Pane root) {
+        root.cursorProperty()
+                .bind(Bindings.when(customerFileService.runningProperty().or(unpayedInvoiceService.runningProperty().or(allInvoiceService.runningProperty())))
+                        .then(Cursor.WAIT)
+                        .otherwise(Cursor.DEFAULT)
+                );
+        customerFileButton.disableProperty()
+                .bind(customerFileService.runningProperty());
+        unpayedInvoicesButton.disableProperty()
+                .bind(unpayedInvoiceService.runningProperty());
+        allInvoicesButton.disableProperty()
+                .bind(allInvoiceService.runningProperty());
+
+        customerFileService.setOnSucceeded(event1 -> ServiceHandler.success(customerFileService));
+        customerFileService.setOnFailed(event1 -> ServiceHandler.error(customerFileService));
+        unpayedInvoiceService.setOnSucceeded(event1 -> ServiceHandler.success(unpayedInvoiceService));
+        unpayedInvoiceService.setOnFailed(event1 -> ServiceHandler.error(unpayedInvoiceService));
+        allInvoiceService.setOnSucceeded(event1 -> ServiceHandler.success(allInvoiceService));
+        allInvoiceService.setOnFailed(event1 -> ServiceHandler.error(allInvoiceService));
+    }
+}

@@ -1,18 +1,17 @@
 package be.boomkwekerij.plant.view.controller;
 
-import be.boomkwekerij.plant.controller.BackupController;
+import be.boomkwekerij.plant.view.services.BackupCreateService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BackupCreateController implements Initializable {
+public class BackupCreateController implements PageController {
 
-    private BackupController backupController = new BackupController();
+    private BackupCreateService backupCreateService = new BackupCreateService();
 
     @FXML
     private Button backupButton;
@@ -20,24 +19,21 @@ public class BackupCreateController implements Initializable {
     private Button restoreBackupButton;
 
     @Override
+    public void init(Pane root) {
+        backupCreateService.setBackupButton(backupButton);
+        backupCreateService.setRestoreBackupButton(restoreBackupButton);
+        backupCreateService.init(root);
+    }
+
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
     public void backup(Event event) {
-        try {
-            backupController.backupDatabase();
-            AlertController.alertSuccess("Backup aangemaakt en is te vinden op volgende locatie: C:/plant/backup");
-        } catch (Exception e) {
-            AlertController.alertException("Backup aanmaken gefaald", e);
-        }
+        backupCreateService.backupService.restart();
     }
 
     public void restoreBackup(Event event) {
-        try {
-            backupController.restoreBackupDatabase();
-            AlertController.alertSuccess("Laatste backup is hersteld");
-        } catch (Exception e) {
-            AlertController.alertException("Backup herstellen gefaald", e);
-        }
+        backupCreateService.restoreBackupService.restart();
     }
 }

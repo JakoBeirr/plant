@@ -11,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.Optional;

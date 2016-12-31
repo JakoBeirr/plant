@@ -11,7 +11,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class PlantModifyController implements Initializable {
+public class PlantModifyController implements PageController {
 
     private PlantController plantController = new PlantController();
 
@@ -56,6 +55,11 @@ public class PlantModifyController implements Initializable {
     private TextField priceField;
 
     private static final String NON_DECIMAL_NUMERIC_CHARACTERS = "[^\\d.]";
+
+    @Override
+    public void init(Pane root) {
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

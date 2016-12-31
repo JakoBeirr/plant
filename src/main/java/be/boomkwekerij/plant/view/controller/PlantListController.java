@@ -10,7 +10,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class PlantListController implements Initializable {
+public class PlantListController implements PageController {
 
     private PlantController plantController = new PlantController();
 
@@ -43,6 +42,11 @@ public class PlantListController implements Initializable {
     private Button detailsButton;
     @FXML
     private Button deleteButton;
+
+    @Override
+    public void init(Pane root) {
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

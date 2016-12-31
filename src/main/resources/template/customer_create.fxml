@@ -45,7 +45,7 @@
                 <TextField fx:id="emailAddress" prefColumnCount="30" GridPane.rowIndex="11" GridPane.columnIndex="1"/>
             </GridPane>
 
-            <Button id="createButton" mnemonicParsing="false" onMouseClicked="#createCustomer" text="Aanmaken" styleClass="green-button" />
+            <Button fx:id="customerCreateButton" mnemonicParsing="false" onMouseClicked="#createCustomer" text="Aanmaken" styleClass="green-button" />
         </VBox>
     </ScrollPane>
 </AnchorPane>

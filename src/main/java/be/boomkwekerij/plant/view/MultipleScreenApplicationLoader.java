@@ -1,5 +1,6 @@
 package be.boomkwekerij.plant.view;
 
+import be.boomkwekerij.plant.view.controller.PageController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -43,6 +44,9 @@ public class MultipleScreenApplicationLoader {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/template/" + templates.get(tab)));
         AnchorPane page = fxmlLoader.load();
         root.setCenter(page);
+
+        PageController controller = fxmlLoader.getController();
+        controller.init(root);
     }
 
     public BorderPane getRoot() {

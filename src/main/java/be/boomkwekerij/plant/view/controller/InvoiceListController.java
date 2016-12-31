@@ -11,10 +11,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import org.joda.time.DateTime;
 
 import java.net.URL;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class InvoiceListController implements Initializable {
+public class InvoiceListController implements PageController {
 
     private InvoiceController invoiceController = new InvoiceController();
 
@@ -54,6 +54,11 @@ public class InvoiceListController implements Initializable {
     private Button printSellingConditionsButton;
     @FXML
     private Button deleteButton;
+
+    @Override
+    public void init(Pane root) {
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

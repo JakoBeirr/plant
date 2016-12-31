@@ -8,7 +8,6 @@ import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
@@ -16,7 +15,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class GeneralSettingsController implements Initializable {
+public class GeneralSettingsController implements PageController {
 
     private SystemController systemController = new SystemController();
     private CompanyController companyController = new CompanyController();
@@ -47,6 +46,11 @@ public class GeneralSettingsController implements Initializable {
     private TextField bicNetherlands;
     @FXML
     private TextField btwNumber;
+
+    @Override
+    public void init(Pane root) {
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

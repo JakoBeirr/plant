@@ -1,21 +1,18 @@
 package be.boomkwekerij.plant.view.controller;
 
-import be.boomkwekerij.plant.controller.CustomerController;
-import be.boomkwekerij.plant.model.dto.CustomerDTO;
-import be.boomkwekerij.plant.util.CrudsResult;
+import be.boomkwekerij.plant.view.services.CustomerCreateService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class CustomerCreateController implements Initializable {
+public class CustomerCreateController implements PageController {
 
-    private CustomerController customerController = new CustomerController();
+    private CustomerCreateService customerCreateService = new CustomerCreateService();
 
     @FXML
     private TextField name1;
@@ -41,73 +38,31 @@ public class CustomerCreateController implements Initializable {
     private TextField btwNumber;
     @FXML
     private TextField emailAddress;
+    @FXML
+    private Button customerCreateButton;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        initializeTextFields();
+    public void init(Pane root) {
+        customerCreateService.setName1(name1);
+        customerCreateService.setName2(name2);
+        customerCreateService.setAddress1(address1);
+        customerCreateService.setAddress2(address2);
+        customerCreateService.setPostalCode(postalCode);
+        customerCreateService.setResidence(residence);
+        customerCreateService.setCountry(country);
+        customerCreateService.setTelephone(telephone);
+        customerCreateService.setGsm(gsm);
+        customerCreateService.setFax(fax);
+        customerCreateService.setBtwNumber(btwNumber);
+        customerCreateService.setEmailAddress(emailAddress);
+        customerCreateService.setCustomerCreateButton(customerCreateButton);
+        customerCreateService.init(root);
     }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {}
 
     public void createCustomer(Event event) {
-        try {
-            CrudsResult customerCreateResult = createCustomer();
-
-            if (customerCreateResult.isSuccess()) {
-                handleCreateSuccess();
-            } else {
-                handleCreateError(customerCreateResult.getMessages());
-            }
-        } catch (Exception e) {
-            handleCreateException(e);
-        }
-    }
-
-    private CrudsResult createCustomer() {
-        CustomerDTO customer = new CustomerDTO();
-        customer.setName1(name1.getText());
-        customer.setName2(name2.getText());
-        customer.setAddress1(address1.getText());
-        customer.setAddress2(address2.getText());
-        customer.setPostalCode(postalCode.getText());
-        customer.setResidence(residence.getText());
-        customer.setCountry(country.getText());
-        customer.setTelephone(telephone.getText());
-        customer.setGsm(gsm.getText());
-        customer.setFax(fax.getText());
-        customer.setBtwNumber(btwNumber.getText());
-        customer.setEmailAddress(emailAddress.getText());
-        return customerController.createCustomer(customer);
-    }
-
-    private void handleCreateSuccess() {
-        initializeTextFields();
-        AlertController.alertSuccess("Klant aangemaakt!");
-    }
-
-    private void initializeTextFields() {
-        name1.setText("");
-        name2.setText("");
-        address1.setText("");
-        address2.setText("");
-        postalCode.setText("");
-        residence.setText("");
-        country.setText("BE");
-        telephone.setText("");
-        gsm.setText("");
-        fax.setText("");
-        btwNumber.setText("");
-        emailAddress.setText("");
-    }
-
-    private void handleCreateError(List<String> errorMessages) {
-        StringBuilder errorBuilder = new StringBuilder("Gefaald wegens volgende fout(en): ");
-        for (int i = 0; i < errorMessages.size(); i++) {
-            String errorMessage = errorMessages.get(i);
-            errorBuilder.append("\n").append(i+1).append(") ").append(errorMessage);
-        }
-        AlertController.alertError("Klant aanmaken gefaald!", errorBuilder.toString());
-    }
-
-    private void handleCreateException(Exception e) {
-        AlertController.alertException("Klant aanmaken gefaald!", e);
+        customerCreateService.createCustomerService.restart();
     }
 }

@@ -8,7 +8,7 @@
         <VBox styleClass="center-pane" spacing="5">
             <Label styleClass="paneTitle" text="Klant Bewerken"/>
 
-            <TextField fx:id="searchField" promptText="Zoeken..." maxWidth="1177" />
+            <TextField fx:id="customerSearchField" promptText="Zoeken..." maxWidth="1177" />
 
             <TableView fx:id="customerList" fixedCellSize="25" maxWidth="1177" prefHeight="150">
                 <columns>
@@ -96,7 +96,7 @@
 
                 <Label id="labelEmptyRow" text="" GridPane.rowIndex="12" />
 
-                <Button id="modifyButton" mnemonicParsing="false" onMouseClicked="#modifyCustomer" text="Klant bewerken" styleClass="green-button" GridPane.rowIndex="13" GridPane.columnIndex="0"/>
+                <Button fx:id="customerModifyButton" mnemonicParsing="false" onMouseClicked="#modifyCustomer" text="Klant bewerken" styleClass="green-button" GridPane.rowIndex="13" GridPane.columnIndex="0"/>
             </GridPane>
         </VBox>
     </ScrollPane>

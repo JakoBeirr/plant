@@ -30,7 +30,7 @@
                         <TextField fx:id="year" prefWidth="50" prefHeight="25" />
                     </HBox>
 
-                    <Button fx:id="invoicesButton" mnemonicParsing="false" onMouseClicked="#createInvoices" text="Rapport aanmaken" styleClass="blue-button"/>
+                    <Button fx:id="allInvoicesButton" mnemonicParsing="false" onMouseClicked="#createInvoices" text="Rapport aanmaken" styleClass="blue-button"/>
                 </VBox>
             </HBox>
         </VBox>
