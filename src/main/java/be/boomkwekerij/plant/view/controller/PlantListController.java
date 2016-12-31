@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.util.Pair;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ArrayList;

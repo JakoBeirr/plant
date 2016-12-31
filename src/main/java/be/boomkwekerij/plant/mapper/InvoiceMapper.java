@@ -29,6 +29,10 @@ public class InvoiceMapper {
         invoice.setDate(date.toDate());
         invoice.setInvoiceLines(getInvoiceLines(invoiceDTO));
         invoice.setPayed(invoiceDTO.isPayed());
+        DateTime payDate = invoiceDTO.getPayDate();
+        if (payDate != null) {
+            invoice.setPayDate(payDate.toDate());
+        }
         return invoice;
     }
 
@@ -63,6 +67,7 @@ public class InvoiceMapper {
         invoiceDTO.setTotalPrice(countTotalPrice(subTotal, btwAmount));
 
         invoiceDTO.setPayed(invoice.isPayed());
+        invoiceDTO.setPayDate(new DateTime(invoice.getPayDate()));
         return invoiceDTO;
     }
 
@@ -270,21 +275,34 @@ public class InvoiceMapper {
         invoicesReportObject.setReportDate(DateUtils.formatDate(reportDate, DateFormatPattern.DATE_FORMAT));
         invoicesReportObject.setPeriod(period);
         invoicesReportObject.setReportTitle(reportTitle);
+        sortInvoicesByDate(invoices);
         List<InvoicesInvoiceReportObject> invoicesInvoiceReportObjects = new ArrayList<>();
         for (InvoiceDTO invoice : invoices) {
             InvoicesInvoiceReportObject invoiceReportObject = new InvoicesInvoiceReportObject();
             invoiceReportObject.setInvoiceNumber(invoice.getInvoiceNumber());
             invoiceReportObject.setCustomer(invoice.getCustomer().getName1());
             invoiceReportObject.setInvoiceDate(DateUtils.formatDate(invoice.getDate(), DateFormatPattern.DATE_FORMAT));
-            invoiceReportObject.setTotalAmountExclusive("EUR " + Double.toString(invoice.getSubTotal()));
-            invoiceReportObject.setTotalAmountInclusive("EUR " + Double.toString(invoice.getTotalPrice()));
-            invoiceReportObject.setPayed(invoice.isPayed());
+            invoiceReportObject.setTotalAmountExclusive(NumberUtils.formatDouble(invoice.getSubTotal(), 2) + " EUR");
+            invoiceReportObject.setTotalAmountInclusive(NumberUtils.formatDouble(invoice.getTotalPrice(), 2) + " EUR");
+            if (invoice.isPayed() && invoice.getPayDate() != null) {
+                invoiceReportObject.setPayDate(DateUtils.formatDate(invoice.getPayDate(), DateFormatPattern.DATE_FORMAT));
+            } else {
+                invoiceReportObject.setPayDate(" - ");
+            }
             invoicesInvoiceReportObjects.add(invoiceReportObject);
         }
         invoicesReportObject.setInvoices(invoicesInvoiceReportObjects);
-        invoicesReportObject.setTotalExclusive("EUR " + Double.toString(countTotalExclusive(invoices)));
-        invoicesReportObject.setTotalInclusive("EUR " + Double.toString(countTotalInclusive(invoices)));
+        invoicesReportObject.setTotalExclusive(NumberUtils.formatDouble(countTotalExclusive(invoices), 2) + " EUR");
+        invoicesReportObject.setTotalInclusive(NumberUtils.formatDouble(countTotalInclusive(invoices), 2) + " EUR");
         return invoicesReportObject;
+    }
+
+    private void sortInvoicesByDate(List<InvoiceDTO> invoices) {
+        Collections.sort(invoices, new Comparator<InvoiceDTO>() {
+            public int compare(InvoiceDTO invoice1, InvoiceDTO invoice2) {
+                return Integer.parseInt(invoice1.getInvoiceNumber()) - Integer.parseInt(invoice2.getInvoiceNumber());
+            }
+        });
     }
 
     private Double countTotalExclusive(List<InvoiceDTO> invoices) {

@@ -3,16 +3,6 @@
 <!-- 2016-12-29T13:21:23 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="customerFile" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
-	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<subDataset name="invoices" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
 		<queryString>
 			<![CDATA[]]>
@@ -22,7 +12,7 @@
 		<field name="invoiceDate" class="java.lang.String"/>
 		<field name="totalAmountExclusive" class="java.lang.String"/>
 		<field name="totalAmountInclusive" class="java.lang.String"/>
-		<field name="payed" class="java.lang.Boolean"/>
+		<field name="payDate" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="invoiceReport" class="be.boomkwekerij.plant.model.report.InvoicesReportObject"/>
 	<pageHeader>
@@ -31,7 +21,7 @@
 			<textField>
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="535" height="40" uuid="f10f3a3c-283e-4742-9924-a5d39f8f8a19"/>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Bedrijf\t:\t" + $P{invoiceReport}.getCompanyName() +
 "\nDatum\t:\t" + $P{invoiceReport}.getReportDate() +
@@ -42,7 +32,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="11" isBold="true"/>
+					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{invoiceReport}.getReportTitle()]]></textFieldExpression>
 			</textField>
@@ -59,7 +49,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nummer]]></text>
 			</staticText>
@@ -71,7 +61,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Debiteur]]></text>
 			</staticText>
@@ -83,7 +73,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Datum]]></text>
 			</staticText>
@@ -94,7 +84,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Bedrag exclusief]]></text>
 			</staticText>
@@ -106,7 +96,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Bedrag inclusief]]></text>
 			</staticText>
@@ -116,7 +106,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Betaald?]]></text>
 			</staticText>
@@ -182,22 +172,11 @@
 							<textFieldExpression><![CDATA[$F{totalAmountInclusive}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="470" y="0" width="65" height="13" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809">
-								<printWhenExpression><![CDATA[$F{payed}]]></printWhenExpression>
-							</reportElement>
+							<reportElement x="470" y="0" width="65" height="13" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809"/>
 							<textElement>
 								<font size="8"/>
 							</textElement>
-							<textFieldExpression><![CDATA["JA"]]></textFieldExpression>
-						</textField>
-						<textField>
-							<reportElement x="470" y="0" width="65" height="13" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809">
-								<printWhenExpression><![CDATA[!$F{payed}]]></printWhenExpression>
-							</reportElement>
-							<textElement>
-								<font size="8"/>
-							</textElement>
-							<textFieldExpression><![CDATA["NEEN"]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{payDate}]]></textFieldExpression>
 						</textField>
 					</jr:listContents>
 				</jr:list>
@@ -227,7 +206,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TOTAAL:]]></text>
 			</staticText>

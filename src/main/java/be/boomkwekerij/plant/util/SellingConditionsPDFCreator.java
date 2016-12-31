@@ -34,7 +34,7 @@ public class SellingConditionsPDFCreator {
             bestand.setName("selling_conditions.pdf");
             bestand.setFile(sellingConditions);
             return bestand;
-        } catch (JRException e) {
+        } catch (Exception e) {
             throw new ReportException(e.getMessage());
         }
     }

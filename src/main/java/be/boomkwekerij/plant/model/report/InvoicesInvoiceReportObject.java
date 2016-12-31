@@ -7,7 +7,7 @@ public class InvoicesInvoiceReportObject {
     private String invoiceDate;
     private String totalAmountExclusive;
     private String totalAmountInclusive;
-    private boolean payed;
+    private String payDate;
 
     public String getInvoiceNumber() {
         return invoiceNumber;
@@ -49,11 +49,11 @@ public class InvoicesInvoiceReportObject {
         this.totalAmountInclusive = totalAmountInclusive;
     }
 
-    public boolean isPayed() {
-        return payed;
+    public String getPayDate() {
+        return payDate;
     }
 
-    public void setPayed(boolean payed) {
-        this.payed = payed;
+    public void setPayDate(String payDate) {
+        this.payDate = payDate;
     }
 }

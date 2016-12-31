@@ -28,7 +28,7 @@ public class ReportPDFCreator {
             JasperPrint page = pdfHelper.fillPDF(template, parameters, dataSource);
 
             return createPDF("klantenbestand_" + DateUtils.formatDate(new DateTime(), DateFormatPattern.DATE_FORMAT), Arrays.asList(page));
-        } catch (JRException | IOException e) {
+        } catch (Exception e) {
             throw new ReportException(e.getMessage());
         }
     }
@@ -41,7 +41,7 @@ public class ReportPDFCreator {
             JasperPrint page = pdfHelper.fillPDF(template, parameters, dataSource);
 
             return createPDF(invoicesReportObject.getReportTitle().toLowerCase().replace(" ", "_") + "_" + invoicesReportObject.getPeriod().toLowerCase().replace(" ", "_") + "_" + invoicesReportObject.getReportDate(), Arrays.asList(page));
-        } catch (JRException | IOException e) {
+        } catch (Exception e) {
             throw new ReportException(e.getMessage());
         }
     }

@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.view.controller;
 
 import be.boomkwekerij.plant.controller.InvoiceController;
+import be.boomkwekerij.plant.model.dto.DateDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
@@ -11,14 +12,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import org.joda.time.DateTime;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class InvoiceListController implements Initializable {
@@ -135,11 +138,43 @@ public class InvoiceListController implements Initializable {
     }
 
     public void payInvoice(ActionEvent actionEvent) {
-        InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
-        CrudsResult payInvoiceResult = invoiceController.payInvoice(selectedInvoice.getId());
+        Dialog<DateDTO> payDialog = new Dialog<DateDTO>();
+        payDialog.setTitle("Factuur betaald");
+        payDialog.setHeaderText("Gelieve aan te geven wanneer deze factuur betaald werd!");
 
-        if (payInvoiceResult.isSuccess()) {
-            loadAllInvoices();
+        GridPane fieldPane = new GridPane();
+        fieldPane.setHgap(10);
+        fieldPane.setPadding(new Insets(20, 150, 10, 10));
+        DatePicker payDatePicker = new DatePicker();
+        fieldPane.add(payDatePicker, 1, 0);
+        payDialog.getDialogPane().setContent(fieldPane);
+
+        ButtonType payButton = new ButtonType("Betaald", ButtonBar.ButtonData.OK_DONE);
+        payDialog.getDialogPane().getButtonTypes().addAll(payButton);
+
+        payDialog.setResultConverter(dialogButton -> {
+            if (dialogButton == payButton) {
+                LocalDate payDate = payDatePicker.getValue();
+
+                if (payDate != null) {
+                    DateDTO dateDTO = new DateDTO();
+                    dateDTO.setPayDate(new DateTime(payDate.getYear(), payDate.getMonthValue(), payDate.getDayOfMonth(), 0, 0, 0, 0));
+                    return dateDTO;
+                }
+            }
+            return null;
+        });
+
+        Optional<DateDTO> payResult = payDialog.showAndWait();
+        if (payResult.isPresent()) {
+            DateDTO dateDTO = payResult.get();
+
+            InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
+            CrudsResult payInvoiceResult = invoiceController.payInvoice(selectedInvoice.getId(), dateDTO);
+
+            if (payInvoiceResult.isSuccess()) {
+                loadAllInvoices();
+            }
         }
     }
 

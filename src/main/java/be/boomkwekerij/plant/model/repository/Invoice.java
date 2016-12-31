@@ -14,6 +14,7 @@ public class Invoice {
     private Date date;
     private List<InvoiceLine> invoiceLines;
     private boolean payed;
+    private Date payDate;
 
     public String getId() {
         return id;
@@ -67,5 +68,14 @@ public class Invoice {
     @XmlElement
     public void setPayed(boolean payed) {
         this.payed = payed;
+    }
+
+    public Date getPayDate() {
+        return payDate;
+    }
+
+    @XmlElement
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
     }
 }

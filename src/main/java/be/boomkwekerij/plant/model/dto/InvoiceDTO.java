@@ -16,6 +16,7 @@ public class InvoiceDTO {
     private List<BtwDTO> btw;
     private double totalPrice;
     private boolean payed;
+    private DateTime payDate;
     private double defaultBtw;
 
     public String getId() {
@@ -88,6 +89,14 @@ public class InvoiceDTO {
 
     public void setPayed(boolean payed) {
         this.payed = payed;
+    }
+
+    public DateTime getPayDate() {
+        return payDate;
+    }
+
+    public void setPayDate(DateTime payDate) {
+        this.payDate = payDate;
     }
 
     public double getDefaultBtw() {

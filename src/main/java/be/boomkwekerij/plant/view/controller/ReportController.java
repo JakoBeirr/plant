@@ -8,8 +8,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import org.joda.time.DateTime;
 
 import java.net.URL;
@@ -22,6 +25,12 @@ public class ReportController implements Initializable {
 
     private ReportingController reportingController = new ReportingController();
 
+    @FXML
+    private Button customerFileButton;
+    @FXML
+    private Button unpayedInvoicesButton;
+    @FXML
+    private Button invoicesButton;
     @FXML
     private ComboBox<String> months;
     @FXML
@@ -51,32 +60,44 @@ public class ReportController implements Initializable {
     }
 
     public void createCustomerFile(Event event) {
-        CrudsResult crudsResult = reportingController.printCustomerFileReport();
-        if (crudsResult.isSuccess()) {
-            AlertController.alertSuccess("Klantenbestand rapport aangemaakt");
-        } else {
-            AlertController.alertError("Rapport aanmaken gefaald", Arrays.toString(crudsResult.getMessages().toArray()));
+        try {
+            CrudsResult crudsResult = reportingController.printCustomerFileReport();
+            if (crudsResult.isSuccess()) {
+                AlertController.alertSuccess("Klantenbestand rapport aangemaakt");
+            } else {
+                AlertController.alertError("Rapport aanmaken gefaald", Arrays.toString(crudsResult.getMessages().toArray()));
+            }
+        } catch (Exception e) {
+            AlertController.alertException("Rapport aanmaken gefaald", e);
         }
     }
 
     public void createUnpayedInvoices(Event event) {
-        CrudsResult crudsResult = reportingController.printUnpayedInvoicesReport();
-        if (crudsResult.isSuccess()) {
-            AlertController.alertSuccess("Onbetaalde facturen rapport aangemaakt");
-        } else {
-            AlertController.alertError("Rapport aanmaken gefaald", Arrays.toString(crudsResult.getMessages().toArray()));
+        try {
+            CrudsResult crudsResult = reportingController.printUnpayedInvoicesReport();
+            if (crudsResult.isSuccess()) {
+                AlertController.alertSuccess("Onbetaalde facturen rapport aangemaakt");
+            } else {
+                AlertController.alertError("Rapport aanmaken gefaald", Arrays.toString(crudsResult.getMessages().toArray()));
+            }
+        } catch (Exception e) {
+            AlertController.alertException("Rapport aanmaken gefaald", e);
         }
     }
 
     public void createInvoices(Event event) {
-        String selectedMonth = months.getSelectionModel().getSelectedItem();
-        int selectedYear = Integer.parseInt(year.getText());
+        try {
+            String selectedMonth = months.getSelectionModel().getSelectedItem();
+            int selectedYear = Integer.parseInt(year.getText());
 
-        CrudsResult crudsResult = reportingController.printInvoicesReport(selectedMonth, selectedYear);
-        if (crudsResult.isSuccess()) {
-            AlertController.alertSuccess("Alle facturen rapport aangemaakt");
-        } else {
-            AlertController.alertError("Rapport aanmaken gefaald", Arrays.toString(crudsResult.getMessages().toArray()));
+            CrudsResult crudsResult = reportingController.printInvoicesReport(selectedMonth, selectedYear);
+            if (crudsResult.isSuccess()) {
+                AlertController.alertSuccess("Alle facturen rapport aangemaakt");
+            } else {
+                AlertController.alertError("Rapport aanmaken gefaald", Arrays.toString(crudsResult.getMessages().toArray()));
+            }
+        } catch (Exception e) {
+            AlertController.alertException("Rapport aanmaken gefaald", e);
         }
     }
 }

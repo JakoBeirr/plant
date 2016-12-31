@@ -13,14 +13,14 @@
 
                     <Label text="InvisibleLabel" visible="false" prefHeight="25" />
 
-                    <Button id="customerFileButton" mnemonicParsing="false" onMouseClicked="#createCustomerFile" text="Rapport aanmaken" styleClass="blue-button"/>
+                    <Button fx:id="customerFileButton" mnemonicParsing="false" onMouseClicked="#createCustomerFile" text="Rapport aanmaken" styleClass="blue-button"/>
                 </VBox>
                 <VBox styleClass="border-pane" spacing="25">
                     <Label text="Onbetaalde facturen" />
 
                     <Label text="InvisibleLabel" visible="false" prefHeight="25" />
 
-                    <Button id="unpayedInvoicesButton" mnemonicParsing="false" onMouseClicked="#createUnpayedInvoices" text="Rapport aanmaken" styleClass="blue-button"/>
+                    <Button fx:id="unpayedInvoicesButton" mnemonicParsing="false" onMouseClicked="#createUnpayedInvoices" text="Rapport aanmaken" styleClass="blue-button"/>
                 </VBox>
                 <VBox styleClass="border-pane" spacing="25">
                     <Label text="Alle facturen" />
@@ -30,7 +30,7 @@
                         <TextField fx:id="year" prefWidth="50" prefHeight="25" />
                     </HBox>
 
-                    <Button id="invoicesButton" mnemonicParsing="false" onMouseClicked="#createInvoices" text="Rapport aanmaken" styleClass="blue-button"/>
+                    <Button fx:id="invoicesButton" mnemonicParsing="false" onMouseClicked="#createInvoices" text="Rapport aanmaken" styleClass="blue-button"/>
                 </VBox>
             </HBox>
         </VBox>

@@ -23,7 +23,7 @@ public class InvoicePDFCreator {
             JasperPrint page = pdfHelper.fillPDF(invoiceTemplate, parameters, dataSource);
 
             return createPDF(invoice.getInvoiceNumber(), Arrays.asList(page));
-        } catch (JRException | IOException e) {
+        } catch (Exception e) {
             throw new ReportException(e.getMessage());
         }
     }

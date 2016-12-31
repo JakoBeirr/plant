@@ -2,6 +2,7 @@ package be.boomkwekerij.plant.controller;
 
 import be.boomkwekerij.plant.exception.ReportException;
 import be.boomkwekerij.plant.model.dto.BestandDTO;
+import be.boomkwekerij.plant.model.dto.DateDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.service.*;
 import be.boomkwekerij.plant.util.CrudsResult;
@@ -77,9 +78,9 @@ public class InvoiceController {
         }
     }
 
-    public CrudsResult payInvoice(String invoiceId) {
+    public CrudsResult payInvoice(String invoiceId, DateDTO dateDTO) {
         try {
-            return invoiceService.payInvoice(invoiceId);
+            return invoiceService.payInvoice(invoiceId, dateDTO);
         } catch (Exception e) {
             return createCrudsError(e);
         }

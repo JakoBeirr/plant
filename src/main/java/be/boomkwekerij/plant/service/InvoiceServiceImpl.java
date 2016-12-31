@@ -5,6 +5,7 @@ import be.boomkwekerij.plant.dao.repository.InvoiceDAO;
 import be.boomkwekerij.plant.dao.repository.InvoiceDAOImpl;
 import be.boomkwekerij.plant.mapper.InvoiceMapper;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
+import be.boomkwekerij.plant.model.dto.DateDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.util.CrudsResult;
@@ -202,13 +203,14 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public CrudsResult payInvoice(String id) {
+    public CrudsResult payInvoice(String id, DateDTO dateDTO) {
         CrudsResult crudsResult = new CrudsResult();
 
         SearchResult<InvoiceDTO> invoiceResult = getInvoice(id);
         if (invoiceResult.isSuccess()) {
             InvoiceDTO invoice = invoiceResult.getFirst();
             invoice.setPayed(true);
+            invoice.setPayDate(dateDTO.getPayDate());
             CrudsResult updateInvoiceResult = updateInvoice(invoice);
 
             crudsResult.setSuccess(updateInvoiceResult.isSuccess());
