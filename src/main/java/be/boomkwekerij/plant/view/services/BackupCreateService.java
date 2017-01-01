@@ -57,7 +57,8 @@ public class BackupCreateService {
 
     public void init(Pane root) {
         root.cursorProperty()
-                .bind(Bindings.when(backupService.runningProperty().or(restoreBackupService.runningProperty()))
+                .bind(Bindings.when(backupService.runningProperty()
+                            .or(restoreBackupService.runningProperty()))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
@@ -66,9 +67,17 @@ public class BackupCreateService {
         restoreBackupButton.disableProperty()
                 .bind(restoreBackupService.runningProperty());
 
-        backupService.setOnSucceeded(event1 -> ServiceHandler.success(backupService));
-        backupService.setOnFailed(event1 -> ServiceHandler.error(backupService));
-        restoreBackupService.setOnSucceeded(event1 -> ServiceHandler.success(restoreBackupService));
-        restoreBackupService.setOnFailed(event1 -> ServiceHandler.error(restoreBackupService));
+        backupService.setOnSucceeded(serviceEvent -> {
+            ServiceHandler.success(backupService);
+        });
+        backupService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(backupService);
+        });
+        restoreBackupService.setOnSucceeded(serviceEvent -> {
+            ServiceHandler.success(restoreBackupService);
+        });
+        restoreBackupService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(restoreBackupService);
+        });
     }
 }

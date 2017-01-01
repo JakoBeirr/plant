@@ -1,49 +1,26 @@
 package be.boomkwekerij.plant.view.controller;
 
-import be.boomkwekerij.plant.controller.CustomerController;
-import be.boomkwekerij.plant.controller.InvoiceController;
-import be.boomkwekerij.plant.controller.PlantController;
-import be.boomkwekerij.plant.exception.ItemNotFoundException;
-import be.boomkwekerij.plant.model.dto.CustomerDTO;
-import be.boomkwekerij.plant.model.dto.InvoiceDTO;
-import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
-import be.boomkwekerij.plant.model.dto.PlantDTO;
-import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.SearchResult;
-import be.boomkwekerij.plant.view.mapper.CustomerViewMapper;
-import be.boomkwekerij.plant.view.mapper.PlantViewMapper;
 import be.boomkwekerij.plant.view.model.CustomerViewModel;
 import be.boomkwekerij.plant.view.model.PlantViewModel;
+import be.boomkwekerij.plant.view.services.InvoiceCreateService;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import org.joda.time.DateTime;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ResourceBundle;
 
 public class InvoiceCreateController implements PageController {
 
-    private InvoiceController invoiceController = new InvoiceController();
-    private CustomerController customerController = new CustomerController();
-    private PlantController plantController = new PlantController();
-
-    private CustomerViewMapper customerViewMapper = new CustomerViewMapper();
-    private PlantViewMapper plantViewMapper = new PlantViewMapper();
-
-    private InvoiceDTO newInvoice;
+    private InvoiceCreateService invoiceCreateService = new InvoiceCreateService();
 
     @FXML
     private TextField customerSearchField;
@@ -107,39 +84,51 @@ public class InvoiceCreateController implements PageController {
     private Label chosenPlant;
     @FXML
     private Button choosePlantButton;
+    @FXML
+    private Button invoiceCreateButton;
 
     private static final String NON_NUMERIC_CHARACTERS = "[^\\d]";
     private static final String NON_DECIMAL_NUMERIC_CHARACTERS = "[^\\d.]";
 
     @Override
     public void init(Pane root) {
-
+        invoiceCreateService.setCustomerSearchField(customerSearchField);
+        invoiceCreateService.setCustomerList(customerList);
+        invoiceCreateService.setPlantSearchField(plantSearchField);
+        invoiceCreateService.setPlantList(plantList);
+        invoiceCreateService.setCustomer(customer);
+        invoiceCreateService.setInvoiceNumber(invoiceNumber);
+        invoiceCreateService.setInvoiceDate(invoiceDate);
+        invoiceCreateService.setCreateInvoicePane(createInvoicePane);
+        invoiceCreateService.setChoosePlantButton(choosePlantButton);
+        invoiceCreateService.setChosenPlant(chosenPlant);
+        invoiceCreateService.setOrderNumber(orderNumber);
+        invoiceCreateService.setInvoiceLineDate(invoiceLineDate);
+        invoiceCreateService.setInvoiceLineBtw(invoiceLineBtw);
+        invoiceCreateService.setAmount(amount);
+        invoiceCreateService.setAlternativePlantPrice(alternativePlantPrice);
+        invoiceCreateService.setCreatedInvoiceLines(createdInvoiceLines);
+        invoiceCreateService.setInvoiceCreateButton(invoiceCreateButton);
+        invoiceCreateService.init(root);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loadAllCustomers();
+        invoiceCreateService.loadAllCustomersService.restart();
         addChangeListenerToSearchFields();
         addChangeListenersToList();
         initNumericFields();
-    }
-
-    private void loadAllCustomers() {
-        List<CustomerViewModel> allCustomers = getAllCustomers();
-        customerList.getItems().setAll(allCustomers);
     }
 
     private void addChangeListenerToSearchFields() {
         customerSearchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                List<CustomerViewModel> allCustomers;
                 if (newValue.length() >= 2) {
-                    allCustomers = getAllCustomersWithName(newValue);
+                    invoiceCreateService.loadAllCustomersWithNameService.restart();
                 } else {
-                    allCustomers = getAllCustomers();
+                    invoiceCreateService.loadAllCustomersService.restart();
                 }
-                customerList.getItems().setAll(allCustomers);
             }
         });
         plantSearchField.textProperty().addListener(new ChangeListener<String>() {
@@ -154,52 +143,10 @@ public class InvoiceCreateController implements PageController {
                 }
 
                 if (newValue.length() >= 2) {
-                    plantList.getItems().setAll(getAllPlantsWithName(newValue));
+                    invoiceCreateService.loadAllPlantsWithNameService.restart();
                 }
             }
         });
-    }
-
-    private List<CustomerViewModel> getAllCustomers() {
-        List<CustomerViewModel> customers = new ArrayList<>();
-
-        SearchResult<CustomerDTO> customerSearchResult = customerController.getAllCustomers();
-        if (customerSearchResult.isSuccess()) {
-            for (CustomerDTO customerDTO : customerSearchResult.getResults()) {
-                CustomerViewModel customerViewModel = customerViewMapper.mapDTOToViewModel(customerDTO);
-                customers.add(customerViewModel);
-            }
-        }
-
-        return customers;
-    }
-
-    private List<CustomerViewModel> getAllCustomersWithName(String name) {
-        ArrayList<CustomerViewModel> customers = new ArrayList<>();
-
-        SearchResult<CustomerDTO> customerSearchResult = customerController.getAllCustomersWithName(name);
-        if (customerSearchResult.isSuccess()) {
-            for (CustomerDTO customerDTO : customerSearchResult.getResults()) {
-                CustomerViewModel customerViewModel = customerViewMapper.mapDTOToViewModel(customerDTO);
-                customers.add(customerViewModel);
-            }
-        }
-
-        return customers;
-    }
-
-    private List<PlantViewModel> getAllPlantsWithName(String name) {
-        ArrayList<PlantViewModel> plants = new ArrayList<>();
-
-        SearchResult<PlantDTO> plantSearchResult = plantController.getAllPlantsWithName(name);
-        if (plantSearchResult.isSuccess()) {
-            for (PlantDTO plantDTO : plantSearchResult.getResults()) {
-                PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
-                plants.add(plantViewModel);
-            }
-        }
-
-        return plants;
     }
 
     private void addChangeListenersToList() {
@@ -260,177 +207,22 @@ public class InvoiceCreateController implements PageController {
     }
 
     public void startInvoiceCreation(ActionEvent actionEvent) {
-        customerList.setDisable(true);
-        customerSearchField.setDisable(true);
-        initializeKnownInvoiceProperties();
-        createInvoicePane.setVisible(true);
-    }
-
-    private void initializeKnownInvoiceProperties() {
-        CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
-        newInvoice = invoiceController.makeNewInvoice(selectedCustomer.getId());
-
-        customer.setText(newInvoice.getCustomer().getName1());
-        invoiceNumber.setText(newInvoice.getInvoiceNumber());
-        DateTime invoiceDTODate = newInvoice.getDate();
-        invoiceDate.setValue(LocalDate.of(invoiceDTODate.getYear(), invoiceDTODate.getMonthOfYear(), invoiceDTODate.getDayOfMonth()));
-        resetInvoiceLine();
+        invoiceCreateService.initInvoiceCreateService.restart();
     }
 
     public void choosePlant(ActionEvent actionEvent) {
-        PlantViewModel selectedPlant = plantList.getSelectionModel().getSelectedItem();
-
-        chosenPlant.setText(selectedPlant.getId());
-        plantSearchField.setText(selectedPlant.getName() + "    (" + selectedPlant.getAge() + " - " + selectedPlant.getMeasure() + ")");
-        alternativePlantPrice.setText(selectedPlant.getPrice().replaceAll(",", "."));
-        plantList.setVisible(false);
-        plantList.setManaged(false);
-        plantSearchField.setDisable(true);
-        choosePlantButton.setVisible(false);
-        choosePlantButton.setManaged(false);
+        invoiceCreateService.choosePlantService.restart();
     }
 
     public void clearInvoiceLine(ActionEvent actionEvent) {
-        resetInvoiceLine();
+        invoiceCreateService.clearInvoiceLineService.restart();
     }
 
     public void createInvoiceLine(ActionEvent actionEvent) {
-        if (!chosenPlant.getText().trim().isEmpty() && !plantSearchField.getText().trim().isEmpty() && invoiceLineDate.getValue() != null && !amount.getText().trim().isEmpty() && !alternativePlantPrice.getText().trim().isEmpty()) {
-            HBox invoiceLine = new HBox(5);
-
-            Label createdChosenPlant = new Label(chosenPlant.getText());
-            createdChosenPlant.setManaged(false);
-            createdChosenPlant.setVisible(false);
-            TextField createdPlant = new TextField(plantSearchField.getText());
-            createdPlant.setPrefColumnCount(37);
-            createdPlant.setDisable(true);
-            TextField createdOrderNumber = new TextField(orderNumber.getText());
-            createdOrderNumber.setPrefColumnCount(10);
-            createdOrderNumber.setDisable(true);
-            DatePicker createdInvoiceLineDate = new DatePicker(invoiceLineDate.getValue());
-            createdInvoiceLineDate.setDisable(true);
-            TextField createdAmount = new TextField(amount.getText());
-            createdAmount.setPrefColumnCount(3);
-            createdAmount.setDisable(true);
-            TextField createdInvoiceLineBtw = new TextField(invoiceLineBtw.getText());
-            createdInvoiceLineBtw.setPrefColumnCount(3);
-            createdInvoiceLineBtw.setDisable(true);
-            TextField createdPrice = new TextField(alternativePlantPrice.getText());
-            createdPrice.setPrefColumnCount(5);
-            createdPrice.setDisable(true);
-            Button deleteRow = new Button("Verwijder rij");
-            deleteRow.getStyleClass().add("red-button");
-            deleteRow.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    createdInvoiceLines.getChildren().remove(invoiceLine);
-                }
-            });
-
-            invoiceLine.getChildren().add(createdChosenPlant);
-            invoiceLine.getChildren().add(createdPlant);
-            invoiceLine.getChildren().add(createdOrderNumber);
-            invoiceLine.getChildren().add(createdInvoiceLineDate);
-            invoiceLine.getChildren().add(createdAmount);
-            invoiceLine.getChildren().add(createdInvoiceLineBtw);
-            invoiceLine.getChildren().add(createdPrice);
-            invoiceLine.getChildren().add(deleteRow);
-            createdInvoiceLines.getChildren().add(invoiceLine);
-
-            resetInvoiceLine();
-        }
-    }
-
-    private void resetInvoiceLine() {
-        chosenPlant.setText("");
-        plantSearchField.setText("");
-        orderNumber.setText("");
-        amount.setText("");
-        alternativePlantPrice.setText("");
-        invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
-        invoiceLineBtw.setText(Double.toString(newInvoice.getDefaultBtw()));
-        plantSearchField.setDisable(false);
+        invoiceCreateService.createInvoiceLineService.restart();
     }
 
     public void createInvoice(Event event) {
-        try {
-            CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
-            CustomerDTO selectedCustomerDTO = customerViewMapper.mapViewModelToDTO(selectedCustomer);
-
-            InvoiceDTO invoiceDTO = new InvoiceDTO();
-            invoiceDTO.setCustomer(selectedCustomerDTO);
-            invoiceDTO.setInvoiceNumber(invoiceNumber.getText());
-            LocalDate invoiceDate = this.invoiceDate.getValue();
-            if (invoiceDate != null) {
-                invoiceDTO.setDate(new DateTime(invoiceDate.getYear(), invoiceDate.getMonthValue(), invoiceDate.getDayOfMonth(), 0, 0, 0, 0));
-            } else {
-                invoiceDTO.setDate(null);
-            }
-            for (Node node : createdInvoiceLines.getChildren()) {
-                HBox createdInvoiceLine = (HBox) node;
-                ObservableList<Node> children = createdInvoiceLine.getChildren();
-                Label createdChosenPlant = (Label) children.get(0);
-                TextField createdPlant = (TextField) children.get(1);
-                TextField createdOrderNumber = (TextField) children.get(2);
-                DatePicker createdInvoiceLineDate = (DatePicker) children.get(3);
-                TextField createdAmount = (TextField) children.get(4);
-                TextField createdInvoiceLineBtw = (TextField) children.get(5);
-                TextField createdPrice = (TextField) children.get(6);
-
-                InvoiceLineDTO invoiceLineDTO = new InvoiceLineDTO();
-                invoiceLineDTO.setOrderNumber(createdOrderNumber.getText());
-                LocalDate invoiceLineDate = createdInvoiceLineDate.getValue();
-                invoiceLineDTO.setDate(new DateTime(invoiceLineDate.getYear(), invoiceLineDate.getMonthValue(), invoiceLineDate.getDayOfMonth(), 0, 0, 0, 0));
-                invoiceLineDTO.setAmount(Integer.parseInt(createdAmount.getText()));
-                SearchResult<PlantDTO> plantSearchResult = plantController.getPlant(createdChosenPlant.getText());
-                if (plantSearchResult.isSuccess()) {
-                    PlantDTO selectedPlant = plantSearchResult.getFirst();
-                    invoiceLineDTO.setPlantId(selectedPlant.getId());
-                    invoiceLineDTO.setPlantName(selectedPlant.getName());
-                    invoiceLineDTO.setPlantAge(selectedPlant.getAge());
-                    invoiceLineDTO.setPlantMeasure(selectedPlant.getMeasure());
-                } else {
-                    throw new ItemNotFoundException("Kon plant " + createdPlant.getText() + " niet vinden!");
-                }
-                invoiceLineDTO.setBtw(Double.parseDouble(createdInvoiceLineBtw.getText()));
-                invoiceLineDTO.setPlantPrice(Double.parseDouble(createdPrice.getText()));
-                invoiceDTO.getInvoiceLines().add(invoiceLineDTO);
-            }
-            invoiceDTO.setPayed(false);
-
-            CrudsResult invoiceCreateResult = invoiceController.createInvoice(invoiceDTO);
-            if (invoiceCreateResult.isSuccess()) {
-                handleCreateSuccess();
-            } else {
-                handleCreateError(invoiceCreateResult.getMessages());
-            }
-        } catch (ItemNotFoundException e) {
-            handleCreateError(Arrays.asList(e.getMessage()));
-        } catch (Exception e) {
-            handleCreateException(e);
-        }
-    }
-
-    private void handleCreateSuccess() {
-        customerList.setDisable(false);
-        customerList.getSelectionModel().clearSelection();
-        customerSearchField.setDisable(false);
-        createInvoicePane.setVisible(false);
-        createdInvoiceLines.getChildren().setAll(Collections.emptyList());
-        resetInvoiceLine();
-        AlertController.alertSuccess("Factuur aangemaakt!");
-    }
-
-    private void handleCreateError(List<String> errorMessages) {
-        StringBuilder errorBuilder = new StringBuilder("Gefaald wegens volgende fout(en): ");
-        for (int i = 0; i < errorMessages.size(); i++) {
-            String errorMessage = errorMessages.get(i);
-            errorBuilder.append("\n").append(i+1).append(") ").append(errorMessage);
-        }
-        AlertController.alertError("Factuur aanmaken gefaald!", errorBuilder.toString());
-    }
-
-    private void handleCreateException(Exception e) {
-        AlertController.alertException("Factuur aanmaken gefaald!", e);
+        invoiceCreateService.createInvoiceService.restart();
     }
 }

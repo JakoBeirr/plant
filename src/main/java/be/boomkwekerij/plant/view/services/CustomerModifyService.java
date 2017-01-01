@@ -96,7 +96,7 @@ public class CustomerModifyService {
         }
     };
 
-    public final Service initModifyService = new Service() {
+    public final Service initCustomerModifyService = new Service() {
         @Override
         protected Task createTask() {
             return new Task<Void>() {
@@ -231,19 +231,22 @@ public class CustomerModifyService {
 
     public void init(Pane root) {
         root.cursorProperty()
-                .bind(Bindings.when(loadAllCustomersService.runningProperty().or(loadAllCustomersWithNameService.runningProperty().or(initModifyService.runningProperty().or(modifyCustomerService.runningProperty()))))
+                .bind(Bindings.when(loadAllCustomersService.runningProperty()
+                            .or(loadAllCustomersWithNameService.runningProperty()
+                            .or(initCustomerModifyService.runningProperty()
+                            .or(modifyCustomerService.runningProperty()))))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
         customerModifyButton.disableProperty()
                 .bind(modifyCustomerService.runningProperty());
 
-        initModifyService.setOnSucceeded(event1 -> {
+        initCustomerModifyService.setOnSucceeded(serviceEvent -> {
             customerList.setDisable(true);
             customerSearchField.setDisable(true);
             modifyPane.setVisible(true);
         });
-        modifyCustomerService.setOnSucceeded(event1 -> {
+        modifyCustomerService.setOnSucceeded(serviceEvent -> {
             initializeTextFields();
             modifyPane.setVisible(false);
             customerList.setDisable(false);
@@ -253,9 +256,9 @@ public class CustomerModifyService {
 
             ServiceHandler.success(modifyCustomerService);
         });
-        modifyCustomerService.setOnFailed(event1 -> ServiceHandler.error(modifyCustomerService));
-
-        loadAllCustomersService.restart();
+        modifyCustomerService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(modifyCustomerService);
+        });
     }
 
     private void initializeTextFields() {

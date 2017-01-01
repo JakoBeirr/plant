@@ -124,12 +124,14 @@ public class CustomerCreateService {
         customerCreateButton.disableProperty()
                 .bind(createCustomerService.runningProperty());
 
-        createCustomerService.setOnSucceeded(event1 -> {
+        createCustomerService.setOnSucceeded(serviceEvent -> {
             initializeTextFields();
 
             ServiceHandler.success(createCustomerService);
         });
-        createCustomerService.setOnFailed(event1 -> ServiceHandler.error(createCustomerService));
+        createCustomerService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(createCustomerService);
+        });
 
         initializeTextFields();
     }

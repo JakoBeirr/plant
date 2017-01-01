@@ -18,7 +18,7 @@
                         <TextField fx:id="invoiceNumber" GridPane.rowIndex="2" GridPane.columnIndex="1" />
                     </GridPane>
 
-                    <Button id="modifyButton" mnemonicParsing="false" onMouseClicked="#modifySystem" text="Systeem bewerken" styleClass="green-button"/>
+                    <Button fx:id="modifySystemButton" mnemonicParsing="false" onMouseClicked="#modifySystem" text="Systeem bewerken" styleClass="green-button"/>
                 </VBox>
 
                 <VBox styleClass="border-pane" spacing="25">
@@ -64,7 +64,7 @@
                         <TextField fx:id="btwNumber" prefColumnCount="30" GridPane.rowIndex="13" GridPane.columnIndex="1" />
                     </GridPane>
 
-                    <Button id="modifyButton" mnemonicParsing="false" onMouseClicked="#modifyCompany" text="Bedrijf bewerken" styleClass="green-button"/>
+                    <Button fx:id="modifyCompanyButton" mnemonicParsing="false" onMouseClicked="#modifyCompany" text="Bedrijf bewerken" styleClass="green-button"/>
                 </VBox>
             </HBox>
         </VBox>

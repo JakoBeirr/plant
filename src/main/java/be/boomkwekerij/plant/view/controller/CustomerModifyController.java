@@ -95,6 +95,7 @@ public class CustomerModifyController implements PageController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        customerModifyService.loadAllCustomersService.restart();
         addChangeListenerToCustomerSearchField();
         addChangeListenerToCustomerList();
     }
@@ -122,7 +123,7 @@ public class CustomerModifyController implements PageController {
     }
 
     public void showModify(ActionEvent actionEvent) {
-        customerModifyService.initModifyService.restart();
+        customerModifyService.initCustomerModifyService.restart();
     }
 
     public void modifyCustomer(Event event) {

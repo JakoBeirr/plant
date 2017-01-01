@@ -61,6 +61,7 @@ public class CustomerListController implements PageController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        customerListService.loadAllCustomersService.restart();
         addChangeListenerToSearchField();
         addChangeListenerToCustomerList();
     }

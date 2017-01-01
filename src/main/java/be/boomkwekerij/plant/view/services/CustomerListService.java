@@ -145,7 +145,10 @@ public class CustomerListService {
 
     public void init(Pane root) {
         root.cursorProperty()
-                .bind(Bindings.when(loadAllCustomersService.runningProperty().or(loadAllCustomersWithNameService.runningProperty().or(showCustomerDetailsService.runningProperty().or(deleteCustomerService.runningProperty()))))
+                .bind(Bindings.when(loadAllCustomersService.runningProperty()
+                            .or(loadAllCustomersWithNameService.runningProperty()
+                            .or(showCustomerDetailsService.runningProperty()
+                            .or(deleteCustomerService.runningProperty()))))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
@@ -154,19 +157,27 @@ public class CustomerListService {
         customerDeleteButton.disableProperty()
                 .bind(deleteCustomerService.runningProperty());
 
-        showCustomerDetailsService.setOnSucceeded(event1 -> showCustomer());
-        showCustomerDetailsService.setOnFailed(event1 -> ServiceHandler.error(showCustomerDetailsService));
-        deleteCustomerService.setOnSucceeded(event1 -> {
+        showCustomerDetailsService.setOnSucceeded(serviceEvent -> {
+            showCustomer();
+        });
+        showCustomerDetailsService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(showCustomerDetailsService);
+        });
+        deleteCustomerService.setOnSucceeded(serviceEvent -> {
             loadAllCustomersWithNameService.restart();
 
             ServiceHandler.success(deleteCustomerService);
         });
-        deleteCustomerService.setOnFailed(event1 -> ServiceHandler.error(deleteCustomerService));
-
-        loadAllCustomersService.restart();
+        deleteCustomerService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(deleteCustomerService);
+        });
     }
 
     private void showCustomer() {
+        if (selectedCustomer == null) {
+            throw new IllegalArgumentException("Geen klant aangeduidt");
+        }
+
         Dialog detailsDialog = new Dialog();
         detailsDialog.setTitle("Klant: " + selectedCustomer.getName1());
         GridPane grid = new GridPane();

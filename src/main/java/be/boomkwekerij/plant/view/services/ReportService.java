@@ -105,7 +105,9 @@ public class ReportService {
 
     public void init(Pane root) {
         root.cursorProperty()
-                .bind(Bindings.when(customerFileService.runningProperty().or(unpayedInvoiceService.runningProperty().or(allInvoiceService.runningProperty())))
+                .bind(Bindings.when(customerFileService.runningProperty()
+                            .or(unpayedInvoiceService.runningProperty()
+                            .or(allInvoiceService.runningProperty())))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
@@ -116,11 +118,23 @@ public class ReportService {
         allInvoicesButton.disableProperty()
                 .bind(allInvoiceService.runningProperty());
 
-        customerFileService.setOnSucceeded(event1 -> ServiceHandler.success(customerFileService));
-        customerFileService.setOnFailed(event1 -> ServiceHandler.error(customerFileService));
-        unpayedInvoiceService.setOnSucceeded(event1 -> ServiceHandler.success(unpayedInvoiceService));
-        unpayedInvoiceService.setOnFailed(event1 -> ServiceHandler.error(unpayedInvoiceService));
-        allInvoiceService.setOnSucceeded(event1 -> ServiceHandler.success(allInvoiceService));
-        allInvoiceService.setOnFailed(event1 -> ServiceHandler.error(allInvoiceService));
+        customerFileService.setOnSucceeded(serviceEvent -> {
+            ServiceHandler.success(customerFileService);
+        });
+        customerFileService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(customerFileService);
+        });
+        unpayedInvoiceService.setOnSucceeded(serviceEvent -> {
+            ServiceHandler.success(unpayedInvoiceService);
+        });
+        unpayedInvoiceService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(unpayedInvoiceService);
+        });
+        allInvoiceService.setOnSucceeded(serviceEvent -> {
+            ServiceHandler.success(allInvoiceService);
+        });
+        allInvoiceService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(allInvoiceService);
+        });
     }
 }
