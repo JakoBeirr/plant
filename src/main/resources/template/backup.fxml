@@ -9,13 +9,13 @@
 
             <HBox spacing="10">
                 <VBox styleClass="border-pane" spacing="25">
-                    <Label text="Backup database" />
+                    <Label text="Backup" />
 
                     <Button fx:id="backupButton" mnemonicParsing="false" onMouseClicked="#backup" text="Backup" styleClass="blue-button"/>
                 </VBox>
 
                 <VBox styleClass="border-pane" spacing="25">
-                    <Label text="Herstel laatste database backup" />
+                    <Label text="Herstel laatste backup" />
 
                     <Button fx:id="restoreBackupButton" mnemonicParsing="false" onMouseClicked="#restoreBackup" text="Herstel backup" styleClass="blue-button"/>
                 </VBox>

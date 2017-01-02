@@ -267,6 +267,8 @@ public class CustomerModifyService {
         modifyCustomerService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(modifyCustomerService);
         });
+
+        loadAllCustomersService.restart();
     }
 
     private void initializeTextFields() {

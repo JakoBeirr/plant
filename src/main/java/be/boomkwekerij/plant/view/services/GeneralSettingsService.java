@@ -236,5 +236,8 @@ public class GeneralSettingsService {
         modifyCompanyService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(modifyCompanyService);
         });
+
+        initializeSystemService.restart();
+        initializeCompanyService.restart();
     }
 }

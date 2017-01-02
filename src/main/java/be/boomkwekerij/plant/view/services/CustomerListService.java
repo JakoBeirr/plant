@@ -173,6 +173,8 @@ public class CustomerListService {
         deleteCustomerService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(deleteCustomerService);
         });
+
+        loadAllCustomersService.restart();
     }
 
     private void show(CustomerDTO customer) {

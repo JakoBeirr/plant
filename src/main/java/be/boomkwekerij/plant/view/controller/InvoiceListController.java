@@ -49,7 +49,6 @@ public class InvoiceListController implements PageController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        invoiceListService.loadAllInvoicesService.restart();
         addChangeListenerToField();
         addChangeListenersToList();
     }

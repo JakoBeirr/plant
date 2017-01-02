@@ -173,6 +173,8 @@ public class PlantListService {
         deletePlantService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(deletePlantService);
         });
+
+        loadAllPlantsService.restart();
     }
 
     private void show(PlantDTO plant) {

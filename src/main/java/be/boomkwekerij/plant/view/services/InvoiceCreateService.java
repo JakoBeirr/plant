@@ -429,6 +429,8 @@ public class InvoiceCreateService {
         createInvoiceService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(createInvoiceService);
         });
+
+        loadAllCustomersService.restart();
     }
 
     private void addInvoiceLine(String chosenPlant, String plantSearchField, String orderNumber, LocalDate invoiceLineDate, String amount, String invoiceLineBtw, String alternativePlantPrice) {

@@ -67,8 +67,6 @@ public class GeneralSettingsController implements PageController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        generalSettingsService.initializeSystemService.restart();
-        generalSettingsService.initializeCompanyService.restart();
     }
 
     public void modifySystem(Event event) {

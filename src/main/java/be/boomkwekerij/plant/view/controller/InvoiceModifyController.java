@@ -89,7 +89,6 @@ public class InvoiceModifyController implements PageController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        invoiceModifyService.loadAllInvoicesService.restart();
         addChangeListenerToSearchFields();
         addChangeListenersToList();
         initNumericFields();

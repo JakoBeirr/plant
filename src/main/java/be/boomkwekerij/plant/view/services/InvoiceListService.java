@@ -279,5 +279,7 @@ public class InvoiceListService {
         deleteInvoiceService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(deleteInvoiceService);
         });
+
+        loadAllInvoicesService.restart();
     }
 }

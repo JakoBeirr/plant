@@ -211,6 +211,8 @@ public class PlantModifyService {
         modifyPlantService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(modifyPlantService);
         });
+
+        loadAllPlantsService.restart();
     }
 
     private void initializeTextFields() {

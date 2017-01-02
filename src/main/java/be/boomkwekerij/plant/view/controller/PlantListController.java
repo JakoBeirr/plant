@@ -36,7 +36,6 @@ public class PlantListController implements PageController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        plantListService.loadAllPlantsService.restart();
         addChangeListenerToSearchField();
         addChangeListenerToPlantList();
     }

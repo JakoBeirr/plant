@@ -55,7 +55,6 @@ public class PlantModifyController implements PageController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        plantModifyService.loadAllPlantsService.restart();
         addChangeListenerToSearchField();
         addChangeListenerToPlantList();
         initNumericField();

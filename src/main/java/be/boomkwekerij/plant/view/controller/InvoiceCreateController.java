@@ -89,7 +89,6 @@ public class InvoiceCreateController implements PageController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        invoiceCreateService.loadAllCustomersService.restart();
         addChangeListenerToSearchFields();
         addChangeListenersToList();
         initNumericFields();
