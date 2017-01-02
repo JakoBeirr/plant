@@ -9,7 +9,7 @@
         <VBox styleClass="center-pane" spacing="5">
             <Label styleClass="paneTitle" text="Factuur Bewerken"/>
 
-            <TextField fx:id="searchField" promptText="Zoeken..." maxWidth="702" />
+            <TextField fx:id="invoiceSearchField" promptText="Zoeken..." maxWidth="702" />
 
             <TableView fx:id="invoiceList" fixedCellSize="25" maxWidth="702" prefHeight="150">
                 <columns>
@@ -42,9 +42,9 @@
                 </columns>
             </TableView>
 
-            <Button fx:id="startUpdateInvoiceButton" mnemonicParsing="false" text="Bewerk factuur" onAction="#startInvoiceUpdate" visible="false" styleClass="blue-button" />
+            <Button fx:id="showModifyButton" mnemonicParsing="false" text="Bewerk factuur" onAction="#showModify" visible="false" styleClass="blue-button" />
 
-            <GridPane fx:id="updateInvoicePane" styleClass="modifyPane" visible="false" hgap="10" vgap="10">
+            <GridPane fx:id="modifyInvoicePane" styleClass="modifyPane" visible="false" hgap="10" vgap="10">
                 <Label id="labelCustomer" text="Klant:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="customer" disable="true" prefColumnCount="30" GridPane.fillWidth="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
@@ -130,7 +130,7 @@
 
                 <Label id="labelRow" text="" GridPane.rowIndex="5"/>
 
-                <Button id="updateButton" mnemonicParsing="false" onMouseClicked="#updateInvoice" text="Bewerken" GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="green-button" />
+                <Button fx:id="invoiceModifyButton" mnemonicParsing="false" onMouseClicked="#modifyInvoice" text="Bewerken" GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="green-button" />
             </GridPane>
         </VBox>
     </ScrollPane>

@@ -1,18 +1,16 @@
 package be.boomkwekerij.plant.view.services;
 
-import be.boomkwekerij.plant.controller.CustomerController;
 import be.boomkwekerij.plant.controller.InvoiceController;
 import be.boomkwekerij.plant.controller.PlantController;
 import be.boomkwekerij.plant.exception.ItemNotFoundException;
-import be.boomkwekerij.plant.model.dto.CustomerDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
 import be.boomkwekerij.plant.model.dto.PlantDTO;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
-import be.boomkwekerij.plant.view.mapper.CustomerViewMapper;
+import be.boomkwekerij.plant.view.mapper.InvoiceViewMapper;
 import be.boomkwekerij.plant.view.mapper.PlantViewMapper;
-import be.boomkwekerij.plant.view.model.CustomerViewModel;
+import be.boomkwekerij.plant.view.model.InvoiceViewModel;
 import be.boomkwekerij.plant.view.model.PlantViewModel;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -35,23 +33,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class InvoiceCreateService {
+public class InvoiceModifyService {
 
-    private CustomerController customerController = new CustomerController();
     private PlantController plantController = new PlantController();
     private InvoiceController invoiceController = new InvoiceController();
 
-    private CustomerViewMapper customerViewMapper = new CustomerViewMapper();
     private PlantViewMapper plantViewMapper = new PlantViewMapper();
+    private InvoiceViewMapper invoiceViewMapper = new InvoiceViewMapper();
 
-    private TextField customerSearchField;
-    private TableView<CustomerViewModel> customerList;
+    private TextField invoiceSearchField;
+    private TableView<InvoiceViewModel> invoiceList;
     private TextField plantSearchField;
     private TableView<PlantViewModel> plantList;
     private TextField customer;
-    private TextField invoiceNumber;
+    private TextField invoiceNumberField;
     private DatePicker invoiceDate;
-    private GridPane createInvoicePane;
+    private Button showModifyButton;
+    private GridPane modifyInvoicePane;
     private Button choosePlantButton;
     private Label chosenPlant;
     private TextField orderNumber;
@@ -60,29 +58,29 @@ public class InvoiceCreateService {
     private TextField amount;
     private TextField alternativePlantPrice;
     private VBox createdInvoiceLines;
-    private Button invoiceCreateButton;
+    private Button invoiceModifyButton;
 
-    private InvoiceDTO newInvoice = null;
+    private InvoiceDTO invoice = null;
 
-    public final Service loadAllCustomersService = new Service() {
+    public final Service loadAllInvoicesService = new Service() {
         @Override
         protected Task createTask() {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    updateTitle("Inladen alle klanten");
+                    updateTitle("Inladen alle facturen");
 
-                    SearchResult<CustomerDTO> searchResult = customerController.getAllCustomers();
+                    SearchResult<InvoiceDTO> searchResult = invoiceController.getAllInvoices();
                     if (searchResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
                     }
 
-                    List<CustomerViewModel> customers = new ArrayList<>();
-                    for (CustomerDTO customerDTO : searchResult.getResults()) {
-                        CustomerViewModel customerViewModel = customerViewMapper.mapDTOToViewModel(customerDTO);
-                        customers.add(customerViewModel);
+                    List<InvoiceViewModel> invoices = new ArrayList<>();
+                    for (InvoiceDTO invoiceDTO : searchResult.getResults()) {
+                        InvoiceViewModel invoiceViewModel = invoiceViewMapper.mapDTOToViewModel(invoiceDTO);
+                        invoices.add(invoiceViewModel);
                     }
-                    customerList.getItems().setAll(customers);
+                    invoiceList.getItems().setAll(invoices);
 
                     return null;
                 }
@@ -90,26 +88,26 @@ public class InvoiceCreateService {
         }
     };
 
-    public final Service loadAllCustomersWithNameService = new Service() {
+    public final Service loadAllInvoicesWithNumberService = new Service() {
         @Override
         protected Task createTask() {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    updateTitle("Inladen alle klanten met naam");
+                    updateTitle("Inladen alle facturen met nummer");
 
-                    String name = customerSearchField.getText();
-                    SearchResult<CustomerDTO> searchResult = customerController.getAllCustomersWithName(name);
+                    String invoiceNumber = invoiceSearchField.getText();
+                    SearchResult<InvoiceDTO> searchResult = invoiceController.getAllInvoicesWithInvoiceNumber(invoiceNumber);
                     if (searchResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
                     }
 
-                    List<CustomerViewModel> customers = new ArrayList<>();
-                    for (CustomerDTO customerDTO : searchResult.getResults()) {
-                        CustomerViewModel customerViewModel = customerViewMapper.mapDTOToViewModel(customerDTO);
-                        customers.add(customerViewModel);
+                    List<InvoiceViewModel> invoices = new ArrayList<>();
+                    for (InvoiceDTO invoiceDTO : searchResult.getResults()) {
+                        InvoiceViewModel invoiceViewModel = invoiceViewMapper.mapDTOToViewModel(invoiceDTO);
+                        invoices.add(invoiceViewModel);
                     }
-                    customerList.getItems().setAll(customers);
+                    invoiceList.getItems().setAll(invoices);
 
                     return null;
                 }
@@ -144,7 +142,7 @@ public class InvoiceCreateService {
         }
     };
 
-    public final Service initInvoiceCreateService = new Service() {
+    public final Service initInvoiceModifyService = new Service() {
         @Override
         protected Task createTask() {
             return new Task<Void>() {
@@ -152,13 +150,32 @@ public class InvoiceCreateService {
                 protected Void call() throws Exception {
                     updateTitle("Initialiseren gegevens voor bewerking");
 
-                    CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
-                    newInvoice = invoiceController.makeNewInvoice(selectedCustomer.getId());
+                    InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
+                    SearchResult<InvoiceDTO> searchResult = invoiceController.getInvoice(selectedInvoice.getId());
+                    if (searchResult.isError()) {
+                        throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
+                    }
+                    invoice = searchResult.getFirst();
 
-                    customer.setText(newInvoice.getCustomer().getName1());
-                    invoiceNumber.setText(newInvoice.getInvoiceNumber());
-                    DateTime invoiceDTODate = newInvoice.getDate();
-                    invoiceDate.setValue(LocalDate.of(invoiceDTODate.getYear(), invoiceDTODate.getMonthOfYear(), invoiceDTODate.getDayOfMonth()));
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            customer.setText(invoice.getCustomer().getName1());
+                            invoiceNumberField.setText(invoice.getInvoiceNumber());
+                            DateTime invoiceDTODate = invoice.getDate();
+                            invoiceDate.setValue(LocalDate.of(invoiceDTODate.getYear(), invoiceDTODate.getMonthOfYear(), invoiceDTODate.getDayOfMonth()));
+                            for (InvoiceLineDTO invoiceLineDTO : invoice.getInvoiceLines()) {
+                                DateTime invoiceLineDate = invoiceLineDTO.getDate();
+                                String plantName = invoiceLineDTO.getPlantName() + "    (" + invoiceLineDTO.getPlantAge() + " - " + invoiceLineDTO.getPlantMeasure() + ")";
+                                String orderNumber = invoiceLineDTO.getOrderNumber();
+                                LocalDate invoiceLineLocalDate = LocalDate.of(invoiceLineDate.getYear(), invoiceLineDate.getMonthOfYear(), invoiceLineDate.getDayOfMonth());
+                                String amount = Integer.toString(invoiceLineDTO.getAmount());
+                                String invoiceLineBtw = Double.toString(invoiceLineDTO.getBtw());
+                                String price = Double.toString(invoiceLineDTO.getPlantPrice());
+                                addInvoiceLine(invoiceLineDTO.getPlantId(), plantName, orderNumber, invoiceLineLocalDate, amount, invoiceLineBtw, price);
+                            }
+                        }
+                    });
 
                     return null;
                 }
@@ -232,7 +249,7 @@ public class InvoiceCreateService {
                             amount.setText("");
                             alternativePlantPrice.setText("");
                             invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
-                            invoiceLineBtw.setText(Double.toString(newInvoice.getDefaultBtw()));
+                            invoiceLineBtw.setText(Double.toString(invoice.getDefaultBtw()));
                             plantSearchField.setDisable(false);
                         }
                     });
@@ -243,20 +260,25 @@ public class InvoiceCreateService {
         }
     };
 
-    public final Service createInvoiceService = new Service() {
+    public final Service modifyInvoiceService = new Service() {
         @Override
         protected Task createTask() {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    updateTitle("Aanmaken factuur");
+                    updateTitle("Bewerken factuur");
 
-                    CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
-                    CustomerDTO selectedCustomerDTO = customerViewMapper.mapViewModelToDTO(selectedCustomer);
+                    InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
+                    SearchResult<InvoiceDTO> invoiceSearchResult = invoiceController.getInvoice(selectedInvoice.getId());
+                    if (invoiceSearchResult.isError()) {
+                        throw new IllegalArgumentException(Arrays.toString(invoiceSearchResult.getMessages().toArray()));
+                    }
 
+                    InvoiceDTO invoice = invoiceSearchResult.getFirst();
                     InvoiceDTO invoiceDTO = new InvoiceDTO();
-                    invoiceDTO.setCustomer(selectedCustomerDTO);
-                    invoiceDTO.setInvoiceNumber(invoiceNumber.getText());
+                    invoiceDTO.setId(invoice.getId());
+                    invoiceDTO.setCustomer(invoice.getCustomer());
+                    invoiceDTO.setInvoiceNumber(invoiceNumberField.getText());
                     LocalDate invoiceLocalDate = invoiceDate.getValue();
                     if (invoiceLocalDate != null) {
                         invoiceDTO.setDate(new DateTime(invoiceLocalDate.getYear(), invoiceLocalDate.getMonthValue(), invoiceLocalDate.getDayOfMonth(), 0, 0, 0, 0));
@@ -293,11 +315,11 @@ public class InvoiceCreateService {
                         invoiceLineDTO.setPlantPrice(Double.parseDouble(createdPrice.getText()));
                         invoiceDTO.getInvoiceLines().add(invoiceLineDTO);
                     }
-                    invoiceDTO.setPayed(false);
+                    invoiceDTO.setPayed(invoice.isPayed());
 
-                    CrudsResult createResult = invoiceController.createInvoice(invoiceDTO);
-                    if (createResult.isError()) {
-                        throw new IllegalArgumentException(Arrays.toString(createResult.getMessages().toArray()));
+                    CrudsResult invoiceCreateResult = invoiceController.updateInvoice(invoiceDTO);
+                    if (invoiceCreateResult.isError()) {
+                        throw new IllegalArgumentException(Arrays.toString(invoiceSearchResult.getMessages().toArray()));
                     }
 
                     return null;
@@ -306,12 +328,12 @@ public class InvoiceCreateService {
         }
     };
 
-    public void setCustomerSearchField(TextField customerSearchField) {
-        this.customerSearchField = customerSearchField;
+    public void setInvoiceSearchField(TextField invoiceSearchField) {
+        this.invoiceSearchField = invoiceSearchField;
     }
 
-    public void setCustomerList(TableView<CustomerViewModel> customerList) {
-        this.customerList = customerList;
+    public void setInvoiceList(TableView<InvoiceViewModel> invoiceList) {
+        this.invoiceList = invoiceList;
     }
 
     public void setPlantSearchField(TextField plantSearchField) {
@@ -326,16 +348,20 @@ public class InvoiceCreateService {
         this.customer = customer;
     }
 
-    public void setInvoiceNumber(TextField invoiceNumber) {
-        this.invoiceNumber = invoiceNumber;
+    public void setInvoiceNumberField(TextField invoiceNumberField) {
+        this.invoiceNumberField = invoiceNumberField;
     }
 
     public void setInvoiceDate(DatePicker invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
 
-    public void setCreateInvoicePane(GridPane createInvoicePane) {
-        this.createInvoicePane = createInvoicePane;
+    public void setShowModifyButton(Button showModifyButton) {
+        this.showModifyButton = showModifyButton;
+    }
+
+    public void setModifyInvoicePane(GridPane modifyInvoicePane) {
+        this.modifyInvoicePane = modifyInvoicePane;
     }
 
     public void setChoosePlantButton(Button choosePlantButton) {
@@ -370,30 +396,31 @@ public class InvoiceCreateService {
         this.createdInvoiceLines = createdInvoiceLines;
     }
 
-    public void setInvoiceCreateButton(Button invoiceCreateButton) {
-        this.invoiceCreateButton = invoiceCreateButton;
+    public void setInvoiceModifyButton(Button invoiceModifyButton) {
+        this.invoiceModifyButton = invoiceModifyButton;
     }
 
     public void init(Pane root) {
         root.cursorProperty()
-                .bind(Bindings.when(loadAllCustomersService.runningProperty()
-                            .or(loadAllCustomersWithNameService.runningProperty()
+                .bind(Bindings.when(loadAllInvoicesService.runningProperty()
+                            .or(loadAllInvoicesWithNumberService.runningProperty()
                             .or(loadAllPlantsWithNameService.runningProperty()
-                            .or(initInvoiceCreateService.runningProperty()
+                            .or(initInvoiceModifyService.runningProperty()
                             .or(choosePlantService.runningProperty()
                             .or(createInvoiceLineService.runningProperty()
                             .or(clearInvoiceLineService.runningProperty()
-                            .or(createInvoiceService.runningProperty()))))))))
+                            .or(modifyInvoiceService.runningProperty()))))))))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
-        invoiceCreateButton.disableProperty()
-                .bind(createInvoiceService.runningProperty());
+        invoiceModifyButton.disableProperty()
+                .bind(modifyInvoiceService.runningProperty());
 
-        initInvoiceCreateService.setOnSucceeded(serviceEvent -> {
-            customerList.setDisable(true);
-            customerSearchField.setDisable(true);
-            createInvoicePane.setVisible(true);
+        initInvoiceModifyService.setOnSucceeded(serviceEvent -> {
+            showModifyButton.setDisable(true);
+            invoiceList.setDisable(true);
+            invoiceSearchField.setDisable(true);
+            modifyInvoicePane.setVisible(true);
             clearInvoiceLineService.restart();
         });
         choosePlantService.setOnSucceeded(serviceEvent -> {
@@ -409,18 +436,21 @@ public class InvoiceCreateService {
         createInvoiceLineService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(createInvoiceLineService);
         });
-        createInvoiceService.setOnSucceeded(serviceEvent -> {
-            customerList.setDisable(false);
-            customerList.getSelectionModel().clearSelection();
-            customerSearchField.setDisable(false);
-            createInvoicePane.setVisible(false);
+        modifyInvoiceService.setOnSucceeded(serviceEvent -> {
+            showModifyButton.setDisable(false);
+            invoiceList.setDisable(false);
+            invoiceList.getSelectionModel().clearSelection();
+            invoiceSearchField.setDisable(false);
+            modifyInvoicePane.setVisible(false);
             createdInvoiceLines.getChildren().clear();
-            clearInvoiceLineService.restart();
 
-            ServiceHandler.success(createInvoiceService);
+            clearInvoiceLineService.restart();
+            loadAllInvoicesService.restart();
+
+            ServiceHandler.success(modifyInvoiceService);
         });
-        createInvoiceService.setOnFailed(serviceEvent -> {
-            ServiceHandler.error(createInvoiceService);
+        modifyInvoiceService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(modifyInvoiceService);
         });
     }
 

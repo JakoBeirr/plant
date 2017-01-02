@@ -28,6 +28,7 @@ public class CustomerModifyService {
 
     private TextField customerSearchField;
     private TableView<CustomerViewModel> customerList;
+    private Button showModifyButton;
     private GridPane modifyPane;
     private TextField name1;
     private TextField name2;
@@ -173,6 +174,10 @@ public class CustomerModifyService {
         this.customerList = customerList;
     }
 
+    public void setShowModifyButton(Button showModifyButton) {
+        this.showModifyButton = showModifyButton;
+    }
+
     public void setModifyPane(GridPane modifyPane) {
         this.modifyPane = modifyPane;
     }
@@ -242,16 +247,19 @@ public class CustomerModifyService {
                 .bind(modifyCustomerService.runningProperty());
 
         initCustomerModifyService.setOnSucceeded(serviceEvent -> {
+            showModifyButton.setDisable(true);
             customerList.setDisable(true);
             customerSearchField.setDisable(true);
             modifyPane.setVisible(true);
         });
         modifyCustomerService.setOnSucceeded(serviceEvent -> {
-            initializeTextFields();
+            showModifyButton.setDisable(false);
             modifyPane.setVisible(false);
             customerList.setDisable(false);
             customerSearchField.setDisable(false);
             customerList.getSelectionModel().clearSelection();
+            initializeTextFields();
+
             loadAllCustomersWithNameService.restart();
 
             ServiceHandler.success(modifyCustomerService);

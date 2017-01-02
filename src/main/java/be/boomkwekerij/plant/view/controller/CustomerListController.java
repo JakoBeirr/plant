@@ -89,13 +89,13 @@ public class CustomerListController implements PageController {
         });
     }
 
+    public void showCustomer(Event event) {
+        customerListService.showCustomerDetailsService.restart();
+    }
+
     public void deleteCustomer(Event event) {
         if (AlertController.areYouSure("Bent u zeker dat u deze klant wil verwijderen?", "Bedenk dat dit enkel mogelijk is indien er geen facturen gelinkt zijn aan deze klant!")) {
             customerListService.deleteCustomerService.restart();
         }
-    }
-
-    public void showCustomer(Event event) {
-        customerListService.showCustomerDetailsService.restart();
     }
 }

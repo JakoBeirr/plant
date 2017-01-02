@@ -1,11 +1,7 @@
 package be.boomkwekerij.plant.view.controller;
 
-import be.boomkwekerij.plant.controller.PlantController;
-import be.boomkwekerij.plant.model.dto.PlantDTO;
-import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.SearchResult;
-import be.boomkwekerij.plant.view.mapper.PlantViewMapper;
 import be.boomkwekerij.plant.view.model.PlantViewModel;
+import be.boomkwekerij.plant.view.services.PlantModifyService;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -19,18 +15,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class PlantModifyController implements PageController {
 
-    private PlantController plantController = new PlantController();
-
-    private PlantViewMapper plantViewMapper = new PlantViewMapper();
+    private PlantModifyService plantModifyService = new PlantModifyService();
 
     @FXML
-    private TextField searchField;
+    private TextField plantSearchField;
     @FXML
     private TableView<PlantViewModel> plantList;
     @FXML
@@ -53,77 +45,44 @@ public class PlantModifyController implements PageController {
     private TextField measureField;
     @FXML
     private TextField priceField;
+    @FXML
+    private Button plantModifyButton;
 
     private static final String NON_DECIMAL_NUMERIC_CHARACTERS = "[^\\d.]";
 
     @Override
     public void init(Pane root) {
-
+        plantModifyService.setPlantSearchField(plantSearchField);
+        plantModifyService.setPlantList(plantList);
+        plantModifyService.setShowModifyButton(showModifyButton);
+        plantModifyService.setModifyPane(modifyPane);
+        plantModifyService.setNameField(nameField);
+        plantModifyService.setAgeField(ageField);
+        plantModifyService.setMeasureField(measureField);
+        plantModifyService.setPriceField(priceField);
+        plantModifyService.setPlantModifyButton(plantModifyButton);
+        plantModifyService.init(root);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initNumericField();
-        loadAllPlants();
+        plantModifyService.loadAllPlantsService.restart();
         addChangeListenerToSearchField();
         addChangeListenerToPlantList();
-    }
-
-    private void initNumericField() {
-        priceField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                priceField.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
-            }
-        });
-    }
-
-    private void loadAllPlants() {
-        List<PlantViewModel> allPlants = getAllPlants();
-        plantList.getItems().setAll(allPlants);
+        initNumericField();
     }
 
     private void addChangeListenerToSearchField() {
-        searchField.textProperty().addListener(new ChangeListener<String>() {
+        plantSearchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                List<PlantViewModel> allPlants;
                 if (newValue.length() >= 2) {
-                    allPlants = getAllPlantsWithName(newValue);
+                    plantModifyService.loadAllPlantsWithNameService.restart();
                 } else {
-                    allPlants = getAllPlants();
+                    plantModifyService.loadAllPlantsService.restart();
                 }
-                plantList.getItems().setAll(allPlants);
             }
         });
-    }
-
-    private List<PlantViewModel> getAllPlants() {
-        List<PlantViewModel> plants = new ArrayList<>();
-
-        SearchResult<PlantDTO> plantSearchResult = plantController.getAllPlants();
-        if (plantSearchResult.isSuccess()) {
-            for (PlantDTO plantDTO : plantSearchResult.getResults()) {
-                PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
-                plants.add(plantViewModel);
-            }
-        }
-
-        return plants;
-    }
-
-    private List<PlantViewModel> getAllPlantsWithName(String name) {
-        ArrayList<PlantViewModel> plants = new ArrayList<>();
-
-        SearchResult<PlantDTO> plantSearchResult = plantController.getAllPlantsWithName(name);
-        if (plantSearchResult.isSuccess()) {
-            for (PlantDTO plantDTO : plantSearchResult.getResults()) {
-                PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
-                plants.add(plantViewModel);
-            }
-        }
-
-        return plants;
     }
 
     private void addChangeListenerToPlantList() {
@@ -135,88 +94,20 @@ public class PlantModifyController implements PageController {
         });
     }
 
-    public void showModify(ActionEvent actionEvent) {
-        plantList.setDisable(true);
-        searchField.setDisable(true);
-        PlantViewModel selectedPlant = plantList.getSelectionModel().getSelectedItem();
-        SearchResult<PlantDTO> plantResult = plantController.getPlant(selectedPlant.getId());
-        if (plantResult.isSuccess()) {
-            PlantDTO plant = plantResult.getFirst();
-            nameField.setText(plant.getName());
-            ageField.setText(plant.getAge());
-            measureField.setText(plant.getMeasure());
-            priceField.setText(Double.toString(plant.getPrice()));
+    private void initNumericField() {
+        priceField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                priceField.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+            }
+        });
+    }
 
-            modifyPane.setVisible(true);
-        }
+    public void showModify(ActionEvent actionEvent) {
+        plantModifyService.initPlantModifyService.restart();
     }
 
     public void modifyPlant(Event event) {
-        try {
-            PlantViewModel selectedPlant = plantList.getSelectionModel().getSelectedItem();
-            CrudsResult plantModifyResult = modifyPlant(selectedPlant.getId());
-
-            if (plantModifyResult.isSuccess()) {
-                handleModifySuccess();
-            } else {
-                handleModifyError(plantModifyResult.getMessages());
-            }
-        } catch (Exception e) {
-            handleModifyException(e);
-        }
-    }
-
-    private CrudsResult modifyPlant(String id) {
-        PlantDTO plant = new PlantDTO();
-        plant.setId(id);
-        plant.setName(nameField.getText());
-        plant.setAge(ageField.getText());
-        plant.setMeasure(measureField.getText());
-        plant.setPrice(Double.parseDouble(priceField.getText()));
-        return plantController.updatePlant(plant);
-    }
-
-    private void handleModifySuccess() {
-        initializeTextFields();
-        modifyPane.setVisible(false);
-        plantList.getSelectionModel().clearSelection();
-        loadAllPlantsWithName();
-        plantList.setDisable(false);
-        searchField.setDisable(false);
-        AlertController.alertSuccess("Plant bewerkt!");
-    }
-
-    private void loadAllPlantsWithName() {
-        ArrayList<PlantViewModel> plants = new ArrayList<>();
-
-        SearchResult<PlantDTO> plantSearchResult = plantController.getAllPlantsWithName(searchField.getText());
-        if (plantSearchResult.isSuccess()) {
-            for (PlantDTO plantDTO : plantSearchResult.getResults()) {
-                PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
-                plants.add(plantViewModel);
-            }
-        }
-
-        plantList.getItems().setAll(plants);
-    }
-
-    private void initializeTextFields() {
-        nameField.setText("");
-        ageField.setText("");
-        measureField.setText("");
-        priceField.setText("0.0");
-    }
-
-    private void handleModifyError(List<String> errorMessages) {
-        StringBuilder errorBuilder = new StringBuilder("Gefaald wegens volgende fout(en): ");
-        for (int i = 0; i < errorMessages.size(); i++) {
-            String errorMessage = errorMessages.get(i);
-            errorBuilder.append("\n").append(i+1).append(") ").append(errorMessage);
-        }
-        AlertController.alertError("Plant bewerken gefaald!", errorBuilder.toString());
-    }
-
-    private void handleModifyException(Exception e) {
-        AlertController.alertException("Plant bewerken gefaald!", e);
+        plantModifyService.modifyPlantService.restart();
     }
 }

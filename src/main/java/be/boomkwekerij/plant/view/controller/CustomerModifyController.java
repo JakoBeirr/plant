@@ -76,6 +76,7 @@ public class CustomerModifyController implements PageController {
     public void init(Pane root) {
         customerModifyService.setCustomerSearchField(customerSearchField);
         customerModifyService.setCustomerList(customerList);
+        customerModifyService.setShowModifyButton(showModifyButton);
         customerModifyService.setModifyPane(modifyPane);
         customerModifyService.setName1(name1Field);
         customerModifyService.setName2(name2Field);

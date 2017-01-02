@@ -232,6 +232,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         if (invoiceResult.isSuccess()) {
             InvoiceDTO invoice = invoiceResult.getFirst();
             invoice.setPayed(false);
+            invoice.setPayDate(null);
             CrudsResult updateInvoiceResult = updateInvoice(invoice);
 
             crudsResult.setSuccess(updateInvoiceResult.isSuccess());

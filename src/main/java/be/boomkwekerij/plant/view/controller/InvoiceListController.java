@@ -1,12 +1,8 @@
 package be.boomkwekerij.plant.view.controller;
 
-import be.boomkwekerij.plant.controller.InvoiceController;
 import be.boomkwekerij.plant.model.dto.DateDTO;
-import be.boomkwekerij.plant.model.dto.InvoiceDTO;
-import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.SearchResult;
-import be.boomkwekerij.plant.view.mapper.InvoiceViewMapper;
 import be.boomkwekerij.plant.view.model.InvoiceViewModel;
+import be.boomkwekerij.plant.view.services.InvoiceListService;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -19,19 +15,15 @@ import org.joda.time.DateTime;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class InvoiceListController implements PageController {
 
-    private InvoiceController invoiceController = new InvoiceController();
-
-    private InvoiceViewMapper invoiceViewMapper = new InvoiceViewMapper();
+    private InvoiceListService invoiceListService = new InvoiceListService();
 
     @FXML
-    private TextField searchField;
+    private TextField invoiceSearchField;
     @FXML
     private TableView<InvoiceViewModel> invoiceList;
     @FXML
@@ -53,66 +45,38 @@ public class InvoiceListController implements PageController {
     @FXML
     private Button printSellingConditionsButton;
     @FXML
-    private Button deleteButton;
+    private Button deleteInvoiceButton;
 
     @Override
     public void init(Pane root) {
-
+        invoiceListService.setInvoiceSearchField(invoiceSearchField);
+        invoiceListService.setInvoiceList(invoiceList);
+        invoiceListService.setPayButton(payButton);
+        invoiceListService.setUnPayButton(unPayButton);
+        invoiceListService.setPrintInvoiceButton(printInvoiceButton);
+        invoiceListService.setPrintSellingConditionsButton(printSellingConditionsButton);
+        invoiceListService.setDeleteInvoiceButton(deleteInvoiceButton);
+        invoiceListService.init(root);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loadAllInvoices();
+        invoiceListService.loadAllInvoicesService.restart();
         addChangeListenerToField();
         addChangeListenersToList();
     }
 
-    private void loadAllInvoices() {
-        List<InvoiceViewModel> allInvoices = getAllInvoices();
-        invoiceList.getItems().setAll(allInvoices);
-    }
-
     private void addChangeListenerToField() {
-        searchField.textProperty().addListener(new ChangeListener<String>() {
+        invoiceSearchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                List<InvoiceViewModel> invoices;
                 if (newValue.length() > 2) {
-                    invoices = getInvoicesWithNumber(newValue);
+                    invoiceListService.loadAllInvoicesWithNumberService.restart();
                 } else {
-                    invoices = getAllInvoices();
+                    invoiceListService.loadAllInvoicesService.restart();
                 }
-                invoiceList.getItems().setAll(invoices);
             }
         });
-    }
-
-    private List<InvoiceViewModel> getAllInvoices() {
-        List<InvoiceViewModel> invoices = new ArrayList<>();
-
-        SearchResult<InvoiceDTO> invoiceSearchResult = invoiceController.getAllInvoices();
-        if (invoiceSearchResult.isSuccess()) {
-            for (InvoiceDTO invoiceDTO : invoiceSearchResult.getResults()) {
-                InvoiceViewModel invoiceViewModel = invoiceViewMapper.mapDTOToViewModel(invoiceDTO);
-                invoices.add(invoiceViewModel);
-            }
-        }
-
-        return invoices;
-    }
-
-    private List<InvoiceViewModel> getInvoicesWithNumber(String invoiceNumber) {
-        List<InvoiceViewModel> invoices = new ArrayList<>();
-
-        SearchResult<InvoiceDTO> invoiceSearchResult = invoiceController.getAllInvoicesWithInvoiceNumber(invoiceNumber);
-        if (invoiceSearchResult.isSuccess()) {
-            for (InvoiceDTO invoiceDTO : invoiceSearchResult.getResults()) {
-                InvoiceViewModel invoiceViewModel = invoiceViewMapper.mapDTOToViewModel(invoiceDTO);
-                invoices.add(invoiceViewModel);
-            }
-        }
-
-        return invoices;
     }
 
     private void addChangeListenersToList() {
@@ -126,8 +90,8 @@ public class InvoiceListController implements PageController {
                     unPayButton.setManaged(newValue.getPayed());
                     printInvoiceButton.setVisible(true);
                     printInvoiceButton.setManaged(true);
-                    deleteButton.setVisible(true);
-                    deleteButton.setManaged(true);
+                    deleteInvoiceButton.setVisible(true);
+                    deleteInvoiceButton.setManaged(true);
                 } else {
                     payButton.setVisible(false);
                     payButton.setManaged(false);
@@ -135,8 +99,8 @@ public class InvoiceListController implements PageController {
                     unPayButton.setManaged(false);
                     printInvoiceButton.setVisible(false);
                     printInvoiceButton.setManaged(false);
-                    deleteButton.setVisible(false);
-                    deleteButton.setManaged(false);
+                    deleteInvoiceButton.setVisible(false);
+                    deleteInvoiceButton.setManaged(false);
                 }
             }
         });
@@ -174,90 +138,26 @@ public class InvoiceListController implements PageController {
         if (payResult.isPresent()) {
             DateDTO dateDTO = payResult.get();
 
-            InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
-            CrudsResult payInvoiceResult = invoiceController.payInvoice(selectedInvoice.getId(), dateDTO);
-
-            if (payInvoiceResult.isSuccess()) {
-                loadAllInvoices();
-            }
+            invoiceListService.setPayDate(dateDTO);
+            invoiceListService.payInvoiceService.restart();
         }
     }
 
     public void unPayInvoice(ActionEvent actionEvent) {
-        InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
-        CrudsResult unPayInvoiceResult = invoiceController.unPayInvoice(selectedInvoice.getId());
-
-        if (unPayInvoiceResult.isSuccess()) {
-            loadAllInvoices();
-        }
+        invoiceListService.unPayInvoiceService.restart();
     }
 
     public void printInvoice(ActionEvent actionEvent) {
-        InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
-        CrudsResult printResult = invoiceController.printInvoiceDocument(selectedInvoice.getId());
-
-        if (printResult.isSuccess()) {
-            AlertController.alertSuccess("Factuur klaar!");
-        } else {
-            handlePrintError(printResult.getMessages());
-        }
+        invoiceListService.printInvoiceService.restart();
     }
 
     public void printSellingConditions(ActionEvent actionEvent) {
-        CrudsResult printResult = invoiceController.printSellingConditions();
-
-        if (printResult.isSuccess()) {
-            AlertController.alertSuccess("Algemene voorwaarden klaar!");
-        } else {
-            handlePrintError(printResult.getMessages());
-        }
-    }
-
-    private void handlePrintError(List<String> errorMessages) {
-        StringBuilder errorBuilder = new StringBuilder("Gefaald wegens volgende fout(en): ");
-        for (int i = 0; i < errorMessages.size(); i++) {
-            String errorMessage = errorMessages.get(i);
-            errorBuilder.append("\n").append(i+1).append(") ").append(errorMessage);
-        }
-        AlertController.alertError("Factuur aanmaken gefaald!", errorBuilder.toString());
+        invoiceListService.printSellingConditionsService.restart();
     }
 
     public void deleteInvoice(ActionEvent actionEvent) {
         if (AlertController.areYouSure("Bent u zeker dat u deze factuur wil verwijderen?", "Bedenk dat u deze factuur nadien niet meer zal kunnen herstellen!")) {
-            try {
-                InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
-                CrudsResult crudsResult = invoiceController.deleteInvoice(selectedInvoice.getId());
-
-                if (crudsResult.isSuccess()) {
-                    handleDeleteSuccess();
-                } else {
-                    handleDeleteError(crudsResult.getMessages());
-                }
-            } catch (Exception e) {
-                handleDeleteException(e);
-            }
+            invoiceListService.deleteInvoiceService.restart();
         }
-    }
-
-    private void handleDeleteSuccess() {
-        loadAllInvoices();
-        AlertController.alertSuccess("Factuur verwijderd!");
-    }
-
-    private void handleDeleteError(List<String> errorMessages) {
-        StringBuilder errorBuilder = new StringBuilder("Gefaald wegens volgende fout(en): ");
-        for (int i = 0; i < errorMessages.size(); i++) {
-            String errorMessage = errorMessages.get(i);
-            errorBuilder.append(errorMessage);
-
-            if (i != (errorMessages.size()-1)) {
-                errorBuilder.append("; ");
-            }
-        }
-        AlertController.alertError("Factuur verwijderen gefaald!", errorBuilder.toString());
-    }
-
-    private void handleDeleteException(Exception e) {
-        AlertController.alertException("Factuur verwijderen gefaald!", e);
     }
 }

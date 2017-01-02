@@ -6,6 +6,7 @@ import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.view.mapper.CustomerViewMapper;
 import be.boomkwekerij.plant.view.model.CustomerViewModel;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -29,8 +30,6 @@ public class CustomerListService {
     private TableView<CustomerViewModel> customerList;
     private Button customerDetailsButton;
     private Button customerDeleteButton;
-
-    private CustomerDTO selectedCustomer = null;
 
     public final Service loadAllCustomersService = new Service() {
         @Override
@@ -91,15 +90,21 @@ public class CustomerListService {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    updateTitle("Verwijderen klant");
+                    updateTitle("Tonen details klant");
 
                     CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
                     SearchResult<CustomerDTO> searchResult = customerController.getCustomer(selectedCustomer.getId());
                     if (searchResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
                     }
+                    CustomerDTO customer = searchResult.getFirst();
 
-                    CustomerListService.this.selectedCustomer = searchResult.getFirst();
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            show(customer);
+                        }
+                    });
 
                     return null;
                 }
@@ -157,9 +162,6 @@ public class CustomerListService {
         customerDeleteButton.disableProperty()
                 .bind(deleteCustomerService.runningProperty());
 
-        showCustomerDetailsService.setOnSucceeded(serviceEvent -> {
-            showCustomer();
-        });
         showCustomerDetailsService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(showCustomerDetailsService);
         });
@@ -173,13 +175,10 @@ public class CustomerListService {
         });
     }
 
-    private void showCustomer() {
-        if (selectedCustomer == null) {
-            throw new IllegalArgumentException("Geen klant aangeduidt");
-        }
-
+    private void show(CustomerDTO customer) {
         Dialog detailsDialog = new Dialog();
-        detailsDialog.setTitle("Klant: " + selectedCustomer.getName1());
+        detailsDialog.setTitle("Klant: " + customer.getName1());
+
         GridPane grid = new GridPane();
         grid.setHgap(20);
         grid.setVgap(5);
@@ -187,53 +186,55 @@ public class CustomerListService {
         Label name1Label = new Label("Naam 1:");
         name1Label.setStyle("-fx-font-weight: bold;");
         grid.add(name1Label, 0, 0);
-        grid.add(new Label(selectedCustomer.getName1()), 1, 0);
+        grid.add(new Label(customer.getName1()), 1, 0);
         Label name2Label = new Label("Naam 2:");
         name2Label.setStyle("-fx-font-weight: bold;");
         grid.add(name2Label, 0, 1);
-        grid.add(new Label(selectedCustomer.getName2()), 1, 1);
+        grid.add(new Label(customer.getName2()), 1, 1);
         Label address1Label = new Label("Adres 1:");
         address1Label.setStyle("-fx-font-weight: bold;");
         grid.add(address1Label, 0, 2);
-        grid.add(new Label(selectedCustomer.getAddress1()), 1, 2);
+        grid.add(new Label(customer.getAddress1()), 1, 2);
         Label address2Label = new Label("Adres 2:");
         address2Label.setStyle("-fx-font-weight: bold;");
         grid.add(address2Label, 0, 3);
-        grid.add(new Label(selectedCustomer.getAddress2()), 1, 3);
+        grid.add(new Label(customer.getAddress2()), 1, 3);
         Label postalCodeLabel = new Label("Postcode:");
         postalCodeLabel.setStyle("-fx-font-weight: bold;");
         grid.add(postalCodeLabel, 0, 4);
-        grid.add(new Label(selectedCustomer.getPostalCode()), 1, 4);
+        grid.add(new Label(customer.getPostalCode()), 1, 4);
         Label residenceLabel = new Label("Woonplaats:");
         residenceLabel.setStyle("-fx-font-weight: bold;");
         grid.add(residenceLabel, 0, 5);
-        grid.add(new Label(selectedCustomer.getResidence()), 1, 5);
+        grid.add(new Label(customer.getResidence()), 1, 5);
         Label countryLabel = new Label("Land:");
         countryLabel.setStyle("-fx-font-weight: bold;");
         grid.add(countryLabel, 0, 6);
-        grid.add(new Label(selectedCustomer.getCountry()), 1, 6);
+        grid.add(new Label(customer.getCountry()), 1, 6);
         Label telephoneLabel = new Label("Telefoon:");
         telephoneLabel.setStyle("-fx-font-weight: bold;");
         grid.add(telephoneLabel, 0, 7);
-        grid.add(new Label(selectedCustomer.getTelephone()), 1, 7);
+        grid.add(new Label(customer.getTelephone()), 1, 7);
         Label gsmLabel = new Label("GSM:");
         gsmLabel.setStyle("-fx-font-weight: bold;");
         grid.add(gsmLabel, 0, 8);
-        grid.add(new Label(selectedCustomer.getGsm()), 1, 8);
+        grid.add(new Label(customer.getGsm()), 1, 8);
         Label faxLabel = new Label("FAX:");
         faxLabel.setStyle("-fx-font-weight: bold;");
         grid.add(faxLabel, 0, 9);
-        grid.add(new Label(selectedCustomer.getFax()), 1, 9);
+        grid.add(new Label(customer.getFax()), 1, 9);
         Label btwNumberLabel = new Label("BTW nummer:");
         btwNumberLabel.setStyle("-fx-font-weight: bold;");
         grid.add(btwNumberLabel, 0, 10);
-        grid.add(new Label(selectedCustomer.getBtwNumber()), 1, 10);
+        grid.add(new Label(customer.getBtwNumber()), 1, 10);
         Label emailAddressLabel = new Label("E-mail adres:");
         emailAddressLabel.setStyle("-fx-font-weight: bold;");
         grid.add(emailAddressLabel, 0, 11);
-        grid.add(new Label(selectedCustomer.getEmailAddress()), 1, 11);
+        grid.add(new Label(customer.getEmailAddress()), 1, 11);
         detailsDialog.getDialogPane().setContent(grid);
+
         detailsDialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+
         detailsDialog.showAndWait();
     }
 }

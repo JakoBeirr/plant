@@ -21,7 +21,7 @@
                 <TextField fx:id="price" prefColumnCount="30" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
             </GridPane>
 
-            <Button id="createButton" mnemonicParsing="false" onMouseClicked="#createPlant" text="Aanmaken" styleClass="green-button" />
+            <Button fx:id="plantCreateButton" mnemonicParsing="false" onMouseClicked="#createPlant" text="Aanmaken" styleClass="green-button" />
         </VBox>
     </ScrollPane>
 </AnchorPane>
