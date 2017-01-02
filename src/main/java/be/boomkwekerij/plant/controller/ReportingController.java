@@ -8,57 +8,40 @@ import be.boomkwekerij.plant.service.ReportingServiceImpl;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.Month;
 
+import java.util.Collections;
+
 public class ReportingController {
 
     private ReportingService reportingService = new ReportingServiceImpl();
     private PrinterService printerService = new PrinterServiceImpl();
 
     public CrudsResult printCustomerFileReport() {
-        CrudsResult printResult = new CrudsResult();
-
         try {
             BestandDTO report = reportingService.createCustomerFileReport();
             printerService.printDocument_LandScape(report);
-            printResult.setSuccess(true);
+            return new CrudsResult().success();
         } catch (Exception e) {
-            return createCrudsError(e);
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return printResult;
     }
 
     public CrudsResult printUnpayedInvoicesReport() {
-        CrudsResult printResult = new CrudsResult();
-
         try {
             BestandDTO report = reportingService.createUnpayedInvoicesReport();
             printerService.printDocument_Portrait(report);
-            printResult.setSuccess(true);
+            return new CrudsResult().success();
         } catch (Exception e) {
-            return createCrudsError(e);
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return printResult;
     }
 
     public CrudsResult printInvoicesReport(String month, int year) {
-        CrudsResult printResult = new CrudsResult();
-
         try {
             BestandDTO report = reportingService.createInvoicesReportForMonth(Month.fromTranslation(month), year);
             printerService.printDocument_Portrait(report);
-            printResult.setSuccess(true);
+            return new CrudsResult().success();
         } catch (Exception e) {
-            return createCrudsError(e);
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return printResult;
-    }
-
-    private CrudsResult createCrudsError(Exception e) {
-        CrudsResult failure = new CrudsResult();
-        failure.setSuccess(false);
-        failure.getMessages().add(e.getMessage());
-        return failure;
     }
 }

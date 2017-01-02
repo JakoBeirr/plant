@@ -1,10 +1,12 @@
 package be.boomkwekerij.plant.service;
 
+import be.boomkwekerij.plant.util.CrudsResult;
+
 import java.io.IOException;
 
 public interface BackupService {
 
-    void backup() throws IOException;
+    CrudsResult backup() throws IOException;
 
-    void restoreBackup() throws IOException;
+    CrudsResult restoreBackup() throws IOException;
 }

@@ -1,12 +1,15 @@
 package be.boomkwekerij.plant.view.services;
 
 import be.boomkwekerij.plant.controller.BackupController;
+import be.boomkwekerij.plant.util.CrudsResult;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+
+import java.util.Arrays;
 
 public class BackupCreateService {
 
@@ -23,7 +26,10 @@ public class BackupCreateService {
                 protected Void call() throws Exception {
                     updateTitle("Maken backup");
 
-                    backupController.backup();
+                    CrudsResult backupResult = backupController.backup();
+                    if (backupResult.isError()) {
+                        throw new IllegalArgumentException(Arrays.toString(backupResult.getMessages().toArray()));
+                    }
 
                     return null;
                 }
@@ -39,7 +45,10 @@ public class BackupCreateService {
                 protected Void call() throws Exception {
                     updateTitle("Herstellen backup");
 
-                    backupController.restoreBackup();
+                    CrudsResult restoreBackupResult = backupController.restoreBackup();
+                    if (restoreBackupResult.isError()) {
+                        throw new IllegalArgumentException(Arrays.toString(restoreBackupResult.getMessages().toArray()));
+                    }
 
                     return null;
                 }

@@ -23,44 +23,32 @@ public class CustomerMemoryImpl implements CustomerMemory {
     }
 
     public SearchResult<Customer> getCustomer(String id) {
-        SearchResult<Customer> searchResult = new SearchResult<Customer>();
-
         if (id == null) {
-            searchResult.setSuccess(false);
-            searchResult.addMessage("Kon geen klant vinden voor id null!");
-        } else {
-            searchResult.setSuccess(true);
-            Customer customer = customers.get(id);
-            if (customer != null) {
-                searchResult.addResult(customer);
-            }
+            return new SearchResult<Customer>().error(Collections.singletonList("Kon geen klant vinden voor id null!"));
         }
-        return searchResult;
+        Customer customer = customers.get(id);
+        if (customer != null) {
+            return new SearchResult<Customer>().success(Collections.singletonList(customer));
+        }
+        return new SearchResult<Customer>().error(Collections.singletonList("Onbekende klant"));
     }
 
     public SearchResult<Customer> getCustomers() {
-        SearchResult<Customer> searchResult = new SearchResult<Customer>();
-        searchResult.setSuccess(true);
-        searchResult.setResults(new ArrayList<Customer>(customers.values()));
-        return searchResult;
+        return new SearchResult<Customer>().success(new ArrayList<Customer>(customers.values()));
     }
 
     public SearchResult<Customer> getCustomers(String name) {
-        SearchResult<Customer> customersWithName = new SearchResult<Customer>();
-
         if (name == null) {
-            customersWithName.setSuccess(false);
-            customersWithName.addMessage("Kon geen klant vinden voor naam null!");
+            return new SearchResult<Customer>().error(Collections.singletonList("Kon geen klant vinden voor naam null!"));
         } else {
-            customersWithName.setSuccess(true);
+            List<Customer> customersWithName = new ArrayList<>();
             for (Customer customer : customers.values()) {
                 if (customerNameContains(customer, name)) {
-                    customersWithName.addResult(customer);
+                    customersWithName.add(customer);
                 }
             }
+            return new SearchResult<Customer>().success(customersWithName);
         }
-
-        return customersWithName;
     }
 
     @SuppressWarnings("all")

@@ -1,9 +1,6 @@
 package be.boomkwekerij.plant.service;
 
 import be.boomkwekerij.plant.exception.ReportException;
-import be.boomkwekerij.plant.mapper.CompanyMapper;
-import be.boomkwekerij.plant.mapper.CustomerMapper;
-import be.boomkwekerij.plant.mapper.InvoiceMapper;
 import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.model.dto.CompanyDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
@@ -12,6 +9,9 @@ import be.boomkwekerij.plant.model.report.CompanyReportObject;
 import be.boomkwekerij.plant.model.report.CustomerReportObject;
 import be.boomkwekerij.plant.model.report.MultiplePagedInvoiceReportObject;
 import be.boomkwekerij.plant.model.report.OnePagedInvoiceReportObject;
+import be.boomkwekerij.plant.rapportage.CompanyReportObjectCreator;
+import be.boomkwekerij.plant.rapportage.CustomerReportObjectCreator;
+import be.boomkwekerij.plant.rapportage.InvoiceReportObjectCreator;
 import be.boomkwekerij.plant.util.Initializer;
 import be.boomkwekerij.plant.util.InvoicePDFCreator;
 import be.boomkwekerij.plant.util.SearchResult;
@@ -23,9 +23,9 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
 
     private CompanyService companyService = new CompanyServiceImpl();
 
-    private CompanyMapper companyMapper = new CompanyMapper();
-    private CustomerMapper customerMapper = new CustomerMapper();
-    private InvoiceMapper invoiceMapper = new InvoiceMapper();
+    private InvoiceReportObjectCreator invoiceReportObjectCreator = new InvoiceReportObjectCreator();
+    private CompanyReportObjectCreator companyReportObjectCreator = new CompanyReportObjectCreator();
+    private CustomerReportObjectCreator customerReportObjectCreator = new CustomerReportObjectCreator();
 
     private InvoicePDFCreator invoicePDFCreator = new InvoicePDFCreator();
     private SellingConditionsPDFCreator sellingConditionsPDFCreator = new SellingConditionsPDFCreator();
@@ -33,7 +33,7 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
     @Override
     public BestandDTO createInvoiceDocument(InvoiceDTO invoiceDTO) throws ReportException {
         CompanyReportObject company = getCompany();
-        CustomerReportObject customer = customerMapper.mapDTOToReportObject(invoiceDTO.getCustomer());
+        CustomerReportObject customer = customerReportObjectCreator.create(invoiceDTO.getCustomer());
         int amountOfPages = getAmountOfPages(invoiceDTO.getInvoiceLines());
 
         if (amountOfPages == 1) {
@@ -45,13 +45,12 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
 
     private CompanyReportObject getCompany() {
         SearchResult<CompanyDTO> companySearchResult = companyService.getCompany();
-
         if (companySearchResult.isError()) {
             throw new IllegalArgumentException("Company not found!");
         }
 
         CompanyDTO companyDTO = companySearchResult.getFirst();
-        return companyMapper.mapDTOToReportObject(companyDTO);
+        return companyReportObjectCreator.create(companyDTO);
     }
 
     private int getAmountOfPages(List<InvoiceLineDTO> invoiceLines) {
@@ -61,12 +60,12 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
     }
 
     private BestandDTO createOnePagedInvoice(CompanyReportObject company, InvoiceDTO invoiceDTO, CustomerReportObject customer) throws ReportException {
-        OnePagedInvoiceReportObject invoice = invoiceMapper.mapDTOToOnePagedReportObject(invoiceDTO);
+        OnePagedInvoiceReportObject invoice = invoiceReportObjectCreator.createOnePageReportObject(invoiceDTO);
         return invoicePDFCreator.createOnePagedInvoiceDocument(company, customer, invoice);
     }
 
     private BestandDTO createMultiplePagedInvoice(CompanyReportObject company, InvoiceDTO invoiceDTO, CustomerReportObject customer, int amountOfPages) throws ReportException {
-        List<MultiplePagedInvoiceReportObject> invoiceParts = invoiceMapper.mapDTOToMultiplePagedReportObject(invoiceDTO, amountOfPages);
+        List<MultiplePagedInvoiceReportObject> invoiceParts = invoiceReportObjectCreator.createMultiplePagedReportObject(invoiceDTO, amountOfPages);
         return invoicePDFCreator.createMultiplePagedInvoiceDocument(company, customer, invoiceParts);
     }
 

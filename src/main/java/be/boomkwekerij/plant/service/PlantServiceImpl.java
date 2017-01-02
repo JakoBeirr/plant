@@ -12,6 +12,7 @@ import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.validator.PlantValidator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PlantServiceImpl implements PlantService {
@@ -23,109 +24,84 @@ public class PlantServiceImpl implements PlantService {
     private PlantValidator plantValidator = new PlantValidator();
 
     public CrudsResult createPlant(PlantDTO plantDTO) {
-        CrudsResult crudsResult = validatePlant(plantDTO);
-        if (crudsResult != null) {
-            return crudsResult;
+        CrudsResult validateResult = validatePlant(plantDTO);
+        if (validateResult.isError()) {
+            return validateResult;
         }
 
         Plant plant = plantMapper.mapDTOToDAO(plantDTO);
-        crudsResult = plantDAO.persist(plant);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult createResult = plantDAO.persist(plant);
+        if (createResult.isSuccess()) {
             plantMemory.createPlant(plant);
         }
-
-        return crudsResult;
+        return createResult;
     }
 
     public SearchResult<PlantDTO> getPlant(String id) {
         SearchResult<Plant> searchResult = plantMemory.getPlant(id);
-
-        SearchResult<PlantDTO> plantSearchResult = new SearchResult<PlantDTO>();
-        plantSearchResult.setSuccess(searchResult.isSuccess());
-        plantSearchResult.setMessages(searchResult.getMessages());
-
         if (searchResult.isSuccess()) {
             Plant plant = searchResult.getFirst();
             if (plant != null) {
                 PlantDTO plantDTO = plantMapper.mapDAOToDTO(plant);
-                plantSearchResult.addResult(plantDTO);
+                return new SearchResult<PlantDTO>().success(Collections.singletonList(plantDTO));
             }
         }
-
-        return plantSearchResult;
+        return new SearchResult<PlantDTO>().error(searchResult.getMessages());
     }
 
     public SearchResult<PlantDTO> getAllPlants() {
         SearchResult<Plant> searchResult = plantMemory.getPlants();
-
-        List<PlantDTO> allPlants = new ArrayList<PlantDTO>();
         if (searchResult.isSuccess()) {
+            List<PlantDTO> allPlants = new ArrayList<PlantDTO>();
             for (Plant plant : searchResult.getResults()) {
                 PlantDTO plantDTO = plantMapper.mapDAOToDTO(plant);
                 allPlants.add(plantDTO);
             }
+            return new SearchResult<PlantDTO>().success(allPlants);
         }
-
-        SearchResult<PlantDTO> allPlantsSearchResult = new SearchResult<PlantDTO>();
-        allPlantsSearchResult.setSuccess(searchResult.isSuccess());
-        allPlantsSearchResult.setMessages(searchResult.getMessages());
-        allPlantsSearchResult.setResults(allPlants);
-        return allPlantsSearchResult;
+        return new SearchResult<PlantDTO>().error(searchResult.getMessages());
     }
 
     public SearchResult<PlantDTO> getAllPlants(String name) {
         SearchResult<Plant> searchResult = plantMemory.getPlants(name);
-
-        List<PlantDTO> allPlantsWithName = new ArrayList<PlantDTO>();
         if (searchResult.isSuccess()) {
+            List<PlantDTO> allPlantsWithName = new ArrayList<PlantDTO>();
             for (Plant plant : searchResult.getResults()) {
                 PlantDTO plantDTO = plantMapper.mapDAOToDTO(plant);
                 allPlantsWithName.add(plantDTO);
             }
+            return new SearchResult<PlantDTO>().success(allPlantsWithName);
         }
-
-        SearchResult<PlantDTO> allPlantsWithNameSearchResult = new SearchResult<PlantDTO>();
-        allPlantsWithNameSearchResult.setSuccess(searchResult.isSuccess());
-        allPlantsWithNameSearchResult.setMessages(searchResult.getMessages());
-        allPlantsWithNameSearchResult.setResults(allPlantsWithName);
-        return allPlantsWithNameSearchResult;
+        return new SearchResult<PlantDTO>().error(searchResult.getMessages());
     }
 
     public CrudsResult updatePlant(PlantDTO plantDTO) {
-        CrudsResult crudsResult = validatePlant(plantDTO);
-        if (crudsResult != null) {
-            return crudsResult;
+        CrudsResult validateResult = validatePlant(plantDTO);
+        if (validateResult.isError()) {
+            return validateResult;
         }
 
         Plant plant = plantMapper.mapDTOToDAO(plantDTO);
-        crudsResult = plantDAO.update(plant);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult updateResult = plantDAO.update(plant);
+        if (updateResult.isSuccess()) {
             plantMemory.updatePlant(plant);
         }
-
-        return crudsResult;
+        return updateResult;
     }
 
     public CrudsResult deletePlant(String id) {
-        CrudsResult crudsResult = plantDAO.delete(id);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult deleteResult = plantDAO.delete(id);
+        if (deleteResult.isSuccess()) {
             plantMemory.deletePlant(id);
         }
-
-        return crudsResult;
+        return deleteResult;
     }
 
     private CrudsResult validatePlant(PlantDTO plantDTO) {
         List<String> validationResult = plantValidator.validate(plantDTO);
         if (validationResult.size() > 0) {
-            CrudsResult crudsResult = new CrudsResult();
-            crudsResult.setSuccess(false);
-            crudsResult.setMessages(validationResult);
-            return crudsResult;
+            return new CrudsResult().error(validationResult);
         }
-        return null;
+        return new CrudsResult().success(plantDTO.getId());
     }
 }

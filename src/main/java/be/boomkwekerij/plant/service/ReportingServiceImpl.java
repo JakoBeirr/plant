@@ -1,14 +1,14 @@
 package be.boomkwekerij.plant.service;
 
 import be.boomkwekerij.plant.exception.ReportException;
-import be.boomkwekerij.plant.mapper.CustomerMapper;
-import be.boomkwekerij.plant.mapper.InvoiceMapper;
 import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.model.dto.CompanyDTO;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.report.CustomerFileReportObject;
 import be.boomkwekerij.plant.model.report.InvoicesReportObject;
+import be.boomkwekerij.plant.rapportage.CustomerFileReportObjectCreator;
+import be.boomkwekerij.plant.rapportage.InvoicesReportObjectCreator;
 import be.boomkwekerij.plant.util.Month;
 import be.boomkwekerij.plant.util.ReportPDFCreator;
 import be.boomkwekerij.plant.util.SearchResult;
@@ -23,8 +23,8 @@ public class ReportingServiceImpl implements ReportingService {
     private CustomerService customerService = new CustomerServiceImpl();
     private CompanyService companyService = new CompanyServiceImpl();
 
-    private InvoiceMapper invoiceMapper = new InvoiceMapper();
-    private CustomerMapper customerMapper = new CustomerMapper();
+    private CustomerFileReportObjectCreator customerFileReportObjectCreator = new CustomerFileReportObjectCreator();
+    private InvoicesReportObjectCreator invoicesReportObjectCreator = new InvoicesReportObjectCreator();
 
     private ReportPDFCreator reportPDFCreator = new ReportPDFCreator();
 
@@ -34,7 +34,7 @@ public class ReportingServiceImpl implements ReportingService {
         CompanyDTO company = findCompany();
         DateTime reportDate = new DateTime();
 
-        CustomerFileReportObject customerFileReportObject = customerMapper.mapToCustomerFileReportObject(company, reportDate, customers);
+        CustomerFileReportObject customerFileReportObject = customerFileReportObjectCreator.create(company, reportDate, customers);
         return reportPDFCreator.createCustomerFileReport(customerFileReportObject);
     }
 
@@ -63,7 +63,7 @@ public class ReportingServiceImpl implements ReportingService {
         String period = "NVT";
         String title = "OVERZICHT ONBETAALDE FACTUREN";
 
-        InvoicesReportObject invoicesReportObject = invoiceMapper.mapToInvoicesReportObject(unpayedInvoices, company, reportDate, period, title);
+        InvoicesReportObject invoicesReportObject = invoicesReportObjectCreator.create(unpayedInvoices, company, reportDate, period, title);
         return reportPDFCreator.createInvoiceReport(invoicesReportObject);
     }
 
@@ -86,7 +86,7 @@ public class ReportingServiceImpl implements ReportingService {
         String period = month.translation() + " " + Integer.toString(year);
         String title = "OVERZICHT ALLE FACTUREN";
 
-        InvoicesReportObject invoicesReportObject = invoiceMapper.mapToInvoicesReportObject(invoicesInMonth, company, reportDate, period, title);
+        InvoicesReportObject invoicesReportObject = invoicesReportObjectCreator.create(invoicesInMonth, company, reportDate, period, title);
         return reportPDFCreator.createInvoiceReport(invoicesReportObject);
     }
 

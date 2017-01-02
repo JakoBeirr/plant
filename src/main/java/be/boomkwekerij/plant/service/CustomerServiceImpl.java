@@ -13,6 +13,7 @@ import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.validator.CustomerValidator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomerServiceImpl implements CustomerService {
@@ -24,109 +25,85 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerValidator customerValidator = new CustomerValidator();
 
     public CrudsResult createCustomer(CustomerDTO customerDTO) {
-        CrudsResult crudsResult = validateCustomer(customerDTO);
-        if (crudsResult != null) {
-            return crudsResult;
+        CrudsResult validateResult = validateCustomer(customerDTO);
+        if (validateResult.isError()) {
+            return validateResult;
         }
 
         Customer customer = customerMapper.mapDTOToDAO(customerDTO);
-        crudsResult = customerDAO.persist(customer);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult createResult = customerDAO.persist(customer);
+        if (createResult.isSuccess()) {
             customerMemory.createCustomer(customer);
         }
-
-        return crudsResult;
+        return createResult;
     }
 
     public SearchResult<CustomerDTO> getCustomer(String id) {
         SearchResult<Customer> searchResult = customerMemory.getCustomer(id);
-
-        SearchResult<CustomerDTO> customerSearchResult = new SearchResult<CustomerDTO>();
-        customerSearchResult.setSuccess(searchResult.isSuccess());
-        customerSearchResult.setMessages(searchResult.getMessages());
-
         if (searchResult.isSuccess()) {
             Customer customer = searchResult.getFirst();
             if (customer != null) {
                 CustomerDTO customerDTO = customerMapper.mapDAOToDTO(customer);
-                customerSearchResult.addResult(customerDTO);
+                return new SearchResult<CustomerDTO>().success(Collections.singletonList(customerDTO));
             }
         }
-
-        return customerSearchResult;
+        return new SearchResult<CustomerDTO>().error(searchResult.getMessages());
     }
 
     public SearchResult<CustomerDTO> getAllCustomers() {
         SearchResult<Customer> searchResult = customerMemory.getCustomers();
 
-        List<CustomerDTO> allCustomers = new ArrayList<CustomerDTO>();
         if (searchResult.isSuccess()) {
+            List<CustomerDTO> allCustomers = new ArrayList<CustomerDTO>();
             for (Customer customer : searchResult.getResults()) {
                 CustomerDTO customerDTO = customerMapper.mapDAOToDTO(customer);
                 allCustomers.add(customerDTO);
             }
+            return new SearchResult<CustomerDTO>().success(allCustomers);
         }
-
-        SearchResult<CustomerDTO> allCustomersSearchResult = new SearchResult<CustomerDTO>();
-        allCustomersSearchResult.setSuccess(searchResult.isSuccess());
-        allCustomersSearchResult.setMessages(searchResult.getMessages());
-        allCustomersSearchResult.setResults(allCustomers);
-        return allCustomersSearchResult;
+        return new SearchResult<CustomerDTO>().error(searchResult.getMessages());
     }
 
     public SearchResult<CustomerDTO> getAllCustomers(String name) {
         SearchResult<Customer> searchResult = customerMemory.getCustomers(name);
-
-        List<CustomerDTO> allCustomersWithName = new ArrayList<CustomerDTO>();
         if (searchResult.isSuccess()) {
+            List<CustomerDTO> allCustomersWithName = new ArrayList<CustomerDTO>();
             for (Customer customer : searchResult.getResults()) {
                 CustomerDTO customerDTO = customerMapper.mapDAOToDTO(customer);
                 allCustomersWithName.add(customerDTO);
             }
+            return new SearchResult<CustomerDTO>().success(allCustomersWithName);
         }
-
-        SearchResult<CustomerDTO> allCustomersWithNameSearchResult = new SearchResult<CustomerDTO>();
-        allCustomersWithNameSearchResult.setSuccess(searchResult.isSuccess());
-        allCustomersWithNameSearchResult.setMessages(searchResult.getMessages());
-        allCustomersWithNameSearchResult.setResults(allCustomersWithName);
-        return allCustomersWithNameSearchResult;
+        return new SearchResult<CustomerDTO>().error(searchResult.getMessages());
     }
 
     public CrudsResult updateCustomer(CustomerDTO customerDTO) {
-        CrudsResult crudsResult = validateCustomer(customerDTO);
-        if (crudsResult != null) {
-            return crudsResult;
+        CrudsResult validateResult = validateCustomer(customerDTO);
+        if (validateResult.isError()) {
+            return validateResult;
         }
 
         Customer customer = customerMapper.mapDTOToDAO(customerDTO);
-        crudsResult = customerDAO.update(customer);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult updateResult = customerDAO.update(customer);
+        if (updateResult.isSuccess()) {
             customerMemory.updateCustomer(customer);
         }
-
-        return crudsResult;
+        return updateResult;
     }
 
     public CrudsResult deleteCustomer(String id) {
-        CrudsResult crudsResult = customerDAO.delete(id);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult deleteResult = customerDAO.delete(id);
+        if (deleteResult.isSuccess()) {
             customerMemory.deleteCustomer(id);
         }
-
-        return crudsResult;
+        return deleteResult;
     }
 
     private CrudsResult validateCustomer(CustomerDTO customerDTO) {
         List<String> validationResult = customerValidator.validate(customerDTO);
         if (validationResult.size() > 0) {
-            CrudsResult crudsResult = new CrudsResult();
-            crudsResult.setSuccess(false);
-            crudsResult.setMessages(validationResult);
-            return crudsResult;
+            return new CrudsResult().error(validationResult);
         }
-        return null;
+        return new CrudsResult().success(customerDTO.getId());
     }
 }

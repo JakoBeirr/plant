@@ -4,6 +4,7 @@ import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.util.SearchResult;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,45 +23,33 @@ public class InvoiceMemoryImpl implements InvoiceMemory {
     }
 
     public SearchResult<Invoice> getInvoice(String id) {
-        SearchResult<Invoice> searchResult = new SearchResult<Invoice>();
-
         if (id == null) {
-            searchResult.setSuccess(false);
-            searchResult.addMessage("Kon geen factuur vinden voor id null!");
+            return new SearchResult<Invoice>().error(Collections.singletonList("Kon geen factuur vinden voor id null!"));
         } else {
-            searchResult.setSuccess(true);
             Invoice invoice = invoices.get(id);
             if (invoice != null) {
-                searchResult.addResult(invoice);
+                return new SearchResult<Invoice>().success(Collections.singletonList(invoice));
             }
+            return new SearchResult<Invoice>().error(Collections.singletonList("Onbekende factuur"));
         }
-
-        return searchResult;
     }
 
     public SearchResult<Invoice> getInvoices() {
-        SearchResult<Invoice> searchResult = new SearchResult<Invoice>();
-        searchResult.setSuccess(true);
-        searchResult.setResults(new ArrayList<Invoice>(invoices.values()));
-        return searchResult;
+        return new SearchResult<Invoice>().success(new ArrayList<Invoice>(invoices.values()));
     }
 
-    public SearchResult<Invoice> getInvoices(String name) {
-        SearchResult<Invoice> invoicesWithInvoiceNumber = new SearchResult<Invoice>();
-
-        if (name == null) {
-            invoicesWithInvoiceNumber.setSuccess(false);
-            invoicesWithInvoiceNumber.addMessage("Kon geen factuur vinden voor name null!");
+    public SearchResult<Invoice> getInvoices(String number) {
+        if (number == null) {
+            return new SearchResult<Invoice>().error(Collections.singletonList("Kon geen factuur vinden voor number null!"));
         } else {
-            invoicesWithInvoiceNumber.setSuccess(true);
+            List<Invoice> invoicesWithNumber = new ArrayList<>();
             for (Invoice invoice : invoices.values()) {
-                if (invoiceNameStartsWith(invoice, name)) {
-                    invoicesWithInvoiceNumber.addResult(invoice);
+                if (invoiceNameStartsWith(invoice, number)) {
+                    invoicesWithNumber.add(invoice);
                 }
             }
+            return new SearchResult<Invoice>().success(invoicesWithNumber);
         }
-
-        return invoicesWithInvoiceNumber;
     }
 
     private boolean invoiceNameStartsWith(Invoice invoice, String invoiceNumber) {
@@ -69,21 +58,17 @@ public class InvoiceMemoryImpl implements InvoiceMemory {
 
     @Override
     public SearchResult<Invoice> getInvoicesFromCustomer(String customerId) {
-        SearchResult<Invoice> invoicesFromCustomer = new SearchResult<Invoice>();
-
         if (customerId == null) {
-            invoicesFromCustomer.setSuccess(false);
-            invoicesFromCustomer.addMessage("Kon geen factuur vinden voor klant met id null!");
+            return new SearchResult<Invoice>().error(Collections.singletonList("Kon geen factuur vinden voor klant met id null!"));
         } else {
-            invoicesFromCustomer.setSuccess(true);
+            List<Invoice> invoicesFromCustomer = new ArrayList<>();
             for (Invoice invoice : invoices.values()) {
                 if (invoiceFromCustomer(invoice, customerId)) {
-                    invoicesFromCustomer.addResult(invoice);
+                    invoicesFromCustomer.add(invoice);
                 }
             }
+            return new SearchResult<Invoice>().success(invoicesFromCustomer);
         }
-
-        return invoicesFromCustomer;
     }
 
     private boolean invoiceFromCustomer(Invoice invoice, String customerId) {

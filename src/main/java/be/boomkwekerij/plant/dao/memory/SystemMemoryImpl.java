@@ -3,6 +3,8 @@ package be.boomkwekerij.plant.dao.memory;
 import be.boomkwekerij.plant.model.repository.System;
 import be.boomkwekerij.plant.util.SearchResult;
 
+import java.util.Collections;
+
 public class SystemMemoryImpl implements SystemMemory {
 
     private System system = null;
@@ -12,12 +14,10 @@ public class SystemMemoryImpl implements SystemMemory {
     }
 
     public SearchResult<System> getSystem() {
-        SearchResult<System> searchResult = new SearchResult<System>();
-        searchResult.setSuccess(true);
         if (system != null) {
-            searchResult.addResult(system);
+            return new SearchResult<System>().success(Collections.singletonList(system));
         }
-        return searchResult;
+        return new SearchResult<System>().error(Collections.singletonList("Onbekend systeem"));
     }
 
     public void updateSystem(System system) {

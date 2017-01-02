@@ -2,15 +2,17 @@ package be.boomkwekerij.plant.dao.repository;
 
 import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.ExceptionUtil;
-import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.SearchResult;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 public class InvoiceDAOImpl implements InvoiceDAO {
@@ -18,136 +20,107 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     private static final String INVOICES_DATA_URI = Initializer.getDataUri() + "/invoices/";
 
     public SearchResult<Invoice> get(String id) {
-        SearchResult<Invoice> searchResult = new SearchResult<Invoice>();
-
         try {
-            Unmarshaller unmarshaller = getUnMarshaller();
+            Unmarshaller unmarshaller = unmarshaller();
             Invoice invoice = (Invoice) unmarshaller.unmarshal(new File(INVOICES_DATA_URI + id + ".xml"));
 
-            searchResult.setSuccess(true);
-            searchResult.addResult(invoice);
+            return new SearchResult<Invoice>().success(Collections.singletonList(invoice));
         } catch (Exception e) {
-            searchResult.setSuccess(false);
-            searchResult.addMessage(e.getMessage());
+            return new SearchResult<Invoice>().error(Collections.singletonList(e.getMessage()));
         }
-
-        return searchResult;
     }
 
     public SearchResult<Invoice> findAll() {
-        SearchResult<Invoice> searchResult = new SearchResult<Invoice>();
-
         try {
-            Unmarshaller unmarshaller = getUnMarshaller();
+            Unmarshaller unmarshaller = unmarshaller();
             File invoiceDirectory = new File(INVOICES_DATA_URI);
             File[] invoiceFiles = invoiceDirectory.listFiles();
+
+            List<Invoice> invoices = new ArrayList<>();
             if (invoiceFiles != null) {
                 for (File invoiceFile : invoiceFiles) {
                     Invoice invoice = (Invoice) unmarshaller.unmarshal(invoiceFile);
-                    searchResult.addResult(invoice);
+                    invoices.add(invoice);
                 }
             }
-
-            searchResult.setSuccess(true);
+            return new SearchResult<Invoice>().success(invoices);
         } catch (Exception e) {
-            searchResult.setSuccess(false);
-            searchResult.addMessage(e.getMessage());
+            return new SearchResult<Invoice>().error(Collections.singletonList(e.getMessage()));
         }
-
-        return searchResult;
     }
 
     public CrudsResult persist(Invoice invoice) {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             invoice.setId(UUID.randomUUID().toString());
             File file = new File(INVOICES_DATA_URI + invoice.getId() + ".xml");
             if (file.exists()) {
-                crudsResult.setSuccess(false);
-                crudsResult.addMessage("Invoice already registered!");
+                return new CrudsResult().error(Collections.singletonList("Factuur reeds aangemaakt!"));
             } else {
-                Marshaller marshaller = getMarshaller();
+                Marshaller marshaller = marshaller();
                 marshaller.marshal(invoice, new File(INVOICES_DATA_URI + invoice.getId() + ".xml"));
 
-                crudsResult.setValue(invoice.getId());
-                crudsResult.setSuccess(true);
+                return new CrudsResult().success(invoice.getId());
             }
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
     public CrudsResult update(Invoice invoice) {
-        CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(invoice.getId());
-
         try {
             File file = new File(INVOICES_DATA_URI + invoice.getId() + ".xml");
             if (!file.exists()) {
-                crudsResult.setSuccess(false);
-                crudsResult.addMessage("Unknown invoice!");
+                return new CrudsResult().error(Collections.singletonList("Onbekende factuur"));
             } else {
-                Marshaller marshaller = getMarshaller();
+                Marshaller marshaller = marshaller();
                 marshaller.marshal(invoice, new File(INVOICES_DATA_URI + invoice.getId() + ".xml"));
 
-                crudsResult.setSuccess(true);
+                return new CrudsResult().success(invoice.getId());
             }
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
     public CrudsResult delete(String id) {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             File invoiceFile = new File(INVOICES_DATA_URI + id + ".xml");
             boolean deleted = invoiceFile.delete();
-            crudsResult.setSuccess(deleted);
-            crudsResult.setValue(id);
+            if (deleted) {
+                return new CrudsResult().success(id);
+            }
+            return new CrudsResult().error(Collections.singletonList("Factuur verwijderen mislukt"));
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
     public CrudsResult deleteAll() {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             File invoiceDirectory = new File(INVOICES_DATA_URI);
             File[] invoiceFiles = invoiceDirectory.listFiles();
             if (invoiceFiles != null) {
                 for (File invoiceFile : invoiceFiles) {
                     boolean deleted = invoiceFile.delete();
-                    crudsResult.setSuccess(deleted);
+                    if (!deleted) {
+                        return new CrudsResult().error(Collections.singletonList("Factuur verwijderen mislukt"));
+                    }
                 }
             }
+            return new CrudsResult().success();
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
-    private Marshaller getMarshaller() throws JAXBException {
+    private Marshaller marshaller() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(Invoice.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         return marshaller;
     }
 
-    private Unmarshaller getUnMarshaller() throws JAXBException {
+    private Unmarshaller unmarshaller() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(Invoice.class);
         return jaxbContext.createUnmarshaller();
     }

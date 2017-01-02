@@ -2,15 +2,17 @@ package be.boomkwekerij.plant.dao.repository;
 
 import be.boomkwekerij.plant.model.repository.Plant;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.ExceptionUtil;
-import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.SearchResult;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 public class PlantDAOImpl implements PlantDAO {
@@ -18,136 +20,107 @@ public class PlantDAOImpl implements PlantDAO {
     private static final String PLANTS_DATA_URI = Initializer.getDataUri() + "/plants/";
 
     public SearchResult<Plant> get(String id) {
-        SearchResult<Plant> searchResult = new SearchResult<Plant>();
-
         try {
-            Unmarshaller unmarshaller = getUnMarshaller();
+            Unmarshaller unmarshaller = unmarshaller();
             Plant plant = (Plant) unmarshaller.unmarshal(new File(PLANTS_DATA_URI + id + ".xml"));
 
-            searchResult.setSuccess(true);
-            searchResult.addResult(plant);
+            return new SearchResult<Plant>().success(Collections.singletonList(plant));
         } catch (Exception e) {
-            searchResult.setSuccess(false);
-            searchResult.addMessage(e.getMessage());
+            return new SearchResult<Plant>().error(Collections.singletonList(e.getMessage()));
         }
-
-        return searchResult;
     }
 
     public SearchResult<Plant> findAll() {
-        SearchResult<Plant> searchResult = new SearchResult<Plant>();
-
         try {
-            Unmarshaller unmarshaller = getUnMarshaller();
+            Unmarshaller unmarshaller = unmarshaller();
             File plantDirectory = new File(PLANTS_DATA_URI);
             File[] plantFiles = plantDirectory.listFiles();
+
+            List<Plant> plants = new ArrayList<>();
             if (plantFiles != null) {
                 for (File plantFile : plantFiles) {
                     Plant plant = (Plant) unmarshaller.unmarshal(plantFile);
-                    searchResult.addResult(plant);
+                    plants.add(plant);
                 }
             }
-
-            searchResult.setSuccess(true);
+            return new SearchResult<Plant>().success(plants);
         } catch (Exception e) {
-            searchResult.setSuccess(false);
-            searchResult.addMessage(e.getMessage());
+            return new SearchResult<Plant>().error(Collections.singletonList(e.getMessage()));
         }
-
-        return searchResult;
     }
 
     public CrudsResult persist(Plant plant) {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             plant.setId(UUID.randomUUID().toString());
             File file = new File(PLANTS_DATA_URI + plant.getId() + ".xml");
             if (file.exists()) {
-                crudsResult.setSuccess(false);
-                crudsResult.addMessage("Plant already registered!");
+                return new CrudsResult().error(Collections.singletonList("Plant reeds aangemaakt"));
             } else {
-                Marshaller marshaller = getMarshaller();
+                Marshaller marshaller = marshaller();
                 marshaller.marshal(plant, new File(PLANTS_DATA_URI + plant.getId() + ".xml"));
 
-                crudsResult.setValue(plant.getId());
-                crudsResult.setSuccess(true);
+                return new CrudsResult().success(plant.getId());
             }
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
     public CrudsResult update(Plant plant) {
-        CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(plant.getId());
-
         try {
             File file = new File(PLANTS_DATA_URI + plant.getId() + ".xml");
             if (!file.exists()) {
-                crudsResult.setSuccess(false);
-                crudsResult.addMessage("Unknown plant!");
+                return new CrudsResult().error(Collections.singletonList("Onbekende plant"));
             } else {
-                Marshaller marshaller = getMarshaller();
+                Marshaller marshaller = marshaller();
                 marshaller.marshal(plant, new File(PLANTS_DATA_URI + plant.getId() + ".xml"));
 
-                crudsResult.setSuccess(true);
+                return new CrudsResult().success(plant.getId());
             }
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
     public CrudsResult delete(String id) {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             File plantFile = new File(PLANTS_DATA_URI + id + ".xml");
             boolean deleted = plantFile.delete();
-            crudsResult.setSuccess(deleted);
-            crudsResult.setValue(id);
+            if (deleted) {
+                return new CrudsResult().success(id);
+            }
+            return new CrudsResult().error(Collections.singletonList("Plant verwijderen mislukt"));
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
     public CrudsResult deleteAll() {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             File plantDirectory = new File(PLANTS_DATA_URI);
             File[] plantFiles = plantDirectory.listFiles();
             if (plantFiles != null) {
                 for (File plantFile : plantFiles) {
                     boolean deleted = plantFile.delete();
-                    crudsResult.setSuccess(deleted);
+                    if (!deleted) {
+                        return new CrudsResult().error(Collections.singletonList("Plant verwijderen mislukt"));
+                    }
                 }
             }
+            return new CrudsResult().success();
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
-    private Marshaller getMarshaller() throws JAXBException {
+    private Marshaller marshaller() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(Plant.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         return marshaller;
     }
 
-    private Unmarshaller getUnMarshaller() throws JAXBException {
+    private Unmarshaller unmarshaller() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(Plant.class);
         return jaxbContext.createUnmarshaller();
     }

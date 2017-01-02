@@ -1,5 +1,6 @@
 package be.boomkwekerij.plant.service;
 
+import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.Initializer;
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
@@ -13,11 +14,13 @@ public class BackupServiceImpl implements BackupService {
     private static final String PLANT_DIRECTORY = "C:/plant";
     private static final String BACKUP_DIRECTORY = "C:/plant/backup";
 
-    public void backup() throws IOException {
+    public CrudsResult backup() throws IOException {
         File sourceDirectory = new File(Initializer.getDataUri());
         File backupDirectory = createBackupFolder();
 
         FileUtils.copyDirectory(sourceDirectory, backupDirectory);
+
+        return new CrudsResult().success();
     }
 
     @SuppressWarnings("all")
@@ -66,11 +69,14 @@ public class BackupServiceImpl implements BackupService {
     }
 
     @Override
-    public void restoreBackup() throws IOException {
+    public CrudsResult restoreBackup() throws IOException {
         String latestBackupDirectory = getLatestBackupDirectory();
         backupSourceDirectory();
         copyLatestBackup(latestBackupDirectory);
+
         Initializer.reloadInMemoryDatabase();
+
+        return new CrudsResult().success();
     }
 
     private String getLatestBackupDirectory() {

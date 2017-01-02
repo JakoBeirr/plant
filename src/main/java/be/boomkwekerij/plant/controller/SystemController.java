@@ -4,8 +4,9 @@ import be.boomkwekerij.plant.model.dto.SystemDTO;
 import be.boomkwekerij.plant.service.SystemService;
 import be.boomkwekerij.plant.service.SystemServiceImpl;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.ExceptionUtil;
 import be.boomkwekerij.plant.util.SearchResult;
+
+import java.util.Collections;
 
 public class SystemController {
 
@@ -15,7 +16,7 @@ public class SystemController {
         try {
             return systemService.createSystem(systemDTO);
         } catch (Exception e) {
-            return createCrudsError(e);
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
     }
 
@@ -23,7 +24,7 @@ public class SystemController {
         try {
             return systemService.getSystem();
         } catch (Exception e) {
-            return createSearchError(e);
+            return new SearchResult<SystemDTO>().error(Collections.singletonList(e.getMessage()));
         }
     }
 
@@ -31,21 +32,7 @@ public class SystemController {
         try {
             return systemService.updateSystem(systemDTO);
         } catch (Exception e) {
-            return createCrudsError(e);
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-    }
-
-    private SearchResult<SystemDTO> createSearchError(Exception e) {
-        SearchResult<SystemDTO> failure = new SearchResult<SystemDTO>();
-        failure.setSuccess(false);
-        failure.getMessages().add(e.getMessage());
-        return failure;
-    }
-
-    private CrudsResult createCrudsError(Exception e) {
-        CrudsResult failure = new CrudsResult();
-        failure.setSuccess(false);
-        failure.getMessages().add(e.getMessage());
-        return failure;
     }
 }

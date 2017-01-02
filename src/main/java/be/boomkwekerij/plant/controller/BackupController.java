@@ -2,24 +2,27 @@ package be.boomkwekerij.plant.controller;
 
 import be.boomkwekerij.plant.service.BackupService;
 import be.boomkwekerij.plant.service.BackupServiceImpl;
+import be.boomkwekerij.plant.util.CrudsResult;
+
+import java.util.Collections;
 
 public class BackupController {
 
     private BackupService backupService = new BackupServiceImpl();
 
-    public void backup() {
+    public CrudsResult backup() {
         try {
-            backupService.backup();
+            return backupService.backup();
         } catch (Exception e) {
-            throw new IllegalArgumentException(e);
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
     }
 
-    public void restoreBackup() {
+    public CrudsResult restoreBackup() {
         try {
-            backupService.restoreBackup();
+            return backupService.restoreBackup();
         } catch (Exception e) {
-            throw new IllegalArgumentException(e);
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
     }
 }

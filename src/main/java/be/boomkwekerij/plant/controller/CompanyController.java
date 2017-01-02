@@ -4,8 +4,9 @@ import be.boomkwekerij.plant.model.dto.CompanyDTO;
 import be.boomkwekerij.plant.service.CompanyService;
 import be.boomkwekerij.plant.service.CompanyServiceImpl;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.ExceptionUtil;
 import be.boomkwekerij.plant.util.SearchResult;
+
+import java.util.Collections;
 
 public class CompanyController {
 
@@ -15,7 +16,7 @@ public class CompanyController {
         try {
             return companyService.createCompany(companyDTO);
         } catch (Exception e) {
-            return createCrudsError(e);
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
     }
 
@@ -23,7 +24,7 @@ public class CompanyController {
         try {
             return companyService.getCompany();
         } catch (Exception e) {
-            return createSearchError(e);
+            return new SearchResult<CompanyDTO>().error(Collections.singletonList(e.getMessage()));
         }
     }
 
@@ -31,21 +32,7 @@ public class CompanyController {
         try {
             return companyService.updateCompany(companyDTO);
         } catch (Exception e) {
-            return createCrudsError(e);
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-    }
-
-    private SearchResult<CompanyDTO> createSearchError(Exception e) {
-        SearchResult<CompanyDTO> failure = new SearchResult<CompanyDTO>();
-        failure.setSuccess(false);
-        failure.getMessages().add(e.getMessage());
-        return failure;
-    }
-
-    private CrudsResult createCrudsError(Exception e) {
-        CrudsResult failure = new CrudsResult();
-        failure.setSuccess(false);
-        failure.getMessages().add(e.getMessage());
-        return failure;
     }
 }

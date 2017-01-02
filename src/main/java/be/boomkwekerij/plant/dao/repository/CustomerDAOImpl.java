@@ -2,15 +2,17 @@ package be.boomkwekerij.plant.dao.repository;
 
 import be.boomkwekerij.plant.model.repository.Customer;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.ExceptionUtil;
-import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.SearchResult;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 public class CustomerDAOImpl implements CustomerDAO {
@@ -18,136 +20,108 @@ public class CustomerDAOImpl implements CustomerDAO {
     private static final String CUSTOMERS_DATA_URI = Initializer.getDataUri() + "/customers/";
 
     public SearchResult<Customer> get(String id) {
-        SearchResult<Customer> searchResult = new SearchResult<Customer>();
-
         try {
-            Unmarshaller unmarshaller = getUnMarshaller();
+            Unmarshaller unmarshaller = unmarshaller();
             Customer customer = (Customer) unmarshaller.unmarshal(new File(CUSTOMERS_DATA_URI + id + ".xml"));
 
-            searchResult.setSuccess(true);
-            searchResult.addResult(customer);
+            return new SearchResult<Customer>().success(Collections.singletonList(customer));
         } catch (Exception e) {
-            searchResult.setSuccess(false);
-            searchResult.addMessage(e.getMessage());
+            return new SearchResult<Customer>().error(Collections.singletonList(e.getMessage()));
         }
-
-        return searchResult;
     }
 
     public SearchResult<Customer> findAll() {
-        SearchResult<Customer> searchResult = new SearchResult<Customer>();
-
         try {
-            Unmarshaller unmarshaller = getUnMarshaller();
+            Unmarshaller unmarshaller = unmarshaller();
             File customerDirectory = new File(CUSTOMERS_DATA_URI);
             File[] customerFiles = customerDirectory.listFiles();
+
+            List<Customer> customers = new ArrayList<>();
             if (customerFiles != null) {
                 for (File customerFile : customerFiles) {
                     Customer customer = (Customer) unmarshaller.unmarshal(customerFile);
-                    searchResult.addResult(customer);
+                    customers.add(customer);
                 }
             }
-
-            searchResult.setSuccess(true);
+            return new SearchResult<Customer>().success(customers);
         } catch (Exception e) {
-            searchResult.setSuccess(false);
-            searchResult.addMessage(e.getMessage());
+            return new SearchResult<Customer>().error(Collections.singletonList(e.getMessage()));
         }
-
-        return searchResult;
     }
 
     public CrudsResult persist(Customer customer) {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             customer.setId(UUID.randomUUID().toString());
             File file = new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml");
             if (file.exists()) {
-                crudsResult.setSuccess(false);
-                crudsResult.addMessage("Customer already registered!");
+                return new CrudsResult().error(Collections.singletonList("Klant reeds geregistreerd"));
             } else {
-                Marshaller marshaller = getMarshaller();
+                Marshaller marshaller = marshaller();
                 marshaller.marshal(customer, new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml"));
 
-                crudsResult.setValue(customer.getId());
-                crudsResult.setSuccess(true);
+                return new CrudsResult().success(customer.getId());
             }
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
     public CrudsResult update(Customer customer) {
-        CrudsResult crudsResult = new CrudsResult();
-        crudsResult.setValue(customer.getId());
-
         try {
             File file = new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml");
             if (!file.exists()) {
-                crudsResult.setSuccess(false);
-                crudsResult.addMessage("Unknown customer!");
+                return new CrudsResult().error(Collections.singletonList("Onbekende klant"));
             } else {
-                Marshaller marshaller = getMarshaller();
+                Marshaller marshaller = marshaller();
                 marshaller.marshal(customer, new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml"));
 
-                crudsResult.setSuccess(true);
+                return new CrudsResult().success(customer.getId());
             }
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
     public CrudsResult delete(String id) {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             File customerFile = new File(CUSTOMERS_DATA_URI + id + ".xml");
             boolean deleted = customerFile.delete();
-            crudsResult.setSuccess(deleted);
-            crudsResult.setValue(id);
-        } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
-        }
 
-        return crudsResult;
+            if (deleted) {
+                return new CrudsResult().success(id);
+            }
+            return new CrudsResult().error(Collections.singletonList("Klant verwijderen mislukt"));
+        } catch (Exception e) {
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
+        }
     }
 
     public CrudsResult deleteAll() {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             File customerDirectory = new File(CUSTOMERS_DATA_URI);
             File[] customerFiles = customerDirectory.listFiles();
             if (customerFiles != null) {
                 for (File customerFile : customerFiles) {
                     boolean deleted = customerFile.delete();
-                    crudsResult.setSuccess(deleted);
+                    if (!deleted) {
+                        return new CrudsResult().error(Collections.singletonList("Klant verwijderen mislukt"));
+                    }
                 }
             }
+            return new CrudsResult().success();
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
-    private Marshaller getMarshaller() throws JAXBException {
+    private Marshaller marshaller() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         return marshaller;
     }
 
-    private Unmarshaller getUnMarshaller() throws JAXBException {
+    private Unmarshaller unmarshaller() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
         return jaxbContext.createUnmarshaller();
     }

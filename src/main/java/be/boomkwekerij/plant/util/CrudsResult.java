@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CrudsResult {
@@ -8,6 +9,23 @@ public class CrudsResult {
     private boolean success;
     private List<String> messages = new ArrayList<String>();
     private String value;
+
+    public CrudsResult success() {
+        this.success = true;
+        return this;
+    }
+
+    public CrudsResult success(String value) {
+        this.success = true;
+        this.value = value;
+        return this;
+    }
+
+    public CrudsResult error(List<String> messages) {
+        this.success = true;
+        this.messages = messages;
+        return this;
+    }
 
     public boolean isSuccess() {
         return success;

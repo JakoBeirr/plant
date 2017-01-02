@@ -11,6 +11,7 @@ import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.validator.SystemValidator;
 
+import java.util.Collections;
 import java.util.List;
 
 public class SystemServiceImpl implements SystemService {
@@ -22,88 +23,79 @@ public class SystemServiceImpl implements SystemService {
     private SystemValidator systemValidator = new SystemValidator();
 
     public CrudsResult createSystem(SystemDTO systemDTO) {
-        CrudsResult crudsResult = validateSystem(systemDTO);
-        if (crudsResult != null) {
-            return crudsResult;
+        CrudsResult validateResult = validateSystem(systemDTO);
+        if (validateResult.isError()) {
+            return validateResult;
         }
 
         System system = systemMapper.mapDTOToDAO(systemDTO);
-        crudsResult = systemDAO.persist(system);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult createResult = systemDAO.persist(system);
+        if (createResult.isSuccess()) {
             systemMemory.createSystem(system);
         }
-
-        return crudsResult;
+        return createResult;
     }
 
     public SearchResult<SystemDTO> getSystem() {
         SearchResult<System> searchResult = systemMemory.getSystem();
-
-        SearchResult<SystemDTO> customerSearchResult = new SearchResult<SystemDTO>();
-        customerSearchResult.setSuccess(searchResult.isSuccess());
-        customerSearchResult.setMessages(searchResult.getMessages());
-
         if (searchResult.isSuccess()) {
             System system = searchResult.getFirst();
             if (system != null) {
                 SystemDTO systemDTO = systemMapper.mapDAOToDTO(system);
-                customerSearchResult.addResult(systemDTO);
+                return new SearchResult<SystemDTO>().success(Collections.singletonList(systemDTO));
             }
         }
-
-        return customerSearchResult;
+        return new SearchResult<SystemDTO>().error(searchResult.getMessages());
     }
 
     public CrudsResult updateSystem(SystemDTO systemDTO) {
-        CrudsResult crudsResult = validateSystem(systemDTO);
-        if (crudsResult != null) {
-            return crudsResult;
+        CrudsResult validateResult = validateSystem(systemDTO);
+        if (validateResult.isError()) {
+            return validateResult;
         }
 
         System system = systemMapper.mapDTOToDAO(systemDTO);
-        crudsResult = systemDAO.update(system);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult updateResult = systemDAO.update(system);
+        if (updateResult.isSuccess()) {
             systemMemory.updateSystem(system);
         }
-
-        return crudsResult;
+        return updateResult;
     }
 
     public CrudsResult deleteSystem() {
-        CrudsResult crudsResult = systemDAO.delete();
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult deleteResult = systemDAO.delete();
+        if (deleteResult.isSuccess()) {
             systemMemory.deleteSystem();
         }
-
-        return crudsResult;
+        return deleteResult;
     }
 
     public String getNextInvoiceNumber() {
-        SearchResult<SystemDTO> systemSearchResult = getSystem();
-        if (systemSearchResult.isSuccess()) {
-            SystemDTO system = systemSearchResult.getFirst();
+        SearchResult<SystemDTO> searchResult = getSystem();
+        if (searchResult.isSuccess()) {
+            SystemDTO system = searchResult.getFirst();
             return system.getNextInvoiceNumber();
         }
-        return "";
+        throw new IllegalArgumentException("Systeem werd niet gevonden");
     }
 
     public void setNextInvoiceNumber(String invoiceNumber) {
-        String nextInvoiceNumber = getNextInvoiceNumber(invoiceNumber);
+        String nextInvoiceNumber = determineNextInvoiceNumber(invoiceNumber);
 
-        SearchResult<SystemDTO> systemSearchResult = getSystem();
-        if (systemSearchResult.isSuccess()) {
-            SystemDTO system = systemSearchResult.getFirst();
+        SearchResult<SystemDTO> searchResult = getSystem();
+        if (searchResult.isSuccess()) {
+            SystemDTO system = searchResult.getFirst();
             system.setNextInvoiceNumber(nextInvoiceNumber);
-            updateSystem(system);
+            CrudsResult updateResult = updateSystem(system);
+            if (updateResult.isError()) {
+                throw new IllegalArgumentException("Bewerken van volgend factuurnummer mislukt");
+            }
         }
     }
 
-    private String getNextInvoiceNumber(String invoiceNumber) {
+    private String determineNextInvoiceNumber(String invoiceNumber) {
         if (invoiceNumber.length() < 5) {
-            throw new IllegalArgumentException("InvoiceNumber moet minstens 5 tekens lang zijn");
+            throw new IllegalArgumentException("Factuurnummer moet minstens 5 tekens lang zijn");
         }
 
         String invoiceYear = invoiceNumber.substring(0,4);
@@ -118,11 +110,8 @@ public class SystemServiceImpl implements SystemService {
     private CrudsResult validateSystem(SystemDTO systemDTO) {
         List<String> validationResult = systemValidator.validate(systemDTO);
         if (validationResult.size() > 0) {
-            CrudsResult crudsResult = new CrudsResult();
-            crudsResult.setSuccess(false);
-            crudsResult.setMessages(validationResult);
-            return crudsResult;
+            return new CrudsResult().error(validationResult);
         }
-        return null;
+        return new CrudsResult().success();
     }
 }

@@ -11,6 +11,7 @@ import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.validator.CompanyValidator;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CompanyServiceImpl implements CompanyService {
@@ -22,73 +23,58 @@ public class CompanyServiceImpl implements CompanyService {
     private CompanyValidator companyValidator = new CompanyValidator();
 
     public CrudsResult createCompany(CompanyDTO companyDTO) {
-        CrudsResult crudsResult = validateCompany(companyDTO);
-        if (crudsResult != null) {
-            return crudsResult;
+        CrudsResult validateResult = validateCompany(companyDTO);
+        if (validateResult.isError()) {
+            return validateResult;
         }
 
         Company company = companyMapper.mapDTOToDAO(companyDTO);
-        crudsResult = companyDAO.persist(company);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult createResult = companyDAO.persist(company);
+        if (createResult.isSuccess()) {
             companyMemory.createCompany(company);
         }
-
-        return crudsResult;
+        return createResult;
     }
 
     public SearchResult<CompanyDTO> getCompany() {
         SearchResult<Company> searchResult = companyMemory.getCompany();
-
-        SearchResult<CompanyDTO> customerSearchResult = new SearchResult<CompanyDTO>();
-        customerSearchResult.setSuccess(searchResult.isSuccess());
-        customerSearchResult.setMessages(searchResult.getMessages());
-
         if (searchResult.isSuccess()) {
             Company company = searchResult.getFirst();
             if (company != null) {
                 CompanyDTO companyDTO = companyMapper.mapDAOToDTO(company);
-                customerSearchResult.addResult(companyDTO);
+                return new SearchResult<CompanyDTO>().success(Collections.singletonList(companyDTO));
             }
         }
-
-        return customerSearchResult;
+        return new SearchResult<CompanyDTO>().error(searchResult.getMessages());
     }
 
     public CrudsResult updateCompany(CompanyDTO companyDTO) {
-        CrudsResult crudsResult = validateCompany(companyDTO);
-        if (crudsResult != null) {
-            return crudsResult;
+        CrudsResult validateResult = validateCompany(companyDTO);
+        if (validateResult.isError()) {
+            return validateResult;
         }
 
         Company company = companyMapper.mapDTOToDAO(companyDTO);
-        crudsResult = companyDAO.update(company);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult updateResult = companyDAO.update(company);
+        if (updateResult.isSuccess()) {
             companyMemory.updateCompany(company);
         }
-
-        return crudsResult;
+        return updateResult;
     }
 
     public CrudsResult deleteCompany() {
-        CrudsResult crudsResult = companyDAO.delete();
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult deleteResult = companyDAO.delete();
+        if (deleteResult.isSuccess()) {
             companyMemory.deleteCompany();
         }
-
-        return crudsResult;
+        return deleteResult;
     }
 
     private CrudsResult validateCompany(CompanyDTO companyDTO) {
         List<String> validationResult = companyValidator.validate(companyDTO);
         if (validationResult.size() > 0) {
-            CrudsResult crudsResult = new CrudsResult();
-            crudsResult.setSuccess(false);
-            crudsResult.setMessages(validationResult);
-            return crudsResult;
+            return new CrudsResult().error(validationResult);
         }
-        return null;
+        return new CrudsResult().success(companyDTO.getName());
     }
 }

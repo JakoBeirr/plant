@@ -4,6 +4,7 @@ import be.boomkwekerij.plant.model.repository.Plant;
 import be.boomkwekerij.plant.util.SearchResult;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,45 +23,33 @@ public class PlantMemoryImpl implements PlantMemory {
     }
 
     public SearchResult<Plant> getPlant(String id) {
-        SearchResult<Plant> searchResult = new SearchResult<Plant>();
-
         if (id == null) {
-            searchResult.setSuccess(false);
-            searchResult.addMessage("Kon geen plant vinden voor id null!");
+            return new SearchResult<Plant>().error(Collections.singletonList("Kon geen plant vinden voor id null!"));
         } else {
-            searchResult.setSuccess(true);
             Plant plant = plants.get(id);
             if (plant != null) {
-                searchResult.addResult(plant);
+                return new SearchResult<Plant>().success(Collections.singletonList(plant));
             }
+            return new SearchResult<Plant>().error(Collections.singletonList("Onbekende plant"));
         }
-
-        return searchResult;
     }
 
     public SearchResult<Plant> getPlants() {
-        SearchResult<Plant> searchResult = new SearchResult<Plant>();
-        searchResult.setSuccess(true);
-        searchResult.setResults(new ArrayList<Plant>(plants.values()));
-        return searchResult;
+        return new SearchResult<Plant>().success(new ArrayList<Plant>(plants.values()));
     }
 
     public SearchResult<Plant> getPlants(String name) {
-        SearchResult<Plant> plantsWithName = new SearchResult<Plant>();
-
         if (name == null) {
-            plantsWithName.setSuccess(false);
-            plantsWithName.addMessage("Kon geen plant vinden voor name null!");
+            return new SearchResult<Plant>().error(Collections.singletonList("Kon geen plant vinden voor name null!"));
         } else {
-            plantsWithName.setSuccess(true);
+            List<Plant> plantsWithName = new ArrayList<>();
             for (Plant plant : plants.values()) {
                 if (plantNameStartsWith(plant, name)) {
-                    plantsWithName.addResult(plant);
+                    plantsWithName.add(plant);
                 }
             }
+            return new SearchResult<Plant>().success(plantsWithName);
         }
-
-        return plantsWithName;
     }
 
     private boolean plantNameStartsWith(Plant plant, String name) {

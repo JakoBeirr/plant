@@ -1,20 +1,10 @@
 package be.boomkwekerij.plant.mapper;
 
 import be.boomkwekerij.plant.model.dto.InvoiceLineDTO;
-import be.boomkwekerij.plant.model.dto.PlantDTO;
-import be.boomkwekerij.plant.model.report.InvoiceLineReportObject;
 import be.boomkwekerij.plant.model.repository.InvoiceLine;
-import be.boomkwekerij.plant.service.PlantService;
-import be.boomkwekerij.plant.service.PlantServiceImpl;
-import be.boomkwekerij.plant.util.DateFormatPattern;
-import be.boomkwekerij.plant.util.DateUtils;
-import be.boomkwekerij.plant.util.NumberUtils;
-import be.boomkwekerij.plant.util.SearchResult;
 import org.joda.time.DateTime;
 
 public class InvoiceLineMapper {
-
-    private PlantService plantService = new PlantServiceImpl();
 
     public InvoiceLine mapDTOToDAO(InvoiceLineDTO invoiceLineDTO) {
         InvoiceLine invoiceLine = new InvoiceLine();
@@ -58,19 +48,4 @@ public class InvoiceLineMapper {
     private double countBtwAmount(double totalPrice, double plantBtw) {
         return totalPrice * (plantBtw / 100);
     }
-
-    public InvoiceLineReportObject mapDTOToReportObject(InvoiceLineDTO invoiceLineDTO) {
-        InvoiceLineReportObject invoiceLineReportObject = new InvoiceLineReportObject();
-        invoiceLineReportObject.setInvoiceLineDate(DateUtils.formatDate(invoiceLineDTO.getDate(), DateFormatPattern.DATE_NOYEAR_FORMAT));
-        invoiceLineReportObject.setOrderNumber(invoiceLineDTO.getOrderNumber());
-        invoiceLineReportObject.setPlantAmount(invoiceLineDTO.getAmount());
-        invoiceLineReportObject.setPlantSpecies(invoiceLineDTO.getPlantName());
-        invoiceLineReportObject.setPlantAge(invoiceLineDTO.getPlantAge());
-        invoiceLineReportObject.setPlantMeasure(invoiceLineDTO.getPlantMeasure());
-        invoiceLineReportObject.setPrice(NumberUtils.formatDouble(invoiceLineDTO.getPlantPrice(), 2));
-        invoiceLineReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceLineDTO.getTotalPrice(), 2));
-        return invoiceLineReportObject;
-    }
-
-
 }

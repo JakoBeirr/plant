@@ -34,101 +34,98 @@ public class InvoiceServiceImpl implements InvoiceService {
     private CustomerService customerService = new CustomerServiceImpl();
 
     public CrudsResult createInvoice(InvoiceDTO invoiceDTO) {
-        CrudsResult crudsResult = validateInvoice(invoiceDTO);
-        if (crudsResult != null) {
-            return crudsResult;
+        CrudsResult validateResult = validateInvoice(invoiceDTO);
+        if (validateResult.isError()) {
+            return validateResult;
         }
 
         Invoice invoice = invoiceMapper.mapDTOToDAO(invoiceDTO);
-        crudsResult = invoiceDAO.persist(invoice);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult createResult = invoiceDAO.persist(invoice);
+        if (createResult.isSuccess()) {
             invoiceMemory.createInvoice(invoice);
-
             systemService.setNextInvoiceNumber(invoiceDTO.getInvoiceNumber());
         }
-
-        return crudsResult;
+        return createResult;
     }
 
     public SearchResult<InvoiceDTO> getInvoice(String id) {
         SearchResult<Invoice> searchResult = invoiceMemory.getInvoice(id);
-
-        SearchResult<InvoiceDTO> invoiceSearchResult = new SearchResult<InvoiceDTO>();
-        invoiceSearchResult.setSuccess(searchResult.isSuccess());
-        invoiceSearchResult.setMessages(searchResult.getMessages());
-
         if (searchResult.isSuccess()) {
             Invoice invoice = searchResult.getFirst();
             if (invoice != null) {
-                InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice);
+                SearchResult<CustomerDTO> customerSearchResult = customerService.getCustomer(invoice.getCustomerId());
+                if (customerSearchResult.isError()) {
+                    return new SearchResult<InvoiceDTO>().error(customerSearchResult.getMessages());
+                }
+                CustomerDTO customer = customerSearchResult.getFirst();
+
+                InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice, customer);
                 invoiceDTO.setDefaultBtw(getBtw(invoiceDTO.getCustomer()));
-                invoiceSearchResult.addResult(invoiceDTO);
+                return new SearchResult<InvoiceDTO>().success(Collections.singletonList(invoiceDTO));
             }
         }
-
-        return invoiceSearchResult;
+        return new SearchResult<InvoiceDTO>().error(searchResult.getMessages());
     }
 
     public SearchResult<InvoiceDTO> getAllInvoices() {
         SearchResult<Invoice> searchResult = invoiceMemory.getInvoices();
-
-        List<InvoiceDTO> allInvoices = new ArrayList<InvoiceDTO>();
         if (searchResult.isSuccess()) {
+            List<InvoiceDTO> allInvoices = new ArrayList<InvoiceDTO>();
             for (Invoice invoice : searchResult.getResults()) {
-                InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice);
+                SearchResult<CustomerDTO> customerSearchResult = customerService.getCustomer(invoice.getCustomerId());
+                if (customerSearchResult.isError()) {
+                    return new SearchResult<InvoiceDTO>().error(customerSearchResult.getMessages());
+                }
+                CustomerDTO customer = customerSearchResult.getFirst();
+
+                InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice, customer);
                 allInvoices.add(invoiceDTO);
             }
+            sortInvoicesByDate(allInvoices);
+            return new SearchResult<InvoiceDTO>().success(allInvoices);
         }
-
-        sortInvoicesByDate(allInvoices);
-
-        SearchResult<InvoiceDTO> allInvoicesSearchResult = new SearchResult<InvoiceDTO>();
-        allInvoicesSearchResult.setSuccess(searchResult.isSuccess());
-        allInvoicesSearchResult.setMessages(searchResult.getMessages());
-        allInvoicesSearchResult.setResults(allInvoices);
-        return allInvoicesSearchResult;
+        return new SearchResult<InvoiceDTO>().error(searchResult.getMessages());
     }
 
     public SearchResult<InvoiceDTO> getAllInvoices(String invoiceNumber) {
         SearchResult<Invoice> searchResult = invoiceMemory.getInvoices(invoiceNumber);
-
-        List<InvoiceDTO> allInvoicesWithInvoiceNumber = new ArrayList<InvoiceDTO>();
         if (searchResult.isSuccess()) {
+            List<InvoiceDTO> allInvoicesWithInvoiceNumber = new ArrayList<InvoiceDTO>();
             for (Invoice invoice : searchResult.getResults()) {
-                InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice);
+                SearchResult<CustomerDTO> customerSearchResult = customerService.getCustomer(invoice.getCustomerId());
+                if (customerSearchResult.isError()) {
+                    return new SearchResult<InvoiceDTO>().error(customerSearchResult.getMessages());
+                }
+                CustomerDTO customer = customerSearchResult.getFirst();
+
+                InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice, customer);
                 allInvoicesWithInvoiceNumber.add(invoiceDTO);
             }
+            sortInvoicesByDate(allInvoicesWithInvoiceNumber);
+            return new SearchResult<InvoiceDTO>().success(allInvoicesWithInvoiceNumber);
         }
-
-        sortInvoicesByDate(allInvoicesWithInvoiceNumber);
-
-        SearchResult<InvoiceDTO> allInvoicesWithNameSearchResult = new SearchResult<InvoiceDTO>();
-        allInvoicesWithNameSearchResult.setSuccess(searchResult.isSuccess());
-        allInvoicesWithNameSearchResult.setMessages(searchResult.getMessages());
-        allInvoicesWithNameSearchResult.setResults(allInvoicesWithInvoiceNumber);
-        return allInvoicesWithNameSearchResult;
+        return new SearchResult<InvoiceDTO>().error(searchResult.getMessages());
     }
 
     @Override
     public SearchResult<InvoiceDTO> getAllInvoicesFromCustomer(String customerId) {
         SearchResult<Invoice> searchResult = invoiceMemory.getInvoicesFromCustomer(customerId);
-
-        List<InvoiceDTO> allInvoicesFromCustomer = new ArrayList<InvoiceDTO>();
         if (searchResult.isSuccess()) {
+            List<InvoiceDTO> allInvoicesFromCustomer = new ArrayList<InvoiceDTO>();
             for (Invoice invoice : searchResult.getResults()) {
-                InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice);
+                SearchResult<CustomerDTO> customerSearchResult = customerService.getCustomer(invoice.getCustomerId());
+                if (customerSearchResult.isError()) {
+                    return new SearchResult<InvoiceDTO>().error(customerSearchResult.getMessages());
+                }
+                CustomerDTO customer = customerSearchResult.getFirst();
+
+                InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice, customer);
                 allInvoicesFromCustomer.add(invoiceDTO);
             }
+            sortInvoicesByDate(allInvoicesFromCustomer);
+            return new SearchResult<InvoiceDTO>().success(allInvoicesFromCustomer);
         }
-
-        sortInvoicesByDate(allInvoicesFromCustomer);
-
-        SearchResult<InvoiceDTO> allInvoicesFromCustomerSearchResult = new SearchResult<InvoiceDTO>();
-        allInvoicesFromCustomerSearchResult.setSuccess(searchResult.isSuccess());
-        allInvoicesFromCustomerSearchResult.setMessages(searchResult.getMessages());
-        allInvoicesFromCustomerSearchResult.setResults(allInvoicesFromCustomer);
-        return allInvoicesFromCustomerSearchResult;
+        return new SearchResult<InvoiceDTO>().error(searchResult.getMessages());
     }
 
     private void sortInvoicesByDate(List<InvoiceDTO> invoices) {
@@ -140,34 +137,29 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     public CrudsResult updateInvoice(InvoiceDTO invoiceDTO) {
-        CrudsResult crudsResult = validateInvoice(invoiceDTO);
-        if (crudsResult != null) {
-            return crudsResult;
+        CrudsResult validateResult = validateInvoice(invoiceDTO);
+        if (validateResult.isError()) {
+            return validateResult;
         }
 
         Invoice invoice = invoiceMapper.mapDTOToDAO(invoiceDTO);
-        crudsResult = invoiceDAO.update(invoice);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult updateResult = invoiceDAO.update(invoice);
+        if (updateResult.isSuccess()) {
             invoiceMemory.updateInvoice(invoice);
         }
-
-        return crudsResult;
+        return updateResult;
     }
 
     public CrudsResult deleteInvoice(String id) {
-        CrudsResult crudsResult = invoiceDAO.delete(id);
-
-        if (crudsResult.isSuccess()) {
+        CrudsResult deleteResult = invoiceDAO.delete(id);
+        if (deleteResult.isSuccess()) {
             invoiceMemory.deleteInvoice(id);
         }
-
-        return crudsResult;
+        return deleteResult;
     }
 
     public InvoiceDTO getNewInvoiceForCustomer(String customerId) {
         CustomerDTO customerDTO = getCustomer(customerId);
-
         InvoiceDTO invoiceDTO = new InvoiceDTO();
         invoiceDTO.setInvoiceNumber(systemService.getNextInvoiceNumber());
         invoiceDTO.setCustomer(customerDTO);
@@ -177,10 +169,10 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     private CustomerDTO getCustomer(String customerId) {
-        SearchResult<CustomerDTO> customerSearchResult = customerService.getCustomer(customerId);
-        if (customerSearchResult.isSuccess()) {
-            if (customerSearchResult.getResults().size() == 1) {
-                return customerSearchResult.getFirst();
+        SearchResult<CustomerDTO> searchResult = customerService.getCustomer(customerId);
+        if (searchResult.isSuccess()) {
+            if (searchResult.getResults().size() == 1) {
+                return searchResult.getFirst();
             }
         }
         throw new IllegalArgumentException("Could not find customer");
@@ -204,56 +196,43 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public CrudsResult payInvoice(String id, DateDTO dateDTO) {
-        CrudsResult crudsResult = new CrudsResult();
-
-        SearchResult<InvoiceDTO> invoiceResult = getInvoice(id);
-        if (invoiceResult.isSuccess()) {
-            InvoiceDTO invoice = invoiceResult.getFirst();
+        SearchResult<InvoiceDTO> searchResult = getInvoice(id);
+        if (searchResult.isSuccess()) {
+            InvoiceDTO invoice = searchResult.getFirst();
             invoice.setPayed(true);
             invoice.setPayDate(dateDTO.getPayDate());
-            CrudsResult updateInvoiceResult = updateInvoice(invoice);
-
-            crudsResult.setSuccess(updateInvoiceResult.isSuccess());
-            crudsResult.setMessages(updateInvoiceResult.getMessages());
-            crudsResult.setValue(updateInvoiceResult.getValue());
+            CrudsResult updateResult = updateInvoice(invoice);
+            if (updateResult.isSuccess()) {
+                return new CrudsResult().success(id);
+            }
+            return new CrudsResult().error(updateResult.getMessages());
         } else {
-            crudsResult.setSuccess(false);
-            crudsResult.setMessages(invoiceResult.getMessages());
+            return new CrudsResult().error(searchResult.getMessages());
         }
-
-        return crudsResult;
     }
 
     @Override
     public CrudsResult unPayInvoice(String id) {
-        CrudsResult crudsResult = new CrudsResult();
-
-        SearchResult<InvoiceDTO> invoiceResult = getInvoice(id);
-        if (invoiceResult.isSuccess()) {
-            InvoiceDTO invoice = invoiceResult.getFirst();
+        SearchResult<InvoiceDTO> searchResult = getInvoice(id);
+        if (searchResult.isSuccess()) {
+            InvoiceDTO invoice = searchResult.getFirst();
             invoice.setPayed(false);
             invoice.setPayDate(null);
-            CrudsResult updateInvoiceResult = updateInvoice(invoice);
-
-            crudsResult.setSuccess(updateInvoiceResult.isSuccess());
-            crudsResult.setMessages(updateInvoiceResult.getMessages());
-            crudsResult.setValue(updateInvoiceResult.getValue());
+            CrudsResult updateResult = updateInvoice(invoice);
+            if (updateResult.isSuccess()) {
+                return new CrudsResult().success(id);
+            }
+            return new CrudsResult().error(updateResult.getMessages());
         } else {
-            crudsResult.setSuccess(false);
-            crudsResult.setMessages(invoiceResult.getMessages());
+            return new CrudsResult().error(searchResult.getMessages());
         }
-
-        return crudsResult;
     }
 
     private CrudsResult validateInvoice(InvoiceDTO invoiceDTO) {
         List<String> validationResult = invoiceValidator.validate(invoiceDTO);
         if (validationResult.size() > 0) {
-            CrudsResult crudsResult = new CrudsResult();
-            crudsResult.setSuccess(false);
-            crudsResult.setMessages(validationResult);
-            return crudsResult;
+            return new CrudsResult().error(validationResult);
         }
-        return null;
+        return new CrudsResult().success(invoiceDTO.getId());
     }
 }

@@ -2,104 +2,84 @@ package be.boomkwekerij.plant.dao.repository;
 
 import be.boomkwekerij.plant.model.repository.System;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.ExceptionUtil;
-import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.SearchResult;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.util.Collections;
 
 public class SystemDAOImpl implements SystemDAO {
 
     private static final String SYSTEM_DATA_URI = Initializer.getDataUri() + "/system/";
 
     public SearchResult<System> get() {
-        SearchResult<System> searchResult = new SearchResult<System>();
-
         try {
-            Unmarshaller unmarshaller = getUnMarshaller();
+            Unmarshaller unmarshaller = unmarshaller();
             System system = (System) unmarshaller.unmarshal(new File(SYSTEM_DATA_URI + "system.xml"));
 
-            searchResult.setSuccess(true);
-            searchResult.addResult(system);
+            return new SearchResult<System>().success(Collections.singletonList(system));
         } catch (Exception e) {
-            searchResult.setSuccess(false);
-            searchResult.addMessage(e.getMessage());
+            return new SearchResult<System>().error(Collections.singletonList(e.getMessage()));
         }
-
-        return searchResult;
     }
 
     public CrudsResult persist(System system) {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             File file = new File(SYSTEM_DATA_URI + "system.xml");
             if (file.exists()) {
-                crudsResult.setSuccess(false);
-                crudsResult.addMessage("System already registered!");
+                return new CrudsResult().error(Collections.singletonList("Systeem reeds geregistreerd"));
             } else {
-                Marshaller marshaller = getMarshaller();
+                Marshaller marshaller = marshaller();
                 marshaller.marshal(system, new File(SYSTEM_DATA_URI + "system.xml"));
 
-                crudsResult.setSuccess(true);
+                return new CrudsResult().success(system.getNextInvoiceNumber());
             }
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
     public CrudsResult update(System system) {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             File file = new File(SYSTEM_DATA_URI + "system.xml");
             if (!file.exists()) {
-                crudsResult.setSuccess(false);
-                crudsResult.addMessage("Unknown system!");
+                return new CrudsResult().error(Collections.singletonList("Onbekend systeem"));
             } else {
-                Marshaller marshaller = getMarshaller();
+                Marshaller marshaller = marshaller();
                 marshaller.marshal(system, new File(SYSTEM_DATA_URI + "system.xml"));
 
-                crudsResult.setSuccess(true);
+                return new CrudsResult().success(system.getNextInvoiceNumber());
             }
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
     public CrudsResult delete() {
-        CrudsResult crudsResult = new CrudsResult();
-
         try {
             File systemFile = new File(SYSTEM_DATA_URI + "system.xml");
             boolean deleted = systemFile.delete();
-            crudsResult.setSuccess(deleted);
+            if (deleted) {
+                return new CrudsResult().success();
+            }
+            return new CrudsResult().error(Collections.singletonList("Systeem verwijderen mislukt"));
         } catch (Exception e) {
-            crudsResult.setSuccess(false);
-            crudsResult.addMessage(e.getMessage());
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }
-
-        return crudsResult;
     }
 
-    private Marshaller getMarshaller() throws JAXBException {
+    private Marshaller marshaller() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(System.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         return marshaller;
     }
 
-    private Unmarshaller getUnMarshaller() throws JAXBException {
+    private Unmarshaller unmarshaller() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(System.class);
         return jaxbContext.createUnmarshaller();
     }
