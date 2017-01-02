@@ -13,7 +13,7 @@ public class BackupServiceImpl implements BackupService {
     private static final String PLANT_DIRECTORY = "C:/plant";
     private static final String BACKUP_DIRECTORY = "C:/plant/backup";
 
-    public void backupDatabase() throws IOException {
+    public void backup() throws IOException {
         File sourceDirectory = new File(Initializer.getDataUri());
         File backupDirectory = createBackupFolder();
 

@@ -28,12 +28,12 @@ public class PlantModifyService {
 
     private TextField plantSearchField;
     private TableView<PlantViewModel> plantList;
-    private Button showModifyButton;
-    private GridPane modifyPane;
-    private TextField nameField;
-    private TextField ageField;
-    private TextField measureField;
-    private TextField priceField;
+    private Button showModifyPlantButton;
+    private GridPane modifyPlantPane;
+    private TextField name;
+    private TextField age;
+    private TextField measure;
+    private TextField price;
     private Button plantModifyButton;
 
     public final Service loadAllPlantsService = new Service() {
@@ -104,10 +104,10 @@ public class PlantModifyService {
                     }
 
                     PlantDTO plant = searchResult.getFirst();
-                    nameField.setText(plant.getName());
-                    ageField.setText(plant.getAge());
-                    measureField.setText(plant.getMeasure());
-                    priceField.setText(Double.toString(plant.getPrice()));
+                    name.setText(plant.getName());
+                    age.setText(plant.getAge());
+                    measure.setText(plant.getMeasure());
+                    price.setText(Double.toString(plant.getPrice()));
 
                     return null;
                 }
@@ -127,10 +127,10 @@ public class PlantModifyService {
 
                     PlantDTO plant = new PlantDTO();
                     plant.setId(selectedPlant.getId());
-                    plant.setName(nameField.getText());
-                    plant.setAge(ageField.getText());
-                    plant.setMeasure(measureField.getText());
-                    plant.setPrice(Double.parseDouble(priceField.getText()));
+                    plant.setName(name.getText());
+                    plant.setAge(age.getText());
+                    plant.setMeasure(measure.getText());
+                    plant.setPrice(Double.parseDouble(price.getText()));
                     CrudsResult modifyResult = plantController.updatePlant(plant);
                     if (modifyResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(modifyResult.getMessages().toArray()));
@@ -150,28 +150,28 @@ public class PlantModifyService {
         this.plantList = plantList;
     }
 
-    public void setShowModifyButton(Button showModifyButton) {
-        this.showModifyButton = showModifyButton;
+    public void setShowModifyPlantButton(Button showModifyPlantButton) {
+        this.showModifyPlantButton = showModifyPlantButton;
     }
 
-    public void setModifyPane(GridPane modifyPane) {
-        this.modifyPane = modifyPane;
+    public void setModifyPlantPane(GridPane modifyPlantPane) {
+        this.modifyPlantPane = modifyPlantPane;
     }
 
-    public void setNameField(TextField nameField) {
-        this.nameField = nameField;
+    public void setName(TextField name) {
+        this.name = name;
     }
 
-    public void setAgeField(TextField ageField) {
-        this.ageField = ageField;
+    public void setAge(TextField age) {
+        this.age = age;
     }
 
-    public void setMeasureField(TextField measureField) {
-        this.measureField = measureField;
+    public void setMeasure(TextField measure) {
+        this.measure = measure;
     }
 
-    public void setPriceField(TextField priceField) {
-        this.priceField = priceField;
+    public void setPrice(TextField price) {
+        this.price = price;
     }
 
     public void setPlantModifyButton(Button plantModifyButton) {
@@ -191,14 +191,14 @@ public class PlantModifyService {
                 .bind(modifyPlantService.runningProperty());
 
         initPlantModifyService.setOnSucceeded(serviceEvent -> {
-            showModifyButton.setDisable(true);
+            showModifyPlantButton.setDisable(true);
             plantList.setDisable(true);
             plantSearchField.setDisable(true);
-            modifyPane.setVisible(true);
+            modifyPlantPane.setVisible(true);
         });
         modifyPlantService.setOnSucceeded(serviceEvent -> {
-            showModifyButton.setDisable(false);
-            modifyPane.setVisible(false);
+            showModifyPlantButton.setDisable(false);
+            modifyPlantPane.setVisible(false);
             plantList.setDisable(false);
             plantSearchField.setDisable(false);
             plantList.getSelectionModel().clearSelection();
@@ -214,9 +214,9 @@ public class PlantModifyService {
     }
 
     private void initializeTextFields() {
-        nameField.setText("");
-        ageField.setText("");
-        measureField.setText("");
-        priceField.setText("0.0");
+        name.setText("");
+        age.setText("");
+        measure.setText("");
+        price.setText("0.0");
     }
 }

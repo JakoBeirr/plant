@@ -45,11 +45,8 @@ public class PlantCreateController implements PageController {
     }
 
     private void initNumericField() {
-        price.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                price.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
-            }
+        price.textProperty().addListener((observable, oldValue, newValue) -> {
+            price.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
         });
     }
 

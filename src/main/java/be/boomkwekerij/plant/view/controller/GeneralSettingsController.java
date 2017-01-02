@@ -17,6 +17,8 @@ public class GeneralSettingsController implements PageController {
     @FXML
     private TextField invoiceNumber;
     @FXML
+    private Button modifySystemButton;
+    @FXML
     private TextField name;
     @FXML
     private TextField address;
@@ -41,13 +43,12 @@ public class GeneralSettingsController implements PageController {
     @FXML
     private TextField btwNumber;
     @FXML
-    private Button modifySystemButton;
-    @FXML
     private Button modifyCompanyButton;
 
     @Override
     public void init(Pane root) {
         generalSettingsService.setInvoiceNumber(invoiceNumber);
+        generalSettingsService.setModifySystemButton(modifySystemButton);
         generalSettingsService.setName(name);
         generalSettingsService.setAddress(address);
         generalSettingsService.setTelephone(telephone);
@@ -60,7 +61,6 @@ public class GeneralSettingsController implements PageController {
         generalSettingsService.setIbanNetherlands(ibanNetherlands);
         generalSettingsService.setBicNetherlands(bicNetherlands);
         generalSettingsService.setBtwNumber(btwNumber);
-        generalSettingsService.setModifySystemButton(modifySystemButton);
         generalSettingsService.setModifyCompanyButton(modifyCompanyButton);
         generalSettingsService.init(root);
     }

@@ -46,20 +46,21 @@ public class InvoiceCreateService {
 
     private TextField customerSearchField;
     private TableView<CustomerViewModel> customerList;
-    private TextField plantSearchField;
-    private TableView<PlantViewModel> plantList;
+    private Button showCreateInvoiceButton;
+    private GridPane createInvoicePane;
     private TextField customer;
     private TextField invoiceNumber;
     private DatePicker invoiceDate;
-    private GridPane createInvoicePane;
-    private Button choosePlantButton;
+    private VBox invoiceLines;
+    private TextField plantSearchField;
+    private TableView<PlantViewModel> plantList;
     private Label chosenPlant;
+    private Button choosePlantButton;
     private TextField orderNumber;
     private DatePicker invoiceLineDate;
     private TextField invoiceLineBtw;
     private TextField amount;
     private TextField alternativePlantPrice;
-    private VBox createdInvoiceLines;
     private Button invoiceCreateButton;
 
     private InvoiceDTO newInvoice = null;
@@ -190,31 +191,6 @@ public class InvoiceCreateService {
         }
     };
 
-    public final Service createInvoiceLineService = new Service() {
-        @Override
-        protected Task createTask() {
-            return new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    updateTitle("Aanmaken factuurlijn");
-
-                    if (chosenPlant.getText().trim().isEmpty() || plantSearchField.getText().trim().isEmpty() || invoiceLineDate.getValue() == null || amount.getText().trim().isEmpty() || alternativePlantPrice.getText().trim().isEmpty()) {
-                        throw new IllegalArgumentException("Verplichte velden niet ingevuld");
-                    }
-
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            addInvoiceLine(chosenPlant.getText(), plantSearchField.getText(), orderNumber.getText(), invoiceLineDate.getValue(), amount.getText(), invoiceLineBtw.getText(), alternativePlantPrice.getText());
-                        }
-                    });
-
-                    return null;
-                }
-            };
-        }
-    };
-
     public final Service clearInvoiceLineService = new Service() {
         @Override
         protected Task createTask() {
@@ -234,6 +210,31 @@ public class InvoiceCreateService {
                             invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
                             invoiceLineBtw.setText(Double.toString(newInvoice.getDefaultBtw()));
                             plantSearchField.setDisable(false);
+                        }
+                    });
+
+                    return null;
+                }
+            };
+        }
+    };
+
+    public final Service createInvoiceLineService = new Service() {
+        @Override
+        protected Task createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    updateTitle("Aanmaken factuurlijn");
+
+                    if (chosenPlant.getText().trim().isEmpty() || plantSearchField.getText().trim().isEmpty() || invoiceLineDate.getValue() == null || amount.getText().trim().isEmpty() || alternativePlantPrice.getText().trim().isEmpty()) {
+                        throw new IllegalArgumentException("Verplichte velden niet ingevuld");
+                    }
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            addInvoiceLine(chosenPlant.getText(), plantSearchField.getText(), orderNumber.getText(), invoiceLineDate.getValue(), amount.getText(), invoiceLineBtw.getText(), alternativePlantPrice.getText());
                         }
                     });
 
@@ -263,7 +264,7 @@ public class InvoiceCreateService {
                     } else {
                         invoiceDTO.setDate(null);
                     }
-                    for (Node node : createdInvoiceLines.getChildren()) {
+                    for (Node node : invoiceLines.getChildren()) {
                         HBox createdInvoiceLine = (HBox) node;
                         ObservableList<Node> children = createdInvoiceLine.getChildren();
                         Label createdChosenPlant = (Label) children.get(0);
@@ -314,12 +315,12 @@ public class InvoiceCreateService {
         this.customerList = customerList;
     }
 
-    public void setPlantSearchField(TextField plantSearchField) {
-        this.plantSearchField = plantSearchField;
+    public void setShowCreateInvoiceButton(Button showCreateInvoiceButton) {
+        this.showCreateInvoiceButton = showCreateInvoiceButton;
     }
 
-    public void setPlantList(TableView<PlantViewModel> plantList) {
-        this.plantList = plantList;
+    public void setCreateInvoicePane(GridPane createInvoicePane) {
+        this.createInvoicePane = createInvoicePane;
     }
 
     public void setCustomer(TextField customer) {
@@ -334,16 +335,24 @@ public class InvoiceCreateService {
         this.invoiceDate = invoiceDate;
     }
 
-    public void setCreateInvoicePane(GridPane createInvoicePane) {
-        this.createInvoicePane = createInvoicePane;
+    public void setInvoiceLines(VBox invoiceLines) {
+        this.invoiceLines = invoiceLines;
     }
 
-    public void setChoosePlantButton(Button choosePlantButton) {
-        this.choosePlantButton = choosePlantButton;
+    public void setPlantSearchField(TextField plantSearchField) {
+        this.plantSearchField = plantSearchField;
+    }
+
+    public void setPlantList(TableView<PlantViewModel> plantList) {
+        this.plantList = plantList;
     }
 
     public void setChosenPlant(Label chosenPlant) {
         this.chosenPlant = chosenPlant;
+    }
+
+    public void setChoosePlantButton(Button choosePlantButton) {
+        this.choosePlantButton = choosePlantButton;
     }
 
     public void setOrderNumber(TextField orderNumber) {
@@ -366,10 +375,6 @@ public class InvoiceCreateService {
         this.alternativePlantPrice = alternativePlantPrice;
     }
 
-    public void setCreatedInvoiceLines(VBox createdInvoiceLines) {
-        this.createdInvoiceLines = createdInvoiceLines;
-    }
-
     public void setInvoiceCreateButton(Button invoiceCreateButton) {
         this.invoiceCreateButton = invoiceCreateButton;
     }
@@ -381,8 +386,8 @@ public class InvoiceCreateService {
                             .or(loadAllPlantsWithNameService.runningProperty()
                             .or(initInvoiceCreateService.runningProperty()
                             .or(choosePlantService.runningProperty()
-                            .or(createInvoiceLineService.runningProperty()
                             .or(clearInvoiceLineService.runningProperty()
+                            .or(createInvoiceLineService.runningProperty()
                             .or(createInvoiceService.runningProperty()))))))))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
@@ -391,6 +396,7 @@ public class InvoiceCreateService {
                 .bind(createInvoiceService.runningProperty());
 
         initInvoiceCreateService.setOnSucceeded(serviceEvent -> {
+            showCreateInvoiceButton.setDisable(true);
             customerList.setDisable(true);
             customerSearchField.setDisable(true);
             createInvoicePane.setVisible(true);
@@ -410,11 +416,12 @@ public class InvoiceCreateService {
             ServiceHandler.error(createInvoiceLineService);
         });
         createInvoiceService.setOnSucceeded(serviceEvent -> {
+            showCreateInvoiceButton.setDisable(false);
             customerList.setDisable(false);
             customerList.getSelectionModel().clearSelection();
             customerSearchField.setDisable(false);
             createInvoicePane.setVisible(false);
-            createdInvoiceLines.getChildren().clear();
+            invoiceLines.getChildren().clear();
             clearInvoiceLineService.restart();
 
             ServiceHandler.success(createInvoiceService);
@@ -452,7 +459,7 @@ public class InvoiceCreateService {
         deleteRow.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                createdInvoiceLines.getChildren().remove(invoiceLine);
+                invoiceLines.getChildren().remove(invoiceLine);
             }
         });
 
@@ -464,6 +471,6 @@ public class InvoiceCreateService {
         invoiceLine.getChildren().add(createdInvoiceLineBtw);
         invoiceLine.getChildren().add(createdPrice);
         invoiceLine.getChildren().add(deleteRow);
-        createdInvoiceLines.getChildren().add(invoiceLine);
+        invoiceLines.getChildren().add(invoiceLine);
     }
 }

@@ -2,13 +2,10 @@ package be.boomkwekerij.plant.view.controller;
 
 import be.boomkwekerij.plant.view.model.PlantViewModel;
 import be.boomkwekerij.plant.view.services.PlantModifyService;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -26,25 +23,17 @@ public class PlantModifyController implements PageController {
     @FXML
     private TableView<PlantViewModel> plantList;
     @FXML
-    private TableColumn<PlantViewModel, String> name;
+    private Button showModifyPlantButton;
     @FXML
-    private TableColumn<PlantViewModel, String> age;
+    private GridPane modifyPlantPane;
     @FXML
-    private TableColumn<PlantViewModel, String> measure;
+    private TextField name;
     @FXML
-    private TableColumn<PlantViewModel, Double> price;
+    private TextField age;
     @FXML
-    private Button showModifyButton;
+    private TextField measure;
     @FXML
-    private GridPane modifyPane;
-    @FXML
-    private TextField nameField;
-    @FXML
-    private TextField ageField;
-    @FXML
-    private TextField measureField;
-    @FXML
-    private TextField priceField;
+    private TextField price;
     @FXML
     private Button plantModifyButton;
 
@@ -54,12 +43,12 @@ public class PlantModifyController implements PageController {
     public void init(Pane root) {
         plantModifyService.setPlantSearchField(plantSearchField);
         plantModifyService.setPlantList(plantList);
-        plantModifyService.setShowModifyButton(showModifyButton);
-        plantModifyService.setModifyPane(modifyPane);
-        plantModifyService.setNameField(nameField);
-        plantModifyService.setAgeField(ageField);
-        plantModifyService.setMeasureField(measureField);
-        plantModifyService.setPriceField(priceField);
+        plantModifyService.setShowModifyPlantButton(showModifyPlantButton);
+        plantModifyService.setModifyPlantPane(modifyPlantPane);
+        plantModifyService.setName(name);
+        plantModifyService.setAge(age);
+        plantModifyService.setMeasure(measure);
+        plantModifyService.setPrice(price);
         plantModifyService.setPlantModifyButton(plantModifyButton);
         plantModifyService.init(root);
     }
@@ -73,37 +62,28 @@ public class PlantModifyController implements PageController {
     }
 
     private void addChangeListenerToSearchField() {
-        plantSearchField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue.length() >= 2) {
-                    plantModifyService.loadAllPlantsWithNameService.restart();
-                } else {
-                    plantModifyService.loadAllPlantsService.restart();
-                }
+        plantSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() >= 2) {
+                plantModifyService.loadAllPlantsWithNameService.restart();
+            } else {
+                plantModifyService.loadAllPlantsService.restart();
             }
         });
     }
 
     private void addChangeListenerToPlantList() {
-        plantList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PlantViewModel>() {
-            @Override
-            public void changed(ObservableValue<? extends PlantViewModel> observable, PlantViewModel oldValue, PlantViewModel newValue) {
-                showModifyButton.setVisible(newValue != null);
-            }
+        plantList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            showModifyPlantButton.setVisible(newValue != null);
         });
     }
 
     private void initNumericField() {
-        priceField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                priceField.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
-            }
+        price.textProperty().addListener((observable, oldValue, newValue) -> {
+            price.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
         });
     }
 
-    public void showModify(ActionEvent actionEvent) {
+    public void showModifyPlant(ActionEvent actionEvent) {
         plantModifyService.initPlantModifyService.restart();
     }
 

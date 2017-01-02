@@ -12,42 +12,42 @@
 
             <TableView fx:id="customerList" fixedCellSize="25" maxWidth="1177" prefHeight="150">
                 <columns>
-                    <TableColumn fx:id="name1" text="Naam 1" prefWidth="200">
+                    <TableColumn id="name1Column" text="Naam 1" prefWidth="200">
                         <cellValueFactory>
                             <PropertyValueFactory property="name1" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="name2" text="Naam 2" prefWidth="200">
+                    <TableColumn id="name2Column" text="Naam 2" prefWidth="200">
                         <cellValueFactory>
                             <PropertyValueFactory property="name2" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="address1" text="Adres" prefWidth="250">
+                    <TableColumn id="address1Column" text="Adres" prefWidth="250">
                         <cellValueFactory>
                             <PropertyValueFactory property="address1" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="postalCode" text="Postcode" prefWidth="75">
+                    <TableColumn id="postalCodeColumn" text="Postcode" prefWidth="75">
                         <cellValueFactory>
                             <PropertyValueFactory property="postalCode" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="residence" text="Woonplaats" prefWidth="150">
+                    <TableColumn id="residenceColumn" text="Woonplaats" prefWidth="150">
                         <cellValueFactory>
                             <PropertyValueFactory property="residence" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="country" text="Land" prefWidth="50">
+                    <TableColumn id="countryColumn" text="Land" prefWidth="50">
                         <cellValueFactory>
                             <PropertyValueFactory property="country" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="telephone" text="Telefoon" prefWidth="100">
+                    <TableColumn id="telephoneColumnd" text="Telefoon" prefWidth="100">
                         <cellValueFactory>
                             <PropertyValueFactory property="telephone" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="btwNumber" text="BTW nummer" prefWidth="150">
+                    <TableColumn id="btwNumberColumn" text="BTW nummer" prefWidth="150">
                         <cellValueFactory>
                             <PropertyValueFactory property="btwNumber" />
                         </cellValueFactory>
@@ -55,44 +55,44 @@
                 </columns>
             </TableView>
 
-            <Button fx:id="showModifyButton" mnemonicParsing="false" text="Bewerken" onAction="#showModify" visible="false" styleClass="blue-button" />
+            <Button fx:id="showModifyCustomerButton" mnemonicParsing="false" text="Bewerken" onAction="#showModifyCustomer" visible="false" styleClass="blue-button" />
 
-            <GridPane fx:id="modifyPane" visible="false" hgap="10" vgap="5" styleClass="modifyPane">
+            <GridPane fx:id="modifyCustomerPane" visible="false" hgap="10" vgap="5" styleClass="modifyPane">
                 <Label id="labelName1" text="Naam 1*:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField fx:id="name1Field" prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <TextField fx:id="name1" prefColumnCount="30" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                 <Label id="labelName2" text="Naam 2:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <TextField fx:id="name2Field" prefColumnCount="30" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <TextField fx:id="name2" prefColumnCount="30" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                 <Label id="labelAddress1" text="Adres 1*:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <TextField fx:id="address1Field" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <TextField fx:id="address1" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
                 <Label id="labelAddress2" text="Adres 2:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                <TextField fx:id="address2Field" prefColumnCount="30" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <TextField fx:id="address2" prefColumnCount="30" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
                 <Label id="labelPostalCode" text="Postcode*:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                <TextField fx:id="postalCodeField" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                <TextField fx:id="postalCode" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
                 <Label id="labelResidence" text="Woonplaats*:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                <TextField fx:id="residenceField" prefColumnCount="30" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                <TextField fx:id="residence" prefColumnCount="30" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
                 <Label id="labelCountry" text="Land*:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                <TextField fx:id="countryField" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                <TextField fx:id="country" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
 
                 <Label id="labelTelephone" text="Telefoon:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-                <TextField fx:id="telephoneField" prefColumnCount="30" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                <TextField fx:id="telephone" prefColumnCount="30" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
 
                 <Label id="labelGsm" text="GSM:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-                <TextField fx:id="gsmField" prefColumnCount="30" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+                <TextField fx:id="gsm" prefColumnCount="30" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
 
                 <Label id="labelFax" text="Fax:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
-                <TextField fx:id="faxField" prefColumnCount="30" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+                <TextField fx:id="fax" prefColumnCount="30" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
 
                 <Label id="labelBtwNumber" text="BTW nummer:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
-                <TextField fx:id="btwNumberField" prefColumnCount="30" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+                <TextField fx:id="btwNumber" prefColumnCount="30" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
 
                 <Label id="labelEmailAddress" text="E-mailadres:" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
-                <TextField fx:id="emailAddressField" prefColumnCount="30" GridPane.rowIndex="11" GridPane.columnIndex="1"/>
+                <TextField fx:id="emailAddress" prefColumnCount="30" GridPane.rowIndex="11" GridPane.columnIndex="1"/>
 
                 <Label id="labelEmptyRow" text="" GridPane.rowIndex="12" />
 

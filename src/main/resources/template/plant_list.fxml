@@ -12,22 +12,22 @@
 
             <TableView fx:id="plantList" fixedCellSize="25" maxWidth="552" prefHeight="450">
                 <columns>
-                    <TableColumn fx:id="name" text="Naam" prefWidth="250">
+                    <TableColumn id="nameColumn" text="Naam" prefWidth="250">
                         <cellValueFactory>
                             <PropertyValueFactory property="name" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="age" text="Leeftijd" prefWidth="100">
+                    <TableColumn id="ageColumn" text="Leeftijd" prefWidth="100">
                         <cellValueFactory>
                             <PropertyValueFactory property="age" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="measure" text="Maat" prefWidth="100">
+                    <TableColumn id="measureColumn" text="Maat" prefWidth="100">
                         <cellValueFactory>
                             <PropertyValueFactory property="measure" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="price" text="Prijs" prefWidth="75">
+                    <TableColumn id="priceColumn" text="Prijs" prefWidth="75">
                         <cellValueFactory>
                             <PropertyValueFactory property="price" />
                         </cellValueFactory>

@@ -7,15 +7,15 @@ public class BackupController {
 
     private BackupService backupService = new BackupServiceImpl();
 
-    public void backupDatabase() {
+    public void backup() {
         try {
-            backupService.backupDatabase();
+            backupService.backup();
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
     }
 
-    public void restoreBackupDatabase() {
+    public void restoreBackup() {
         try {
             backupService.restoreBackup();
         } catch (Exception e) {

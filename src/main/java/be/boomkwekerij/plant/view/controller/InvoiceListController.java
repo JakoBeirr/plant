@@ -3,8 +3,6 @@ package be.boomkwekerij.plant.view.controller;
 import be.boomkwekerij.plant.model.dto.DateDTO;
 import be.boomkwekerij.plant.view.model.InvoiceViewModel;
 import be.boomkwekerij.plant.view.services.InvoiceListService;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -27,19 +25,9 @@ public class InvoiceListController implements PageController {
     @FXML
     private TableView<InvoiceViewModel> invoiceList;
     @FXML
-    private TableColumn<InvoiceViewModel, String> customerName;
+    private Button payInvoiceButton;
     @FXML
-    private TableColumn<InvoiceViewModel, String> invoiceNumber;
-    @FXML
-    private TableColumn<InvoiceViewModel, String> date;
-    @FXML
-    private TableColumn<InvoiceViewModel, Double> totalPrice;
-    @FXML
-    private TableColumn<InvoiceViewModel, Boolean> payed;
-    @FXML
-    private Button payButton;
-    @FXML
-    private Button unPayButton;
+    private Button unPayInvoiceButton;
     @FXML
     private Button printInvoiceButton;
     @FXML
@@ -51,8 +39,8 @@ public class InvoiceListController implements PageController {
     public void init(Pane root) {
         invoiceListService.setInvoiceSearchField(invoiceSearchField);
         invoiceListService.setInvoiceList(invoiceList);
-        invoiceListService.setPayButton(payButton);
-        invoiceListService.setUnPayButton(unPayButton);
+        invoiceListService.setPayInvoiceButton(payInvoiceButton);
+        invoiceListService.setUnPayInvoiceButton(unPayInvoiceButton);
         invoiceListService.setPrintInvoiceButton(printInvoiceButton);
         invoiceListService.setPrintSellingConditionsButton(printSellingConditionsButton);
         invoiceListService.setDeleteInvoiceButton(deleteInvoiceButton);
@@ -67,41 +55,35 @@ public class InvoiceListController implements PageController {
     }
 
     private void addChangeListenerToField() {
-        invoiceSearchField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue.length() > 2) {
-                    invoiceListService.loadAllInvoicesWithNumberService.restart();
-                } else {
-                    invoiceListService.loadAllInvoicesService.restart();
-                }
+        invoiceSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 2) {
+                invoiceListService.loadAllInvoicesWithNumberService.restart();
+            } else {
+                invoiceListService.loadAllInvoicesService.restart();
             }
         });
     }
 
     private void addChangeListenersToList() {
-        invoiceList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<InvoiceViewModel>() {
-            @Override
-            public void changed(ObservableValue<? extends InvoiceViewModel> observable, InvoiceViewModel oldValue, InvoiceViewModel newValue) {
-                if (newValue != null) {
-                    payButton.setVisible(!newValue.getPayed());
-                    payButton.setManaged(!newValue.getPayed());
-                    unPayButton.setVisible(newValue.getPayed());
-                    unPayButton.setManaged(newValue.getPayed());
-                    printInvoiceButton.setVisible(true);
-                    printInvoiceButton.setManaged(true);
-                    deleteInvoiceButton.setVisible(true);
-                    deleteInvoiceButton.setManaged(true);
-                } else {
-                    payButton.setVisible(false);
-                    payButton.setManaged(false);
-                    unPayButton.setVisible(false);
-                    unPayButton.setManaged(false);
-                    printInvoiceButton.setVisible(false);
-                    printInvoiceButton.setManaged(false);
-                    deleteInvoiceButton.setVisible(false);
-                    deleteInvoiceButton.setManaged(false);
-                }
+        invoiceList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                payInvoiceButton.setVisible(!newValue.getPayed());
+                payInvoiceButton.setManaged(!newValue.getPayed());
+                unPayInvoiceButton.setVisible(newValue.getPayed());
+                unPayInvoiceButton.setManaged(newValue.getPayed());
+                printInvoiceButton.setVisible(true);
+                printInvoiceButton.setManaged(true);
+                deleteInvoiceButton.setVisible(true);
+                deleteInvoiceButton.setManaged(true);
+            } else {
+                payInvoiceButton.setVisible(false);
+                payInvoiceButton.setManaged(false);
+                unPayInvoiceButton.setVisible(false);
+                unPayInvoiceButton.setManaged(false);
+                printInvoiceButton.setVisible(false);
+                printInvoiceButton.setManaged(false);
+                deleteInvoiceButton.setVisible(false);
+                deleteInvoiceButton.setManaged(false);
             }
         });
     }

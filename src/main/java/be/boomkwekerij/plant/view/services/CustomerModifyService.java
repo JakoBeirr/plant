@@ -28,8 +28,8 @@ public class CustomerModifyService {
 
     private TextField customerSearchField;
     private TableView<CustomerViewModel> customerList;
-    private Button showModifyButton;
-    private GridPane modifyPane;
+    private Button showModifyCustomerButton;
+    private GridPane modifyCustomerPane;
     private TextField name1;
     private TextField name2;
     private TextField address1;
@@ -174,12 +174,12 @@ public class CustomerModifyService {
         this.customerList = customerList;
     }
 
-    public void setShowModifyButton(Button showModifyButton) {
-        this.showModifyButton = showModifyButton;
+    public void setShowModifyCustomerButton(Button showModifyCustomerButton) {
+        this.showModifyCustomerButton = showModifyCustomerButton;
     }
 
-    public void setModifyPane(GridPane modifyPane) {
-        this.modifyPane = modifyPane;
+    public void setModifyCustomerPane(GridPane modifyCustomerPane) {
+        this.modifyCustomerPane = modifyCustomerPane;
     }
 
     public void setName1(TextField name1) {
@@ -247,14 +247,14 @@ public class CustomerModifyService {
                 .bind(modifyCustomerService.runningProperty());
 
         initCustomerModifyService.setOnSucceeded(serviceEvent -> {
-            showModifyButton.setDisable(true);
+            showModifyCustomerButton.setDisable(true);
             customerList.setDisable(true);
             customerSearchField.setDisable(true);
-            modifyPane.setVisible(true);
+            modifyCustomerPane.setVisible(true);
         });
         modifyCustomerService.setOnSucceeded(serviceEvent -> {
-            showModifyButton.setDisable(false);
-            modifyPane.setVisible(false);
+            showModifyCustomerButton.setDisable(false);
+            modifyCustomerPane.setVisible(false);
             customerList.setDisable(false);
             customerSearchField.setDisable(false);
             customerList.getSelectionModel().clearSelection();

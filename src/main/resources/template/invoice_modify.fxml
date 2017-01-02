@@ -13,27 +13,27 @@
 
             <TableView fx:id="invoiceList" fixedCellSize="25" maxWidth="702" prefHeight="150">
                 <columns>
-                    <TableColumn fx:id="customerName" text="Klant" prefWidth="250">
+                    <TableColumn id="customerNameColumn" text="Klant" prefWidth="250">
                         <cellValueFactory>
                             <PropertyValueFactory property="customerName" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="invoiceNumber" text="Factuurnummer" prefWidth="150">
+                    <TableColumn id="invoiceNumberColumn" text="Factuurnummer" prefWidth="150">
                         <cellValueFactory>
                             <PropertyValueFactory property="invoiceNumber" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="date" text="Datum" prefWidth="100">
+                    <TableColumn id="dateColumn" text="Datum" prefWidth="100">
                         <cellValueFactory>
                             <PropertyValueFactory property="date" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="totalPrice" text="Totaal" prefWidth="100">
+                    <TableColumn id="totalPriceColumn" text="Totaal" prefWidth="100">
                         <cellValueFactory>
                             <PropertyValueFactory property="totalPrice" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="payed" text="Betaald" prefWidth="100">
+                    <TableColumn id="payedColumn" text="Betaald" prefWidth="100">
                         <cellValueFactory>
                             <PropertyValueFactory property="payed" />
                         </cellValueFactory>
@@ -42,23 +42,23 @@
                 </columns>
             </TableView>
 
-            <Button fx:id="showModifyButton" mnemonicParsing="false" text="Bewerk factuur" onAction="#showModify" visible="false" styleClass="blue-button" />
+            <Button fx:id="showModifyInvoiceButton" mnemonicParsing="false" text="Bewerk factuur" onAction="#showModifyInvoice" visible="false" styleClass="blue-button" />
 
             <GridPane fx:id="modifyInvoicePane" styleClass="modifyPane" visible="false" hgap="10" vgap="10">
                 <Label id="labelCustomer" text="Klant:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="customer" disable="true" prefColumnCount="30" GridPane.fillWidth="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                 <Label id="labelInvoiceNumber" text="Factuurnummer:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <TextField fx:id="invoiceNumberField" disable="true" prefColumnCount="30" GridPane.fillWidth="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <TextField fx:id="invoiceNumber" disable="true" prefColumnCount="30" GridPane.fillWidth="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                 <Label id="labelInvoiceDate" text="Datum:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <DatePicker fx:id="invoiceDate" GridPane.rowIndex="2" GridPane.fillWidth="false" GridPane.columnIndex="1"/>
 
                 <Label fx:id="labelInvoiceLinesList" text="Factuurlijnen:" GridPane.valignment="TOP" visible="false" managed="false" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                <VBox fx:id="createdInvoiceLines" spacing="5" visible="false" managed="false" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                <VBox fx:id="invoiceLines" spacing="5" visible="false" managed="false" GridPane.rowIndex="3" GridPane.columnIndex="1">
                 </VBox>
 
-                <Label fx:id="labelInvoiceLinesCreate" text="Factuurlijnen:" GridPane.valignment="TOP" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <Label fx:id="labelInvoiceLine" text="Factuurlijnen:" GridPane.valignment="TOP" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
                 <HBox spacing="5" GridPane.fillWidth="false" GridPane.rowIndex="4" GridPane.columnIndex="1">
                     <VBox spacing="5">
                         <Label text="Plant:" />
@@ -67,22 +67,22 @@
 
                         <TableView fx:id="plantList" visible="false" managed="false" fixedCellSize="25" maxWidth="527" prefHeight="135">
                             <columns>
-                                <TableColumn fx:id="name" text="Naam" prefWidth="250">
+                                <TableColumn id="nameColumn" text="Naam" prefWidth="250">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="name" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="age" text="Leeftijd" prefWidth="100">
+                                <TableColumn id="ageColumn" text="Leeftijd" prefWidth="100">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="age" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="measure" text="Maat" prefWidth="100">
+                                <TableColumn id="measureColumn" text="Maat" prefWidth="100">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="measure" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="price" text="Prijs" prefWidth="75">
+                                <TableColumn id="priceColumn" text="Prijs" prefWidth="75">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="price" />
                                     </cellValueFactory>

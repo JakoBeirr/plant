@@ -12,42 +12,42 @@
 
             <TableView fx:id="customerList" fixedCellSize="25" maxWidth="1177" prefHeight="450">
                 <columns>
-                    <TableColumn fx:id="name1" text="Naam 1" prefWidth="200">
+                    <TableColumn id="name1Column" text="Naam 1" prefWidth="200">
                         <cellValueFactory>
                             <PropertyValueFactory property="name1" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="name2" text="Naam 2" prefWidth="200">
+                    <TableColumn id="name2Column" text="Naam 2" prefWidth="200">
                         <cellValueFactory>
                             <PropertyValueFactory property="name2" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="address1" text="Adres" prefWidth="250">
+                    <TableColumn id="address1Column" text="Adres" prefWidth="250">
                         <cellValueFactory>
                             <PropertyValueFactory property="address1" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="postalCode" text="Postcode" prefWidth="75">
+                    <TableColumn id="postalCodeColumn" text="Postcode" prefWidth="75">
                         <cellValueFactory>
                             <PropertyValueFactory property="postalCode" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="residence" text="Woonplaats" prefWidth="150">
+                    <TableColumn id="residenceColumn" text="Woonplaats" prefWidth="150">
                         <cellValueFactory>
                             <PropertyValueFactory property="residence" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="country" text="Land" prefWidth="50">
+                    <TableColumn id="countryColumn" text="Land" prefWidth="50">
                         <cellValueFactory>
                             <PropertyValueFactory property="country" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="telephone" text="Telefoon" prefWidth="100">
+                    <TableColumn id="telephoneColumn" text="Telefoon" prefWidth="100">
                         <cellValueFactory>
                             <PropertyValueFactory property="telephone" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="btwNumber" text="BTW nummer" prefWidth="150">
+                    <TableColumn id="btwNumberColumn" text="BTW nummer" prefWidth="150">
                         <cellValueFactory>
                             <PropertyValueFactory property="btwNumber" />
                         </cellValueFactory>

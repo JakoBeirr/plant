@@ -62,14 +62,11 @@ public class MenuController implements Initializable {
     }
 
     private EventHandler<ActionEvent> changeTab(String tab) {
-        return new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    applicationLoader.reload(tab);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        return event -> {
+            try {
+                applicationLoader.reload(tab);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         };
     }

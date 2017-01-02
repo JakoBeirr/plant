@@ -2,12 +2,9 @@ package be.boomkwekerij.plant.view.controller;
 
 import be.boomkwekerij.plant.view.model.PlantViewModel;
 import be.boomkwekerij.plant.view.services.PlantListService;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -23,14 +20,6 @@ public class PlantListController implements PageController {
     private TextField plantSearchField;
     @FXML
     private TableView<PlantViewModel> plantList;
-    @FXML
-    private TableColumn<PlantViewModel, String> name;
-    @FXML
-    private TableColumn<PlantViewModel, String> age;
-    @FXML
-    private TableColumn<PlantViewModel, String> measure;
-    @FXML
-    private TableColumn<PlantViewModel, Double> price;
     @FXML
     private Button plantDetailsButton;
     @FXML
@@ -53,25 +42,19 @@ public class PlantListController implements PageController {
     }
 
     private void addChangeListenerToSearchField() {
-        plantSearchField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue.length() >= 2) {
-                    plantListService.loadAllPlantsWithNameService.restart();
-                } else {
-                    plantListService.loadAllPlantsService.restart();
-                }
+        plantSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() >= 2) {
+                plantListService.loadAllPlantsWithNameService.restart();
+            } else {
+                plantListService.loadAllPlantsService.restart();
             }
         });
     }
 
     private void addChangeListenerToPlantList() {
-        plantList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PlantViewModel>() {
-            @Override
-            public void changed(ObservableValue<? extends PlantViewModel> observable, PlantViewModel oldValue, PlantViewModel newValue) {
-                plantDetailsButton.setVisible(newValue != null);
-                plantDeleteButton.setVisible(newValue != null);
-            }
+        plantList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            plantDetailsButton.setVisible(newValue != null);
+            plantDeleteButton.setVisible(newValue != null);
         });
     }
 

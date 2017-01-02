@@ -22,6 +22,7 @@ public class GeneralSettingsService {
     private CompanyController companyController = new CompanyController();
 
     private TextField invoiceNumber;
+    private Button modifySystemButton;
     private TextField name;
     private TextField address;
     private TextField telephone;
@@ -34,7 +35,6 @@ public class GeneralSettingsService {
     private TextField ibanNetherlands;
     private TextField bicNetherlands;
     private TextField btwNumber;
-    private Button modifySystemButton;
     private Button modifyCompanyButton;
 
     public final Service initializeSystemService = new Service() {
@@ -154,6 +154,10 @@ public class GeneralSettingsService {
         this.invoiceNumber = invoiceNumber;
     }
 
+    public void setModifySystemButton(Button modifySystemButton) {
+        this.modifySystemButton = modifySystemButton;
+    }
+
     public void setName(TextField name) {
         this.name = name;
     }
@@ -200,10 +204,6 @@ public class GeneralSettingsService {
 
     public void setBtwNumber(TextField btwNumber) {
         this.btwNumber = btwNumber;
-    }
-
-    public void setModifySystemButton(Button modifySystemButton) {
-        this.modifySystemButton = modifySystemButton;
     }
 
     public void setModifyCompanyButton(Button modifyCompanyButton) {

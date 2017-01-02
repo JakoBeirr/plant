@@ -28,8 +28,8 @@ public class InvoiceListService {
 
     private TextField invoiceSearchField;
     private TableView<InvoiceViewModel> invoiceList;
-    private Button payButton;
-    private Button unPayButton;
+    private Button payInvoiceButton;
+    private Button unPayInvoiceButton;
     private Button printInvoiceButton;
     private Button printSellingConditionsButton;
     private Button deleteInvoiceButton;
@@ -199,12 +199,12 @@ public class InvoiceListService {
         this.invoiceList = invoiceList;
     }
 
-    public void setPayButton(Button payButton) {
-        this.payButton = payButton;
+    public void setPayInvoiceButton(Button payInvoiceButton) {
+        this.payInvoiceButton = payInvoiceButton;
     }
 
-    public void setUnPayButton(Button unPayButton) {
-        this.unPayButton = unPayButton;
+    public void setUnPayInvoiceButton(Button unPayInvoiceButton) {
+        this.unPayInvoiceButton = unPayInvoiceButton;
     }
 
     public void setPrintInvoiceButton(Button printInvoiceButton) {
@@ -235,9 +235,9 @@ public class InvoiceListService {
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
-        payButton.disableProperty()
+        payInvoiceButton.disableProperty()
                 .bind(payInvoiceService.runningProperty());
-        unPayButton.disableProperty()
+        unPayInvoiceButton.disableProperty()
                 .bind(unPayInvoiceService.runningProperty());
         printInvoiceButton.disableProperty()
                 .bind(printInvoiceService.runningProperty());

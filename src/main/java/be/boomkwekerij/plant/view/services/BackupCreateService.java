@@ -23,7 +23,7 @@ public class BackupCreateService {
                 protected Void call() throws Exception {
                     updateTitle("Maken backup");
 
-                    backupController.backupDatabase();
+                    backupController.backup();
 
                     return null;
                 }
@@ -39,7 +39,7 @@ public class BackupCreateService {
                 protected Void call() throws Exception {
                     updateTitle("Herstellen backup");
 
-                    backupController.restoreBackupDatabase();
+                    backupController.restoreBackup();
 
                     return null;
                 }

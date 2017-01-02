@@ -3,8 +3,6 @@ package be.boomkwekerij.plant.view.controller;
 import be.boomkwekerij.plant.view.model.CustomerViewModel;
 import be.boomkwekerij.plant.view.model.PlantViewModel;
 import be.boomkwekerij.plant.view.services.InvoiceCreateService;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -27,23 +25,7 @@ public class InvoiceCreateController implements PageController {
     @FXML
     private TableView<CustomerViewModel> customerList;
     @FXML
-    private TableColumn<CustomerViewModel, String> name1;
-    @FXML
-    private TableColumn<CustomerViewModel, String> name2;
-    @FXML
-    private TableColumn<CustomerViewModel, String> address1;
-    @FXML
-    private TableColumn<CustomerViewModel, String> postalCode;
-    @FXML
-    private TableColumn<CustomerViewModel, String> residence;
-    @FXML
-    private TableColumn<CustomerViewModel, String> country;
-    @FXML
-    private TableColumn<CustomerViewModel, String> telephone;
-    @FXML
-    private TableColumn<CustomerViewModel, String> btwNumber;
-    @FXML
-    private Button startCreateInvoiceButton;
+    private Button showCreateInvoiceButton;
     @FXML
     private GridPane createInvoicePane;
     @FXML
@@ -53,11 +35,19 @@ public class InvoiceCreateController implements PageController {
     @FXML
     private DatePicker invoiceDate;
     @FXML
-    private VBox createdInvoiceLines;
-    @FXML
     private Label labelInvoiceLinesList;
     @FXML
-    private Label labelInvoiceLinesCreate;
+    private VBox invoiceLines;
+    @FXML
+    private Label labelInvoiceLine;
+    @FXML
+    private TextField plantSearchField;
+    @FXML
+    private TableView<PlantViewModel> plantList;
+    @FXML
+    private Label chosenPlant;
+    @FXML
+    private Button choosePlantButton;
     @FXML
     private TextField orderNumber;
     @FXML
@@ -69,22 +59,6 @@ public class InvoiceCreateController implements PageController {
     @FXML
     private TextField alternativePlantPrice;
     @FXML
-    private TextField plantSearchField;
-    @FXML
-    private TableView<PlantViewModel> plantList;
-    @FXML
-    private TableColumn<PlantViewModel, String> name;
-    @FXML
-    private TableColumn<PlantViewModel, String> age;
-    @FXML
-    private TableColumn<PlantViewModel, String> measure;
-    @FXML
-    private TableColumn<PlantViewModel, Double> price;
-    @FXML
-    private Label chosenPlant;
-    @FXML
-    private Button choosePlantButton;
-    @FXML
     private Button invoiceCreateButton;
 
     private static final String NON_NUMERIC_CHARACTERS = "[^\\d]";
@@ -94,12 +68,14 @@ public class InvoiceCreateController implements PageController {
     public void init(Pane root) {
         invoiceCreateService.setCustomerSearchField(customerSearchField);
         invoiceCreateService.setCustomerList(customerList);
-        invoiceCreateService.setPlantSearchField(plantSearchField);
-        invoiceCreateService.setPlantList(plantList);
+        invoiceCreateService.setShowCreateInvoiceButton(showCreateInvoiceButton);
+        invoiceCreateService.setCreateInvoicePane(createInvoicePane);
         invoiceCreateService.setCustomer(customer);
         invoiceCreateService.setInvoiceNumber(invoiceNumber);
         invoiceCreateService.setInvoiceDate(invoiceDate);
-        invoiceCreateService.setCreateInvoicePane(createInvoicePane);
+        invoiceCreateService.setInvoiceLines(invoiceLines);
+        invoiceCreateService.setPlantSearchField(plantSearchField);
+        invoiceCreateService.setPlantList(plantList);
         invoiceCreateService.setChoosePlantButton(choosePlantButton);
         invoiceCreateService.setChosenPlant(chosenPlant);
         invoiceCreateService.setOrderNumber(orderNumber);
@@ -107,7 +83,6 @@ public class InvoiceCreateController implements PageController {
         invoiceCreateService.setInvoiceLineBtw(invoiceLineBtw);
         invoiceCreateService.setAmount(amount);
         invoiceCreateService.setAlternativePlantPrice(alternativePlantPrice);
-        invoiceCreateService.setCreatedInvoiceLines(createdInvoiceLines);
         invoiceCreateService.setInvoiceCreateButton(invoiceCreateButton);
         invoiceCreateService.init(root);
     }
@@ -121,92 +96,68 @@ public class InvoiceCreateController implements PageController {
     }
 
     private void addChangeListenerToSearchFields() {
-        customerSearchField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue.length() >= 2) {
-                    invoiceCreateService.loadAllCustomersWithNameService.restart();
-                } else {
-                    invoiceCreateService.loadAllCustomersService.restart();
-                }
+        customerSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() >= 2) {
+                invoiceCreateService.loadAllCustomersWithNameService.restart();
+            } else {
+                invoiceCreateService.loadAllCustomersService.restart();
             }
         });
-        plantSearchField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue.length() > 0) {
-                    plantList.setVisible(true);
-                    plantList.setManaged(true);
-                } else {
-                    plantList.setVisible(false);
-                    plantList.setManaged(false);
-                }
+        plantSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 0) {
+                plantList.setVisible(true);
+                plantList.setManaged(true);
+            } else {
+                plantList.setVisible(false);
+                plantList.setManaged(false);
+            }
 
-                if (newValue.length() >= 2) {
-                    invoiceCreateService.loadAllPlantsWithNameService.restart();
-                }
+            if (newValue.length() >= 2) {
+                invoiceCreateService.loadAllPlantsWithNameService.restart();
             }
         });
     }
 
     private void addChangeListenersToList() {
-        customerList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CustomerViewModel>() {
-            @Override
-            public void changed(ObservableValue<? extends CustomerViewModel> observable, CustomerViewModel oldValue, CustomerViewModel newValue) {
-                startCreateInvoiceButton.setVisible(newValue != null);
-            }
+        customerList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            showCreateInvoiceButton.setVisible(newValue != null);
         });
-        plantList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PlantViewModel>() {
-            @Override
-            public void changed(ObservableValue<? extends PlantViewModel> observable, PlantViewModel oldValue, PlantViewModel newValue) {
-                choosePlantButton.setVisible(newValue != null);
-                choosePlantButton.setManaged(newValue != null);
-            }
+        plantList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            choosePlantButton.setVisible(newValue != null);
+            choosePlantButton.setManaged(newValue != null);
         });
-        createdInvoiceLines.getChildren().addListener(new ListChangeListener<Node>() {
-            @Override
-            public void onChanged(Change<? extends Node> c) {
-                if (c.getList().size() > 0) {
-                    createdInvoiceLines.setVisible(true);
-                    createdInvoiceLines.setManaged(true);
-                    labelInvoiceLinesList.setVisible(true);
-                    labelInvoiceLinesList.setManaged(true);
-                    labelInvoiceLinesCreate.setVisible(false);
-                    labelInvoiceLinesCreate.setManaged(false);
-                } else {
-                    createdInvoiceLines.setVisible(false);
-                    createdInvoiceLines.setManaged(false);
-                    labelInvoiceLinesList.setVisible(false);
-                    labelInvoiceLinesList.setManaged(false);
-                    labelInvoiceLinesCreate.setVisible(true);
-                    labelInvoiceLinesCreate.setManaged(true);
-                }
+        invoiceLines.getChildren().addListener((ListChangeListener<Node>) c -> {
+            if (c.getList().size() > 0) {
+                invoiceLines.setVisible(true);
+                invoiceLines.setManaged(true);
+                labelInvoiceLinesList.setVisible(true);
+                labelInvoiceLinesList.setManaged(true);
+                labelInvoiceLine.setVisible(false);
+                labelInvoiceLine.setManaged(false);
+            } else {
+                invoiceLines.setVisible(false);
+                invoiceLines.setManaged(false);
+                labelInvoiceLinesList.setVisible(false);
+                labelInvoiceLinesList.setManaged(false);
+                labelInvoiceLine.setVisible(true);
+                labelInvoiceLine.setManaged(true);
             }
         });
     }
 
     private void initNumericFields() {
-        amount.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                amount.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
-            }
+        amount.textProperty().addListener((observable, oldValue, newValue) -> {
+            amount.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
         });
-        alternativePlantPrice.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                alternativePlantPrice.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
-            }
+        alternativePlantPrice.textProperty().addListener((observable, oldValue, newValue) -> {
+            alternativePlantPrice.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
         });
-        invoiceLineBtw.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
-            }
+        invoiceLineBtw.textProperty().addListener((observable, oldValue, newValue) -> {
+            invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
         });
     }
 
-    public void startInvoiceCreation(ActionEvent actionEvent) {
+    public void showCreateInvoice(ActionEvent actionEvent) {
         invoiceCreateService.initInvoiceCreateService.restart();
     }
 
