@@ -156,10 +156,18 @@ public class InvoiceCreateService {
                     CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
                     newInvoice = invoiceController.makeNewInvoice(selectedCustomer.getId());
 
-                    customer.setText(newInvoice.getCustomer().getName1());
-                    invoiceNumber.setText(newInvoice.getInvoiceNumber());
-                    DateTime invoiceDTODate = newInvoice.getDate();
-                    invoiceDate.setValue(LocalDate.of(invoiceDTODate.getYear(), invoiceDTODate.getMonthOfYear(), invoiceDTODate.getDayOfMonth()));
+                    String invoiceCustomer = newInvoice.getCustomer().getName1();
+                    String invoiceInvoiceNumber = newInvoice.getInvoiceNumber();
+                    DateTime invoiceInvoiceDate = newInvoice.getDate();
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            customer.setText(invoiceCustomer);
+                            invoiceNumber.setText(invoiceInvoiceNumber);
+                            invoiceDate.setValue(LocalDate.of(invoiceInvoiceDate.getYear(), invoiceInvoiceDate.getMonthOfYear(), invoiceInvoiceDate.getDayOfMonth()));
+                        }
+                    });
 
                     return null;
                 }
@@ -175,13 +183,17 @@ public class InvoiceCreateService {
                 protected Void call() throws Exception {
                     updateTitle("Plant selecteren");
 
+                    PlantViewModel selectedPlant = plantList.getSelectionModel().getSelectedItem();
+                    String plantId = selectedPlant.getId();
+                    String plantName = selectedPlant.getName() + "    (" + selectedPlant.getAge() + " - " + selectedPlant.getMeasure() + ")";
+                    String plantPrice = selectedPlant.getPrice().replaceAll(",", ".");
+
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            PlantViewModel selectedPlant = plantList.getSelectionModel().getSelectedItem();
-                            chosenPlant.setText(selectedPlant.getId());
-                            plantSearchField.setText(selectedPlant.getName() + "    (" + selectedPlant.getAge() + " - " + selectedPlant.getMeasure() + ")");
-                            alternativePlantPrice.setText(selectedPlant.getPrice().replaceAll(",", "."));
+                            chosenPlant.setText(plantId);
+                            plantSearchField.setText(plantName);
+                            alternativePlantPrice.setText(plantPrice);
                         }
                     });
 
@@ -199,6 +211,8 @@ public class InvoiceCreateService {
                 protected Void call() throws Exception {
                     updateTitle("Factuurlijn legen");
 
+                    String defaultBtw = Double.toString(newInvoice.getDefaultBtw());
+
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
@@ -208,7 +222,7 @@ public class InvoiceCreateService {
                             amount.setText("");
                             alternativePlantPrice.setText("");
                             invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
-                            invoiceLineBtw.setText(Double.toString(newInvoice.getDefaultBtw()));
+                            invoiceLineBtw.setText(defaultBtw);
                             plantSearchField.setDisable(false);
                         }
                     });
@@ -231,10 +245,18 @@ public class InvoiceCreateService {
                         throw new IllegalArgumentException("Verplichte velden niet ingevuld");
                     }
 
+                    String plantId = chosenPlant.getText();
+                    String plantName = plantSearchField.getText();
+                    String invoiceOrderNumber = orderNumber.getText();
+                    LocalDate invoiceInvoiceLineDate = invoiceLineDate.getValue();
+                    String invoiceInvoiceLineAmount = amount.getText();
+                    String invoiceInvoiceLineBtw = invoiceLineBtw.getText();
+                    String plantPrice = alternativePlantPrice.getText();
+
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            addInvoiceLine(chosenPlant.getText(), plantSearchField.getText(), orderNumber.getText(), invoiceLineDate.getValue(), amount.getText(), invoiceLineBtw.getText(), alternativePlantPrice.getText());
+                            addInvoiceLine(plantId, plantName, invoiceOrderNumber, invoiceInvoiceLineDate, invoiceInvoiceLineAmount, invoiceInvoiceLineBtw, plantPrice);
                         }
                     });
 
