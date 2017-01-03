@@ -49,7 +49,13 @@ public class CustomerListService {
                         CustomerViewModel customerViewModel = customerViewMapper.mapDTOToViewModel(customerDTO);
                         customers.add(customerViewModel);
                     }
-                    customerList.getItems().setAll(customers);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            customerList.getItems().setAll(customers);
+                        }
+                    });
 
                     return null;
                 }
@@ -76,7 +82,13 @@ public class CustomerListService {
                         CustomerViewModel customerViewModel = customerViewMapper.mapDTOToViewModel(customerDTO);
                         customers.add(customerViewModel);
                     }
-                    customerList.getItems().setAll(customers);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            customerList.getItems().setAll(customers);
+                        }
+                    });
 
                     return null;
                 }

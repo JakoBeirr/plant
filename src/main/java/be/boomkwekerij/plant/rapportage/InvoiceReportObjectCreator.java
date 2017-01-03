@@ -33,11 +33,11 @@ public class InvoiceReportObjectCreator {
         }
         removeUnnecessaryDates(onePagedInvoiceReportObject.getInvoiceLines());
         onePagedInvoiceReportObject.setHasOrderNumbers(checkIfInvoiceHasOrderNumbers(invoiceLines));
-        onePagedInvoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
+        onePagedInvoiceReportObject.setSubTotal(NumberUtils.roundDouble(invoiceDTO.getSubTotal(), 2));
         List<BtwDTO> btwList = invoiceDTO.getBtw();
         sortBtwByPercentage(btwList);
         onePagedInvoiceReportObject.setBtw(mapToBtwReportObject(btwList));
-        onePagedInvoiceReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceDTO.getTotalPrice(), 2));
+        onePagedInvoiceReportObject.setTotalPrice(NumberUtils.roundDouble(invoiceDTO.getTotalPrice(), 2));
         return onePagedInvoiceReportObject;
     }
 
@@ -53,15 +53,15 @@ public class InvoiceReportObjectCreator {
                 InvoiceLineReportObject invoiceLineReportObject = invoiceLineReportObjectCreator.create(invoiceLineDTO);
                 multiplePagedInvoiceReportObject.getInvoiceLines().add(invoiceLineReportObject);
             }
-            multiplePagedInvoiceReportObject.setTransportPreviousPage(NumberUtils.formatDouble(getTotalPricePage(invoiceDTO, i-1), 2));
-            multiplePagedInvoiceReportObject.setTransportCurrentPage(NumberUtils.formatDouble(getTotalPricePage(invoiceDTO, i), 2));
+            multiplePagedInvoiceReportObject.setTransportPreviousPage(NumberUtils.roundDouble(getTotalPricePage(invoiceDTO, i-1), 2));
+            multiplePagedInvoiceReportObject.setTransportCurrentPage(NumberUtils.roundDouble(getTotalPricePage(invoiceDTO, i), 2));
             removeUnnecessaryDates(multiplePagedInvoiceReportObject.getInvoiceLines());
             multiplePagedInvoiceReportObject.setHasOrderNumbers(checkIfInvoiceHasOrderNumbers(invoiceDTO.getInvoiceLines()));
-            multiplePagedInvoiceReportObject.setSubTotal(NumberUtils.formatDouble(invoiceDTO.getSubTotal(), 2));
+            multiplePagedInvoiceReportObject.setSubTotal(NumberUtils.roundDouble(invoiceDTO.getSubTotal(), 2));
             List<BtwDTO> btwList = invoiceDTO.getBtw();
             sortBtwByPercentage(btwList);
             multiplePagedInvoiceReportObject.setBtw(mapToBtwReportObject(btwList));
-            multiplePagedInvoiceReportObject.setTotalPrice(NumberUtils.formatDouble(invoiceDTO.getTotalPrice(), 2));
+            multiplePagedInvoiceReportObject.setTotalPrice(NumberUtils.roundDouble(invoiceDTO.getTotalPrice(), 2));
             multiplePagedInvoiceReportObjects.add(multiplePagedInvoiceReportObject);
         }
         return multiplePagedInvoiceReportObjects;
@@ -141,7 +141,7 @@ public class InvoiceReportObjectCreator {
                 if (btwDTO.getBtwPercentage() != 0.0) {
                     BtwReportObject btwReportObject = new BtwReportObject();
                     btwReportObject.setBtwPercentage(Double.toString(btwDTO.getBtwPercentage()) + "%");
-                    btwReportObject.setBtwAmount(NumberUtils.formatDouble(btwDTO.getBtwAmount(), 2) + " EUR");
+                    btwReportObject.setBtwAmount(NumberUtils.roundDouble(btwDTO.getBtwAmount(), 2) + " EUR");
                     btwList.add(btwReportObject);
                 }
             }

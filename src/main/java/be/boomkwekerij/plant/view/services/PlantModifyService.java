@@ -6,6 +6,7 @@ import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.view.mapper.PlantViewMapper;
 import be.boomkwekerij.plant.view.model.PlantViewModel;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -54,7 +55,13 @@ public class PlantModifyService {
                         PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
                         plants.add(plantViewModel);
                     }
-                    plantList.getItems().setAll(plants);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            plantList.getItems().setAll(plants);
+                        }
+                    });
 
                     return null;
                 }
@@ -81,7 +88,13 @@ public class PlantModifyService {
                         PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
                         plants.add(plantViewModel);
                     }
-                    plantList.getItems().setAll(plants);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            plantList.getItems().setAll(plants);
+                        }
+                    });
 
                     return null;
                 }
@@ -102,12 +115,17 @@ public class PlantModifyService {
                     if (searchResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
                     }
-
                     PlantDTO plant = searchResult.getFirst();
-                    name.setText(plant.getName());
-                    age.setText(plant.getAge());
-                    measure.setText(plant.getMeasure());
-                    price.setText(Double.toString(plant.getPrice()));
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            name.setText(plant.getName());
+                            age.setText(plant.getAge());
+                            measure.setText(plant.getMeasure());
+                            price.setText(Double.toString(plant.getPrice()));
+                        }
+                    });
 
                     return null;
                 }

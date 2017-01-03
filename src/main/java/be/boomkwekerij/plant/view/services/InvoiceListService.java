@@ -7,6 +7,7 @@ import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.view.mapper.InvoiceViewMapper;
 import be.boomkwekerij.plant.view.model.InvoiceViewModel;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -54,7 +55,13 @@ public class InvoiceListService {
                         InvoiceViewModel invoiceViewModel = invoiceViewMapper.mapDTOToViewModel(invoiceDTO);
                         invoices.add(invoiceViewModel);
                     }
-                    invoiceList.getItems().setAll(invoices);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            invoiceList.getItems().setAll(invoices);
+                        }
+                    });
 
                     return null;
                 }
@@ -81,7 +88,13 @@ public class InvoiceListService {
                         InvoiceViewModel invoiceViewModel = invoiceViewMapper.mapDTOToViewModel(invoiceDTO);
                         invoices.add(invoiceViewModel);
                     }
-                    invoiceList.getItems().setAll(invoices);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            invoiceList.getItems().setAll(invoices);
+                        }
+                    });
 
                     return null;
                 }

@@ -6,6 +6,7 @@ import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.view.mapper.CustomerViewMapper;
 import be.boomkwekerij.plant.view.model.CustomerViewModel;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -62,7 +63,13 @@ public class CustomerModifyService {
                         CustomerViewModel customerViewModel = customerViewMapper.mapDTOToViewModel(customerDTO);
                         customers.add(customerViewModel);
                     }
-                    customerList.getItems().setAll(customers);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            customerList.getItems().setAll(customers);
+                        }
+                    });
 
                     return null;
                 }
@@ -89,7 +96,13 @@ public class CustomerModifyService {
                         CustomerViewModel customerViewModel = customerViewMapper.mapDTOToViewModel(customerDTO);
                         customers.add(customerViewModel);
                     }
-                    customerList.getItems().setAll(customers);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            customerList.getItems().setAll(customers);
+                        }
+                    });
 
                     return null;
                 }
@@ -110,20 +123,25 @@ public class CustomerModifyService {
                     if (searchResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
                     }
-
                     CustomerDTO customer = searchResult.getFirst();
-                    name1.setText(customer.getName1());
-                    name2.setText(customer.getName2());
-                    address1.setText(customer.getAddress1());
-                    address2.setText(customer.getAddress2());
-                    postalCode.setText(customer.getPostalCode());
-                    residence.setText(customer.getResidence());
-                    country.setText(customer.getCountry());
-                    telephone.setText(customer.getTelephone());
-                    gsm.setText(customer.getGsm());
-                    fax.setText(customer.getFax());
-                    btwNumber.setText(customer.getBtwNumber());
-                    emailAddress.setText(customer.getEmailAddress());
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            name1.setText(customer.getName1());
+                            name2.setText(customer.getName2());
+                            address1.setText(customer.getAddress1());
+                            address2.setText(customer.getAddress2());
+                            postalCode.setText(customer.getPostalCode());
+                            residence.setText(customer.getResidence());
+                            country.setText(customer.getCountry());
+                            telephone.setText(customer.getTelephone());
+                            gsm.setText(customer.getGsm());
+                            fax.setText(customer.getFax());
+                            btwNumber.setText(customer.getBtwNumber());
+                            emailAddress.setText(customer.getEmailAddress());
+                        }
+                    });
 
                     return null;
                 }

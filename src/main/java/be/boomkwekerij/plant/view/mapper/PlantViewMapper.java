@@ -12,7 +12,7 @@ public class PlantViewMapper {
         plantViewModel.setName(plantDTO.getName());
         plantViewModel.setAge(plantDTO.getAge());
         plantViewModel.setMeasure(plantDTO.getMeasure());
-        plantViewModel.setPrice(NumberUtils.formatDouble(plantDTO.getPrice(), 2));
+        plantViewModel.setPrice(NumberUtils.roundDouble(plantDTO.getPrice(), 2));
         return plantViewModel;
     }
 }

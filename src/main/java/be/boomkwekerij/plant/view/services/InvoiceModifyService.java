@@ -80,7 +80,13 @@ public class InvoiceModifyService {
                         InvoiceViewModel invoiceViewModel = invoiceViewMapper.mapDTOToViewModel(invoiceDTO);
                         invoices.add(invoiceViewModel);
                     }
-                    invoiceList.getItems().setAll(invoices);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            invoiceList.getItems().setAll(invoices);
+                        }
+                    });
 
                     return null;
                 }
@@ -107,7 +113,13 @@ public class InvoiceModifyService {
                         InvoiceViewModel invoiceViewModel = invoiceViewMapper.mapDTOToViewModel(invoiceDTO);
                         invoices.add(invoiceViewModel);
                     }
-                    invoiceList.getItems().setAll(invoices);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            invoiceList.getItems().setAll(invoices);
+                        }
+                    });
 
                     return null;
                 }
@@ -134,7 +146,13 @@ public class InvoiceModifyService {
                         PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
                         plants.add(plantViewModel);
                     }
-                    plantList.getItems().setAll(plants);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            plantList.getItems().setAll(plants);
+                        }
+                    });
 
                     return null;
                 }

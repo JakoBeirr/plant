@@ -29,8 +29,8 @@ public class InvoicesReportObjectCreator {
             invoiceReportObject.setInvoiceNumber(invoice.getInvoiceNumber());
             invoiceReportObject.setCustomer(invoice.getCustomer().getName1());
             invoiceReportObject.setInvoiceDate(DateUtils.formatDate(invoice.getDate(), DateFormatPattern.DATE_FORMAT));
-            invoiceReportObject.setTotalAmountExclusive(NumberUtils.formatDouble(invoice.getSubTotal(), 2) + " EUR");
-            invoiceReportObject.setTotalAmountInclusive(NumberUtils.formatDouble(invoice.getTotalPrice(), 2) + " EUR");
+            invoiceReportObject.setTotalAmountExclusive(NumberUtils.roundDouble(invoice.getSubTotal(), 2) + " EUR");
+            invoiceReportObject.setTotalAmountInclusive(NumberUtils.roundDouble(invoice.getTotalPrice(), 2) + " EUR");
             if (invoice.isPayed() && invoice.getPayDate() != null) {
                 invoiceReportObject.setPayDate(DateUtils.formatDate(invoice.getPayDate(), DateFormatPattern.DATE_FORMAT));
             } else {
@@ -39,8 +39,8 @@ public class InvoicesReportObjectCreator {
             invoicesInvoiceReportObjects.add(invoiceReportObject);
         }
         invoicesReportObject.setInvoices(invoicesInvoiceReportObjects);
-        invoicesReportObject.setTotalExclusive(NumberUtils.formatDouble(countTotalExclusive(invoices), 2) + " EUR");
-        invoicesReportObject.setTotalInclusive(NumberUtils.formatDouble(countTotalInclusive(invoices), 2) + " EUR");
+        invoicesReportObject.setTotalExclusive(NumberUtils.roundDouble(countTotalExclusive(invoices), 2) + " EUR");
+        invoicesReportObject.setTotalInclusive(NumberUtils.roundDouble(countTotalInclusive(invoices), 2) + " EUR");
         return invoicesReportObject;
     }
 

@@ -83,7 +83,13 @@ public class InvoiceCreateService {
                         CustomerViewModel customerViewModel = customerViewMapper.mapDTOToViewModel(customerDTO);
                         customers.add(customerViewModel);
                     }
-                    customerList.getItems().setAll(customers);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            customerList.getItems().setAll(customers);
+                        }
+                    });
 
                     return null;
                 }
@@ -110,7 +116,13 @@ public class InvoiceCreateService {
                         CustomerViewModel customerViewModel = customerViewMapper.mapDTOToViewModel(customerDTO);
                         customers.add(customerViewModel);
                     }
-                    customerList.getItems().setAll(customers);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            customerList.getItems().setAll(customers);
+                        }
+                    });
 
                     return null;
                 }
@@ -137,7 +149,13 @@ public class InvoiceCreateService {
                         PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
                         plants.add(plantViewModel);
                     }
-                    plantList.getItems().setAll(plants);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            plantList.getItems().setAll(plants);
+                        }
+                    });
 
                     return null;
                 }

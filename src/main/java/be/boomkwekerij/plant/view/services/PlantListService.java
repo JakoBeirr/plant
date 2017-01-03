@@ -49,7 +49,13 @@ public class PlantListService {
                         PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
                         plants.add(plantViewModel);
                     }
-                    plantList.getItems().setAll(plants);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            plantList.getItems().setAll(plants);
+                        }
+                    });
 
                     return null;
                 }
@@ -76,7 +82,13 @@ public class PlantListService {
                         PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
                         plants.add(plantViewModel);
                     }
-                    plantList.getItems().setAll(plants);
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            plantList.getItems().setAll(plants);
+                        }
+                    });
 
                     return null;
                 }
