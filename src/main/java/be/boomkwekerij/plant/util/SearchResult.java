@@ -16,7 +16,7 @@ public class SearchResult<T> {
     }
 
     public SearchResult<T> error(List<String> messages) {
-        this.success = true;
+        this.success = false;
         this.messages = messages;
         return this;
     }

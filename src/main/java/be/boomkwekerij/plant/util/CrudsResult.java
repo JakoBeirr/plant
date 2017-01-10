@@ -21,7 +21,7 @@ public class CrudsResult {
     }
 
     public CrudsResult error(List<String> messages) {
-        this.success = true;
+        this.success = false;
         this.messages = messages;
         return this;
     }

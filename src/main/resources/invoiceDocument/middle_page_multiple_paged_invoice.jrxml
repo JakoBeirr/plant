@@ -121,7 +121,7 @@
 					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Datum]]></text>
 			</staticText>
@@ -134,7 +134,7 @@
 					<printWhenExpression><![CDATA[!$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Datum]]></text>
 			</staticText>
@@ -147,7 +147,7 @@
 					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Aantal]]></text>
 			</staticText>
@@ -160,7 +160,7 @@
 					<printWhenExpression><![CDATA[!$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Aantal]]></text>
 			</staticText>
@@ -173,7 +173,7 @@
 					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ordernummer]]></text>
 			</staticText>
@@ -186,7 +186,7 @@
 					<printWhenExpression><![CDATA[!$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Soort]]></text>
 			</staticText>
@@ -199,7 +199,7 @@
 					<printWhenExpression><![CDATA[$P{invoice}.getHasOrderNumbers()]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Soort]]></text>
 			</staticText>
@@ -211,7 +211,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Leeftijd]]></text>
 			</staticText>
@@ -223,7 +223,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Maat]]></text>
 			</staticText>
@@ -235,7 +235,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Prijs]]></text>
 			</staticText>
@@ -247,7 +247,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Totaal]]></text>
 			</staticText>
@@ -259,7 +259,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TRANSPORT]]></text>
 			</staticText>
@@ -271,7 +271,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{invoice}.getTransportPreviousPage() + " EUR"]]></textFieldExpression>
 			</textField>
@@ -444,7 +444,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TRANSPORT]]></text>
 			</staticText>
@@ -456,7 +456,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{invoice}.getTransportCurrentPage() + " EUR"]]></textFieldExpression>
 			</textField>
