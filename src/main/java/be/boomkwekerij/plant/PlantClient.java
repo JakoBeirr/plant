@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant;
 
 import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.view.FxUncaughtExceptionHandler;
 import be.boomkwekerij.plant.view.MultipleScreenApplicationLoader;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -25,6 +26,7 @@ public class PlantClient extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        Thread.setDefaultUncaughtExceptionHandler(new FxUncaughtExceptionHandler());
         prepareClient(primaryStage);
     }
 

@@ -29,7 +29,7 @@ public class AlertController {
         alert.showAndWait();
     }
 
-    public static void alertException(String headerMessage, Exception e) {
+    public static void alertException(String headerMessage, Throwable e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("ERROR");
         alert.setHeaderText(headerMessage);
