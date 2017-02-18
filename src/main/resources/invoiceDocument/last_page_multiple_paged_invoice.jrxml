@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-12-10T13:47:21 -->
+<!-- 2017-02-18T15:25:14 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="invoiceLines" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
@@ -86,7 +86,7 @@
 				"\nBTW: " + $P{company}.getBtwNumber()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="295" y="130" width="200" height="70" uuid="c0b29ffe-fa6d-4865-b9d8-4a6027b83596">
+				<reportElement stretchType="RelativeToTallestObject" x="335" y="105" width="200" height="70" uuid="c0b29ffe-fa6d-4865-b9d8-4a6027b83596">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -100,7 +100,7 @@
 				"\n" + $P{customer}.getPostalCode() + "  " + $P{customer}.getResidence()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="295" y="120" width="200" height="80" uuid="8c947048-41ca-4b7d-b7b4-d6bc078d0d09">
+				<reportElement stretchType="RelativeToTallestObject" x="335" y="100" width="200" height="80" uuid="8c947048-41ca-4b7d-b7b4-d6bc078d0d09">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>

@@ -13,21 +13,29 @@ public enum CountryCode {
     SLOVENIA("SI", "Slovenië"), SPAIN("ES", "Spanje"), SWEDEN("SE", "Zweden"), SWITZERLAND("CH", "Zwitserland"), UKRAINE("UA", "Oekraïne"),
     UNITED_KINGDOM("GB", "Verenigd Koninkrijk"), VATICAN_CITY("VA", "Vaticaanstad"), MONTENEGRO("ME", "Montenegro");
 
-    private String countryCode;
-    private String dutchCountryName;
+    private String code;
+    private String fullname;
 
-    CountryCode(String countryCode, String dutchCountryName) {
-        this.countryCode = countryCode;
-        this.dutchCountryName = dutchCountryName;
+    CountryCode(String code, String fullname) {
+        this.code = code;
+        this.fullname = fullname;
     }
 
-    public static String fromCountryCode(String countryCode) {
+    public static CountryCode fromCountryCode(String countryCode) {
         CountryCode[] countryCodes = CountryCode.values();
         for (CountryCode code : countryCodes) {
-            if (code.countryCode.equals(countryCode)) {
-                return code.dutchCountryName;
+            if (code.code.equals(countryCode)) {
+                return code;
             }
         }
-        return "";
+        return null;
+    }
+
+    public String code() {
+        return code;
+    }
+
+    public String fullname() {
+        return fullname;
     }
 }

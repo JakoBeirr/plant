@@ -35,7 +35,7 @@ public class CustomerValidator {
     }
 
     private void validateValidContentFields(CustomerDTO customer, List<String> validationErrors) {
-        if (CountryCode.fromCountryCode(customer.getCountry()).isEmpty()) {
+        if (CountryCode.fromCountryCode(customer.getCountry()) == null) {
             validationErrors.add(INVALID_CONTENT_FIELD + "land, onbekend");
         }
     }

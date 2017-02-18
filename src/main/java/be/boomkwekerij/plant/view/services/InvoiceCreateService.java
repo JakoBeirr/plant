@@ -239,7 +239,7 @@ public class InvoiceCreateService {
                             orderNumber.setText("");
                             amount.setText("");
                             alternativePlantPrice.setText("");
-                            invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
+                            invoiceLineDate.setValue(invoiceDate.getValue());
                             invoiceLineBtw.setText(defaultBtw);
                             plantSearchField.setDisable(false);
                         }

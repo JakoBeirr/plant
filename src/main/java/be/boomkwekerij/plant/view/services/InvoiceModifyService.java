@@ -251,7 +251,7 @@ public class InvoiceModifyService {
                             orderNumber.setText("");
                             amount.setText("");
                             alternativePlantPrice.setText("");
-                            invoiceLineDate.setValue(LocalDate.of(DateTime.now().getYear(), DateTime.now().getMonthOfYear(), DateTime.now().getDayOfMonth()));
+                            invoiceLineDate.setValue(LocalDate.of(invoice.getDate().getYear(), invoice.getDate().getMonthOfYear(), invoice.getDate().getDayOfMonth()));
                             invoiceLineBtw.setText(defaultBtw);
                             plantSearchField.setDisable(false);
                         }

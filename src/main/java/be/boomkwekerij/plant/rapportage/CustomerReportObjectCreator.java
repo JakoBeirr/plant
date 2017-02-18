@@ -21,8 +21,9 @@ public class CustomerReportObjectCreator {
     }
 
     private String getCountry(CustomerDTO customerDTO) {
-        if (isAbroad(customerDTO)) {
-            return CountryCode.fromCountryCode(customerDTO.getCountry());
+        CountryCode countryCode = CountryCode.fromCountryCode(customerDTO.getCountry());
+        if (isAbroad(customerDTO) && countryCode != null) {
+            return countryCode.fullname();
         }
         return "";
     }

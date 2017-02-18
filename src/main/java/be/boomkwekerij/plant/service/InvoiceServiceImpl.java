@@ -8,6 +8,7 @@ import be.boomkwekerij.plant.model.dto.CustomerDTO;
 import be.boomkwekerij.plant.model.dto.DateDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.model.repository.Invoice;
+import be.boomkwekerij.plant.util.CountryCode;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.util.SearchResult;
@@ -60,7 +61,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 CustomerDTO customer = customerSearchResult.getFirst();
 
                 InvoiceDTO invoiceDTO = invoiceMapper.mapDAOToDTO(invoice, customer);
-                invoiceDTO.setDefaultBtw(getBtw(invoiceDTO.getCustomer()));
+                invoiceDTO.setDefaultBtw(determineBtw(invoiceDTO.getCustomer()));
                 return new SearchResult<InvoiceDTO>().success(Collections.singletonList(invoiceDTO));
             }
         }
@@ -164,7 +165,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceDTO.setInvoiceNumber(systemService.getNextInvoiceNumber());
         invoiceDTO.setCustomer(customerDTO);
         invoiceDTO.setDate(new DateTime());
-        invoiceDTO.setDefaultBtw(getBtw(customerDTO));
+        invoiceDTO.setDefaultBtw(determineBtw(customerDTO));
         return invoiceDTO;
     }
 
@@ -178,20 +179,38 @@ public class InvoiceServiceImpl implements InvoiceService {
         throw new IllegalArgumentException("Could not find customer");
     }
 
-    private double getBtw(CustomerDTO customerDTO) {
-        if (StringUtils.isBlank(customerDTO.getBtwNumber()) || EMPTY_BTW_NUMBER.equals(customerDTO.getBtwNumber())) {
+    private double determineBtw(CustomerDTO customerDTO) {
+        if (isNoForeignerWithoutBtwNumber(customerDTO) || isForeignerWithBtwNumber(customerDTO)) {
             return 0.0;
         }
-
-        String country = customerDTO.getCountry();
-        if (country != null) {
-            if (country.equals("NL")) {
-                return 0.0;
-            } else if (country.equals("BE")) {
-                return 6.0;
-            }
+        if (isNoForeignerWithBtwNumber(customerDTO) || isForeignerWithoutBtwNumber(customerDTO)) {
+            return 6.0;
         }
         return 21.0;
+    }
+
+    private boolean isNoForeignerWithoutBtwNumber(CustomerDTO customerDTO) {
+        return !isForeigner(customerDTO) && noBtwNumber(customerDTO);
+    }
+
+    private boolean isForeignerWithBtwNumber(CustomerDTO customerDTO) {
+        return isForeigner(customerDTO) && !noBtwNumber(customerDTO);
+    }
+
+    private boolean isNoForeignerWithBtwNumber(CustomerDTO customerDTO) {
+        return !isForeigner(customerDTO) && !noBtwNumber(customerDTO);
+    }
+
+    private boolean isForeignerWithoutBtwNumber(CustomerDTO customerDTO) {
+        return isForeigner(customerDTO) && noBtwNumber(customerDTO);
+    }
+
+    private boolean isForeigner(CustomerDTO customerDTO) {
+        return !customerDTO.getCountry().equals(CountryCode.BELGIUM.code());
+    }
+
+    private boolean noBtwNumber(CustomerDTO customerDTO) {
+        return StringUtils.isBlank(customerDTO.getBtwNumber()) || EMPTY_BTW_NUMBER.equals(customerDTO.getBtwNumber());
     }
 
     @Override
