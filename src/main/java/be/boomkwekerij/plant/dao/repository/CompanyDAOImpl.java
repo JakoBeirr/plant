@@ -36,7 +36,7 @@ public class CompanyDAOImpl implements CompanyDAO {
                 Marshaller marshaller = marshaller();
                 marshaller.marshal(company, new File(COMPANIES_DATA_URI + "company.xml"));
 
-                return new CrudsResult().success(company.getName());
+                return new CrudsResult().success(company.getName1() + " " + company.getName2());
             }
         } catch (Exception e) {
             return new CrudsResult().error(Collections.singletonList(e.getMessage()));
@@ -52,7 +52,7 @@ public class CompanyDAOImpl implements CompanyDAO {
                 Marshaller marshaller = marshaller();
                 marshaller.marshal(company, new File(COMPANIES_DATA_URI + "company.xml"));
 
-                return new CrudsResult().success(company.getName());
+                return new CrudsResult().success(company.getName1() + " " + company.getName2());
             }
         } catch (Exception e) {
             return new CrudsResult().error(Collections.singletonList(e.getMessage()));

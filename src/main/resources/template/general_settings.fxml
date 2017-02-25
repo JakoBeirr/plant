@@ -27,41 +27,44 @@
 
                         <Label text="" GridPane.rowIndex="1" />
 
-                        <Label text="Naam*:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                        <TextField fx:id="name" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                        <Label text="Naam1*:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                        <TextField fx:id="name1" prefColumnCount="30" GridPane.rowIndex="2" GridPane.columnIndex="1" />
 
-                        <Label text="Adres*:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-                        <TextField fx:id="address" prefColumnCount="30" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                        <Label text="Naam2*:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                        <TextField fx:id="name2" prefColumnCount="30" GridPane.rowIndex="3" GridPane.columnIndex="1" />
 
-                        <Label text="Telefoon*:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-                        <TextField fx:id="telephone" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                        <Label text="Adres*:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                        <TextField fx:id="address" prefColumnCount="30" GridPane.rowIndex="4" GridPane.columnIndex="1" />
 
-                        <Label text="FAX*:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-                        <TextField fx:id="fax" prefColumnCount="30" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                        <Label text="Telefoon*:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                        <TextField fx:id="telephone" prefColumnCount="30" GridPane.rowIndex="5" GridPane.columnIndex="1" />
 
-                        <Label text="GSM*:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
-                        <TextField fx:id="gsm" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+                        <Label text="FAX*:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+                        <TextField fx:id="fax" prefColumnCount="30" GridPane.rowIndex="6" GridPane.columnIndex="1" />
 
-                        <Label text="KBC:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
-                        <TextField fx:id="accountNumberBelgium" prefColumnCount="30" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+                        <Label text="GSM*:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+                        <TextField fx:id="gsm" prefColumnCount="30" GridPane.rowIndex="7" GridPane.columnIndex="1" />
 
-                        <Label text="IBAN BE*:" GridPane.rowIndex="8" GridPane.columnIndex="0" />
-                        <TextField fx:id="ibanBelgium" prefColumnCount="30" GridPane.rowIndex="8" GridPane.columnIndex="1" />
+                        <Label text="KBC:" GridPane.rowIndex="8" GridPane.columnIndex="0" />
+                        <TextField fx:id="accountNumberBelgium" prefColumnCount="30" GridPane.rowIndex="8" GridPane.columnIndex="1" />
 
-                        <Label text="BIC BE*:" GridPane.rowIndex="9" GridPane.columnIndex="0" />
-                        <TextField fx:id="bicBelgium" prefColumnCount="30" GridPane.rowIndex="9" GridPane.columnIndex="1" />
+                        <Label text="IBAN BE*:" GridPane.rowIndex="9" GridPane.columnIndex="0" />
+                        <TextField fx:id="ibanBelgium" prefColumnCount="30" GridPane.rowIndex="9" GridPane.columnIndex="1" />
 
-                        <Label text="Rabobank Zundert:" GridPane.rowIndex="10" GridPane.columnIndex="0" />
-                        <TextField fx:id="accountNumberNetherlands" prefColumnCount="30" GridPane.rowIndex="10" GridPane.columnIndex="1" />
+                        <Label text="BIC BE*:" GridPane.rowIndex="10" GridPane.columnIndex="0" />
+                        <TextField fx:id="bicBelgium" prefColumnCount="30" GridPane.rowIndex="10" GridPane.columnIndex="1" />
 
-                        <Label text="IBAN NL*:" GridPane.rowIndex="11" GridPane.columnIndex="0" />
-                        <TextField fx:id="ibanNetherlands" prefColumnCount="30" GridPane.rowIndex="11" GridPane.columnIndex="1" />
+                        <Label text="Rabobank Zundert:" GridPane.rowIndex="11" GridPane.columnIndex="0" />
+                        <TextField fx:id="accountNumberNetherlands" prefColumnCount="30" GridPane.rowIndex="11" GridPane.columnIndex="1" />
 
-                        <Label text="BIC NL*:" GridPane.rowIndex="12" GridPane.columnIndex="0" />
-                        <TextField fx:id="bicNetherlands" prefColumnCount="30" GridPane.rowIndex="12" GridPane.columnIndex="1" />
+                        <Label text="IBAN NL*:" GridPane.rowIndex="12" GridPane.columnIndex="0" />
+                        <TextField fx:id="ibanNetherlands" prefColumnCount="30" GridPane.rowIndex="12" GridPane.columnIndex="1" />
 
-                        <Label text="BTW nummer*:" GridPane.rowIndex="13" GridPane.columnIndex="0" />
-                        <TextField fx:id="btwNumber" prefColumnCount="30" GridPane.rowIndex="13" GridPane.columnIndex="1" />
+                        <Label text="BIC NL*:" GridPane.rowIndex="13" GridPane.columnIndex="0" />
+                        <TextField fx:id="bicNetherlands" prefColumnCount="30" GridPane.rowIndex="13" GridPane.columnIndex="1" />
+
+                        <Label text="BTW nummer*:" GridPane.rowIndex="14" GridPane.columnIndex="0" />
+                        <TextField fx:id="btwNumber" prefColumnCount="30" GridPane.rowIndex="14" GridPane.columnIndex="1" />
                     </GridPane>
 
                     <Button fx:id="modifyCompanyButton" mnemonicParsing="false" onMouseClicked="#modifyCompany" text="Bedrijf bewerken" styleClass="green-button"/>

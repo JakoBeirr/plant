@@ -23,7 +23,8 @@ public class GeneralSettingsService {
 
     private TextField invoiceNumber;
     private Button modifySystemButton;
-    private TextField name;
+    private TextField name1;
+    private TextField name2;
     private TextField address;
     private TextField telephone;
     private TextField fax;
@@ -76,7 +77,8 @@ public class GeneralSettingsService {
 
                     CompanyDTO company = searchResult.getFirst();
                     if (company != null) {
-                        name.setText(company.getName());
+                        name1.setText(company.getName1());
+                        name2.setText(company.getName2());
                         address.setText(company.getAddress());
                         telephone.setText(company.getTelephone());
                         fax.setText(company.getFax());
@@ -127,7 +129,8 @@ public class GeneralSettingsService {
                     updateTitle("Bewerken bedrijf");
 
                     CompanyDTO company = new CompanyDTO();
-                    company.setName(name.getText());
+                    company.setName1(name1.getText());
+                    company.setName2(name2.getText());
                     company.setAddress(address.getText());
                     company.setTelephone(telephone.getText());
                     company.setFax(fax.getText());
@@ -158,8 +161,12 @@ public class GeneralSettingsService {
         this.modifySystemButton = modifySystemButton;
     }
 
-    public void setName(TextField name) {
-        this.name = name;
+    public void setName1(TextField name1) {
+        this.name1 = name1;
+    }
+
+    public void setName2(TextField name2) {
+        this.name2 = name2;
     }
 
     public void setAddress(TextField address) {

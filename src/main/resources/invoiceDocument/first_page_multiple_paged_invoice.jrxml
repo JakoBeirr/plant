@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2017-02-18T15:23:36 -->
+<!-- 2017-02-25T16:51:32 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="invoiceLines" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
@@ -38,8 +38,8 @@
 				</reportElement>
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
-			<staticText>
-				<reportElement x="85" y="20" width="190" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="85" y="20" width="450" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -49,10 +49,10 @@
 				<textElement>
 					<font size="19" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Boomkwekerijen]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="85" y="45" width="190" height="30" uuid="6f60b553-ccd6-4432-922c-96d06ce2f8fc">
+				<textFieldExpression><![CDATA[$P{company}.getName1()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="85" y="45" width="450" height="30" uuid="6f60b553-ccd6-4432-922c-96d06ce2f8fc">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -61,8 +61,8 @@
 				<textElement>
 					<font size="20" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Van Looveren Marc]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{company}.getName2()]]></textFieldExpression>
+			</textField>
 			<textField>
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="80" width="275" height="120" uuid="f10f3a3c-283e-4742-9924-a5d39f8f8a19">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>

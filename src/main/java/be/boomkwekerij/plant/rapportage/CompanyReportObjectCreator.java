@@ -7,6 +7,8 @@ public class CompanyReportObjectCreator {
 
     public CompanyReportObject create(CompanyDTO companyDTO) {
         CompanyReportObject companyReportObject = new CompanyReportObject();
+        companyReportObject.setName1(getReportObjectValue(companyDTO.getName1()));
+        companyReportObject.setName2(getReportObjectValue(companyDTO.getName2()));
         companyReportObject.setAddress(getReportObjectValue(companyDTO.getAddress()));
         companyReportObject.setTelephoneBelgium(getReportObjectValue(companyDTO.getTelephone()));
         companyReportObject.setTelephoneNetherlands(getDutchVariant(getReportObjectValue(companyDTO.getTelephone())));
@@ -23,7 +25,10 @@ public class CompanyReportObjectCreator {
     }
 
     private String getDutchVariant(String number) {
-        return number.replaceFirst("0", "0032");
+        if (number.startsWith("0")) {
+            return number.replaceFirst("0", "(+32)");
+        }
+        return number;
     }
 
     private String getReportObjectValue(String value) {

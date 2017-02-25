@@ -19,7 +19,9 @@ public class GeneralSettingsController implements PageController {
     @FXML
     private Button modifySystemButton;
     @FXML
-    private TextField name;
+    private TextField name1;
+    @FXML
+    private TextField name2;
     @FXML
     private TextField address;
     @FXML
@@ -49,7 +51,8 @@ public class GeneralSettingsController implements PageController {
     public void init(Pane root) {
         generalSettingsService.setInvoiceNumber(invoiceNumber);
         generalSettingsService.setModifySystemButton(modifySystemButton);
-        generalSettingsService.setName(name);
+        generalSettingsService.setName1(name1);
+        generalSettingsService.setName2(name2);
         generalSettingsService.setAddress(address);
         generalSettingsService.setTelephone(telephone);
         generalSettingsService.setFax(fax);

@@ -18,7 +18,8 @@ public class CompanyValidator {
     }
 
     private void validateRequiredFields(CompanyDTO company, List<String> validationErrors) {
-        validateRequiredField("naam", company.getName(), validationErrors);
+        validateRequiredField("naam1", company.getName1(), validationErrors);
+        validateRequiredField("naam2", company.getName2(), validationErrors);
         validateRequiredField("adres", company.getAddress(), validationErrors);
         validateRequiredField("telefoon", company.getTelephone(), validationErrors);
         validateRequiredField("fax", company.getFax(), validationErrors);

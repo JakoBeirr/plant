@@ -18,7 +18,7 @@ public class InvoicesReportObjectCreator {
 
     public InvoicesReportObject create(List<InvoiceDTO> invoices, CompanyDTO companyDTO, DateTime reportDate, String period, String reportTitle) {
         InvoicesReportObject invoicesReportObject = new InvoicesReportObject();
-        invoicesReportObject.setCompanyName(companyDTO.getName());
+        invoicesReportObject.setCompanyName(companyDTO.getName1() + " " + companyDTO.getName2());
         invoicesReportObject.setReportDate(DateUtils.formatDate(reportDate, DateFormatPattern.DATE_FORMAT));
         invoicesReportObject.setPeriod(period);
         invoicesReportObject.setReportTitle(reportTitle);

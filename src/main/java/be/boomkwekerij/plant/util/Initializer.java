@@ -1,27 +1,15 @@
 package be.boomkwekerij.plant.util;
 
-import be.boomkwekerij.plant.dao.repository.CompanyDAO;
-import be.boomkwekerij.plant.dao.repository.CompanyDAOImpl;
-import be.boomkwekerij.plant.dao.repository.CustomerDAO;
-import be.boomkwekerij.plant.dao.repository.CustomerDAOImpl;
-import be.boomkwekerij.plant.dao.repository.InvoiceDAO;
-import be.boomkwekerij.plant.dao.repository.InvoiceDAOImpl;
-import be.boomkwekerij.plant.dao.repository.PlantDAO;
-import be.boomkwekerij.plant.dao.repository.PlantDAOImpl;
-import be.boomkwekerij.plant.dao.repository.SystemDAO;
-import be.boomkwekerij.plant.dao.repository.SystemDAOImpl;
-import be.boomkwekerij.plant.model.repository.Company;
-import be.boomkwekerij.plant.model.repository.Customer;
-import be.boomkwekerij.plant.model.repository.Invoice;
-import be.boomkwekerij.plant.model.repository.Plant;
+import be.boomkwekerij.plant.dao.repository.*;
+import be.boomkwekerij.plant.model.repository.*;
 import be.boomkwekerij.plant.model.repository.System;
-import org.joda.time.DateTime;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 public class Initializer {
+
+    private static String data_directory;
 
     private static CompanyDAO companyDAO;
     private static CustomerDAO customerDAO;
@@ -29,16 +17,16 @@ public class Initializer {
     private static PlantDAO plantDAO;
     private static SystemDAO systemDAO;
 
-    private static String data_directory;
-
     public static final int MAX_INVOICELINES = 18;
 
-    public static void init(String dataUri) {
+    public static void launch(String dataUri) {
         data_directory = dataUri;
+    }
 
+    public static void init() {
         createDAOs();
 
-        initDirectoryStructure(dataUri);
+        initDirectoryStructure(data_directory);
         initInMemoryDatabase();
     }
 

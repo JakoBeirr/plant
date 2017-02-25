@@ -6,7 +6,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Company {
 
-    private String name;
+    private String name1;
+    private String name2;
     private String address;
     private String telephone;
     private String fax;
@@ -19,13 +20,22 @@ public class Company {
     private String bicNetherlands;
     private String btwNumber;
 
-    public String getName() {
-        return name;
+    public String getName1() {
+        return name1;
     }
 
     @XmlElement
-    public void setName(String name) {
-        this.name = name;
+    public void setName1(String name1) {
+        this.name1 = name1;
+    }
+
+    public String getName2() {
+        return name2;
+    }
+
+    @XmlElement
+    public void setName2(String name2) {
+        this.name2 = name2;
     }
 
     public String getAddress() {

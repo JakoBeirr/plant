@@ -2,6 +2,8 @@ package be.boomkwekerij.plant.model.report;
 
 public class CompanyReportObject {
 
+    private String name1;
+    private String name2;
     private String address;
     private String telephoneBelgium;
     private String telephoneNetherlands;
@@ -14,6 +16,22 @@ public class CompanyReportObject {
     private String ibanNetherlands;
     private String bicNetherlands;
     private String btwNumber;
+
+    public String getName1() {
+        return name1;
+    }
+
+    public void setName1(String name1) {
+        this.name1 = name1;
+    }
+
+    public String getName2() {
+        return name2;
+    }
+
+    public void setName2(String name2) {
+        this.name2 = name2;
+    }
 
     public String getAddress() {
         return address;

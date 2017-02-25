@@ -102,47 +102,50 @@ public class AppController implements Initializable {
             fieldPane.setVgap(5);
             fieldPane.setPadding(new Insets(20, 150, 10, 10));
 
-            TextField nameField = new TextField();
-            fieldPane.add(new Label("Naam:"), 0, 0);
-            fieldPane.add(nameField, 1, 0);
+            TextField name1Field = new TextField();
+            fieldPane.add(new Label("Naam1*:"), 0, 0);
+            fieldPane.add(name1Field, 1, 0);
+            TextField name2Field = new TextField();
+            fieldPane.add(new Label("Naam2*:"), 0, 1);
+            fieldPane.add(name2Field, 1, 1);
             TextField addressField = new TextField();
-            fieldPane.add(new Label("Adres:"), 0, 1);
-            fieldPane.add(addressField, 1, 1);
+            fieldPane.add(new Label("Adres*:"), 0, 2);
+            fieldPane.add(addressField, 1, 2);
             TextField telephoneField = new TextField();
-            fieldPane.add(new Label("Telefoon:"), 0, 2);
-            fieldPane.add(telephoneField, 1, 2);
+            fieldPane.add(new Label("Telefoon*:"), 0, 3);
+            fieldPane.add(telephoneField, 1, 3);
             TextField faxField = new TextField();
-            fieldPane.add(new Label("FAX:"), 0, 3);
-            fieldPane.add(faxField, 1, 3);
+            fieldPane.add(new Label("FAX*:"), 0, 4);
+            fieldPane.add(faxField, 1, 4);
             TextField gsmField = new TextField();
-            fieldPane.add(new Label("GSM:"), 0, 4);
-            fieldPane.add(gsmField, 1, 4);
+            fieldPane.add(new Label("GSM*:"), 0, 5);
+            fieldPane.add(gsmField, 1, 5);
             TextField accountNumberBelgiumField = new TextField();
-            fieldPane.add(new Label("KBC:"), 0, 5);
-            fieldPane.add(accountNumberBelgiumField, 1, 5);
+            fieldPane.add(new Label("KBC:"), 0, 6);
+            fieldPane.add(accountNumberBelgiumField, 1, 6);
             TextField ibanBelgiumField = new TextField();
-            fieldPane.add(new Label("IBAN BE:"), 0, 6);
-            fieldPane.add(ibanBelgiumField, 1, 6);
+            fieldPane.add(new Label("IBAN BE*:"), 0, 7);
+            fieldPane.add(ibanBelgiumField, 1, 7);
             TextField bicBelgiumField = new TextField();
-            fieldPane.add(new Label("BIC BE:"), 0, 7);
-            fieldPane.add(bicBelgiumField, 1, 7);
+            fieldPane.add(new Label("BIC BE*:"), 0, 8);
+            fieldPane.add(bicBelgiumField, 1, 8);
             TextField accountNumberNetherlandsField = new TextField();
-            fieldPane.add(new Label("Rabobank Zundert:"), 0, 8);
-            fieldPane.add(accountNumberNetherlandsField, 1, 8);
+            fieldPane.add(new Label("Rabobank Zundert:"), 0, 9);
+            fieldPane.add(accountNumberNetherlandsField, 1, 9);
             TextField ibanNetherlandsField = new TextField();
-            fieldPane.add(new Label("IBAN NL:"), 0, 9);
-            fieldPane.add(ibanNetherlandsField, 1, 9);
+            fieldPane.add(new Label("IBAN NL*:"), 0, 10);
+            fieldPane.add(ibanNetherlandsField, 1, 10);
             TextField bicNetherlandsField = new TextField();
-            fieldPane.add(new Label("BIC NL:"), 0, 10);
-            fieldPane.add(bicNetherlandsField, 1, 10);
+            fieldPane.add(new Label("BIC NL*:"), 0, 11);
+            fieldPane.add(bicNetherlandsField, 1, 11);
             TextField btwNumberField = new TextField();
-            fieldPane.add(new Label("BTW nummer:"), 0, 11);
-            fieldPane.add(btwNumberField, 1, 11);
+            fieldPane.add(new Label("BTW nummer*:"), 0, 12);
+            fieldPane.add(btwNumberField, 1, 12);
 
             createCompanyDialog.getDialogPane().setContent(fieldPane);
 
-            focusField(nameField);
-            handleCompanyCreateResult(createCompanyDialog, createCompanyButton, nameField, addressField, telephoneField, faxField, gsmField, accountNumberBelgiumField, ibanBelgiumField, bicBelgiumField, accountNumberNetherlandsField, ibanNetherlandsField, bicNetherlandsField, btwNumberField);
+            focusField(name1Field);
+            handleCompanyCreateResult(createCompanyDialog, createCompanyButton, name1Field, name2Field, addressField, telephoneField, faxField, gsmField, accountNumberBelgiumField, ibanBelgiumField, bicBelgiumField, accountNumberNetherlandsField, ibanNetherlandsField, bicNetherlandsField, btwNumberField);
         }
     }
 
@@ -167,11 +170,12 @@ public class AppController implements Initializable {
         return createCompanyButton;
     }
 
-    private void handleCompanyCreateResult(Dialog<CompanyDTO> dialog, ButtonType createCompanyButton, TextField nameField, TextField addressField, TextField telephoneField, TextField faxField, TextField gsmField, TextField accountNumberBelgiumField, TextField ibanBelgiumField, TextField bicBelgiumField, TextField accountNumberNetherlandsField, TextField ibanNetherlandsField, TextField bicNetherlandsField, TextField btwNumberField) {
+    private void handleCompanyCreateResult(Dialog<CompanyDTO> dialog, ButtonType createCompanyButton, TextField name1Field, TextField name2Field, TextField addressField, TextField telephoneField, TextField faxField, TextField gsmField, TextField accountNumberBelgiumField, TextField ibanBelgiumField, TextField bicBelgiumField, TextField accountNumberNetherlandsField, TextField ibanNetherlandsField, TextField bicNetherlandsField, TextField btwNumberField) {
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == createCompanyButton) {
                 CompanyDTO companyDTO = new CompanyDTO();
-                companyDTO.setName(nameField.getText());
+                companyDTO.setName1(name1Field.getText());
+                companyDTO.setName2(name2Field.getText());
                 companyDTO.setAddress(addressField.getText());
                 companyDTO.setTelephone(telephoneField.getText());
                 companyDTO.setFax(faxField.getText());

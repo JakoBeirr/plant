@@ -75,6 +75,6 @@ public class CompanyServiceImpl implements CompanyService {
         if (validationResult.size() > 0) {
             return new CrudsResult().error(validationResult);
         }
-        return new CrudsResult().success(companyDTO.getName());
+        return new CrudsResult().success(companyDTO.getName1() + " " + companyDTO.getName2());
     }
 }

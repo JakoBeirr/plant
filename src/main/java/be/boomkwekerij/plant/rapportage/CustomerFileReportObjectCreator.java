@@ -15,7 +15,7 @@ public class CustomerFileReportObjectCreator {
 
     public CustomerFileReportObject create(CompanyDTO company, DateTime reportDate, List<CustomerDTO> customers) {
         CustomerFileReportObject customerFileReportObject = new CustomerFileReportObject();
-        customerFileReportObject.setCompanyName(company.getName());
+        customerFileReportObject.setCompanyName(company.getName1() + " " + company.getName2());
         customerFileReportObject.setReportDate(DateUtils.formatDate(reportDate, DateFormatPattern.DATE_FORMAT));
         List<CustomerFileCustomerReportObject> customerReportObjects = new ArrayList<>();
         for (CustomerDTO customer : customers) {

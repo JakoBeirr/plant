@@ -7,7 +7,8 @@ public class CompanyMapper {
 
     public Company mapDTOToDAO(CompanyDTO companyDTO) {
         Company company = new Company();
-        company.setName(companyDTO.getName());
+        company.setName1(companyDTO.getName1());
+        company.setName2(companyDTO.getName2());
         company.setAddress(companyDTO.getAddress());
         company.setTelephone(companyDTO.getTelephone());
         company.setFax(companyDTO.getFax());
@@ -24,7 +25,8 @@ public class CompanyMapper {
 
     public CompanyDTO mapDAOToDTO(Company company) {
         CompanyDTO companyDTO = new CompanyDTO();
-        companyDTO.setName(company.getName());
+        companyDTO.setName1(company.getName1());
+        companyDTO.setName2(company.getName2());
         companyDTO.setAddress(company.getAddress());
         companyDTO.setTelephone(company.getTelephone());
         companyDTO.setFax(company.getFax());
