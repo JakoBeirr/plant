@@ -3,6 +3,7 @@ package be.boomkwekerij.plant.view.controller;
 import be.boomkwekerij.plant.model.dto.DateDTO;
 import be.boomkwekerij.plant.view.model.InvoiceViewModel;
 import be.boomkwekerij.plant.view.services.InvoiceListService;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -67,19 +68,20 @@ public class InvoiceListController implements PageController {
     }
 
     private void addChangeListenersToList() {
-        invoiceList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (invoiceList.getSelectionModel().getSelectedItems().size() == 1) {
-                payInvoiceButton.setVisible(!newValue.getPayed());
-                payInvoiceButton.setManaged(!newValue.getPayed());
-                unPayInvoiceButton.setVisible(newValue.getPayed());
-                unPayInvoiceButton.setManaged(newValue.getPayed());
+        invoiceList.getSelectionModel().getSelectedItems().addListener((ListChangeListener<InvoiceViewModel>) selectedInvoices -> {
+            if (selectedInvoices.getList().size() == 1) {
+                InvoiceViewModel selectedInvoice = selectedInvoices.getList().get(0);
+                payInvoiceButton.setVisible(!selectedInvoice.getPayed());
+                payInvoiceButton.setManaged(!selectedInvoice.getPayed());
+                unPayInvoiceButton.setVisible(selectedInvoice.getPayed());
+                unPayInvoiceButton.setManaged(selectedInvoice.getPayed());
                 printInvoiceButton.setVisible(true);
                 printInvoiceButton.setManaged(true);
                 deleteInvoiceButton.setVisible(true);
                 deleteInvoiceButton.setManaged(true);
-            } else if (invoiceList.getSelectionModel().getSelectedItems().size() > 1) {
-                boolean allInvoicesAreUnPayed = invoiceList.getSelectionModel().getSelectedItems().stream().filter(invoice -> !invoice.getPayed()).count() == invoiceList.getSelectionModel().getSelectedItems().size();
-                boolean allInvoicesArePayed = invoiceList.getSelectionModel().getSelectedItems().stream().filter(InvoiceViewModel::getPayed).count() == invoiceList.getSelectionModel().getSelectedItems().size();
+            } else if (selectedInvoices.getList().size() > 1) {
+                boolean allInvoicesAreUnPayed = selectedInvoices.getList().stream().filter(invoice -> !invoice.getPayed()).count() == invoiceList.getSelectionModel().getSelectedItems().size();
+                boolean allInvoicesArePayed = selectedInvoices.getList().stream().filter(InvoiceViewModel::getPayed).count() == invoiceList.getSelectionModel().getSelectedItems().size();
                 payInvoiceButton.setVisible(allInvoicesAreUnPayed);
                 payInvoiceButton.setManaged(allInvoicesAreUnPayed);
                 unPayInvoiceButton.setVisible(allInvoicesArePayed);
