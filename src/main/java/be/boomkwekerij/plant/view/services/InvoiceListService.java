@@ -9,10 +9,12 @@ import be.boomkwekerij.plant.view.mapper.InvoiceViewMapper;
 import be.boomkwekerij.plant.view.model.InvoiceViewModel;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -113,11 +115,15 @@ public class InvoiceListService {
                     if (payDate == null) {
                         throw new IllegalArgumentException("Datum van betalen niet ingevuld");
                     }
-                    InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
-                    CrudsResult payInvoiceResult = invoiceController.payInvoice(selectedInvoice.getId(), payDate);
-                    if (payInvoiceResult.isError()) {
-                        throw new IllegalArgumentException(Arrays.toString(payInvoiceResult.getMessages().toArray()));
+
+                    ObservableList<InvoiceViewModel> selectedInvoices = invoiceList.getSelectionModel().getSelectedItems();
+                    for (InvoiceViewModel selectedInvoice : selectedInvoices) {
+                        CrudsResult payInvoiceResult = invoiceController.payInvoice(selectedInvoice.getId(), payDate);
+                        if (payInvoiceResult.isError()) {
+                            throw new IllegalArgumentException(Arrays.toString(payInvoiceResult.getMessages().toArray()));
+                        }
                     }
+
 
                     return null;
                 }
@@ -133,10 +139,12 @@ public class InvoiceListService {
                 protected Void call() throws Exception {
                     updateTitle("Factuur betaalgegevens wissen");
 
-                    InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
-                    CrudsResult unPayInvoiceResult = invoiceController.unPayInvoice(selectedInvoice.getId());
-                    if (unPayInvoiceResult.isError()) {
-                        throw new IllegalArgumentException(Arrays.toString(unPayInvoiceResult.getMessages().toArray()));
+                    ObservableList<InvoiceViewModel> selectedInvoices = invoiceList.getSelectionModel().getSelectedItems();
+                    for (InvoiceViewModel selectedInvoice : selectedInvoices) {
+                        CrudsResult unPayInvoiceResult = invoiceController.unPayInvoice(selectedInvoice.getId());
+                        if (unPayInvoiceResult.isError()) {
+                            throw new IllegalArgumentException(Arrays.toString(unPayInvoiceResult.getMessages().toArray()));
+                        }
                     }
 
                     return null;
@@ -153,10 +161,12 @@ public class InvoiceListService {
                 protected Void call() throws Exception {
                     updateTitle("Factuur printen");
 
-                    InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
-                    CrudsResult printResult = invoiceController.printInvoiceDocument(selectedInvoice.getId());
-                    if (printResult.isError()) {
-                        throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
+                    ObservableList<InvoiceViewModel> selectedInvoices = invoiceList.getSelectionModel().getSelectedItems();
+                    for (InvoiceViewModel selectedInvoice : selectedInvoices) {
+                        CrudsResult printResult = invoiceController.printInvoiceDocument(selectedInvoice.getId());
+                        if (printResult.isError()) {
+                            throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
+                        }
                     }
 
                     return null;
@@ -192,10 +202,12 @@ public class InvoiceListService {
                 protected Void call() throws Exception {
                     updateTitle("Factuur verwijderen");
 
-                    InvoiceViewModel selectedInvoice = invoiceList.getSelectionModel().getSelectedItem();
-                    CrudsResult deleteResult = invoiceController.deleteInvoice(selectedInvoice.getId());
-                    if (deleteResult.isError()) {
-                        throw new IllegalArgumentException(Arrays.toString(deleteResult.getMessages().toArray()));
+                    ObservableList<InvoiceViewModel> selectedInvoices = invoiceList.getSelectionModel().getSelectedItems();
+                    for (InvoiceViewModel selectedInvoice : selectedInvoices) {
+                        CrudsResult deleteResult = invoiceController.deleteInvoice(selectedInvoice.getId());
+                        if (deleteResult.isError()) {
+                            throw new IllegalArgumentException(Arrays.toString(deleteResult.getMessages().toArray()));
+                        }
                     }
 
                     return null;

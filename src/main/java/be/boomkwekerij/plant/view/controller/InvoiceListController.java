@@ -15,6 +15,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 public class InvoiceListController implements PageController {
 
@@ -49,6 +50,8 @@ public class InvoiceListController implements PageController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        invoiceList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         addChangeListenerToField();
         addChangeListenersToList();
     }
@@ -65,11 +68,22 @@ public class InvoiceListController implements PageController {
 
     private void addChangeListenersToList() {
         invoiceList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
+            if (invoiceList.getSelectionModel().getSelectedItems().size() == 1) {
                 payInvoiceButton.setVisible(!newValue.getPayed());
                 payInvoiceButton.setManaged(!newValue.getPayed());
                 unPayInvoiceButton.setVisible(newValue.getPayed());
                 unPayInvoiceButton.setManaged(newValue.getPayed());
+                printInvoiceButton.setVisible(true);
+                printInvoiceButton.setManaged(true);
+                deleteInvoiceButton.setVisible(true);
+                deleteInvoiceButton.setManaged(true);
+            } else if (invoiceList.getSelectionModel().getSelectedItems().size() > 1) {
+                boolean allInvoicesAreUnPayed = invoiceList.getSelectionModel().getSelectedItems().stream().filter(invoice -> !invoice.getPayed()).count() == invoiceList.getSelectionModel().getSelectedItems().size();
+                boolean allInvoicesArePayed = invoiceList.getSelectionModel().getSelectedItems().stream().filter(InvoiceViewModel::getPayed).count() == invoiceList.getSelectionModel().getSelectedItems().size();
+                payInvoiceButton.setVisible(allInvoicesAreUnPayed);
+                payInvoiceButton.setManaged(allInvoicesAreUnPayed);
+                unPayInvoiceButton.setVisible(allInvoicesArePayed);
+                unPayInvoiceButton.setManaged(allInvoicesArePayed);
                 printInvoiceButton.setVisible(true);
                 printInvoiceButton.setManaged(true);
                 deleteInvoiceButton.setVisible(true);
