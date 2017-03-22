@@ -27,6 +27,8 @@ public class MultipleScreenApplicationLoader {
         templates.put("invoiceList", "invoice_list.fxml");
         templates.put("invoiceCreate", "invoice_create.fxml");
         templates.put("invoiceModify", "invoice_modify.fxml");
+        templates.put("fustList", "fust_list.fxml");
+        templates.put("fustCreate", "fust_create.fxml");
         templates.put("generalSettings", "general_settings.fxml");
         templates.put("backup", "backup.fxml");
         templates.put("report", "report.fxml");

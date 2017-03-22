@@ -272,14 +272,24 @@ public class InvoiceListService {
                 .bind(deleteInvoiceService.runningProperty());
 
         payInvoiceService.setOnSucceeded(serviceEvent -> {
-            loadAllInvoicesService.restart();
+            if (invoiceSearchField.getText().length() > 2) {
+                loadAllInvoicesWithNumberService.restart();
+            } else {
+                loadAllInvoicesService.restart();
+            }
+
             ServiceHandler.success(payInvoiceService);
         });
         payInvoiceService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(payInvoiceService);
         });
         unPayInvoiceService.setOnSucceeded(serviceEvent -> {
-            loadAllInvoicesService.restart();
+            if (invoiceSearchField.getText().length() > 2) {
+                loadAllInvoicesWithNumberService.restart();
+            } else {
+                loadAllInvoicesService.restart();
+            }
+
             ServiceHandler.success(unPayInvoiceService);
         });
         unPayInvoiceService.setOnFailed(serviceEvent -> {
@@ -298,7 +308,12 @@ public class InvoiceListService {
             ServiceHandler.error(printSellingConditionsService);
         });
         deleteInvoiceService.setOnSucceeded(serviceEvent -> {
-            loadAllInvoicesService.restart();
+            if (invoiceSearchField.getText().length() > 2) {
+                loadAllInvoicesWithNumberService.restart();
+            } else {
+                loadAllInvoicesService.restart();
+            }
+
             ServiceHandler.success(deleteInvoiceService);
         });
         deleteInvoiceService.setOnFailed(serviceEvent -> {

@@ -1,0 +1,70 @@
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.FustCreateController">
+
+    <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox styleClass="center-pane" spacing="5">
+            <Label styleClass="paneTitle" text="Fust Aanmaken"/>
+
+            <TextField fx:id="customerSearchField" promptText="Klant zoeken..." maxWidth="1177" />
+
+            <TableView fx:id="customerList" fixedCellSize="25" maxWidth="1177" prefHeight="150">
+                <columns>
+                    <TableColumn id="name1Column" text="Naam 1" prefWidth="200">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name1" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="name2Column" text="Naam 2" prefWidth="200">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name2" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="address1Column" text="Adres" prefWidth="250">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="address1" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="postalCodeColumn" text="Postcode" prefWidth="75">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="postalCode" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="residenceColumn" text="Woonplaats" prefWidth="150">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="residence" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="countryColumn" text="Land" prefWidth="50">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="country" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="telephoneColumn" text="Telefoon" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="telephone" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="btwNumberColumn" text="BTW nummer" prefWidth="150">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="btwNumber" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+
+            <Button fx:id="showCreateFustButton" mnemonicParsing="false" text="Maak fust" onAction="#showCreateFust" visible="false" styleClass="blue-button" />
+
+            <GridPane fx:id="createFustPane" styleClass="modifyPane" visible="false" hgap="10" vgap="10">
+                <Label id="labelCustomer" text="Klant:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="customer" disable="true" prefColumnCount="30" GridPane.fillWidth="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label id="labelRow" text="" GridPane.rowIndex="5"/>
+
+                <Button fx:id="fustCreateButton" mnemonicParsing="false" onMouseClicked="#createFust" text="Aanmaken" GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="green-button" />
+            </GridPane>
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

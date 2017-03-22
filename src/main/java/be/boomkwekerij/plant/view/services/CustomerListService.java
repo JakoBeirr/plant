@@ -178,7 +178,11 @@ public class CustomerListService {
             ServiceHandler.error(showCustomerDetailsService);
         });
         deleteCustomerService.setOnSucceeded(serviceEvent -> {
-            loadAllCustomersWithNameService.restart();
+            if (customerSearchField.getText().length() > 2) {
+                loadAllCustomersWithNameService.restart();
+            } else {
+                loadAllCustomersService.restart();
+            }
 
             ServiceHandler.success(deleteCustomerService);
         });

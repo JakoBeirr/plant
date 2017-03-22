@@ -15,6 +15,7 @@ public class Initializer {
     private static CustomerDAO customerDAO;
     private static InvoiceDAO invoiceDAO;
     private static PlantDAO plantDAO;
+    private static FustDAO fustDAO;
     private static SystemDAO systemDAO;
 
     public static final int MAX_INVOICELINES = 18;
@@ -35,6 +36,7 @@ public class Initializer {
         customerDAO = new CustomerDAOImpl();
         invoiceDAO = new InvoiceDAOImpl();
         plantDAO = new PlantDAOImpl();
+        fustDAO = new FustDAOImpl();
         systemDAO = new SystemDAOImpl();
     }
 
@@ -44,6 +46,8 @@ public class Initializer {
         createDirectoryWhenNotExists(dataUri, "/customers");
         createDirectoryWhenNotExists(dataUri, "/invoices");
         createDirectoryWhenNotExists(dataUri, "/plants");
+        createDirectoryWhenNotExists(dataUri, "/plants");
+        createDirectoryWhenNotExists(dataUri, "/fusts");
         createDirectoryWhenNotExists(dataUri, "/system");
         createDirectoryWhenNotExists(dataUri, "/files");
     }
@@ -76,6 +80,9 @@ public class Initializer {
 
         List<Plant> plants = plantDAO.findAll().getResults();
         MemoryDatabase.getPlantMemory().createPlants(plants);
+
+        List<Fust> fusts = fustDAO.findAll().getResults();
+        MemoryDatabase.getFustMemory().createFusts(fusts);
 
         System system = systemDAO.get().getFirst();
         MemoryDatabase.getSystemMemory().createSystem(system);

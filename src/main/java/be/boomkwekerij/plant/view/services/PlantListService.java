@@ -178,7 +178,11 @@ public class PlantListService {
             ServiceHandler.error(showPlantDetailsService);
         });
         deletePlantService.setOnSucceeded(serviceEvent -> {
-            loadAllPlantsWithNameService.restart();
+            if (plantSearchField.getText().length() > 2) {
+                loadAllPlantsWithNameService.restart();
+            } else {
+                loadAllPlantsService.restart();
+            }
 
             ServiceHandler.success(deletePlantService);
         });

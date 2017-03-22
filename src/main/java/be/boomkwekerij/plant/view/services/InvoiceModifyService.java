@@ -481,7 +481,11 @@ public class InvoiceModifyService {
             invoiceLines.getChildren().clear();
 
             clearInvoiceLineService.restart();
-            loadAllInvoicesService.restart();
+            if (invoiceSearchField.getText().length() > 2) {
+                loadAllInvoicesWithNumberService.restart();
+            } else {
+                loadAllInvoicesService.restart();
+            }
 
             ServiceHandler.success(modifyInvoiceService);
         });

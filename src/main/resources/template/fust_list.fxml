@@ -1,0 +1,28 @@
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.boomkwekerij.plant.view.controller.FustListController">
+
+    <ScrollPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox styleClass="center-pane" spacing="5">
+            <Label styleClass="paneTitle" text="Fust Lijst"/>
+
+            <TextField fx:id="fustSearchField" promptText="Zoeken..." maxWidth="702" />
+
+            <TableView fx:id="fustList" fixedCellSize="25" maxWidth="702" prefHeight="450">
+                <columns>
+                    <TableColumn id="customerNameColumn" text="Klant" prefWidth="250">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="customerName" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+
+            <HBox spacing="5">
+                <Button fx:id="deleteFustButton" text="Verwijder" mnemonicParsing="false" onAction="#deleteFust" visible="false" managed="false" styleClass="red-button" />
+            </HBox>
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

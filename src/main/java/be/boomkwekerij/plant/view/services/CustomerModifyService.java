@@ -278,7 +278,11 @@ public class CustomerModifyService {
             customerList.getSelectionModel().clearSelection();
             initializeTextFields();
 
-            loadAllCustomersWithNameService.restart();
+            if (customerSearchField.getText().length() > 2) {
+                loadAllCustomersWithNameService.restart();
+            } else {
+                loadAllCustomersService.restart();
+            }
 
             ServiceHandler.success(modifyCustomerService);
         });

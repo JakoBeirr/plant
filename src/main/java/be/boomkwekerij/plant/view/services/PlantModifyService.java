@@ -222,7 +222,11 @@ public class PlantModifyService {
             plantList.getSelectionModel().clearSelection();
             initializeTextFields();
 
-            loadAllPlantsWithNameService.restart();
+            if (plantSearchField.getText().length() > 2) {
+                loadAllPlantsWithNameService.restart();
+            } else {
+                loadAllPlantsService.restart();
+            }
 
             ServiceHandler.success(modifyPlantService);
         });

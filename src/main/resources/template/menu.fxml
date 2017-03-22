@@ -18,6 +18,10 @@
         <MenuItem fx:id="invoiceCreate" text="Aanmaken"/>
         <MenuItem fx:id="invoiceModify" text="Bewerken"/>
     </Menu>
+    <Menu text="Fust">
+        <MenuItem fx:id="fustList" text="Bekijken"/>
+        <MenuItem fx:id="fustCreate" text="Toevoegen"/>
+    </Menu>
     <Menu text="Algemeen">
         <MenuItem fx:id="generalSettings" text="Algemene instellingen"/>
         <MenuItem fx:id="backup" text="Backup"/>
