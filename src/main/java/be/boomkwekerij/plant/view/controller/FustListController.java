@@ -2,9 +2,11 @@ package be.boomkwekerij.plant.view.controller;
 
 import be.boomkwekerij.plant.view.model.FustViewModel;
 import be.boomkwekerij.plant.view.services.FustListService;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -21,18 +23,23 @@ public class FustListController implements PageController {
     @FXML
     private TableView<FustViewModel> fustList;
     @FXML
+    private Button printFustButton;
+    @FXML
     private Button deleteFustButton;
 
     @Override
     public void init(Pane root) {
         fustListService.setFustSearchField(fustSearchField);
         fustListService.setFustList(fustList);
+        fustListService.setPrintFustButton(printFustButton);
         fustListService.setDeleteFustButton(deleteFustButton);
         fustListService.init(root);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        fustList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         addChangeListenerToField();
         addChangeListenersToList();
     }
@@ -48,10 +55,23 @@ public class FustListController implements PageController {
     }
 
     private void addChangeListenersToList() {
-        fustList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            deleteFustButton.setVisible(newValue != null);
-            deleteFustButton.setManaged(newValue != null);
+        fustList.getSelectionModel().getSelectedItems().addListener((ListChangeListener<FustViewModel>) selectedInvoices -> {
+            if (selectedInvoices.getList().size() > 0) {
+                printFustButton.setVisible(true);
+                printFustButton.setManaged(true);
+                deleteFustButton.setVisible(true);
+                deleteFustButton.setManaged(true);
+            } else {
+                printFustButton.setVisible(true);
+                printFustButton.setManaged(true);
+                deleteFustButton.setVisible(false);
+                deleteFustButton.setManaged(false);
+            }
         });
+    }
+
+    public void printFust(ActionEvent actionEvent) {
+        fustListService.printFustService.restart();
     }
 
     public void deleteFust(ActionEvent actionEvent) {

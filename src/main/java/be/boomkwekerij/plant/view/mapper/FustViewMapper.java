@@ -13,6 +13,15 @@ public class FustViewMapper {
         if (customer != null) {
             fustViewModel.setCustomerName(customer.getName1());
         }
+        fustViewModel.setLageKisten(fustDTO.getLageKisten());
+        fustViewModel.setHogeKisten(fustDTO.getHogeKisten());
+        fustViewModel.setPalletBodem(fustDTO.getPalletBodem());
+        fustViewModel.setBoxPallet(fustDTO.getBoxPallet());
+        fustViewModel.setHalveBox(fustDTO.getHalveBox());
+        fustViewModel.setFerroPalletKlein(fustDTO.getFerroPalletKlein());
+        fustViewModel.setFerroPalletGroot(fustDTO.getFerroPalletGroot());
+        fustViewModel.setKarrenEnBorden(fustDTO.getKarrenEnBorden());
+        fustViewModel.setDiverse(fustDTO.getDiverse());
         return fustViewModel;
     }
 }

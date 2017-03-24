@@ -8,19 +8,65 @@
         <VBox styleClass="center-pane" spacing="5">
             <Label styleClass="paneTitle" text="Fust Lijst"/>
 
-            <TextField fx:id="fustSearchField" promptText="Zoeken..." maxWidth="702" />
+            <TextField fx:id="fustSearchField" promptText="Zoeken..." maxWidth="1152" />
 
-            <TableView fx:id="fustList" fixedCellSize="25" maxWidth="702" prefHeight="450">
+            <TableView fx:id="fustList" fixedCellSize="25" maxWidth="1152" prefHeight="450">
                 <columns>
                     <TableColumn id="customerNameColumn" text="Klant" prefWidth="250">
                         <cellValueFactory>
                             <PropertyValueFactory property="customerName" />
                         </cellValueFactory>
                     </TableColumn>
+                    <TableColumn id="lageKistenColumn" text="Lage Kisten" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="lageKisten" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="hogeKistenColumn" text="Hoge Kisten" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="hogeKisten" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="palletBodemColumn" text="Pallet-Bodem" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="palletBodem" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="boxPalletColumn" text="Box-Pallet" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="boxPallet" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="halveBoxColumn" text="Halve Box" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="halveBox" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="ferroPalletKleinColumn" text="Ferro-Pallet (Klein)" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="ferroPalletKlein" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="ferroPalletGrootColumn" text="Ferro-Pallet (Groot)" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="ferroPalletGroot" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="karrenEnBordenColumn" text="C.C. Karren/Borden" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="karrenEnBorden" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="diverseColumn" text="Diverse" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="diverse" />
+                        </cellValueFactory>
+                    </TableColumn>
                 </columns>
             </TableView>
 
             <HBox spacing="5">
+                <Button fx:id="printFustButton" text="Print" mnemonicParsing="false" onAction="#printFust" visible="false" managed="false" styleClass="blue-button" />
                 <Button fx:id="deleteFustButton" text="Verwijder" mnemonicParsing="false" onAction="#deleteFust" visible="false" managed="false" styleClass="red-button" />
             </HBox>
         </VBox>

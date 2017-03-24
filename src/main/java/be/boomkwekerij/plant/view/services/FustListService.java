@@ -30,6 +30,7 @@ public class FustListService {
 
     private TextField fustSearchField;
     private TableView<FustViewModel> fustList;
+    private Button printFustButton;
     private Button deleteFustButton;
 
     public final Service loadAllFustsService = new Service() {
@@ -97,6 +98,28 @@ public class FustListService {
         }
     };
 
+    public final Service printFustService = new Service() {
+        @Override
+        protected Task createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    updateTitle("Fust printen");
+
+                    ObservableList<FustViewModel> selectedFusts = fustList.getSelectionModel().getSelectedItems();
+                    for (FustViewModel selectedFust : selectedFusts) {
+                        CrudsResult printResult = fustController.printFustReport(selectedFust.getId());
+                        if (printResult.isError()) {
+                            throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
+                        }
+                    }
+
+                    return null;
+                }
+            };
+        }
+    };
+
     public final Service deleteFustService = new Service() {
         @Override
         protected Task createTask() {
@@ -127,6 +150,10 @@ public class FustListService {
         this.fustList = fustList;
     }
 
+    public void setPrintFustButton(Button printFustButton) {
+        this.printFustButton = printFustButton;
+    }
+
     public void setDeleteFustButton(Button deleteFustButton) {
         this.deleteFustButton = deleteFustButton;
     }
@@ -135,13 +162,22 @@ public class FustListService {
         root.cursorProperty()
                 .bind(Bindings.when(loadAllFustsService.runningProperty()
                             .or(loadAllFustFromCustomerWithName.runningProperty()
-                            .or(deleteFustService.runningProperty())))
+                            .or(printFustService.runningProperty()
+                            .or(deleteFustService.runningProperty()))))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
+        printFustButton.disableProperty()
+                .bind(printFustService.runningProperty());
         deleteFustButton.disableProperty()
                 .bind(deleteFustService.runningProperty());
 
+        printFustService.setOnSucceeded(serviceEvent -> {
+            ServiceHandler.success(printFustService);
+        });
+        printFustService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(printFustService);
+        });
         deleteFustService.setOnSucceeded(serviceEvent -> {
             if (fustSearchField.getText().length() > 2) {
                 loadAllFustFromCustomerWithName.restart();

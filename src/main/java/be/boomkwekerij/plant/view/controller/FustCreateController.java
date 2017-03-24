@@ -29,9 +29,27 @@ public class FustCreateController implements PageController {
     @FXML
     private TextField customer;
     @FXML
+    private TextField lageKisten;
+    @FXML
+    private TextField hogeKisten;
+    @FXML
+    private TextField palletBodem;
+    @FXML
+    private TextField boxPallet;
+    @FXML
+    private TextField halveBox;
+    @FXML
+    private TextField ferroPalletKlein;
+    @FXML
+    private TextField ferroPalletGroot;
+    @FXML
+    private TextField karrenEnBorden;
+    @FXML
+    private TextField diverse;
+    @FXML
     private Button fustCreateButton;
 
-    //private static final String NON_NUMERIC_CHARACTERS = "[^\\d]";
+    private static final String NON_NUMERIC_CHARACTERS = "[^\\d]";
 
     @Override
     public void init(Pane root) {
@@ -40,6 +58,15 @@ public class FustCreateController implements PageController {
         fustCreateService.setShowCreateFustButton(showCreateFustButton);
         fustCreateService.setCreateFustPane(createFustPane);
         fustCreateService.setCustomer(customer);
+        fustCreateService.setLageKisten(lageKisten);
+        fustCreateService.setHogeKisten(hogeKisten);
+        fustCreateService.setPalletBodem(palletBodem);
+        fustCreateService.setBoxPallet(boxPallet);
+        fustCreateService.setHalveBox(halveBox);
+        fustCreateService.setFerroPalletKlein(ferroPalletKlein);
+        fustCreateService.setFerroPalletGroot(ferroPalletGroot);
+        fustCreateService.setKarrenEnBorden(karrenEnBorden);
+        fustCreateService.setDiverse(diverse);
         fustCreateService.setFustCreateButton(fustCreateButton);
         fustCreateService.init(root);
     }
@@ -68,7 +95,33 @@ public class FustCreateController implements PageController {
     }
 
     private void initNumericFields() {
-
+        lageKisten.textProperty().addListener((observable, oldValue, newValue) -> {
+            lageKisten.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        });
+        hogeKisten.textProperty().addListener((observable, oldValue, newValue) -> {
+            hogeKisten.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        });
+        palletBodem.textProperty().addListener((observable, oldValue, newValue) -> {
+            palletBodem.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        });
+        boxPallet.textProperty().addListener((observable, oldValue, newValue) -> {
+            boxPallet.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        });
+        halveBox.textProperty().addListener((observable, oldValue, newValue) -> {
+            halveBox.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        });
+        ferroPalletKlein.textProperty().addListener((observable, oldValue, newValue) -> {
+            ferroPalletKlein.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        });
+        ferroPalletGroot.textProperty().addListener((observable, oldValue, newValue) -> {
+            ferroPalletGroot.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        });
+        karrenEnBorden.textProperty().addListener((observable, oldValue, newValue) -> {
+            karrenEnBorden.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        });
+        diverse.textProperty().addListener((observable, oldValue, newValue) -> {
+            diverse.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        });
     }
 
     public void showCreateFust(ActionEvent actionEvent) {

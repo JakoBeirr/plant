@@ -35,6 +35,15 @@ public class FustCreateService {
     private Button showCreateFustButton;
     private GridPane createFustPane;
     private TextField customer;
+    private TextField lageKisten;
+    private TextField hogeKisten;
+    private TextField palletBodem;
+    private TextField boxPallet;
+    private TextField halveBox;
+    private TextField ferroPalletKlein;
+    private TextField ferroPalletGroot;
+    private TextField karrenEnBorden;
+    private TextField diverse;
     private Button fustCreateButton;
 
     private FustDTO newFust = null;
@@ -121,6 +130,15 @@ public class FustCreateService {
                         @Override
                         public void run() {
                             customer.setText(fustCustomer);
+                            lageKisten.setText(Integer.toString(newFust.getLageKisten()));
+                            hogeKisten.setText(Integer.toString(newFust.getHogeKisten()));
+                            palletBodem.setText(Integer.toString(newFust.getPalletBodem()));
+                            boxPallet.setText(Integer.toString(newFust.getBoxPallet()));
+                            halveBox.setText(Integer.toString(newFust.getHalveBox()));
+                            ferroPalletKlein.setText(Integer.toString(newFust.getFerroPalletKlein()));
+                            ferroPalletGroot.setText(Integer.toString(newFust.getFerroPalletGroot()));
+                            karrenEnBorden.setText(Integer.toString(newFust.getKarrenEnBorden()));
+                            diverse.setText(Integer.toString(newFust.getDiverse()));
                         }
                     });
 
@@ -136,13 +154,23 @@ public class FustCreateService {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    updateTitle("Aanmaken fust");
+                    updateTitle("Toevoegen fust");
 
                     CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
                     CustomerDTO selectedCustomerDTO = customerViewMapper.mapViewModelToDTO(selectedCustomer);
 
                     FustDTO fustDTO = new FustDTO();
+                    fustDTO.setId(newFust.getId());
                     fustDTO.setCustomer(selectedCustomerDTO);
+                    fustDTO.setLageKisten(Integer.valueOf(lageKisten.getText()));
+                    fustDTO.setHogeKisten(Integer.valueOf(hogeKisten.getText()));
+                    fustDTO.setPalletBodem(Integer.valueOf(palletBodem.getText()));
+                    fustDTO.setBoxPallet(Integer.valueOf(boxPallet.getText()));
+                    fustDTO.setHalveBox(Integer.valueOf(halveBox.getText()));
+                    fustDTO.setFerroPalletKlein(Integer.valueOf(ferroPalletKlein.getText()));
+                    fustDTO.setFerroPalletGroot(Integer.valueOf(ferroPalletGroot.getText()));
+                    fustDTO.setKarrenEnBorden(Integer.valueOf(karrenEnBorden.getText()));
+                    fustDTO.setDiverse(Integer.valueOf(diverse.getText()));
 
                     CrudsResult createResult = fustController.createFust(fustDTO);
                     if (createResult.isError()) {
@@ -173,6 +201,42 @@ public class FustCreateService {
 
     public void setCustomer(TextField customer) {
         this.customer = customer;
+    }
+
+    public void setLageKisten(TextField lageKisten) {
+        this.lageKisten = lageKisten;
+    }
+
+    public void setHogeKisten(TextField hogeKisten) {
+        this.hogeKisten = hogeKisten;
+    }
+
+    public void setPalletBodem(TextField palletBodem) {
+        this.palletBodem = palletBodem;
+    }
+
+    public void setBoxPallet(TextField boxPallet) {
+        this.boxPallet = boxPallet;
+    }
+
+    public void setHalveBox(TextField halveBox) {
+        this.halveBox = halveBox;
+    }
+
+    public void setFerroPalletKlein(TextField ferroPalletKlein) {
+        this.ferroPalletKlein = ferroPalletKlein;
+    }
+
+    public void setFerroPalletGroot(TextField ferroPalletGroot) {
+        this.ferroPalletGroot = ferroPalletGroot;
+    }
+
+    public void setKarrenEnBorden(TextField karrenEnBorden) {
+        this.karrenEnBorden = karrenEnBorden;
+    }
+
+    public void setDiverse(TextField diverse) {
+        this.diverse = diverse;
     }
 
     public void setFustCreateButton(Button fustCreateButton) {

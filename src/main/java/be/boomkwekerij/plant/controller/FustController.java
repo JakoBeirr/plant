@@ -1,8 +1,8 @@
 package be.boomkwekerij.plant.controller;
 
+import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.model.dto.FustDTO;
-import be.boomkwekerij.plant.service.FustService;
-import be.boomkwekerij.plant.service.FustServiceImpl;
+import be.boomkwekerij.plant.service.*;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 
@@ -11,6 +11,8 @@ import java.util.Collections;
 public class FustController {
 
     private FustService fustService = new FustServiceImpl();
+    private FustDocumentService fustDocumentService = new FustDocumentServiceImpl();
+    private PrinterService printerService = new PrinterServiceImpl();
 
     public CrudsResult createFust(FustDTO fustDTO) {
         try {
@@ -59,6 +61,21 @@ public class FustController {
     public CrudsResult deleteFust(String id) {
         try {
             return fustService.deleteFust(id);
+        } catch (Exception e) {
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
+        }
+    }
+
+    public CrudsResult printFustReport(String fustId) {
+        try {
+            SearchResult<FustDTO> fustSearchResult = fustService.getFust(fustId);
+            if (fustSearchResult.isSuccess()) {
+                FustDTO fust = fustSearchResult.getFirst();
+                BestandDTO fustReport = fustDocumentService.createFustReport(fust);
+                printerService.printDocument_Portrait(fustReport);
+                return new CrudsResult().success(fustId);
+            }
+            return new CrudsResult().error(fustSearchResult.getMessages());
         } catch (Exception e) {
             return new CrudsResult().error(Collections.singletonList(e.getMessage()));
         }

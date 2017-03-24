@@ -24,7 +24,6 @@ public class FustServiceImpl implements FustService {
     private FustMapper fustMapper = new FustMapper();
     private FustValidator fustValidator = new FustValidator();
 
-    private SystemService systemService = new SystemServiceImpl();
     private CustomerService customerService = new CustomerServiceImpl();
 
     public CrudsResult createFust(FustDTO fustDTO) {
@@ -36,13 +35,31 @@ public class FustServiceImpl implements FustService {
         Fust fust = fustMapper.mapDTOToDAO(fustDTO);
 
         CrudsResult createResult;
+        boolean emptyFust = fustDTO.getLageKisten() == 0
+                && fustDTO.getHogeKisten() == 0
+                && fustDTO.getPalletBodem() == 0
+                && fustDTO.getBoxPallet() == 0
+                && fustDTO.getHalveBox() == 0
+                && fustDTO.getFerroPalletKlein() == 0
+                && fustDTO.getFerroPalletGroot() == 0
+                && fustDTO.getKarrenEnBorden() == 0
+                && fustDTO.getDiverse() == 0;
+
         if (fustDTO.getId() != null && !fustDTO.getId().isEmpty()) {
-            createResult = fustDAO.update(fust);
+            if (emptyFust) {
+                createResult = deleteFust(fustDTO.getId());
+            } else {
+                createResult = fustDAO.update(fust);
+            }
         } else {
-            createResult = fustDAO.persist(fust);
+            if (emptyFust) {
+                createResult = new CrudsResult().success();
+            } else {
+                createResult = fustDAO.persist(fust);
+            }
         }
 
-        if (createResult.isSuccess()) {
+        if (createResult.isSuccess() && !emptyFust) {
             fustMemory.createFust(fust);
         }
 
@@ -147,6 +164,15 @@ public class FustServiceImpl implements FustService {
 
         FustDTO fustDTO = new FustDTO();
         fustDTO.setCustomer(customerDTO);
+        fustDTO.setLageKisten(0);
+        fustDTO.setHogeKisten(0);
+        fustDTO.setPalletBodem(0);
+        fustDTO.setBoxPallet(0);
+        fustDTO.setHalveBox(0);
+        fustDTO.setFerroPalletKlein(0);
+        fustDTO.setFerroPalletGroot(0);
+        fustDTO.setKarrenEnBorden(0);
+        fustDTO.setDiverse(0);
         return fustDTO;
     }
 

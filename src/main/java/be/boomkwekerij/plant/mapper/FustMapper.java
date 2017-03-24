@@ -10,6 +10,15 @@ public class FustMapper {
         Fust fust = new Fust();
         fust.setId(fustDTO.getId());
         fust.setCustomerId(fustDTO.getCustomer().getId());
+        fust.setLageKisten(fustDTO.getLageKisten());
+        fust.setHogeKisten(fustDTO.getHogeKisten());
+        fust.setPalletBodem(fustDTO.getPalletBodem());
+        fust.setBoxPallet(fustDTO.getBoxPallet());
+        fust.setHalveBox(fustDTO.getHalveBox());
+        fust.setFerroPalletKlein(fustDTO.getFerroPalletKlein());
+        fust.setFerroPalletGroot(fustDTO.getFerroPalletGroot());
+        fust.setKarrenEnBorden(fustDTO.getKarrenEnBorden());
+        fust.setDiverse(fustDTO.getDiverse());
         return fust;
     }
 
@@ -17,6 +26,15 @@ public class FustMapper {
         FustDTO fustDTO = new FustDTO();
         fustDTO.setId(fust.getId());
         fustDTO.setCustomer(customer);
+        fustDTO.setLageKisten(fust.getLageKisten());
+        fustDTO.setHogeKisten(fust.getHogeKisten());
+        fustDTO.setPalletBodem(fust.getPalletBodem());
+        fustDTO.setBoxPallet(fust.getBoxPallet());
+        fustDTO.setHalveBox(fust.getHalveBox());
+        fustDTO.setFerroPalletKlein(fust.getFerroPalletKlein());
+        fustDTO.setFerroPalletGroot(fust.getFerroPalletGroot());
+        fustDTO.setKarrenEnBorden(fust.getKarrenEnBorden());
+        fustDTO.setDiverse(fust.getDiverse());
         return fustDTO;
     }
 }
