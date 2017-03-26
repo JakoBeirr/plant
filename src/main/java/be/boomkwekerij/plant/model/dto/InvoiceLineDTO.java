@@ -9,6 +9,7 @@ public class InvoiceLineDTO {
     private int amount;
     private String plantId;
     private String plantName;
+    private String remark;
     private String plantAge;
     private String plantMeasure;
     private double plantPrice;
@@ -54,6 +55,14 @@ public class InvoiceLineDTO {
 
     public void setPlantName(String plantName) {
         this.plantName = plantName;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getPlantAge() {

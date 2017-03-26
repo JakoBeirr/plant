@@ -106,6 +106,9 @@
                         <Label fx:id="chosenPlant" managed="false" visible="false" />
 
                         <Button fx:id="choosePlantButton" mnemonicParsing="false" text="Kies plant" onAction="#choosePlant" managed="false" visible="false" styleClass="blue-button" />
+
+                        <Label fx:id="remarkLabel" managed="false" visible="false" text="Opmerking:" />
+                        <TextField fx:id="remark" managed="false" visible="false" prefColumnCount="45" maxWidth="527" />
                     </VBox>
                     <HBox spacing="5">
                         <VBox spacing="5">

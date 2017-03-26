@@ -49,6 +49,10 @@ public class InvoiceCreateController implements PageController {
     @FXML
     private Button choosePlantButton;
     @FXML
+    private Label remarkLabel;
+    @FXML
+    private TextField remark;
+    @FXML
     private TextField orderNumber;
     @FXML
     private DatePicker invoiceLineDate;
@@ -78,6 +82,8 @@ public class InvoiceCreateController implements PageController {
         invoiceCreateService.setPlantList(plantList);
         invoiceCreateService.setChoosePlantButton(choosePlantButton);
         invoiceCreateService.setChosenPlant(chosenPlant);
+        invoiceCreateService.setRemarkLabel(remarkLabel);
+        invoiceCreateService.setRemark(remark);
         invoiceCreateService.setOrderNumber(orderNumber);
         invoiceCreateService.setInvoiceLineDate(invoiceLineDate);
         invoiceCreateService.setInvoiceLineBtw(invoiceLineBtw);

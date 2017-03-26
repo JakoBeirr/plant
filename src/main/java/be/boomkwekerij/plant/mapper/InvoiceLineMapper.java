@@ -17,6 +17,7 @@ public class InvoiceLineMapper {
         invoiceLine.setAmount(invoiceLineDTO.getAmount());
         invoiceLine.setPlantId(invoiceLineDTO.getPlantId());
         invoiceLine.setPlantName(invoiceLineDTO.getPlantName());
+        invoiceLine.setRemark(invoiceLineDTO.getRemark() != null ? invoiceLineDTO.getRemark() : "");
         invoiceLine.setPlantAge(invoiceLineDTO.getPlantAge());
         invoiceLine.setPlantMeasure(invoiceLineDTO.getPlantMeasure());
         invoiceLine.setPlantPrice(invoiceLineDTO.getPlantPrice());
@@ -31,6 +32,7 @@ public class InvoiceLineMapper {
         invoiceLineDTO.setAmount(invoiceLine.getAmount());
         invoiceLineDTO.setPlantId(invoiceLine.getPlantId());
         invoiceLineDTO.setPlantName(invoiceLine.getPlantName());
+        invoiceLineDTO.setRemark(invoiceLine.getRemark() != null ? invoiceLine.getRemark() : "");
         invoiceLineDTO.setPlantAge(invoiceLine.getPlantAge());
         invoiceLineDTO.setPlantMeasure(invoiceLine.getPlantMeasure());
         invoiceLineDTO.setPlantPrice(invoiceLine.getPlantPrice());

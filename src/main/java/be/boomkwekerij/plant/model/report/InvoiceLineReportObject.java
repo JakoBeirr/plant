@@ -4,7 +4,7 @@ public class InvoiceLineReportObject {
 
     private String invoiceLineDate;
     private String orderNumber;
-    private Integer plantAmount;
+    private String plantAmount;
     private String plantSpecies;
     private String plantAge;
     private String plantMeasure;
@@ -27,11 +27,11 @@ public class InvoiceLineReportObject {
         this.orderNumber = orderNumber;
     }
 
-    public Integer getPlantAmount() {
+    public String getPlantAmount() {
         return plantAmount;
     }
 
-    public void setPlantAmount(Integer plantAmount) {
+    public void setPlantAmount(String plantAmount) {
         this.plantAmount = plantAmount;
     }
 

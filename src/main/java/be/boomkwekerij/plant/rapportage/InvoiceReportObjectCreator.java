@@ -11,6 +11,7 @@ import be.boomkwekerij.plant.util.DateFormatPattern;
 import be.boomkwekerij.plant.util.DateUtils;
 import be.boomkwekerij.plant.util.Initializer;
 import be.boomkwekerij.plant.util.NumberUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,16 +29,19 @@ public class InvoiceReportObjectCreator {
         List<InvoiceLineDTO> invoiceLines = invoiceDTO.getInvoiceLines();
         sortInvoiceLinesByDate(invoiceLines);
         for (InvoiceLineDTO invoiceLineDTO : invoiceLines) {
-            InvoiceLineReportObject invoiceLineReportObject = invoiceLineReportObjectCreator.create(invoiceLineDTO);
-            onePagedInvoiceReportObject.getInvoiceLines().add(invoiceLineReportObject);
+            onePagedInvoiceReportObject.getInvoiceLines().add(invoiceLineReportObjectCreator.create(invoiceLineDTO));
+
+            if (StringUtils.isNotBlank(invoiceLineDTO.getRemark())) {
+                onePagedInvoiceReportObject.getInvoiceLines().add(invoiceLineReportObjectCreator.createRemarkRow(invoiceLineDTO));
+            }
         }
         removeUnnecessaryDates(onePagedInvoiceReportObject.getInvoiceLines());
         onePagedInvoiceReportObject.setHasOrderNumbers(checkIfInvoiceHasOrderNumbers(invoiceLines));
-        onePagedInvoiceReportObject.setSubTotal(NumberUtils.roundDouble(invoiceDTO.getSubTotal(), 2));
+        onePagedInvoiceReportObject.setSubTotal(NumberUtils.roundDouble(invoiceDTO.getSubTotal(), 2) + " EUR");
         List<BtwDTO> btwList = invoiceDTO.getBtw();
         sortBtwByPercentage(btwList);
         onePagedInvoiceReportObject.setBtw(mapToBtwReportObject(btwList));
-        onePagedInvoiceReportObject.setTotalPrice(NumberUtils.roundDouble(invoiceDTO.getTotalPrice(), 2));
+        onePagedInvoiceReportObject.setTotalPrice(NumberUtils.roundDouble(invoiceDTO.getTotalPrice(), 2) + " EUR");
         return onePagedInvoiceReportObject;
     }
 
@@ -50,18 +54,21 @@ public class InvoiceReportObjectCreator {
             List<InvoiceLineDTO> invoiceLines = getInvoiceLinesToMap(invoiceDTO, i);
             sortInvoiceLinesByDate(invoiceLines);
             for (InvoiceLineDTO invoiceLineDTO : invoiceLines) {
-                InvoiceLineReportObject invoiceLineReportObject = invoiceLineReportObjectCreator.create(invoiceLineDTO);
-                multiplePagedInvoiceReportObject.getInvoiceLines().add(invoiceLineReportObject);
+                multiplePagedInvoiceReportObject.getInvoiceLines().add(invoiceLineReportObjectCreator.create(invoiceLineDTO));
+
+                if (StringUtils.isNotBlank(invoiceLineDTO.getRemark())) {
+                    multiplePagedInvoiceReportObject.getInvoiceLines().add(invoiceLineReportObjectCreator.createRemarkRow(invoiceLineDTO));
+                }
             }
-            multiplePagedInvoiceReportObject.setTransportPreviousPage(NumberUtils.roundDouble(getTotalPricePage(invoiceDTO, i-1), 2));
-            multiplePagedInvoiceReportObject.setTransportCurrentPage(NumberUtils.roundDouble(getTotalPricePage(invoiceDTO, i), 2));
+            multiplePagedInvoiceReportObject.setTransportPreviousPage(NumberUtils.roundDouble(getTotalPricePage(invoiceDTO, i-1), 2) + " EUR");
+            multiplePagedInvoiceReportObject.setTransportCurrentPage(NumberUtils.roundDouble(getTotalPricePage(invoiceDTO, i), 2) + " EUR");
             removeUnnecessaryDates(multiplePagedInvoiceReportObject.getInvoiceLines());
             multiplePagedInvoiceReportObject.setHasOrderNumbers(checkIfInvoiceHasOrderNumbers(invoiceDTO.getInvoiceLines()));
-            multiplePagedInvoiceReportObject.setSubTotal(NumberUtils.roundDouble(invoiceDTO.getSubTotal(), 2));
+            multiplePagedInvoiceReportObject.setSubTotal(NumberUtils.roundDouble(invoiceDTO.getSubTotal(), 2) + " EUR");
             List<BtwDTO> btwList = invoiceDTO.getBtw();
             sortBtwByPercentage(btwList);
             multiplePagedInvoiceReportObject.setBtw(mapToBtwReportObject(btwList));
-            multiplePagedInvoiceReportObject.setTotalPrice(NumberUtils.roundDouble(invoiceDTO.getTotalPrice(), 2));
+            multiplePagedInvoiceReportObject.setTotalPrice(NumberUtils.roundDouble(invoiceDTO.getTotalPrice(), 2) + " EUR");
             multiplePagedInvoiceReportObjects.add(multiplePagedInvoiceReportObject);
         }
         return multiplePagedInvoiceReportObjects;
@@ -69,11 +76,7 @@ public class InvoiceReportObjectCreator {
 
     private void sortInvoiceLinesByDate(List<InvoiceLineDTO> invoiceLines) {
         if (invoiceLines.size() > 0) {
-            Collections.sort(invoiceLines, new Comparator<InvoiceLineDTO>() {
-                public int compare(InvoiceLineDTO invoiceLineDTO1, InvoiceLineDTO invoiceLineDTO2) {
-                    return invoiceLineDTO1.getDate().compareTo(invoiceLineDTO2.getDate());
-                }
-            });
+            Collections.sort(invoiceLines, (invoiceLineDTO1, invoiceLineDTO2) -> invoiceLineDTO1.getDate().compareTo(invoiceLineDTO2.getDate()));
         }
     }
 

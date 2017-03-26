@@ -12,6 +12,7 @@ public class InvoiceLine {
     private int amount;
     private String plantId;
     private String plantName;
+    private String remark;
     private String plantAge;
     private String plantMeasure;
     private double plantPrice;
@@ -64,6 +65,15 @@ public class InvoiceLine {
 
     public String getPlantAge() {
         return plantAge;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    @XmlElement
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @XmlElement

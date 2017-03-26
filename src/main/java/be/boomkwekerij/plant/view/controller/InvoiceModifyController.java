@@ -49,6 +49,10 @@ public class InvoiceModifyController implements PageController {
     @FXML
     private Button choosePlantButton;
     @FXML
+    private Label remarkLabel;
+    @FXML
+    private TextField remark;
+    @FXML
     private TextField orderNumber;
     @FXML
     private DatePicker invoiceLineDate;
@@ -78,6 +82,8 @@ public class InvoiceModifyController implements PageController {
         invoiceModifyService.setPlantList(plantList);
         invoiceModifyService.setChoosePlantButton(choosePlantButton);
         invoiceModifyService.setChosenPlant(chosenPlant);
+        invoiceModifyService.setRemarkLabel(remarkLabel);
+        invoiceModifyService.setRemark(remark);
         invoiceModifyService.setOrderNumber(orderNumber);
         invoiceModifyService.setInvoiceLineDate(invoiceLineDate);
         invoiceModifyService.setInvoiceLineBtw(invoiceLineBtw);

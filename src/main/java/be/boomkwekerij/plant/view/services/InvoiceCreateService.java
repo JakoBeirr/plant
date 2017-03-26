@@ -56,6 +56,8 @@ public class InvoiceCreateService {
     private TableView<PlantViewModel> plantList;
     private Label chosenPlant;
     private Button choosePlantButton;
+    private Label remarkLabel;
+    private TextField remark;
     private TextField orderNumber;
     private DatePicker invoiceLineDate;
     private TextField invoiceLineBtw;
@@ -236,12 +238,17 @@ public class InvoiceCreateService {
                         public void run() {
                             chosenPlant.setText("");
                             plantSearchField.setText("");
+                            remark.setText("");
                             orderNumber.setText("");
                             amount.setText("");
                             alternativePlantPrice.setText("");
                             invoiceLineDate.setValue(invoiceDate.getValue());
                             invoiceLineBtw.setText(defaultBtw);
                             plantSearchField.setDisable(false);
+                            remarkLabel.setVisible(false);
+                            remarkLabel.setManaged(false);
+                            remark.setVisible(false);
+                            remark.setManaged(false);
                         }
                     });
 
@@ -265,6 +272,7 @@ public class InvoiceCreateService {
 
                     String plantId = chosenPlant.getText();
                     String plantName = plantSearchField.getText();
+                    String InvoiceLineRemark = remark.getText();
                     String invoiceOrderNumber = orderNumber.getText();
                     LocalDate invoiceInvoiceLineDate = invoiceLineDate.getValue();
                     String invoiceInvoiceLineAmount = amount.getText();
@@ -274,7 +282,7 @@ public class InvoiceCreateService {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            addInvoiceLine(plantId, plantName, invoiceOrderNumber, invoiceInvoiceLineDate, invoiceInvoiceLineAmount, invoiceInvoiceLineBtw, plantPrice);
+                            addInvoiceLine(plantId, plantName, InvoiceLineRemark, invoiceOrderNumber, invoiceInvoiceLineDate, invoiceInvoiceLineAmount, invoiceInvoiceLineBtw, plantPrice);
                         }
                     });
 
@@ -309,11 +317,12 @@ public class InvoiceCreateService {
                         ObservableList<Node> children = createdInvoiceLine.getChildren();
                         Label createdChosenPlant = (Label) children.get(0);
                         TextField createdPlant = (TextField) children.get(1);
-                        TextField createdOrderNumber = (TextField) children.get(2);
-                        DatePicker createdInvoiceLineDate = (DatePicker) children.get(3);
-                        TextField createdAmount = (TextField) children.get(4);
-                        TextField createdInvoiceLineBtw = (TextField) children.get(5);
-                        TextField createdPrice = (TextField) children.get(6);
+                        TextField createdRemark = (TextField) children.get(2);
+                        TextField createdOrderNumber = (TextField) children.get(3);
+                        DatePicker createdInvoiceLineDate = (DatePicker) children.get(4);
+                        TextField createdAmount = (TextField) children.get(5);
+                        TextField createdInvoiceLineBtw = (TextField) children.get(6);
+                        TextField createdPrice = (TextField) children.get(7);
 
                         InvoiceLineDTO invoiceLineDTO = new InvoiceLineDTO();
                         invoiceLineDTO.setOrderNumber(createdOrderNumber.getText());
@@ -330,6 +339,7 @@ public class InvoiceCreateService {
                         } else {
                             throw new ItemNotFoundException("Kon plant " + createdPlant.getText() + " niet vinden!");
                         }
+                        invoiceLineDTO.setRemark(createdRemark.getText());
                         invoiceLineDTO.setBtw(Double.parseDouble(createdInvoiceLineBtw.getText()));
                         invoiceLineDTO.setPlantPrice(Double.parseDouble(createdPrice.getText()));
                         invoiceDTO.getInvoiceLines().add(invoiceLineDTO);
@@ -395,6 +405,14 @@ public class InvoiceCreateService {
         this.choosePlantButton = choosePlantButton;
     }
 
+    public void setRemarkLabel(Label remarkLabel) {
+        this.remarkLabel = remarkLabel;
+    }
+
+    public void setRemark(TextField remark) {
+        this.remark = remark;
+    }
+
     public void setOrderNumber(TextField orderNumber) {
         this.orderNumber = orderNumber;
     }
@@ -448,8 +466,16 @@ public class InvoiceCreateService {
             plantSearchField.setDisable(true);
             choosePlantButton.setVisible(false);
             choosePlantButton.setManaged(false);
+            remarkLabel.setVisible(true);
+            remarkLabel.setManaged(true);
+            remark.setVisible(true);
+            remark.setManaged(true);
         });
         createInvoiceLineService.setOnSucceeded(serviceEvent -> {
+            remarkLabel.setVisible(false);
+            remarkLabel.setManaged(false);
+            remark.setVisible(false);
+            remark.setManaged(false);
             clearInvoiceLineService.restart();
         });
         createInvoiceLineService.setOnFailed(serviceEvent -> {
@@ -473,17 +499,20 @@ public class InvoiceCreateService {
         loadAllCustomersService.restart();
     }
 
-    private void addInvoiceLine(String chosenPlant, String plantSearchField, String orderNumber, LocalDate invoiceLineDate, String amount, String invoiceLineBtw, String alternativePlantPrice) {
+    private void addInvoiceLine(String chosenPlant, String plantSearchField, String invoiceLineRemark, String orderNumber, LocalDate invoiceLineDate, String amount, String invoiceLineBtw, String alternativePlantPrice) {
         HBox invoiceLine = new HBox(5);
 
         Label createdChosenPlant = new Label(chosenPlant);
         createdChosenPlant.setManaged(false);
         createdChosenPlant.setVisible(false);
         TextField createdPlant = new TextField(plantSearchField);
-        createdPlant.setPrefColumnCount(37);
+        createdPlant.setPrefColumnCount(22);
         createdPlant.setDisable(true);
+        TextField createdRemark = new TextField(invoiceLineRemark);
+        createdRemark.setPrefColumnCount(13);
+        createdRemark.setDisable(true);
         TextField createdOrderNumber = new TextField(orderNumber);
-        createdOrderNumber.setPrefColumnCount(10);
+        createdOrderNumber.setPrefColumnCount(8);
         createdOrderNumber.setDisable(true);
         DatePicker createdInvoiceLineDate = new DatePicker(invoiceLineDate);
         createdInvoiceLineDate.setDisable(true);
@@ -507,6 +536,7 @@ public class InvoiceCreateService {
 
         invoiceLine.getChildren().add(createdChosenPlant);
         invoiceLine.getChildren().add(createdPlant);
+        invoiceLine.getChildren().add(createdRemark);
         invoiceLine.getChildren().add(createdOrderNumber);
         invoiceLine.getChildren().add(createdInvoiceLineDate);
         invoiceLine.getChildren().add(createdAmount);
