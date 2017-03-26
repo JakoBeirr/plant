@@ -1,10 +1,13 @@
 package be.boomkwekerij.plant.view.services;
 
+import be.boomkwekerij.plant.controller.FustController;
 import be.boomkwekerij.plant.controller.InvoiceController;
 import be.boomkwekerij.plant.model.dto.DateDTO;
+import be.boomkwekerij.plant.model.dto.FustDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
+import be.boomkwekerij.plant.view.controller.AlertController;
 import be.boomkwekerij.plant.view.mapper.InvoiceViewMapper;
 import be.boomkwekerij.plant.view.model.InvoiceViewModel;
 import javafx.application.Platform;
@@ -26,6 +29,7 @@ import java.util.List;
 public class InvoiceListService {
 
     private InvoiceController invoiceController = new InvoiceController();
+    private FustController fustController = new FustController();
 
     private InvoiceViewMapper invoiceViewMapper = new InvoiceViewMapper();
 
@@ -35,6 +39,7 @@ public class InvoiceListService {
     private Button unPayInvoiceButton;
     private Button printInvoiceButton;
     private Button printSellingConditionsButton;
+    private Button printFustButton;
     private Button deleteInvoiceButton;
 
     private DateDTO payDate = null;
@@ -194,6 +199,42 @@ public class InvoiceListService {
         }
     };
 
+    public final Service printFustService = new Service() {
+        @Override
+        protected Task createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    updateTitle("Fust printen");
+
+                    ObservableList<InvoiceViewModel> selectedInvoices = invoiceList.getSelectionModel().getSelectedItems();
+                    for (InvoiceViewModel selectedInvoice : selectedInvoices) {
+                        SearchResult<InvoiceDTO> invoiceSearchResult = invoiceController.getInvoice(selectedInvoice.getId());
+                        if (invoiceSearchResult.isSuccess()) {
+                            InvoiceDTO invoice = invoiceSearchResult.getFirst();
+                            SearchResult<FustDTO> fustFromCustomerSearchResult = fustController.getFustFromCustomer(invoice.getCustomer().getId());
+                            if (fustFromCustomerSearchResult.isSuccess()) {
+                                FustDTO fustFromCustomer = fustFromCustomerSearchResult.getFirst();
+                                if (fustFromCustomer != null) {
+                                    CrudsResult printResult = fustController.printFustReport(fustFromCustomer.getId());
+                                    if (printResult.isError()) {
+                                        throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
+                                    }
+                                }
+                            } else {
+                                throw new IllegalArgumentException(Arrays.toString(fustFromCustomerSearchResult.getMessages().toArray()));
+                            }
+                        } else {
+                            throw new IllegalArgumentException(Arrays.toString(invoiceSearchResult.getMessages().toArray()));
+                        }
+                    }
+
+                    return null;
+                }
+            };
+        }
+    };
+
     public final Service deleteInvoiceService = new Service() {
         @Override
         protected Task createTask() {
@@ -240,6 +281,10 @@ public class InvoiceListService {
         this.printSellingConditionsButton = printSellingConditionsButton;
     }
 
+    public void setPrintFustButton(Button printFustButton) {
+        this.printFustButton = printFustButton;
+    }
+
     public void setDeleteInvoiceButton(Button deleteInvoiceButton) {
         this.deleteInvoiceButton = deleteInvoiceButton;
     }
@@ -256,7 +301,8 @@ public class InvoiceListService {
                             .or(unPayInvoiceService.runningProperty()
                             .or(printInvoiceService.runningProperty()
                             .or(printSellingConditionsService.runningProperty()
-                            .or(deleteInvoiceService.runningProperty())))))))
+                            .or(printFustService.runningProperty()
+                            .or(deleteInvoiceService.runningProperty()))))))))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
@@ -268,6 +314,8 @@ public class InvoiceListService {
                 .bind(printInvoiceService.runningProperty());
         printSellingConditionsButton.disableProperty()
                 .bind(printSellingConditionsService.runningProperty());
+        printFustButton.disableProperty()
+                .bind(printFustService.runningProperty());
         deleteInvoiceButton.disableProperty()
                 .bind(deleteInvoiceService.runningProperty());
 
@@ -306,6 +354,12 @@ public class InvoiceListService {
         });
         printSellingConditionsService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(printSellingConditionsService);
+        });
+        printFustService.setOnSucceeded(serviceEvent -> {
+            ServiceHandler.success(printFustService);
+        });
+        printFustService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(printFustService);
         });
         deleteInvoiceService.setOnSucceeded(serviceEvent -> {
             if (invoiceSearchField.getText().length() > 2) {

@@ -2,6 +2,7 @@ package be.boomkwekerij.plant.view.controller;
 
 import be.boomkwekerij.plant.view.model.CustomerViewModel;
 import be.boomkwekerij.plant.view.services.CustomerListService;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,6 +24,8 @@ public class CustomerListController implements PageController {
     @FXML
     private Button customerDetailsButton;
     @FXML
+    private Button printFustButton;
+    @FXML
     private Button customerDeleteButton;
 
     @Override
@@ -30,6 +33,7 @@ public class CustomerListController implements PageController {
         customerListService.setCustomerSearchField(customerSearchField);
         customerListService.setCustomerList(customerList);
         customerListService.setCustomerDetailsButton(customerDetailsButton);
+        customerListService.setPrintFustButton(printFustButton);
         customerListService.setCustomerDeleteButton(customerDeleteButton);
         customerListService.init(root);
     }
@@ -53,12 +57,20 @@ public class CustomerListController implements PageController {
     private void addChangeListenerToCustomerList() {
         customerList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             customerDetailsButton.setVisible(newValue != null);
+            customerDetailsButton.setManaged(newValue != null);
+            printFustButton.setVisible(newValue != null);
+            printFustButton.setManaged(newValue != null);
             customerDeleteButton.setVisible(newValue != null);
+            customerDeleteButton.setManaged(newValue != null);
         });
     }
 
     public void showCustomer(Event event) {
         customerListService.showCustomerDetailsService.restart();
+    }
+
+    public void printFust(Event event) {
+        customerListService.printFustService.restart();
     }
 
     public void deleteCustomer(Event event) {

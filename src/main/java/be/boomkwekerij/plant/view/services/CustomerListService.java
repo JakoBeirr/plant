@@ -1,13 +1,17 @@
 package be.boomkwekerij.plant.view.services;
 
 import be.boomkwekerij.plant.controller.CustomerController;
+import be.boomkwekerij.plant.controller.FustController;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
+import be.boomkwekerij.plant.model.dto.FustDTO;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
+import be.boomkwekerij.plant.view.controller.AlertController;
 import be.boomkwekerij.plant.view.mapper.CustomerViewMapper;
 import be.boomkwekerij.plant.view.model.CustomerViewModel;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
@@ -23,12 +27,14 @@ import java.util.List;
 public class CustomerListService {
 
     private CustomerController customerController = new CustomerController();
+    private FustController fustController = new FustController();
 
     private CustomerViewMapper customerViewMapper = new CustomerViewMapper();
 
     private TextField customerSearchField;
     private TableView<CustomerViewModel> customerList;
     private Button customerDetailsButton;
+    private Button printFustButton;
     private Button customerDeleteButton;
 
     public final Service loadAllCustomersService = new Service() {
@@ -124,6 +130,34 @@ public class CustomerListService {
         }
     };
 
+    public final Service printFustService = new Service() {
+        @Override
+        protected Task createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    updateTitle("Fust printen");
+
+                    CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
+                    SearchResult<FustDTO> fustFromCustomerSearchResult = fustController.getFustFromCustomer(selectedCustomer.getId());
+                    if (fustFromCustomerSearchResult.isSuccess()) {
+                        FustDTO fustFromCustomer = fustFromCustomerSearchResult.getFirst();
+                        if (fustFromCustomer != null) {
+                            CrudsResult printResult = fustController.printFustReport(fustFromCustomer.getId());
+                            if (printResult.isError()) {
+                                throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
+                            }
+                        }
+                    } else {
+                        throw new IllegalArgumentException(Arrays.toString(fustFromCustomerSearchResult.getMessages().toArray()));
+                    }
+
+                    return null;
+                }
+            };
+        }
+    };
+
     public final Service deleteCustomerService = new Service() {
         @Override
         protected Task createTask() {
@@ -156,6 +190,10 @@ public class CustomerListService {
         this.customerDetailsButton = customerDetailsButton;
     }
 
+    public void setPrintFustButton(Button printFustButton) {
+        this.printFustButton = printFustButton;
+    }
+
     public void setCustomerDeleteButton(Button customerDeleteButton) {
         this.customerDeleteButton = customerDeleteButton;
     }
@@ -165,17 +203,26 @@ public class CustomerListService {
                 .bind(Bindings.when(loadAllCustomersService.runningProperty()
                             .or(loadAllCustomersWithNameService.runningProperty()
                             .or(showCustomerDetailsService.runningProperty()
-                            .or(deleteCustomerService.runningProperty()))))
+                            .or(printFustService.runningProperty()
+                            .or(deleteCustomerService.runningProperty())))))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
         customerDetailsButton.disableProperty()
                 .bind(showCustomerDetailsService.runningProperty());
+        printFustButton.disableProperty()
+                .bind(printFustService.runningProperty());
         customerDeleteButton.disableProperty()
                 .bind(deleteCustomerService.runningProperty());
 
         showCustomerDetailsService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(showCustomerDetailsService);
+        });
+        printFustService.setOnSucceeded(serviceEvent -> {
+            ServiceHandler.success(printFustService);
+        });
+        printFustService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(printFustService);
         });
         deleteCustomerService.setOnSucceeded(serviceEvent -> {
             if (customerSearchField.getText().length() > 2) {

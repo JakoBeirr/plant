@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2017-03-24T18:01:30 -->
+<!-- 2017-03-26T11:43:38 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="customerFile" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="fustReport" class="be.boomkwekerij.plant.model.report.FustReportObject"/>
 	<pageHeader>
-		<band height="30" splitType="Stretch">
+		<band height="50" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="535" height="30" uuid="f10f3a3c-283e-4742-9924-a5d39f8f8a19">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="535" height="50" uuid="f10f3a3c-283e-4742-9924-a5d39f8f8a19">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Klant\t:\t" + $P{fustReport}.getCustomerName() +
 "\nDatum\t:\t" + $P{fustReport}.getReportDate()]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="29" width="535" height="1" uuid="4dc86306-3a3c-466c-9622-846bb7b89de5">
+				<reportElement x="0" y="49" width="535" height="1" uuid="4dc86306-3a3c-466c-9622-846bb7b89de5">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
@@ -26,222 +26,222 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="185">
+		<band height="230">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement positionType="Float" x="125" y="10" width="50" height="15" uuid="bd7e6997-8633-455e-9086-c27b5bc1fe1d">
+				<reportElement positionType="Float" x="200" y="10" width="75" height="20" uuid="bd7e6997-8633-455e-9086-c27b5bc1fe1d">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="8" isBold="false"/>
+					<font size="14" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getLageKisten()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="10" width="125" height="15" uuid="18990a87-8dbb-4c8c-9806-81e04eec8824">
+				<reportElement positionType="Float" x="0" y="10" width="200" height="20" uuid="18990a87-8dbb-4c8c-9806-81e04eec8824">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[LAGE KISTEN:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="30" width="125" height="15" uuid="e67f402b-559f-4dcf-8d52-6436e9f4fe2e">
+				<reportElement positionType="Float" x="0" y="35" width="200" height="20" uuid="e67f402b-559f-4dcf-8d52-6436e9f4fe2e">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[HOGE KISTEN:]]></text>
 			</staticText>
 			<textField>
-				<reportElement positionType="Float" x="125" y="30" width="50" height="15" uuid="21ce6c30-ddd8-4c6e-b2bf-7aacce8ed966">
+				<reportElement positionType="Float" x="200" y="35" width="75" height="20" uuid="21ce6c30-ddd8-4c6e-b2bf-7aacce8ed966">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="8" isBold="false"/>
+					<font size="14" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getHogeKisten()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="50" width="125" height="15" uuid="df0524cd-425a-4ad1-a732-1cef52e021d2">
+				<reportElement positionType="Float" x="0" y="60" width="200" height="20" uuid="df0524cd-425a-4ad1-a732-1cef52e021d2">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PALLET-BODEM:]]></text>
 			</staticText>
 			<textField>
-				<reportElement positionType="Float" x="125" y="50" width="50" height="15" uuid="a76f58a6-fd67-447d-80e4-f28c931a7dcd">
+				<reportElement positionType="Float" x="200" y="60" width="75" height="20" uuid="a76f58a6-fd67-447d-80e4-f28c931a7dcd">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="8" isBold="false"/>
+					<font size="14" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getPalletBodem()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="125" y="70" width="50" height="15" uuid="0ac9c899-f827-4009-845a-c7374e12c764">
+				<reportElement positionType="Float" x="200" y="85" width="75" height="20" uuid="0ac9c899-f827-4009-845a-c7374e12c764">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="8" isBold="false"/>
+					<font size="14" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getBoxPallet()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="70" width="125" height="15" uuid="6f88d6f6-3582-402d-a01a-d6f9ee6a4fb0">
+				<reportElement positionType="Float" x="0" y="85" width="200" height="20" uuid="6f88d6f6-3582-402d-a01a-d6f9ee6a4fb0">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[BOX-PALLET:]]></text>
 			</staticText>
 			<textField>
-				<reportElement positionType="Float" x="125" y="90" width="50" height="15" uuid="4783ebdf-c1d5-4509-951d-8cdd18601cdb">
+				<reportElement positionType="Float" x="200" y="110" width="75" height="20" uuid="4783ebdf-c1d5-4509-951d-8cdd18601cdb">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="8" isBold="false"/>
+					<font size="14" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getHalveBox()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="90" width="125" height="15" uuid="cd9f7a66-088b-4144-85c4-acdec9373570">
+				<reportElement positionType="Float" x="0" y="110" width="200" height="20" uuid="cd9f7a66-088b-4144-85c4-acdec9373570">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[HALVE BOX:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="110" width="125" height="15" uuid="d6cdf599-b9a1-4de2-9974-c195d4624bf0">
+				<reportElement positionType="Float" x="0" y="135" width="200" height="20" uuid="d6cdf599-b9a1-4de2-9974-c195d4624bf0">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FERRO-PALLET (KLEIN):]]></text>
 			</staticText>
 			<textField>
-				<reportElement positionType="Float" x="125" y="110" width="50" height="15" uuid="a2821af2-10e3-4e84-88e5-a8a8df703bee">
+				<reportElement positionType="Float" x="200" y="135" width="75" height="20" uuid="a2821af2-10e3-4e84-88e5-a8a8df703bee">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="8" isBold="false"/>
+					<font size="14" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getFerroPalletKlein()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="130" width="125" height="15" uuid="607cfe39-a1aa-40f0-8568-6f3e7274e80b">
+				<reportElement positionType="Float" x="0" y="160" width="200" height="20" uuid="607cfe39-a1aa-40f0-8568-6f3e7274e80b">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FERRO-PALLET (GROOT):]]></text>
 			</staticText>
 			<textField>
-				<reportElement positionType="Float" x="125" y="130" width="50" height="15" uuid="66474f6f-7d4b-4665-a406-76268a548465">
+				<reportElement positionType="Float" x="200" y="160" width="75" height="20" uuid="66474f6f-7d4b-4665-a406-76268a548465">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="8" isBold="false"/>
+					<font size="14" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getFerroPalletGroot()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="125" y="150" width="50" height="15" uuid="44cf016c-6a09-4692-8e4d-58ebca4e0096">
+				<reportElement positionType="Float" x="200" y="185" width="75" height="20" uuid="44cf016c-6a09-4692-8e4d-58ebca4e0096">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="8" isBold="false"/>
+					<font size="14" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getKarrenEnBorden()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="150" width="125" height="15" uuid="408797e0-444c-4b07-ab33-5162c109b524">
+				<reportElement positionType="Float" x="0" y="185" width="200" height="20" uuid="408797e0-444c-4b07-ab33-5162c109b524">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[C.C. KARREN/BORDEN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="170" width="125" height="15" uuid="247622e1-b467-4a0d-ac3e-c04e5a8a4041">
+				<reportElement positionType="Float" x="0" y="210" width="200" height="20" uuid="247622e1-b467-4a0d-ac3e-c04e5a8a4041">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DIVERSE:]]></text>
 			</staticText>
 			<textField>
-				<reportElement positionType="Float" x="125" y="170" width="50" height="15" uuid="64bccbe3-17ad-4d68-adad-dd470e0d478b">
+				<reportElement positionType="Float" x="200" y="210" width="75" height="20" uuid="64bccbe3-17ad-4d68-adad-dd470e0d478b">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="8" isBold="false"/>
+					<font size="14" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getDiverse()]]></textFieldExpression>
 			</textField>

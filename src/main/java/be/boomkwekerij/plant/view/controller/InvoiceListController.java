@@ -35,6 +35,8 @@ public class InvoiceListController implements PageController {
     @FXML
     private Button printSellingConditionsButton;
     @FXML
+    private Button printFustButton;
+    @FXML
     private Button deleteInvoiceButton;
 
     @Override
@@ -45,6 +47,7 @@ public class InvoiceListController implements PageController {
         invoiceListService.setUnPayInvoiceButton(unPayInvoiceButton);
         invoiceListService.setPrintInvoiceButton(printInvoiceButton);
         invoiceListService.setPrintSellingConditionsButton(printSellingConditionsButton);
+        invoiceListService.setPrintFustButton(printFustButton);
         invoiceListService.setDeleteInvoiceButton(deleteInvoiceButton);
         invoiceListService.init(root);
     }
@@ -77,6 +80,8 @@ public class InvoiceListController implements PageController {
                 unPayInvoiceButton.setManaged(selectedInvoice.getPayed());
                 printInvoiceButton.setVisible(true);
                 printInvoiceButton.setManaged(true);
+                printFustButton.setVisible(true);
+                printFustButton.setManaged(true);
                 deleteInvoiceButton.setVisible(true);
                 deleteInvoiceButton.setManaged(true);
             } else if (selectedInvoices.getList().size() > 1) {
@@ -88,6 +93,8 @@ public class InvoiceListController implements PageController {
                 unPayInvoiceButton.setManaged(allInvoicesArePayed);
                 printInvoiceButton.setVisible(true);
                 printInvoiceButton.setManaged(true);
+                printFustButton.setVisible(true);
+                printFustButton.setManaged(true);
                 deleteInvoiceButton.setVisible(true);
                 deleteInvoiceButton.setManaged(true);
             } else {
@@ -97,6 +104,8 @@ public class InvoiceListController implements PageController {
                 unPayInvoiceButton.setManaged(false);
                 printInvoiceButton.setVisible(false);
                 printInvoiceButton.setManaged(false);
+                printFustButton.setVisible(false);
+                printFustButton.setManaged(false);
                 deleteInvoiceButton.setVisible(false);
                 deleteInvoiceButton.setManaged(false);
             }
@@ -150,6 +159,10 @@ public class InvoiceListController implements PageController {
 
     public void printSellingConditions(ActionEvent actionEvent) {
         invoiceListService.printSellingConditionsService.restart();
+    }
+
+    public void printFust(ActionEvent actionEvent) {
+        invoiceListService.printFustService.restart();
     }
 
     public void deleteInvoice(ActionEvent actionEvent) {

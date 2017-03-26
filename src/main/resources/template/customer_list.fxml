@@ -56,8 +56,9 @@
             </TableView>
 
             <HBox spacing="5">
-                <Button fx:id="customerDetailsButton" mnemonicParsing="false" onMouseClicked="#showCustomer" visible="false" text="Details" styleClass="blue-button"/>
-                <Button fx:id="customerDeleteButton" mnemonicParsing="false" onMouseClicked="#deleteCustomer" visible="false" text="Klant verwijderen" styleClass="red-button"/>
+                <Button fx:id="customerDetailsButton" mnemonicParsing="false" onMouseClicked="#showCustomer" visible="false" managed="false" text="Details" styleClass="blue-button"/>
+                <Button fx:id="printFustButton" mnemonicParsing="false" onMouseClicked="#printFust" visible="false" managed="false" text="Print Fust" styleClass="blue-button"/>
+                <Button fx:id="customerDeleteButton" mnemonicParsing="false" onMouseClicked="#deleteCustomer" visible="false" managed="false" text="Klant verwijderen" styleClass="red-button"/>
             </HBox>
         </VBox>
     </ScrollPane>
