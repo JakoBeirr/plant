@@ -3,6 +3,7 @@ package be.boomkwekerij.plant.util;
 import be.boomkwekerij.plant.exception.ReportException;
 import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.model.report.FustReportObject;
+import be.boomkwekerij.plant.model.report.FustsReportObject;
 import net.sf.jasperreports.engine.*;
 import org.apache.commons.io.FileUtils;
 
@@ -31,8 +32,26 @@ public class FustPDFCreator {
         }
     }
 
+    public BestandDTO createFustsReport(FustsReportObject fustsReportObject) throws ReportException {
+        try {
+            JasperReport template = getFustsReportTemplate();
+            Map<String, Object> parameters = getFustsReportParameters(fustsReportObject);
+            JRDataSource dataSource = getDataSource();
+            JasperPrint page = pdfHelper.fillPDF(template, parameters, dataSource);
+
+            return createPDF("fusts_" + fustsReportObject.getReportDate(), Arrays.asList(page));
+        } catch (Exception e) {
+            throw new ReportException(e.getMessage());
+        }
+    }
+
     private JasperReport getFustReportTemplate() throws JRException {
         InputStream templateStream = ClassLoader.getSystemResourceAsStream("report/fust_report.jrxml");
+        return pdfHelper.compileStreamToReport(templateStream);
+    }
+
+    private JasperReport getFustsReportTemplate() throws JRException {
+        InputStream templateStream = ClassLoader.getSystemResourceAsStream("report/fusts_report.jrxml");
         return pdfHelper.compileStreamToReport(templateStream);
     }
 
@@ -43,6 +62,12 @@ public class FustPDFCreator {
     private Map<String, Object> getFustReportParameters(FustReportObject fustReportObject) {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("fustReport", fustReportObject);
+        return parameters;
+    }
+
+    private Map<String, Object> getFustsReportParameters(FustsReportObject fustsReportObject) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("fustsReport", fustsReportObject);
         return parameters;
     }
 

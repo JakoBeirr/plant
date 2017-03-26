@@ -2,10 +2,12 @@ package be.boomkwekerij.plant.rapportage;
 
 import be.boomkwekerij.plant.model.dto.FustDTO;
 import be.boomkwekerij.plant.model.report.FustReportObject;
+import be.boomkwekerij.plant.model.report.FustsReportObject;
 import be.boomkwekerij.plant.util.DateFormatPattern;
 import be.boomkwekerij.plant.util.DateUtils;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FustReportObjectCreator {
@@ -26,19 +28,23 @@ public class FustReportObjectCreator {
         return fustReportObject;
     }
 
-    public FustReportObject createFustsReport(List<FustDTO> fusts, DateTime reportDate) {
-        FustReportObject fustReportObject = new FustReportObject();
-        fustReportObject.setCustomerName("/");
-        fustReportObject.setReportDate(DateUtils.formatDate(reportDate, DateFormatPattern.DATE_FORMAT));
-        fustReportObject.setLageKisten(Integer.toString(fusts.stream().mapToInt(FustDTO::getLageKisten).sum()));
-        fustReportObject.setHogeKisten(Integer.toString(fusts.stream().mapToInt(FustDTO::getHogeKisten).sum()));
-        fustReportObject.setPalletBodem(Integer.toString(fusts.stream().mapToInt(FustDTO::getPalletBodem).sum()));
-        fustReportObject.setBoxPallet(Integer.toString(fusts.stream().mapToInt(FustDTO::getBoxPallet).sum()));
-        fustReportObject.setHalveBox(Integer.toString(fusts.stream().mapToInt(FustDTO::getHalveBox).sum()));
-        fustReportObject.setFerroPalletKlein(Integer.toString(fusts.stream().mapToInt(FustDTO::getFerroPalletKlein).sum()));
-        fustReportObject.setFerroPalletGroot(Integer.toString(fusts.stream().mapToInt(FustDTO::getFerroPalletGroot).sum()));
-        fustReportObject.setKarrenEnBorden(Integer.toString(fusts.stream().mapToInt(FustDTO::getKarrenEnBorden).sum()));
-        fustReportObject.setDiverse(Integer.toString(fusts.stream().mapToInt(FustDTO::getDiverse).sum()));
-        return fustReportObject;
+    public FustsReportObject createFustsReport(List<FustDTO> fusts, DateTime reportDate) {
+        FustsReportObject fustsReportObject = new FustsReportObject();
+        fustsReportObject.setReportDate(DateUtils.formatDate(reportDate, DateFormatPattern.DATE_FORMAT));
+        ArrayList<FustReportObject> fustReportObjects = new ArrayList<>();
+        for (FustDTO fust : fusts) {
+            fustReportObjects.add(createFustReport(fust, reportDate));
+        }
+        fustsReportObject.setFusts(fustReportObjects);
+        fustsReportObject.setTotalLageKisten(Integer.toString(fusts.stream().mapToInt(FustDTO::getLageKisten).sum()));
+        fustsReportObject.setTotalHogeKisten(Integer.toString(fusts.stream().mapToInt(FustDTO::getHogeKisten).sum()));
+        fustsReportObject.setTotalPalletBodem(Integer.toString(fusts.stream().mapToInt(FustDTO::getPalletBodem).sum()));
+        fustsReportObject.setTotalBoxPallet(Integer.toString(fusts.stream().mapToInt(FustDTO::getBoxPallet).sum()));
+        fustsReportObject.setTotalHalveBox(Integer.toString(fusts.stream().mapToInt(FustDTO::getHalveBox).sum()));
+        fustsReportObject.setTotalFerroPalletKlein(Integer.toString(fusts.stream().mapToInt(FustDTO::getFerroPalletKlein).sum()));
+        fustsReportObject.setTotalFerroPalletGroot(Integer.toString(fusts.stream().mapToInt(FustDTO::getFerroPalletGroot).sum()));
+        fustsReportObject.setTotalKarrenEnBorden(Integer.toString(fusts.stream().mapToInt(FustDTO::getKarrenEnBorden).sum()));
+        fustsReportObject.setTotalDiverse(Integer.toString(fusts.stream().mapToInt(FustDTO::getDiverse).sum()));
+        return fustsReportObject;
     }
 }

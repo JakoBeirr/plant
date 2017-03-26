@@ -1,11 +1,9 @@
 package be.boomkwekerij.plant.controller;
 
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
+import be.boomkwekerij.plant.model.dto.FustDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
-import be.boomkwekerij.plant.service.CustomerService;
-import be.boomkwekerij.plant.service.CustomerServiceImpl;
-import be.boomkwekerij.plant.service.InvoiceService;
-import be.boomkwekerij.plant.service.InvoiceServiceImpl;
+import be.boomkwekerij.plant.service.*;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 
@@ -15,6 +13,7 @@ public class CustomerController {
 
     private CustomerService customerService = new CustomerServiceImpl();
     private InvoiceService invoiceService = new InvoiceServiceImpl();
+    private FustService fustService = new FustServiceImpl();
 
     public CrudsResult createCustomer(CustomerDTO customerDTO) {
         try {
@@ -53,6 +52,9 @@ public class CustomerController {
             if (hasInvoices(id)) {
                 return new CrudsResult().error(Collections.singletonList("Er zijn nog facturen gelinkt aan deze klant!"));
             }
+            if (hasFust(id)) {
+                return new CrudsResult().error(Collections.singletonList("Er is nog fust geregistreerd voor deze klant!"));
+            }
             return customerService.deleteCustomer(id);
         } catch (Exception e) {
             return new CrudsResult().error(Collections.singletonList(e.getMessage()));
@@ -68,6 +70,17 @@ public class CustomerController {
             }
         }
         return hasInvoices;
+    }
+
+    private boolean hasFust(String id) {
+        boolean hasFust = false;
+        SearchResult<FustDTO> fustFromCustomerSearchResult = fustService.getFustFromCustomer(id);
+        if (fustFromCustomerSearchResult.isSuccess()) {
+            if (fustFromCustomerSearchResult.getResults().size() > 0) {
+                hasFust = true;
+            }
+        }
+        return hasFust;
     }
 
     public SearchResult<CustomerDTO> getAllCustomersWithName(String name) {

@@ -88,7 +88,7 @@ public class FustController {
             if (fustSearchResult.isSuccess()) {
                 List<FustDTO> fusts = fustSearchResult.getResults();
                 BestandDTO fustReport = fustDocumentService.createFustsReport(fusts);
-                printerService.printDocument_Portrait(fustReport);
+                printerService.printDocument_LandScape(fustReport);
                 return new CrudsResult().success();
             }
             return new CrudsResult().error(fustSearchResult.getMessages());
