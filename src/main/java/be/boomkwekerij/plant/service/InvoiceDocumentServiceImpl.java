@@ -16,6 +16,7 @@ import be.boomkwekerij.plant.util.Initializer;
 import be.boomkwekerij.plant.util.InvoicePDFCreator;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.util.SellingConditionsPDFCreator;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
@@ -54,7 +55,10 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
     }
 
     private int getAmountOfPages(List<InvoiceLineDTO> invoiceLines) {
-        double size = (double) invoiceLines.size();
+        double size = 0.0;
+        for (InvoiceLineDTO invoiceLine : invoiceLines) {
+            size += StringUtils.isBlank(invoiceLine.getRemark()) ? 1 : 2;
+        }
         double max = (double) Initializer.MAX_INVOICELINES;
         return (int) Math.ceil(size / max);
     }

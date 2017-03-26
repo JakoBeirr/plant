@@ -8,6 +8,8 @@ import be.boomkwekerij.plant.rapportage.FustReportObjectCreator;
 import be.boomkwekerij.plant.util.FustPDFCreator;
 import org.joda.time.DateTime;
 
+import java.util.List;
+
 public class FustDocumentServiceImpl implements FustDocumentService {
 
     private FustReportObjectCreator fustReportObjectCreator = new FustReportObjectCreator();
@@ -19,6 +21,14 @@ public class FustDocumentServiceImpl implements FustDocumentService {
         DateTime reportDate = new DateTime();
 
         FustReportObject fustReport = fustReportObjectCreator.createFustReport(fustDTO, reportDate);
+        return fustPDFCreator.createFustReport(fustReport);
+    }
+
+    @Override
+    public BestandDTO createFustsReport(List<FustDTO> fusts) throws ReportException {
+        DateTime reportDate = new DateTime();
+
+        FustReportObject fustReport = fustReportObjectCreator.createFustsReport(fusts, reportDate);
         return fustPDFCreator.createFustReport(fustReport);
     }
 }

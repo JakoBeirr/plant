@@ -81,11 +81,30 @@ public class InvoiceReportObjectCreator {
     }
 
     private List<InvoiceLineDTO> getInvoiceLinesToMap(InvoiceDTO invoiceDTO, int pageCount) {
-        int fromIndex = (pageCount - 1) * Initializer.MAX_INVOICELINES;
-        int expectedToIndex = pageCount * Initializer.MAX_INVOICELINES;
-        int maximumToIndex = invoiceDTO.getInvoiceLines().size();
-        int toIndex = expectedToIndex > maximumToIndex ? maximumToIndex : expectedToIndex;
-        return invoiceDTO.getInvoiceLines().subList(fromIndex, toIndex);
+        List<InvoiceLineDTO> subList = new ArrayList<>();
+
+        int page = 0;
+        int invoiceLineCount = 0;
+        for (InvoiceLineDTO invoiceLineDTO : invoiceDTO.getInvoiceLines()) {
+            int invoiceLineSize = StringUtils.isBlank(invoiceLineDTO.getRemark()) ? 1 : 2;
+
+            if ((invoiceLineCount + invoiceLineSize) <= Initializer.MAX_INVOICELINES) {
+                subList.add(invoiceLineDTO);
+                invoiceLineCount += invoiceLineSize;
+            } else {
+                page++;
+                if (page < pageCount) {
+                    subList.clear();
+
+                    subList.add(invoiceLineDTO);
+                    invoiceLineCount = invoiceLineSize;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return subList;
     }
 
     private double getTotalPricePage(InvoiceDTO invoiceDTO, int pageCount) {

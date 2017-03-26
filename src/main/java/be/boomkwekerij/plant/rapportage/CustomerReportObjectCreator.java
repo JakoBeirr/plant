@@ -15,7 +15,7 @@ public class CustomerReportObjectCreator {
         customerReportObject.setPostalCode(getReportObjectValue(customerDTO.getPostalCode()).toUpperCase());
         customerReportObject.setResidence(getReportObjectValue(customerDTO.getResidence()).toUpperCase());
         customerReportObject.setAbroad(isAbroad(customerDTO));
-        customerReportObject.setCountry(getCountry(customerDTO));
+        customerReportObject.setCountry(getCountry(customerDTO).toUpperCase());
         customerReportObject.setBtwNumber(getReportObjectValue(customerDTO.getBtwNumber()).toUpperCase());
         return customerReportObject;
     }

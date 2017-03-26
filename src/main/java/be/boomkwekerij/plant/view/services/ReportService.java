@@ -1,5 +1,6 @@
 package be.boomkwekerij.plant.view.services;
 
+import be.boomkwekerij.plant.controller.FustController;
 import be.boomkwekerij.plant.controller.ReportingController;
 import be.boomkwekerij.plant.util.CrudsResult;
 import javafx.beans.binding.Bindings;
@@ -16,10 +17,12 @@ import java.util.Arrays;
 public class ReportService {
 
     private ReportingController reportingController = new ReportingController();
+    private FustController fustController = new FustController();
 
     private Button customerFileButton;
     private Button unpayedInvoicesButton;
     private Button allInvoicesButton;
+    private Button fustsButton;
     private ComboBox<String> months;
     private TextField year;
 
@@ -83,6 +86,25 @@ public class ReportService {
         }
     };
 
+    public final Service fustsReportService = new Service() {
+        @Override
+        protected Task createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    updateTitle("Totaaloverzicht fust printen");
+
+                    CrudsResult printResult = fustController.printFustsReport();
+                    if (printResult.isError()) {
+                        throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
+                    }
+
+                    return null;
+                }
+            };
+        }
+    };
+
     public void setCustomerFileButton(Button customerFileButton) {
         this.customerFileButton = customerFileButton;
     }
@@ -93,6 +115,10 @@ public class ReportService {
 
     public void setAllInvoicesButton(Button allInvoicesButton) {
         this.allInvoicesButton = allInvoicesButton;
+    }
+
+    public void setFustsButton(Button fustsButton) {
+        this.fustsButton = fustsButton;
     }
 
     public void setMonths(ComboBox<String> months) {
@@ -107,7 +133,8 @@ public class ReportService {
         root.cursorProperty()
                 .bind(Bindings.when(customerFileService.runningProperty()
                             .or(unpayedInvoiceService.runningProperty()
-                            .or(allInvoiceService.runningProperty())))
+                            .or(allInvoiceService.runningProperty()
+                            .or(fustsReportService.runningProperty()))))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
@@ -117,6 +144,8 @@ public class ReportService {
                 .bind(unpayedInvoiceService.runningProperty());
         allInvoicesButton.disableProperty()
                 .bind(allInvoiceService.runningProperty());
+        fustsButton.disableProperty()
+                .bind(fustsReportService.runningProperty());
 
         customerFileService.setOnSucceeded(serviceEvent -> {
             ServiceHandler.success(customerFileService);
@@ -135,6 +164,12 @@ public class ReportService {
         });
         allInvoiceService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(allInvoiceService);
+        });
+        fustsReportService.setOnSucceeded(serviceEvent -> {
+            ServiceHandler.success(fustsReportService);
+        });
+        fustsReportService.setOnFailed(serviceEvent -> {
+            ServiceHandler.error(fustsReportService);
         });
     }
 }

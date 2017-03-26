@@ -6,6 +6,8 @@ import be.boomkwekerij.plant.util.DateFormatPattern;
 import be.boomkwekerij.plant.util.DateUtils;
 import org.joda.time.DateTime;
 
+import java.util.List;
+
 public class FustReportObjectCreator {
 
     public FustReportObject createFustReport(FustDTO fustDTO, DateTime reportDate) {
@@ -21,6 +23,22 @@ public class FustReportObjectCreator {
         fustReportObject.setFerroPalletGroot(Integer.toString(fustDTO.getFerroPalletGroot()));
         fustReportObject.setKarrenEnBorden(Integer.toString(fustDTO.getKarrenEnBorden()));
         fustReportObject.setDiverse(Integer.toString(fustDTO.getDiverse()));
+        return fustReportObject;
+    }
+
+    public FustReportObject createFustsReport(List<FustDTO> fusts, DateTime reportDate) {
+        FustReportObject fustReportObject = new FustReportObject();
+        fustReportObject.setCustomerName("/");
+        fustReportObject.setReportDate(DateUtils.formatDate(reportDate, DateFormatPattern.DATE_FORMAT));
+        fustReportObject.setLageKisten(Integer.toString(fusts.stream().mapToInt(FustDTO::getLageKisten).sum()));
+        fustReportObject.setHogeKisten(Integer.toString(fusts.stream().mapToInt(FustDTO::getHogeKisten).sum()));
+        fustReportObject.setPalletBodem(Integer.toString(fusts.stream().mapToInt(FustDTO::getPalletBodem).sum()));
+        fustReportObject.setBoxPallet(Integer.toString(fusts.stream().mapToInt(FustDTO::getBoxPallet).sum()));
+        fustReportObject.setHalveBox(Integer.toString(fusts.stream().mapToInt(FustDTO::getHalveBox).sum()));
+        fustReportObject.setFerroPalletKlein(Integer.toString(fusts.stream().mapToInt(FustDTO::getFerroPalletKlein).sum()));
+        fustReportObject.setFerroPalletGroot(Integer.toString(fusts.stream().mapToInt(FustDTO::getFerroPalletGroot).sum()));
+        fustReportObject.setKarrenEnBorden(Integer.toString(fusts.stream().mapToInt(FustDTO::getKarrenEnBorden).sum()));
+        fustReportObject.setDiverse(Integer.toString(fusts.stream().mapToInt(FustDTO::getDiverse).sum()));
         return fustReportObject;
     }
 }

@@ -67,7 +67,8 @@
 
             <HBox spacing="5">
                 <Button fx:id="printFustButton" text="Print" mnemonicParsing="false" onAction="#printFust" visible="false" managed="false" styleClass="blue-button" />
-                <Button fx:id="deleteFustButton" text="Verwijder" mnemonicParsing="false" onAction="#deleteFust" visible="false" managed="false" styleClass="red-button" />
+                <Button fx:id="printFustsButton" text="Print Totaaloverzicht" mnemonicParsing="false" onAction="#printFusts" styleClass="blue-button" />
+                <Button fx:id="deleteFustButton" text="Verwijderen" mnemonicParsing="false" onAction="#deleteFust" visible="false" managed="false" styleClass="red-button" />
             </HBox>
         </VBox>
     </ScrollPane>

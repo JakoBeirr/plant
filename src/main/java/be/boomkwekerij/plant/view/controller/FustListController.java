@@ -25,6 +25,8 @@ public class FustListController implements PageController {
     @FXML
     private Button printFustButton;
     @FXML
+    private Button printFustsButton;
+    @FXML
     private Button deleteFustButton;
 
     @Override
@@ -32,6 +34,7 @@ public class FustListController implements PageController {
         fustListService.setFustSearchField(fustSearchField);
         fustListService.setFustList(fustList);
         fustListService.setPrintFustButton(printFustButton);
+        fustListService.setPrintFustsButton(printFustsButton);
         fustListService.setDeleteFustButton(deleteFustButton);
         fustListService.init(root);
     }
@@ -72,6 +75,10 @@ public class FustListController implements PageController {
 
     public void printFust(ActionEvent actionEvent) {
         fustListService.printFustService.restart();
+    }
+
+    public void printFusts(ActionEvent actionEvent) {
+        fustListService.printFustsService.restart();
     }
 
     public void deleteFust(ActionEvent actionEvent) {

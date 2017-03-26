@@ -26,6 +26,8 @@ public class ReportController implements PageController {
     @FXML
     private Button allInvoicesButton;
     @FXML
+    private Button fustsButton;
+    @FXML
     private ComboBox<String> months;
     @FXML
     private TextField year;
@@ -35,6 +37,7 @@ public class ReportController implements PageController {
         reportService.setCustomerFileButton(customerFileButton);
         reportService.setUnpayedInvoicesButton(unpayedInvoicesButton);
         reportService.setAllInvoicesButton(allInvoicesButton);
+        reportService.setFustsButton(fustsButton);
         reportService.setMonths(months);
         reportService.setYear(year);
         reportService.init(root);
@@ -70,5 +73,9 @@ public class ReportController implements PageController {
 
     public void createInvoices(Event event) {
         reportService.allInvoiceService.restart();
+    }
+
+    public void createFustsReport(Event event) {
+        reportService.fustsReportService.restart();
     }
 }

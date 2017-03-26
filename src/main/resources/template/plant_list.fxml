@@ -37,7 +37,7 @@
 
             <HBox spacing="5">
                 <Button fx:id="plantDetailsButton" mnemonicParsing="false" onMouseClicked="#showPlant" visible="false" text="Details" styleClass="blue-button"/>
-                <Button fx:id="plantDeleteButton" mnemonicParsing="false" onMouseClicked="#deletePlant" visible="false" text="Plant verwijderen" styleClass="red-button"/>
+                <Button fx:id="plantDeleteButton" mnemonicParsing="false" onMouseClicked="#deletePlant" visible="false" text="Verwijderen" styleClass="red-button"/>
             </HBox>
         </VBox>
     </ScrollPane>

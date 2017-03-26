@@ -32,6 +32,13 @@
 
                     <Button fx:id="allInvoicesButton" mnemonicParsing="false" onMouseClicked="#createInvoices" text="Rapport aanmaken" styleClass="blue-button"/>
                 </VBox>
+                <VBox styleClass="border-pane" spacing="25">
+                    <Label text="Overzicht fust" />
+
+                    <Label text="InvisibleLabel" visible="false" prefHeight="25" />
+
+                    <Button fx:id="fustsButton" mnemonicParsing="false" onMouseClicked="#createFustsReport" text="Rapport aanmaken" styleClass="blue-button"/>
+                </VBox>
             </HBox>
         </VBox>
     </ScrollPane>

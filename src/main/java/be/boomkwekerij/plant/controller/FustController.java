@@ -7,6 +7,7 @@ import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 
 import java.util.Collections;
+import java.util.List;
 
 public class FustController {
 
@@ -74,6 +75,21 @@ public class FustController {
                 BestandDTO fustReport = fustDocumentService.createFustReport(fust);
                 printerService.printDocument_Portrait(fustReport);
                 return new CrudsResult().success(fustId);
+            }
+            return new CrudsResult().error(fustSearchResult.getMessages());
+        } catch (Exception e) {
+            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
+        }
+    }
+
+    public CrudsResult printFustsReport() {
+        try {
+            SearchResult<FustDTO> fustSearchResult = fustService.getAllFusts();
+            if (fustSearchResult.isSuccess()) {
+                List<FustDTO> fusts = fustSearchResult.getResults();
+                BestandDTO fustReport = fustDocumentService.createFustsReport(fusts);
+                printerService.printDocument_Portrait(fustReport);
+                return new CrudsResult().success();
             }
             return new CrudsResult().error(fustSearchResult.getMessages());
         } catch (Exception e) {

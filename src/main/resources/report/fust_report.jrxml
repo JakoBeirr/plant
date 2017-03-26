@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2017-03-26T11:43:38 -->
+<!-- 2017-03-26T14:23:57 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="customerFile" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="fustReport" class="be.boomkwekerij.plant.model.report.FustReportObject"/>
 	<pageHeader>
-		<band height="50" splitType="Stretch">
+		<band height="90" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="535" height="50" uuid="f10f3a3c-283e-4742-9924-a5d39f8f8a19">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="535" height="40" uuid="f10f3a3c-283e-4742-9924-a5d39f8f8a19">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Klant\t:\t" + $P{fustReport}.getCustomerName() +
+				<textFieldExpression><![CDATA["Klant\t\t:\t" + $P{fustReport}.getCustomerName() +
 "\nDatum\t:\t" + $P{fustReport}.getReportDate()]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="49" width="535" height="1" uuid="4dc86306-3a3c-466c-9622-846bb7b89de5">
+				<reportElement x="0" y="69" width="535" height="1" uuid="4dc86306-3a3c-466c-9622-846bb7b89de5">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="50" width="535" height="20" uuid="740fed76-e604-45a6-890f-8fccbc934fc7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement markup="none">
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Overzicht Fust]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
@@ -37,7 +49,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="14" isBold="false"/>
+					<font size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getLageKisten()]]></textFieldExpression>
 			</textField>
@@ -49,7 +61,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[LAGE KISTEN:]]></text>
 			</staticText>
@@ -61,7 +73,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[HOGE KISTEN:]]></text>
 			</staticText>
@@ -73,7 +85,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="14" isBold="false"/>
+					<font size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getHogeKisten()]]></textFieldExpression>
 			</textField>
@@ -85,7 +97,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PALLET-BODEM:]]></text>
 			</staticText>
@@ -97,7 +109,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="14" isBold="false"/>
+					<font size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getPalletBodem()]]></textFieldExpression>
 			</textField>
@@ -109,7 +121,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="14" isBold="false"/>
+					<font size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getBoxPallet()]]></textFieldExpression>
 			</textField>
@@ -121,7 +133,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[BOX-PALLET:]]></text>
 			</staticText>
@@ -133,7 +145,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="14" isBold="false"/>
+					<font size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getHalveBox()]]></textFieldExpression>
 			</textField>
@@ -145,7 +157,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[HALVE BOX:]]></text>
 			</staticText>
@@ -157,7 +169,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FERRO-PALLET (KLEIN):]]></text>
 			</staticText>
@@ -169,7 +181,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="14" isBold="false"/>
+					<font size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getFerroPalletKlein()]]></textFieldExpression>
 			</textField>
@@ -181,7 +193,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FERRO-PALLET (GROOT):]]></text>
 			</staticText>
@@ -193,7 +205,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="14" isBold="false"/>
+					<font size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getFerroPalletGroot()]]></textFieldExpression>
 			</textField>
@@ -205,7 +217,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="14" isBold="false"/>
+					<font size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getKarrenEnBorden()]]></textFieldExpression>
 			</textField>
@@ -217,7 +229,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[C.C. KARREN/BORDEN]]></text>
 			</staticText>
@@ -229,7 +241,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DIVERSE:]]></text>
 			</staticText>
@@ -241,7 +253,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font size="14" isBold="false"/>
+					<font size="11" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustReport}.getDiverse()]]></textFieldExpression>
 			</textField>
