@@ -609,17 +609,25 @@ public class InvoiceModifyService {
     }
 
     private void addChildToRootWithDragging(VBox root, HBox child) {
-        child.setOnDragDetected(event -> child.startFullDrag());
+        child.setOnMouseEntered(event -> root.setCursor(Cursor.HAND));
+
+        child.setOnDragDetected(event -> {
+            root.setCursor(Cursor.CLOSED_HAND);
+            child.startFullDrag();
+        });
 
         // next two handlers just an idea how to show the drop target visually:
         child.setOnMouseDragEntered(event -> child.setStyle("-fx-background-color: #ffffa0;"));
         child.setOnMouseDragExited(event -> child.setStyle(""));
 
         child.setOnMouseDragReleased(event -> {
+            root.setCursor(Cursor.DEFAULT);
             child.setStyle("");
+
             int indexOfDraggingNode = root.getChildren().indexOf(event.getGestureSource());
             int indexOfDropTarget = root.getChildren().indexOf(child);
             rotateNodes(root, indexOfDraggingNode, indexOfDropTarget);
+
             event.consume();
         });
         root.getChildren().add(child);
