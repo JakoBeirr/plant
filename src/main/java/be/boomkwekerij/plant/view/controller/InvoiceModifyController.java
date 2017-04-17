@@ -98,6 +98,7 @@ public class InvoiceModifyController implements PageController {
         addChangeListenerToSearchFields();
         addChangeListenersToList();
         initNumericFields();
+        initDragAndDrop();
     }
 
     private void addChangeListenerToSearchFields() {
@@ -160,6 +161,20 @@ public class InvoiceModifyController implements PageController {
         invoiceLineBtw.textProperty().addListener((observable, oldValue, newValue) -> {
             invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
         });
+    }
+
+    private void initDragAndDrop() {
+        invoiceLines.setOnMouseDragReleased(event -> {
+            int indexOfDraggingNode = invoiceLines.getChildren().indexOf(event.getGestureSource());
+            rotateNodes(invoiceLines, indexOfDraggingNode, invoiceLines.getChildren().size()-1);
+        });
+    }
+
+    private void rotateNodes(VBox root, int indexOfDraggingNode, int indexOfDropTarget) {
+        if (indexOfDraggingNode >= 0 && indexOfDropTarget >= 0) {
+            Node node = root.getChildren().remove(indexOfDraggingNode);
+            root.getChildren().add(indexOfDropTarget, node);
+        }
     }
 
     public void showModifyInvoice(ActionEvent actionEvent) {

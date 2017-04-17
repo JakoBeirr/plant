@@ -249,6 +249,8 @@ public class InvoiceCreateService {
                             remarkLabel.setManaged(false);
                             remark.setVisible(false);
                             remark.setManaged(false);
+
+                            plantSearchField.requestFocus();
                         }
                     });
 
@@ -279,12 +281,7 @@ public class InvoiceCreateService {
                     String invoiceInvoiceLineBtw = invoiceLineBtw.getText();
                     String plantPrice = alternativePlantPrice.getText();
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            addInvoiceLine(plantId, plantName, InvoiceLineRemark, invoiceOrderNumber, invoiceInvoiceLineDate, invoiceInvoiceLineAmount, invoiceInvoiceLineBtw, plantPrice);
-                        }
-                    });
+                    Platform.runLater(() -> addInvoiceLine(plantId, plantName, InvoiceLineRemark, invoiceOrderNumber, invoiceInvoiceLineDate, invoiceInvoiceLineAmount, invoiceInvoiceLineBtw, plantPrice));
 
                     return null;
                 }
@@ -506,10 +503,10 @@ public class InvoiceCreateService {
         createdChosenPlant.setManaged(false);
         createdChosenPlant.setVisible(false);
         TextField createdPlant = new TextField(plantSearchField);
-        createdPlant.setPrefColumnCount(22);
+        createdPlant.setPrefColumnCount(20);
         createdPlant.setDisable(true);
         TextField createdRemark = new TextField(invoiceLineRemark);
-        createdRemark.setPrefColumnCount(13);
+        createdRemark.setPrefColumnCount(10);
         createdRemark.setDisable(true);
         TextField createdOrderNumber = new TextField(orderNumber);
         createdOrderNumber.setPrefColumnCount(8);
@@ -523,17 +520,35 @@ public class InvoiceCreateService {
         createdInvoiceLineBtw.setPrefColumnCount(3);
         createdInvoiceLineBtw.setDisable(true);
         TextField createdPrice = new TextField(alternativePlantPrice);
-        createdPrice.setPrefColumnCount(5);
+        createdPrice.setPrefColumnCount(3);
         createdPrice.setDisable(true);
-        Button deleteRow = new Button("Verwijder rij");
-        deleteRow.getStyleClass().add("red-button");
-        deleteRow.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                invoiceLines.getChildren().remove(invoiceLine);
-            }
-        });
+        Button editRow = new Button("Bewerken");
+        editRow.getStyleClass().add("green-button");
+        editRow.setOnAction(event -> {
+            this.chosenPlant.setText(chosenPlant);
+            this.plantSearchField.setText(plantSearchField);
+            this.remark.setText(invoiceLineRemark);
+            this.orderNumber.setText(orderNumber);
+            this.invoiceLineDate.setValue(invoiceLineDate);
+            this.amount.setText(amount);
+            this.invoiceLineBtw.setText(invoiceLineBtw);
+            this.alternativePlantPrice.setText(alternativePlantPrice);
 
+            this.plantList.setVisible(false);
+            this.plantList.setManaged(false);
+            this.plantSearchField.setDisable(true);
+            this.choosePlantButton.setVisible(false);
+            this.choosePlantButton.setManaged(false);
+            this.remarkLabel.setVisible(true);
+            this.remarkLabel.setManaged(true);
+            this.remark.setVisible(true);
+            this.remark.setManaged(true);
+
+            invoiceLines.getChildren().remove(invoiceLine);
+        });
+        Button deleteRow = new Button("Verwijder");
+        deleteRow.getStyleClass().add("red-button");
+        deleteRow.setOnAction(event -> invoiceLines.getChildren().remove(invoiceLine));
         invoiceLine.getChildren().add(createdChosenPlant);
         invoiceLine.getChildren().add(createdPlant);
         invoiceLine.getChildren().add(createdRemark);
@@ -542,7 +557,33 @@ public class InvoiceCreateService {
         invoiceLine.getChildren().add(createdAmount);
         invoiceLine.getChildren().add(createdInvoiceLineBtw);
         invoiceLine.getChildren().add(createdPrice);
+        invoiceLine.getChildren().add(editRow);
         invoiceLine.getChildren().add(deleteRow);
-        invoiceLines.getChildren().add(invoiceLine);
+
+        addChildToRootWithDragging(invoiceLines, invoiceLine);
+    }
+
+    private void addChildToRootWithDragging(VBox root, HBox child) {
+        child.setOnDragDetected(event -> child.startFullDrag());
+
+        // next two handlers just an idea how to show the drop target visually:
+        child.setOnMouseDragEntered(event -> child.setStyle("-fx-background-color: #ffffa0;"));
+        child.setOnMouseDragExited(event -> child.setStyle(""));
+
+        child.setOnMouseDragReleased(event -> {
+            child.setStyle("");
+            int indexOfDraggingNode = root.getChildren().indexOf(event.getGestureSource());
+            int indexOfDropTarget = root.getChildren().indexOf(child);
+            rotateNodes(root, indexOfDraggingNode, indexOfDropTarget);
+            event.consume();
+        });
+        root.getChildren().add(child);
+    }
+
+    private void rotateNodes(VBox root, int indexOfDraggingNode, int indexOfDropTarget) {
+        if (indexOfDraggingNode >= 0 && indexOfDropTarget >= 0) {
+            Node node = root.getChildren().remove(indexOfDraggingNode);
+            root.getChildren().add(indexOfDropTarget, node);
+        }
     }
 }

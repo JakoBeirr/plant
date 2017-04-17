@@ -6,9 +6,11 @@ import be.boomkwekerij.plant.view.services.InvoiceCreateService;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -98,6 +100,7 @@ public class InvoiceCreateController implements PageController {
         addChangeListenerToSearchFields();
         addChangeListenersToList();
         initNumericFields();
+        initDragAndDrop();
     }
 
     private void addChangeListenerToSearchFields() {
@@ -160,6 +163,20 @@ public class InvoiceCreateController implements PageController {
         invoiceLineBtw.textProperty().addListener((observable, oldValue, newValue) -> {
             invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
         });
+    }
+
+    private void initDragAndDrop() {
+        invoiceLines.setOnMouseDragReleased(event -> {
+            int indexOfDraggingNode = invoiceLines.getChildren().indexOf(event.getGestureSource());
+            rotateNodes(invoiceLines, indexOfDraggingNode, invoiceLines.getChildren().size()-1);
+        });
+    }
+
+    private void rotateNodes(VBox root, int indexOfDraggingNode, int indexOfDropTarget) {
+        if (indexOfDraggingNode >= 0 && indexOfDropTarget >= 0) {
+            Node node = root.getChildren().remove(indexOfDraggingNode);
+            root.getChildren().add(indexOfDropTarget, node);
+        }
     }
 
     public void showCreateInvoice(ActionEvent actionEvent) {

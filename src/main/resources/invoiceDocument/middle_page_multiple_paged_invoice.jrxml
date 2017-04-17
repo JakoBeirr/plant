@@ -8,7 +8,7 @@
 			<![CDATA[]]>
 		</queryString>
 		<field name="invoiceLineDate" class="java.lang.String"/>
-		<field name="plantAmount" class="java.lang.Integer"/>
+		<field name="plantAmount" class="java.lang.String"/>
 		<field name="orderNumber" class="java.lang.String"/>
 		<field name="plantSpecies" class="java.lang.String"/>
 		<field name="plantAge" class="java.lang.String"/>
