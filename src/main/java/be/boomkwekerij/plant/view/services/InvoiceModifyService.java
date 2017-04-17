@@ -554,8 +554,22 @@ public class InvoiceModifyService {
         Button editRow = new Button("Bewerken");
         editRow.getStyleClass().add("green-button");
         editRow.setOnAction(event -> {
-            this.chosenPlant.setText(chosenPlant);
-            this.plantSearchField.setText(plantSearchField);
+            this.chosenPlant.setText("");
+            this.plantSearchField.setText("");
+
+            SearchResult<PlantDTO> plantResult = plantController.getPlant(chosenPlant);
+            if (plantResult.isError()) {
+                throw new IllegalArgumentException(Arrays.toString(plantResult.getMessages().toArray()));
+            }
+            PlantDTO chosenPlantDTO = plantResult.getFirst();
+            if (chosenPlantDTO == null) {
+                throw new IllegalArgumentException("Kon plant met id: " + chosenPlant + " niet vinden");
+            }
+            this.plantList.getItems().clear();
+            PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(chosenPlantDTO);
+            this.plantList.getItems().add(plantViewModel);
+            this.plantList.getSelectionModel().select(plantViewModel);
+
             this.remark.setText(invoiceLineRemark);
             this.orderNumber.setText(orderNumber);
             this.invoiceLineDate.setValue(invoiceLineDate);
@@ -563,15 +577,17 @@ public class InvoiceModifyService {
             this.invoiceLineBtw.setText(invoiceLineBtw);
             this.alternativePlantPrice.setText(alternativePlantPrice);
 
-            this.plantList.setVisible(false);
-            this.plantList.setManaged(false);
-            this.plantSearchField.setDisable(true);
-            this.choosePlantButton.setVisible(false);
-            this.choosePlantButton.setManaged(false);
-            this.remarkLabel.setVisible(true);
-            this.remarkLabel.setManaged(true);
-            this.remark.setVisible(true);
-            this.remark.setManaged(true);
+            this.plantList.setVisible(true);
+            this.plantList.setManaged(true);
+            this.plantSearchField.setDisable(false);
+            this.choosePlantButton.setVisible(true);
+            this.choosePlantButton.setManaged(true);
+            this.remarkLabel.setVisible(false);
+            this.remarkLabel.setManaged(false);
+            this.remark.setVisible(false);
+            this.remark.setManaged(false);
+
+            this.plantSearchField.requestFocus();
 
             invoiceLines.getChildren().remove(invoiceLine);
         });
