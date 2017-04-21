@@ -2,7 +2,7 @@ package be.boomkwekerij.plant.dao.repository;
 
 import be.boomkwekerij.plant.model.repository.Plant;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.InitializerSingleton;
 import be.boomkwekerij.plant.util.SearchResult;
 
 import javax.xml.bind.JAXBContext;
@@ -17,12 +17,16 @@ import java.util.UUID;
 
 public class PlantDAOImpl implements PlantDAO {
 
-    private static final String PLANTS_DATA_URI = Initializer.getDataUri() + "/plants/";
+    private final String plantsDataUri;
+
+    public PlantDAOImpl() {
+        plantsDataUri = InitializerSingleton.getInitializer().getDataDirectory() + "/plants/";
+    }
 
     public SearchResult<Plant> get(String id) {
         try {
             Unmarshaller unmarshaller = unmarshaller();
-            Plant plant = (Plant) unmarshaller.unmarshal(new File(PLANTS_DATA_URI + id + ".xml"));
+            Plant plant = (Plant) unmarshaller.unmarshal(new File(plantsDataUri + id + ".xml"));
 
             return new SearchResult<Plant>().success(Collections.singletonList(plant));
         } catch (Exception e) {
@@ -33,7 +37,7 @@ public class PlantDAOImpl implements PlantDAO {
     public SearchResult<Plant> findAll() {
         try {
             Unmarshaller unmarshaller = unmarshaller();
-            File plantDirectory = new File(PLANTS_DATA_URI);
+            File plantDirectory = new File(plantsDataUri);
             File[] plantFiles = plantDirectory.listFiles();
 
             List<Plant> plants = new ArrayList<>();
@@ -52,12 +56,12 @@ public class PlantDAOImpl implements PlantDAO {
     public CrudsResult persist(Plant plant) {
         try {
             plant.setId(UUID.randomUUID().toString());
-            File file = new File(PLANTS_DATA_URI + plant.getId() + ".xml");
+            File file = new File(plantsDataUri + plant.getId() + ".xml");
             if (file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Plant reeds aangemaakt"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(plant, new File(PLANTS_DATA_URI + plant.getId() + ".xml"));
+                marshaller.marshal(plant, new File(plantsDataUri + plant.getId() + ".xml"));
 
                 return new CrudsResult().success(plant.getId());
             }
@@ -68,12 +72,12 @@ public class PlantDAOImpl implements PlantDAO {
 
     public CrudsResult update(Plant plant) {
         try {
-            File file = new File(PLANTS_DATA_URI + plant.getId() + ".xml");
+            File file = new File(plantsDataUri + plant.getId() + ".xml");
             if (!file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Onbekende plant"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(plant, new File(PLANTS_DATA_URI + plant.getId() + ".xml"));
+                marshaller.marshal(plant, new File(plantsDataUri + plant.getId() + ".xml"));
 
                 return new CrudsResult().success(plant.getId());
             }
@@ -84,7 +88,7 @@ public class PlantDAOImpl implements PlantDAO {
 
     public CrudsResult delete(String id) {
         try {
-            File plantFile = new File(PLANTS_DATA_URI + id + ".xml");
+            File plantFile = new File(plantsDataUri + id + ".xml");
             boolean deleted = plantFile.delete();
             if (deleted) {
                 return new CrudsResult().success(id);
@@ -97,7 +101,7 @@ public class PlantDAOImpl implements PlantDAO {
 
     public CrudsResult deleteAll() {
         try {
-            File plantDirectory = new File(PLANTS_DATA_URI);
+            File plantDirectory = new File(plantsDataUri);
             File[] plantFiles = plantDirectory.listFiles();
             if (plantFiles != null) {
                 for (File plantFile : plantFiles) {

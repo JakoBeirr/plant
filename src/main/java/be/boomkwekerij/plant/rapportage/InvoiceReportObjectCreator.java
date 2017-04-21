@@ -9,7 +9,7 @@ import be.boomkwekerij.plant.model.report.MultiplePagedInvoiceReportObject;
 import be.boomkwekerij.plant.model.report.OnePagedInvoiceReportObject;
 import be.boomkwekerij.plant.util.DateFormatPattern;
 import be.boomkwekerij.plant.util.DateUtils;
-import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.InitializerSingleton;
 import be.boomkwekerij.plant.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -88,7 +88,7 @@ public class InvoiceReportObjectCreator {
         for (InvoiceLineDTO invoiceLineDTO : invoiceDTO.getInvoiceLines()) {
             int invoiceLineSize = StringUtils.isBlank(invoiceLineDTO.getRemark()) ? 1 : 2;
 
-            if ((invoiceLineCount + invoiceLineSize) <= Initializer.MAX_INVOICELINES) {
+            if ((invoiceLineCount + invoiceLineSize) <= InitializerSingleton.MAX_INVOICELINES) {
                 subList.add(invoiceLineDTO);
                 invoiceLineCount += invoiceLineSize;
             } else {

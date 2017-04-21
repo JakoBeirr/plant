@@ -12,7 +12,7 @@ import be.boomkwekerij.plant.model.report.OnePagedInvoiceReportObject;
 import be.boomkwekerij.plant.rapportage.CompanyReportObjectCreator;
 import be.boomkwekerij.plant.rapportage.CustomerReportObjectCreator;
 import be.boomkwekerij.plant.rapportage.InvoiceReportObjectCreator;
-import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.InitializerSingleton;
 import be.boomkwekerij.plant.util.InvoicePDFCreator;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.util.SellingConditionsPDFCreator;
@@ -59,7 +59,7 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
         for (InvoiceLineDTO invoiceLine : invoiceLines) {
             size += StringUtils.isBlank(invoiceLine.getRemark()) ? 1 : 2;
         }
-        double max = (double) Initializer.MAX_INVOICELINES;
+        double max = (double) InitializerSingleton.MAX_INVOICELINES;
         return (int) Math.ceil(size / max);
     }
 

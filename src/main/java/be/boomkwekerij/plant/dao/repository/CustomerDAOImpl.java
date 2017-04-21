@@ -2,7 +2,7 @@ package be.boomkwekerij.plant.dao.repository;
 
 import be.boomkwekerij.plant.model.repository.Customer;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.InitializerSingleton;
 import be.boomkwekerij.plant.util.SearchResult;
 
 import javax.xml.bind.JAXBContext;
@@ -17,12 +17,16 @@ import java.util.UUID;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
-    private static final String CUSTOMERS_DATA_URI = Initializer.getDataUri() + "/customers/";
+    private final String customersDataUri;
+
+    public CustomerDAOImpl() {
+        customersDataUri = InitializerSingleton.getInitializer().getDataDirectory() + "/customers/";
+    }
 
     public SearchResult<Customer> get(String id) {
         try {
             Unmarshaller unmarshaller = unmarshaller();
-            Customer customer = (Customer) unmarshaller.unmarshal(new File(CUSTOMERS_DATA_URI + id + ".xml"));
+            Customer customer = (Customer) unmarshaller.unmarshal(new File(customersDataUri + id + ".xml"));
 
             return new SearchResult<Customer>().success(Collections.singletonList(customer));
         } catch (Exception e) {
@@ -33,7 +37,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     public SearchResult<Customer> findAll() {
         try {
             Unmarshaller unmarshaller = unmarshaller();
-            File customerDirectory = new File(CUSTOMERS_DATA_URI);
+            File customerDirectory = new File(customersDataUri);
             File[] customerFiles = customerDirectory.listFiles();
 
             List<Customer> customers = new ArrayList<>();
@@ -52,12 +56,12 @@ public class CustomerDAOImpl implements CustomerDAO {
     public CrudsResult persist(Customer customer) {
         try {
             customer.setId(UUID.randomUUID().toString());
-            File file = new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml");
+            File file = new File(customersDataUri + customer.getId() + ".xml");
             if (file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Klant reeds geregistreerd"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(customer, new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml"));
+                marshaller.marshal(customer, new File(customersDataUri + customer.getId() + ".xml"));
 
                 return new CrudsResult().success(customer.getId());
             }
@@ -68,12 +72,12 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     public CrudsResult update(Customer customer) {
         try {
-            File file = new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml");
+            File file = new File(customersDataUri + customer.getId() + ".xml");
             if (!file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Onbekende klant"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(customer, new File(CUSTOMERS_DATA_URI + customer.getId() + ".xml"));
+                marshaller.marshal(customer, new File(customersDataUri + customer.getId() + ".xml"));
 
                 return new CrudsResult().success(customer.getId());
             }
@@ -84,7 +88,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     public CrudsResult delete(String id) {
         try {
-            File customerFile = new File(CUSTOMERS_DATA_URI + id + ".xml");
+            File customerFile = new File(customersDataUri + id + ".xml");
             boolean deleted = customerFile.delete();
 
             if (deleted) {
@@ -98,7 +102,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     public CrudsResult deleteAll() {
         try {
-            File customerDirectory = new File(CUSTOMERS_DATA_URI);
+            File customerDirectory = new File(customersDataUri);
             File[] customerFiles = customerDirectory.listFiles();
             if (customerFiles != null) {
                 for (File customerFile : customerFiles) {

@@ -1,7 +1,7 @@
 package be.boomkwekerij.plant.service;
 
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.InitializerSingleton;
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 
@@ -15,7 +15,7 @@ public class BackupServiceImpl implements BackupService {
     private static final String BACKUP_DIRECTORY = "C:/plant/backup";
 
     public CrudsResult backup() throws IOException {
-        File sourceDirectory = new File(Initializer.getDataUri());
+        File sourceDirectory = new File(InitializerSingleton.getInitializer().getDataDirectory());
         File backupDirectory = createBackupFolder();
 
         FileUtils.copyDirectory(sourceDirectory, backupDirectory);
@@ -74,7 +74,7 @@ public class BackupServiceImpl implements BackupService {
         backupSourceDirectory();
         copyLatestBackup(latestBackupDirectory);
 
-        Initializer.reloadInMemoryDatabase();
+        InitializerSingleton.getInitializer().reloadInMemoryDatabase();
 
         return new CrudsResult().success();
     }
@@ -112,8 +112,8 @@ public class BackupServiceImpl implements BackupService {
     }
 
     private void backupSourceDirectory() throws IOException {
-        File sourceDirectory = new File(Initializer.getDataUri());
-        File previousSourceDirectory = new File(Initializer.getDataUri() + ".previous");
+        File sourceDirectory = new File(InitializerSingleton.getInitializer().getDataDirectory());
+        File previousSourceDirectory = new File(InitializerSingleton.getInitializer().getDataDirectory() + ".previous");
         if (previousSourceDirectory.exists()) {
             FileUtils.deleteDirectory(previousSourceDirectory);
         }
@@ -123,7 +123,7 @@ public class BackupServiceImpl implements BackupService {
 
     private void copyLatestBackup(String latestBackupDirectory) throws IOException {
         File backupDirectory = new File(latestBackupDirectory);
-        File sourceDirectory = new File(Initializer.getDataUri());
+        File sourceDirectory = new File(InitializerSingleton.getInitializer().getDataDirectory());
 
         FileUtils.deleteDirectory(sourceDirectory);
 

@@ -2,7 +2,7 @@ package be.boomkwekerij.plant.dao.repository;
 
 import be.boomkwekerij.plant.model.repository.Fust;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.InitializerSingleton;
 import be.boomkwekerij.plant.util.SearchResult;
 
 import javax.xml.bind.JAXBContext;
@@ -17,12 +17,16 @@ import java.util.UUID;
 
 public class FustDAOImpl implements FustDAO {
 
-    private static final String FUSTS_DATA_URI = Initializer.getDataUri() + "/fusts/";
+    private final String fustsDataUri;
+
+    public FustDAOImpl() {
+        fustsDataUri = InitializerSingleton.getInitializer().getDataDirectory() + "/fusts/";
+    }
 
     public SearchResult<Fust> get(String id) {
         try {
             Unmarshaller unmarshaller = unmarshaller();
-            Fust fust = (Fust) unmarshaller.unmarshal(new File(FUSTS_DATA_URI + id + ".xml"));
+            Fust fust = (Fust) unmarshaller.unmarshal(new File(fustsDataUri + id + ".xml"));
 
             return new SearchResult<Fust>().success(Collections.singletonList(fust));
         } catch (Exception e) {
@@ -33,7 +37,7 @@ public class FustDAOImpl implements FustDAO {
     public SearchResult<Fust> findAll() {
         try {
             Unmarshaller unmarshaller = unmarshaller();
-            File fustDirectory = new File(FUSTS_DATA_URI);
+            File fustDirectory = new File(fustsDataUri);
             File[] fustFiles = fustDirectory.listFiles();
 
             List<Fust> fusts = new ArrayList<>();
@@ -52,12 +56,12 @@ public class FustDAOImpl implements FustDAO {
     public CrudsResult persist(Fust fust) {
         try {
             fust.setId(UUID.randomUUID().toString());
-            File file = new File(FUSTS_DATA_URI + fust.getId() + ".xml");
+            File file = new File(fustsDataUri + fust.getId() + ".xml");
             if (file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Fust reeds aangemaakt!"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(fust, new File(FUSTS_DATA_URI + fust.getId() + ".xml"));
+                marshaller.marshal(fust, new File(fustsDataUri + fust.getId() + ".xml"));
 
                 return new CrudsResult().success(fust.getId());
             }
@@ -68,12 +72,12 @@ public class FustDAOImpl implements FustDAO {
 
     public CrudsResult update(Fust fust) {
         try {
-            File file = new File(FUSTS_DATA_URI + fust.getId() + ".xml");
+            File file = new File(fustsDataUri + fust.getId() + ".xml");
             if (!file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Onbekende fust"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(fust, new File(FUSTS_DATA_URI + fust.getId() + ".xml"));
+                marshaller.marshal(fust, new File(fustsDataUri + fust.getId() + ".xml"));
 
                 return new CrudsResult().success(fust.getId());
             }
@@ -84,7 +88,7 @@ public class FustDAOImpl implements FustDAO {
 
     public CrudsResult delete(String id) {
         try {
-            File fustFile = new File(FUSTS_DATA_URI + id + ".xml");
+            File fustFile = new File(fustsDataUri + id + ".xml");
             boolean deleted = fustFile.delete();
             if (deleted) {
                 return new CrudsResult().success(id);
@@ -97,7 +101,7 @@ public class FustDAOImpl implements FustDAO {
 
     public CrudsResult deleteAll() {
         try {
-            File fustDirectory = new File(FUSTS_DATA_URI);
+            File fustDirectory = new File(fustsDataUri);
             File[] fustFiles = fustDirectory.listFiles();
             if (fustFiles != null) {
                 for (File fustFile : fustFiles) {

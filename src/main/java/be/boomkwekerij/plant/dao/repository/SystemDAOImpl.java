@@ -2,7 +2,7 @@ package be.boomkwekerij.plant.dao.repository;
 
 import be.boomkwekerij.plant.model.repository.System;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.InitializerSingleton;
 import be.boomkwekerij.plant.util.SearchResult;
 
 import javax.xml.bind.JAXBContext;
@@ -14,12 +14,16 @@ import java.util.Collections;
 
 public class SystemDAOImpl implements SystemDAO {
 
-    private static final String SYSTEM_DATA_URI = Initializer.getDataUri() + "/system/";
+    private final String systemDataUri;
+
+    public SystemDAOImpl() {
+        systemDataUri = InitializerSingleton.getInitializer().getDataDirectory() + "/system/";
+    }
 
     public SearchResult<System> get() {
         try {
             Unmarshaller unmarshaller = unmarshaller();
-            System system = (System) unmarshaller.unmarshal(new File(SYSTEM_DATA_URI + "system.xml"));
+            System system = (System) unmarshaller.unmarshal(new File(systemDataUri + "system.xml"));
 
             return new SearchResult<System>().success(Collections.singletonList(system));
         } catch (Exception e) {
@@ -29,12 +33,12 @@ public class SystemDAOImpl implements SystemDAO {
 
     public CrudsResult persist(System system) {
         try {
-            File file = new File(SYSTEM_DATA_URI + "system.xml");
+            File file = new File(systemDataUri + "system.xml");
             if (file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Systeem reeds geregistreerd"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(system, new File(SYSTEM_DATA_URI + "system.xml"));
+                marshaller.marshal(system, new File(systemDataUri + "system.xml"));
 
                 return new CrudsResult().success(system.getNextInvoiceNumber());
             }
@@ -45,12 +49,12 @@ public class SystemDAOImpl implements SystemDAO {
 
     public CrudsResult update(System system) {
         try {
-            File file = new File(SYSTEM_DATA_URI + "system.xml");
+            File file = new File(systemDataUri + "system.xml");
             if (!file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Onbekend systeem"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(system, new File(SYSTEM_DATA_URI + "system.xml"));
+                marshaller.marshal(system, new File(systemDataUri + "system.xml"));
 
                 return new CrudsResult().success(system.getNextInvoiceNumber());
             }
@@ -61,7 +65,7 @@ public class SystemDAOImpl implements SystemDAO {
 
     public CrudsResult delete() {
         try {
-            File systemFile = new File(SYSTEM_DATA_URI + "system.xml");
+            File systemFile = new File(systemDataUri + "system.xml");
             boolean deleted = systemFile.delete();
             if (deleted) {
                 return new CrudsResult().success();

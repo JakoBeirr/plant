@@ -3,10 +3,7 @@ package be.boomkwekerij.plant.dao.memory;
 import be.boomkwekerij.plant.model.repository.Plant;
 import be.boomkwekerij.plant.util.SearchResult;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class PlantMemoryImpl implements PlantMemory {
 
@@ -44,7 +41,7 @@ public class PlantMemoryImpl implements PlantMemory {
         } else {
             List<Plant> plantsWithName = new ArrayList<>();
             for (Plant plant : plants.values()) {
-                if (plantNameStartsWith(plant, name)) {
+                if (plantNameContains(plant, name)) {
                     plantsWithName.add(plant);
                 }
             }
@@ -52,8 +49,10 @@ public class PlantMemoryImpl implements PlantMemory {
         }
     }
 
-    private boolean plantNameStartsWith(Plant plant, String name) {
-        return plant.getName() != null && plant.getName().toUpperCase().contains(name.toUpperCase());
+    private boolean plantNameContains(Plant plant, String name) {
+        String plantName = plant.getName() != null ? plant.getName() : "";
+
+        return plantName.trim().toUpperCase().contains(name.toUpperCase());
     }
 
     public void updatePlant(Plant plant) {

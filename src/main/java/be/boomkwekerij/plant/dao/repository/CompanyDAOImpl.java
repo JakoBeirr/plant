@@ -2,7 +2,7 @@ package be.boomkwekerij.plant.dao.repository;
 
 import be.boomkwekerij.plant.model.repository.Company;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.InitializerSingleton;
 import be.boomkwekerij.plant.util.SearchResult;
 
 import javax.xml.bind.JAXBContext;
@@ -14,12 +14,16 @@ import java.util.Collections;
 
 public class CompanyDAOImpl implements CompanyDAO {
 
-    private static final String COMPANIES_DATA_URI = Initializer.getDataUri() + "/company/";
+    private final String companiesDataUri;
+
+    public CompanyDAOImpl() {
+        companiesDataUri = InitializerSingleton.getInitializer().getDataDirectory() + "/company/";
+    }
 
     public SearchResult<Company> get() {
         try {
             Unmarshaller unmarshaller = unmarshaller();
-            Company company = (Company) unmarshaller.unmarshal(new File(COMPANIES_DATA_URI + "company.xml"));
+            Company company = (Company) unmarshaller.unmarshal(new File(companiesDataUri + "company.xml"));
 
             return new SearchResult<Company>().success(Collections.singletonList(company));
         } catch (Exception e) {
@@ -29,12 +33,12 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     public CrudsResult persist(Company company) {
         try {
-            File file = new File(COMPANIES_DATA_URI + "company.xml");
+            File file = new File(companiesDataUri + "company.xml");
             if (file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Bedrijf reeds geregistreerd!"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(company, new File(COMPANIES_DATA_URI + "company.xml"));
+                marshaller.marshal(company, new File(companiesDataUri + "company.xml"));
 
                 return new CrudsResult().success(company.getName1() + " " + company.getName2());
             }
@@ -45,12 +49,12 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     public CrudsResult update(Company company) {
         try {
-            File file = new File(COMPANIES_DATA_URI + "company.xml");
+            File file = new File(companiesDataUri + "company.xml");
             if (!file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Onbekend bedrijf!"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(company, new File(COMPANIES_DATA_URI + "company.xml"));
+                marshaller.marshal(company, new File(companiesDataUri + "company.xml"));
 
                 return new CrudsResult().success(company.getName1() + " " + company.getName2());
             }
@@ -61,7 +65,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     public CrudsResult delete() {
         try {
-            File companyFile = new File(COMPANIES_DATA_URI + "company.xml");
+            File companyFile = new File(companiesDataUri + "company.xml");
             boolean deleted = companyFile.delete();
 
             if (deleted) {

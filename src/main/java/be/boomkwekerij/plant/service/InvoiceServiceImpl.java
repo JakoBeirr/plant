@@ -3,6 +3,7 @@ package be.boomkwekerij.plant.service;
 import be.boomkwekerij.plant.dao.memory.InvoiceMemory;
 import be.boomkwekerij.plant.dao.repository.InvoiceDAO;
 import be.boomkwekerij.plant.dao.repository.InvoiceDAOImpl;
+import be.boomkwekerij.plant.helper.InvoiceListOrganizer;
 import be.boomkwekerij.plant.mapper.InvoiceMapper;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
 import be.boomkwekerij.plant.model.dto.DateDTO;
@@ -103,7 +104,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 allInvoicesWithInvoiceNumber.add(invoiceDTO);
             }
             sortInvoicesByDate(allInvoicesWithInvoiceNumber);
-            return new SearchResult<InvoiceDTO>().success(allInvoicesWithInvoiceNumber);
+            return new SearchResult<InvoiceDTO>().success(InvoiceListOrganizer.organize(allInvoicesWithInvoiceNumber, invoiceNumber));
         }
         return new SearchResult<InvoiceDTO>().error(searchResult.getMessages());
     }

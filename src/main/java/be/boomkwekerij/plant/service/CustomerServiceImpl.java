@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.service;
 
 import be.boomkwekerij.plant.dao.memory.CustomerMemory;
+import be.boomkwekerij.plant.helper.CustomerListOrganizer;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.dao.repository.CustomerDAO;
@@ -72,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
                 CustomerDTO customerDTO = customerMapper.mapDAOToDTO(customer);
                 allCustomersWithName.add(customerDTO);
             }
-            return new SearchResult<CustomerDTO>().success(allCustomersWithName);
+            return new SearchResult<CustomerDTO>().success(CustomerListOrganizer.organize(allCustomersWithName, name));
         }
         return new SearchResult<CustomerDTO>().error(searchResult.getMessages());
     }

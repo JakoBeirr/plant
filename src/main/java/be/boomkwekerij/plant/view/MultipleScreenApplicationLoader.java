@@ -17,7 +17,7 @@ public class MultipleScreenApplicationLoader {
     private static BorderPane root;
 
     public MultipleScreenApplicationLoader() {
-        templates = new HashMap<String, String>();
+        templates = new HashMap<>();
         templates.put("customerList", "customer_list.fxml");
         templates.put("customerCreate", "customer_create.fxml");
         templates.put("customerModify", "customer_modify.fxml");

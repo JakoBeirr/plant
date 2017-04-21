@@ -7,53 +7,64 @@ import be.boomkwekerij.plant.model.repository.System;
 import java.io.File;
 import java.util.List;
 
-public class Initializer {
+public class InitializerSingleton {
 
-    private static String data_directory;
-
-    private static CompanyDAO companyDAO;
-    private static CustomerDAO customerDAO;
-    private static InvoiceDAO invoiceDAO;
-    private static PlantDAO plantDAO;
-    private static FustDAO fustDAO;
-    private static SystemDAO systemDAO;
+    private static InitializerSingleton initializer = null;
 
     public static final int MAX_INVOICELINES = 18;
+    private String dataDirectory;
 
-    public static void launch(String dataUri) {
-        data_directory = dataUri;
+    private CompanyDAO companyDAO;
+    private CustomerDAO customerDAO;
+    private InvoiceDAO invoiceDAO;
+    private PlantDAO plantDAO;
+    private FustDAO fustDAO;
+    private SystemDAO systemDAO;
+
+    private InitializerSingleton() {
     }
 
-    public static void init() {
-        createDAOs();
-
-        initDirectoryStructure(data_directory);
-        initInMemoryDatabase();
+    public static InitializerSingleton getInitializer() {
+        if (initializer == null) {
+            initializer = new InitializerSingleton();
+        }
+        return initializer;
     }
 
-    private static void createDAOs() {
+    public void init() {
         companyDAO = new CompanyDAOImpl();
         customerDAO = new CustomerDAOImpl();
         invoiceDAO = new InvoiceDAOImpl();
         plantDAO = new PlantDAOImpl();
         fustDAO = new FustDAOImpl();
         systemDAO = new SystemDAOImpl();
+
+        initDirectoryStructure();
+        initInMemoryDatabase();
     }
 
-    private static void initDirectoryStructure(String dataUri) {
-        createDataDirectoryWhenNotExists(dataUri);
-        createDirectoryWhenNotExists(dataUri, "/company");
-        createDirectoryWhenNotExists(dataUri, "/customers");
-        createDirectoryWhenNotExists(dataUri, "/invoices");
-        createDirectoryWhenNotExists(dataUri, "/plants");
-        createDirectoryWhenNotExists(dataUri, "/plants");
-        createDirectoryWhenNotExists(dataUri, "/fusts");
-        createDirectoryWhenNotExists(dataUri, "/system");
-        createDirectoryWhenNotExists(dataUri, "/files");
+    public String getDataDirectory() {
+        return dataDirectory;
+    }
+
+    public void setDataDirectory(String dataDirectory) {
+        this.dataDirectory = dataDirectory;
+    }
+
+    private void initDirectoryStructure() {
+        createDataDirectoryWhenNotExists(dataDirectory);
+        createDirectoryWhenNotExists(dataDirectory, "/company");
+        createDirectoryWhenNotExists(dataDirectory, "/customers");
+        createDirectoryWhenNotExists(dataDirectory, "/invoices");
+        createDirectoryWhenNotExists(dataDirectory, "/plants");
+        createDirectoryWhenNotExists(dataDirectory, "/plants");
+        createDirectoryWhenNotExists(dataDirectory, "/fusts");
+        createDirectoryWhenNotExists(dataDirectory, "/system");
+        createDirectoryWhenNotExists(dataDirectory, "/files");
     }
 
     @SuppressWarnings("all")
-    private static void createDataDirectoryWhenNotExists(String dataUri) {
+    private void createDataDirectoryWhenNotExists(String dataUri) {
         File file = new File(dataUri);
         if (!file.exists()) {
             file.mkdir();
@@ -61,14 +72,14 @@ public class Initializer {
     }
 
     @SuppressWarnings("all")
-    private static void createDirectoryWhenNotExists(String dataUri, String directory) {
+    private void createDirectoryWhenNotExists(String dataUri, String directory) {
         File file = new File(dataUri + directory);
         if (!file.exists()) {
             file.mkdir();
         }
     }
 
-    private static void initInMemoryDatabase() {
+    private void initInMemoryDatabase() {
         Company company = companyDAO.get().getFirst();
         MemoryDatabase.getCompanyMemory().createCompany(company);
 
@@ -88,7 +99,7 @@ public class Initializer {
         MemoryDatabase.getSystemMemory().createSystem(system);
     }
 
-    public static void reloadInMemoryDatabase() {
+    public void reloadInMemoryDatabase() {
         MemoryDatabase.getCompanyMemory().deleteCompany();
         MemoryDatabase.getCustomerMemory().deleteAllCustomers();
         MemoryDatabase.getInvoiceMemory().deleteAllInvoices();
@@ -109,9 +120,5 @@ public class Initializer {
 
         System system = systemDAO.get().getFirst();
         MemoryDatabase.getSystemMemory().createSystem(system);
-    }
-
-    public static String getDataUri() {
-        return data_directory;
     }
 }

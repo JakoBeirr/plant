@@ -53,13 +53,11 @@ public class CustomerMemoryImpl implements CustomerMemory {
 
     @SuppressWarnings("all")
     private boolean customerNameContains(Customer customer, String name) {
-        if (customer.getName1() != null && customer.getName1().toUpperCase().contains(name.toUpperCase())) {
-            return true;
-        }
-        if (customer.getName2() != null && customer.getName2().toUpperCase().contains(name.toUpperCase())) {
-            return true;
-        }
-        return false;
+        String firstName = customer.getName1() != null ? customer.getName1() : "";
+        String lastName = customer.getName2() != null ? customer.getName2() : "";
+        String customerName = firstName + " " + lastName;
+
+        return customerName.trim().toUpperCase().contains(name.toUpperCase());
     }
 
     public void updateCustomer(Customer customer) {

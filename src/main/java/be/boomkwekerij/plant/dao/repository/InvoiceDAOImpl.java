@@ -2,7 +2,7 @@ package be.boomkwekerij.plant.dao.repository;
 
 import be.boomkwekerij.plant.model.repository.Invoice;
 import be.boomkwekerij.plant.util.CrudsResult;
-import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.InitializerSingleton;
 import be.boomkwekerij.plant.util.SearchResult;
 
 import javax.xml.bind.JAXBContext;
@@ -17,12 +17,16 @@ import java.util.UUID;
 
 public class InvoiceDAOImpl implements InvoiceDAO {
 
-    private static final String INVOICES_DATA_URI = Initializer.getDataUri() + "/invoices/";
+    private final String invoicesDataUri;
+
+    public InvoiceDAOImpl() {
+        invoicesDataUri = InitializerSingleton.getInitializer().getDataDirectory() + "/invoices/";
+    }
 
     public SearchResult<Invoice> get(String id) {
         try {
             Unmarshaller unmarshaller = unmarshaller();
-            Invoice invoice = (Invoice) unmarshaller.unmarshal(new File(INVOICES_DATA_URI + id + ".xml"));
+            Invoice invoice = (Invoice) unmarshaller.unmarshal(new File(invoicesDataUri + id + ".xml"));
 
             return new SearchResult<Invoice>().success(Collections.singletonList(invoice));
         } catch (Exception e) {
@@ -33,7 +37,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     public SearchResult<Invoice> findAll() {
         try {
             Unmarshaller unmarshaller = unmarshaller();
-            File invoiceDirectory = new File(INVOICES_DATA_URI);
+            File invoiceDirectory = new File(invoicesDataUri);
             File[] invoiceFiles = invoiceDirectory.listFiles();
 
             List<Invoice> invoices = new ArrayList<>();
@@ -52,12 +56,12 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     public CrudsResult persist(Invoice invoice) {
         try {
             invoice.setId(UUID.randomUUID().toString());
-            File file = new File(INVOICES_DATA_URI + invoice.getId() + ".xml");
+            File file = new File(invoicesDataUri + invoice.getId() + ".xml");
             if (file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Factuur reeds aangemaakt!"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(invoice, new File(INVOICES_DATA_URI + invoice.getId() + ".xml"));
+                marshaller.marshal(invoice, new File(invoicesDataUri + invoice.getId() + ".xml"));
 
                 return new CrudsResult().success(invoice.getId());
             }
@@ -68,12 +72,12 @@ public class InvoiceDAOImpl implements InvoiceDAO {
 
     public CrudsResult update(Invoice invoice) {
         try {
-            File file = new File(INVOICES_DATA_URI + invoice.getId() + ".xml");
+            File file = new File(invoicesDataUri + invoice.getId() + ".xml");
             if (!file.exists()) {
                 return new CrudsResult().error(Collections.singletonList("Onbekende factuur"));
             } else {
                 Marshaller marshaller = marshaller();
-                marshaller.marshal(invoice, new File(INVOICES_DATA_URI + invoice.getId() + ".xml"));
+                marshaller.marshal(invoice, new File(invoicesDataUri + invoice.getId() + ".xml"));
 
                 return new CrudsResult().success(invoice.getId());
             }
@@ -84,7 +88,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
 
     public CrudsResult delete(String id) {
         try {
-            File invoiceFile = new File(INVOICES_DATA_URI + id + ".xml");
+            File invoiceFile = new File(invoicesDataUri + id + ".xml");
             boolean deleted = invoiceFile.delete();
             if (deleted) {
                 return new CrudsResult().success(id);
@@ -97,7 +101,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
 
     public CrudsResult deleteAll() {
         try {
-            File invoiceDirectory = new File(INVOICES_DATA_URI);
+            File invoiceDirectory = new File(invoicesDataUri);
             File[] invoiceFiles = invoiceDirectory.listFiles();
             if (invoiceFiles != null) {
                 for (File invoiceFile : invoiceFiles) {

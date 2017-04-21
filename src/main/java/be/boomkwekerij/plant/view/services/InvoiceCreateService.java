@@ -156,6 +156,9 @@ public class InvoiceCreateService {
                         @Override
                         public void run() {
                             plantList.getItems().setAll(plants);
+                            if (plants.size() > 0) {
+                                plantList.getSelectionModel().select(0);
+                            }
                         }
                     });
 

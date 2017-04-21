@@ -78,16 +78,7 @@ public class ReportPDFCreator {
         BestandDTO bestandDTO = new BestandDTO();
         bestandDTO.setName(fileName + ".pdf");
         bestandDTO.setFile(pdfReport);
-        writeFileToFileSystem(bestandDTO);
 
         return bestandDTO;
-    }
-
-    private void writeFileToFileSystem(BestandDTO report) throws IOException {
-        File file = new File(Initializer.getDataUri() + "/files/" + report.getName());
-        if (file.exists()) {
-            file.delete();
-        }
-        FileUtils.writeByteArrayToFile(file, report.getFile());
     }
 }

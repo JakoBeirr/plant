@@ -1,6 +1,6 @@
 package be.boomkwekerij.plant.view;
 
-import be.boomkwekerij.plant.util.Initializer;
+import be.boomkwekerij.plant.util.InitializerSingleton;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -13,7 +13,7 @@ public class PlantApplication extends Application {
 
     @Override
     public void init() throws Exception {
-        Initializer.init();
+        InitializerSingleton.getInitializer().init();
     }
 
     @Override

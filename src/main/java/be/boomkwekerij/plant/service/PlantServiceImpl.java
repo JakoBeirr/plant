@@ -3,6 +3,7 @@ package be.boomkwekerij.plant.service;
 import be.boomkwekerij.plant.dao.memory.PlantMemory;
 import be.boomkwekerij.plant.dao.repository.PlantDAO;
 import be.boomkwekerij.plant.dao.repository.PlantDAOImpl;
+import be.boomkwekerij.plant.helper.PlantListOrganizer;
 import be.boomkwekerij.plant.mapper.PlantMapper;
 import be.boomkwekerij.plant.model.dto.PlantDTO;
 import be.boomkwekerij.plant.model.repository.Plant;
@@ -70,7 +71,7 @@ public class PlantServiceImpl implements PlantService {
                 PlantDTO plantDTO = plantMapper.mapDAOToDTO(plant);
                 allPlantsWithName.add(plantDTO);
             }
-            return new SearchResult<PlantDTO>().success(allPlantsWithName);
+            return new SearchResult<PlantDTO>().success(PlantListOrganizer.organize(allPlantsWithName, name));
         }
         return new SearchResult<PlantDTO>().error(searchResult.getMessages());
     }
