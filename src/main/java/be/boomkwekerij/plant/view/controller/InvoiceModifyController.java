@@ -129,8 +129,13 @@ public class InvoiceModifyController implements PageController {
             showModifyInvoiceButton.setVisible(newValue != null);
         });
         plantList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            choosePlantButton.setVisible(newValue != null);
-            choosePlantButton.setManaged(newValue != null);
+            if (plantList.isVisible()) {
+                choosePlantButton.setVisible(newValue != null);
+                choosePlantButton.setManaged(newValue != null);
+            } else {
+                choosePlantButton.setVisible(false);
+                choosePlantButton.setManaged(false);
+            }
         });
         invoiceLines.getChildren().addListener((ListChangeListener<Node>) c -> {
             if (c.getList().size() > 0) {

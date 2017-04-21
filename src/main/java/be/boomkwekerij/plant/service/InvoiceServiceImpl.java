@@ -131,11 +131,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     private void sortInvoicesByDate(List<InvoiceDTO> invoices) {
-        Collections.sort(invoices, new Comparator<InvoiceDTO>() {
-            public int compare(InvoiceDTO o1, InvoiceDTO o2) {
-                return o1.getDate().compareTo(o2.getDate());
-            }
-        });
+        Collections.sort(invoices, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
     }
 
     public CrudsResult updateInvoice(InvoiceDTO invoiceDTO) {

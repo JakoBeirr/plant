@@ -60,4 +60,12 @@ public class PlantController {
             return new SearchResult<PlantDTO>().error(Collections.singletonList(e.getMessage()));
         }
     }
+
+    public SearchResult<PlantDTO> getAllPlantsWithNameAndAgeAndMeasure(String name, String age, String measure) {
+        try {
+            return plantService.getAllPlants(name, age, measure);
+        } catch (Exception e) {
+            return new SearchResult<PlantDTO>().error(Collections.singletonList(e.getMessage()));
+        }
+    }
 }

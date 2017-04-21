@@ -17,6 +17,8 @@ public interface PlantMemory {
 
     SearchResult<Plant> getPlants(String name);
 
+    SearchResult<Plant> getPlants(String name, String age, String measure);
+
     void updatePlant(Plant plant);
 
     void deletePlant(String id);

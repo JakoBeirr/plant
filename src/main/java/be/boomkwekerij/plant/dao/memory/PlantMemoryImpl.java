@@ -49,10 +49,37 @@ public class PlantMemoryImpl implements PlantMemory {
         }
     }
 
+    @Override
+    public SearchResult<Plant> getPlants(String name, String age, String measure) {
+        if (name == null || age == null || measure == null) {
+            return new SearchResult<Plant>().error(Collections.singletonList("Kon geen plant vinden voor name, age of measure null!"));
+        } else {
+            List<Plant> plantsWithName = new ArrayList<>();
+            for (Plant plant : plants.values()) {
+                if (plantNameContains(plant, name) && plantAgeContains(plant, age) && plantMeasureContains(plant, measure)) {
+                    plantsWithName.add(plant);
+                }
+            }
+            return new SearchResult<Plant>().success(plantsWithName);
+        }
+    }
+
     private boolean plantNameContains(Plant plant, String name) {
         String plantName = plant.getName() != null ? plant.getName() : "";
 
-        return plantName.trim().toUpperCase().contains(name.toUpperCase());
+        return plantName.trim().toUpperCase().contains(name.trim().toUpperCase());
+    }
+
+    private boolean plantAgeContains(Plant plant, String age) {
+        String plantAge = plant.getAge() != null ? plant.getAge() : "";
+
+        return plantAge.trim().toUpperCase().contains(age.trim().toUpperCase());
+    }
+
+    private boolean plantMeasureContains(Plant plant, String measure) {
+        String plantMeasure = plant.getMeasure() != null ? plant.getMeasure() : "";
+
+        return plantMeasure.trim().toUpperCase().contains(measure.trim().toUpperCase());
     }
 
     public void updatePlant(Plant plant) {

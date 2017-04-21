@@ -76,6 +76,20 @@ public class PlantServiceImpl implements PlantService {
         return new SearchResult<PlantDTO>().error(searchResult.getMessages());
     }
 
+    @Override
+    public SearchResult<PlantDTO> getAllPlants(String name, String age, String measure) {
+        SearchResult<Plant> searchResult = plantMemory.getPlants(name, age, measure);
+        if (searchResult.isSuccess()) {
+            List<PlantDTO> allPlantsWithName = new ArrayList<PlantDTO>();
+            for (Plant plant : searchResult.getResults()) {
+                PlantDTO plantDTO = plantMapper.mapDAOToDTO(plant);
+                allPlantsWithName.add(plantDTO);
+            }
+            return new SearchResult<PlantDTO>().success(PlantListOrganizer.organize(allPlantsWithName, name, age, measure));
+        }
+        return new SearchResult<PlantDTO>().error(searchResult.getMessages());
+    }
+
     public CrudsResult updatePlant(PlantDTO plantDTO) {
         CrudsResult validateResult = validatePlant(plantDTO);
         if (validateResult.isError()) {

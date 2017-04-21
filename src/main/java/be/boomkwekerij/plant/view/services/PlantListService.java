@@ -15,6 +15,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,16 +72,33 @@ public class PlantListService {
                 protected Void call() throws Exception {
                     updateTitle("Inladen alle planten met naam");
 
-                    String name = plantSearchField.getText();
-                    SearchResult<PlantDTO> searchResult = plantController.getAllPlantsWithName(name);
-                    if (searchResult.isError()) {
-                        throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
-                    }
-
                     List<PlantViewModel> plants = new ArrayList<>();
-                    for (PlantDTO plantDTO : searchResult.getResults()) {
-                        PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
-                        plants.add(plantViewModel);
+
+                    String name = plantSearchField.getText();
+                    if (name.matches(".*(.*-.*)")) {
+                        String plantName = StringUtils.substringBefore(name, "(").trim();
+                        String plantAge = StringUtils.substringBetween(name, "(", "-").trim();
+                        String plantMeasure = StringUtils.substringBetween(name, "-", ")").trim();
+
+                        SearchResult<PlantDTO> searchResult = plantController.getAllPlantsWithNameAndAgeAndMeasure(plantName, plantAge, plantMeasure);
+                        if (searchResult.isError()) {
+                            throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
+                        }
+
+                        for (PlantDTO plantDTO : searchResult.getResults()) {
+                            PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
+                            plants.add(plantViewModel);
+                        }
+                    } else {
+                        SearchResult<PlantDTO> searchResult = plantController.getAllPlantsWithName(name);
+                        if (searchResult.isError()) {
+                            throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
+                        }
+
+                        for (PlantDTO plantDTO : searchResult.getResults()) {
+                            PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
+                            plants.add(plantViewModel);
+                        }
                     }
 
                     Platform.runLater(new Runnable() {

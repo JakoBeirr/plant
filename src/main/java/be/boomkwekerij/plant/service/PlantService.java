@@ -14,6 +14,8 @@ public interface PlantService {
 
     SearchResult<PlantDTO> getAllPlants(String name);
 
+    SearchResult<PlantDTO> getAllPlants(String name, String age, String measure);
+
     CrudsResult updatePlant(PlantDTO plant);
 
     CrudsResult deletePlant(String id);

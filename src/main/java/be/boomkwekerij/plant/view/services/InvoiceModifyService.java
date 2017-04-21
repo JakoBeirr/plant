@@ -26,6 +26,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
 import java.time.LocalDate;
@@ -137,16 +138,33 @@ public class InvoiceModifyService {
                 protected Void call() throws Exception {
                     updateTitle("Inladen alle planten met naam");
 
-                    String name = plantSearchField.getText();
-                    SearchResult<PlantDTO> searchResult = plantController.getAllPlantsWithName(name);
-                    if (searchResult.isError()) {
-                        throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
-                    }
-
                     List<PlantViewModel> plants = new ArrayList<>();
-                    for (PlantDTO plantDTO : searchResult.getResults()) {
-                        PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
-                        plants.add(plantViewModel);
+
+                    String name = plantSearchField.getText();
+                    if (name.matches(".*(.*-.*)")) {
+                        String plantName = StringUtils.substringBefore(name, "(").trim();
+                        String plantAge = StringUtils.substringBetween(name, "(", "-").trim();
+                        String plantMeasure = StringUtils.substringBetween(name, "-", ")").trim();
+
+                        SearchResult<PlantDTO> searchResult = plantController.getAllPlantsWithNameAndAgeAndMeasure(plantName, plantAge, plantMeasure);
+                        if (searchResult.isError()) {
+                            throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
+                        }
+
+                        for (PlantDTO plantDTO : searchResult.getResults()) {
+                            PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
+                            plants.add(plantViewModel);
+                        }
+                    } else {
+                        SearchResult<PlantDTO> searchResult = plantController.getAllPlantsWithName(name);
+                        if (searchResult.isError()) {
+                            throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
+                        }
+
+                        for (PlantDTO plantDTO : searchResult.getResults()) {
+                            PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(plantDTO);
+                            plants.add(plantViewModel);
+                        }
                     }
 
                     Platform.runLater(new Runnable() {
@@ -558,21 +576,7 @@ public class InvoiceModifyService {
         editRow.getStyleClass().add("green-button");
         editRow.setOnAction(event -> {
             this.chosenPlant.setText("");
-            this.plantSearchField.setText("");
-
-            SearchResult<PlantDTO> plantResult = plantController.getPlant(chosenPlant);
-            if (plantResult.isError()) {
-                throw new IllegalArgumentException(Arrays.toString(plantResult.getMessages().toArray()));
-            }
-            PlantDTO chosenPlantDTO = plantResult.getFirst();
-            if (chosenPlantDTO == null) {
-                throw new IllegalArgumentException("Kon plant met id: " + chosenPlant + " niet vinden");
-            }
-            this.plantList.getItems().clear();
-            PlantViewModel plantViewModel = plantViewMapper.mapDTOToViewModel(chosenPlantDTO);
-            this.plantList.getItems().add(plantViewModel);
-            this.plantList.getSelectionModel().select(plantViewModel);
-
+            this.plantSearchField.setText(plantSearchField);
             this.remark.setText(invoiceLineRemark);
             this.orderNumber.setText(orderNumber);
             this.invoiceLineDate.setValue(invoiceLineDate);
