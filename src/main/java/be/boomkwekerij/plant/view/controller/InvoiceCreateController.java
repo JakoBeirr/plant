@@ -6,11 +6,9 @@ import be.boomkwekerij.plant.view.services.InvoiceCreateService;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -163,7 +161,11 @@ public class InvoiceCreateController implements PageController {
             amount.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
         });
         alternativePlantPrice.textProperty().addListener((observable, oldValue, newValue) -> {
-            alternativePlantPrice.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+            if (newValue.startsWith("-")) {
+                alternativePlantPrice.setText("-" + newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+            } else {
+                alternativePlantPrice.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+            }
         });
         invoiceLineBtw.textProperty().addListener((observable, oldValue, newValue) -> {
             invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));

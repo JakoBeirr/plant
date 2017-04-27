@@ -161,7 +161,11 @@ public class InvoiceModifyController implements PageController {
             amount.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
         });
         alternativePlantPrice.textProperty().addListener((observable, oldValue, newValue) -> {
-            alternativePlantPrice.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+            if (newValue.startsWith("-")) {
+                alternativePlantPrice.setText("-" + newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+            } else {
+                alternativePlantPrice.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+            }
         });
         invoiceLineBtw.textProperty().addListener((observable, oldValue, newValue) -> {
             invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
