@@ -1,8 +1,8 @@
 package be.boomkwekerij.plant.view.services;
 
 import be.boomkwekerij.plant.controller.FustController;
-import be.boomkwekerij.plant.model.dto.DateDTO;
 import be.boomkwekerij.plant.model.dto.FustDTO;
+import be.boomkwekerij.plant.model.dto.FustOverviewDTO;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.view.mapper.FustViewMapper;
@@ -32,7 +32,6 @@ public class FustListService {
     private TableView<FustViewModel> fustList;
     private Button printFustButton;
     private Button printFustsButton;
-    private Button deleteFustButton;
 
     public final Service loadAllFustsService = new Service() {
         @Override
@@ -42,23 +41,18 @@ public class FustListService {
                 protected Void call() throws Exception {
                     updateTitle("Inladen alle fust");
 
-                    SearchResult<FustDTO> searchResult = fustController.getAllFusts();
+                    SearchResult<FustOverviewDTO> searchResult = fustController.getAllFustOverviews();
                     if (searchResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
                     }
 
                     List<FustViewModel> fusts = new ArrayList<>();
-                    for (FustDTO fustDTO : searchResult.getResults()) {
-                        FustViewModel fustViewModel = fustViewMapper.mapDTOToViewModel(fustDTO);
+                    for (FustOverviewDTO fust : searchResult.getResults()) {
+                        FustViewModel fustViewModel = fustViewMapper.mapDTOToViewModel(fust);
                         fusts.add(fustViewModel);
                     }
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            fustList.getItems().setAll(fusts);
-                        }
-                    });
+                    Platform.runLater(() -> fustList.getItems().setAll(fusts));
 
                     return null;
                 }
@@ -75,23 +69,18 @@ public class FustListService {
                     updateTitle("Inladen alle fust voor klant met naam");
 
                     String customerName = fustSearchField.getText();
-                    SearchResult<FustDTO> searchResult = fustController.getFustFromCustomerWithName(customerName);
+                    SearchResult<FustOverviewDTO> searchResult = fustController.getFustOverviewFromCustomerWithName(customerName);
                     if (searchResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(searchResult.getMessages().toArray()));
                     }
 
                     List<FustViewModel> fusts = new ArrayList<>();
-                    for (FustDTO fustDTO : searchResult.getResults()) {
-                        FustViewModel fustViewModel = fustViewMapper.mapDTOToViewModel(fustDTO);
+                    for (FustOverviewDTO fust : searchResult.getResults()) {
+                        FustViewModel fustViewModel = fustViewMapper.mapDTOToViewModel(fust);
                         fusts.add(fustViewModel);
                     }
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            fustList.getItems().setAll(fusts);
-                        }
-                    });
+                    Platform.runLater(() -> fustList.getItems().setAll(fusts));
 
                     return null;
                 }
@@ -109,7 +98,7 @@ public class FustListService {
 
                     ObservableList<FustViewModel> selectedFusts = fustList.getSelectionModel().getSelectedItems();
                     for (FustViewModel selectedFust : selectedFusts) {
-                        CrudsResult printResult = fustController.printFustReport(selectedFust.getId());
+                        CrudsResult printResult = fustController.printFustFromCustomerReport(selectedFust.getCustomerId());
                         if (printResult.isError()) {
                             throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
                         }
@@ -129,31 +118,9 @@ public class FustListService {
                 protected Void call() throws Exception {
                     updateTitle("Totaaloverzicht fust printen");
 
-                    CrudsResult printResult = fustController.printFustsReport();
+                    CrudsResult printResult = fustController.printFustFromAllCustomersReport();
                     if (printResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
-                    }
-
-                    return null;
-                }
-            };
-        }
-    };
-
-    public final Service deleteFustService = new Service() {
-        @Override
-        protected Task createTask() {
-            return new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    updateTitle("Fust verwijderen");
-
-                    ObservableList<FustViewModel> selectedFusts = fustList.getSelectionModel().getSelectedItems();
-                    for (FustViewModel selectedFust : selectedFusts) {
-                        CrudsResult deleteResult = fustController.deleteFust(selectedFust.getId());
-                        if (deleteResult.isError()) {
-                            throw new IllegalArgumentException(Arrays.toString(deleteResult.getMessages().toArray()));
-                        }
                     }
 
                     return null;
@@ -178,17 +145,12 @@ public class FustListService {
         this.printFustsButton = printFustsButton;
     }
 
-    public void setDeleteFustButton(Button deleteFustButton) {
-        this.deleteFustButton = deleteFustButton;
-    }
-
     public void init(Pane root) {
         root.cursorProperty()
                 .bind(Bindings.when(loadAllFustsService.runningProperty()
                             .or(loadAllFustFromCustomerWithName.runningProperty()
                             .or(printFustService.runningProperty()
-                            .or(printFustsService.runningProperty()
-                            .or(deleteFustService.runningProperty())))))
+                            .or(printFustsService.runningProperty()))))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
@@ -196,8 +158,6 @@ public class FustListService {
                 .bind(printFustService.runningProperty());
         printFustsButton.disableProperty()
                 .bind(printFustsService.runningProperty());
-        deleteFustButton.disableProperty()
-                .bind(deleteFustService.runningProperty());
 
         printFustService.setOnSucceeded(serviceEvent -> {
             ServiceHandler.success(printFustService);
@@ -210,17 +170,6 @@ public class FustListService {
         });
         printFustsService.setOnFailed(serviceEvent -> {
             ServiceHandler.error(printFustsService);
-        });
-        deleteFustService.setOnSucceeded(serviceEvent -> {
-            if (fustSearchField.getText().length() > 2) {
-                loadAllFustFromCustomerWithName.restart();
-            } else {
-                loadAllFustsService.restart();
-            }
-            ServiceHandler.success(deleteFustService);
-        });
-        deleteFustService.setOnFailed(serviceEvent -> {
-            ServiceHandler.error(deleteFustService);
         });
 
         loadAllFustsService.restart();

@@ -14,11 +14,14 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import org.joda.time.DateTime;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,9 +47,8 @@ public class FustCreateService {
     private TextField ferroPalletGroot;
     private TextField karrenEnBorden;
     private TextField diverse;
+    private DatePicker datum;
     private Button fustCreateButton;
-
-    private FustDTO newFust = null;
 
     public final Service loadAllCustomersService = new Service() {
         @Override
@@ -67,12 +69,7 @@ public class FustCreateService {
                         customers.add(customerViewModel);
                     }
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            customerList.getItems().setAll(customers);
-                        }
-                    });
+                    Platform.runLater(() -> customerList.getItems().setAll(customers));
 
                     return null;
                 }
@@ -100,12 +97,7 @@ public class FustCreateService {
                         customers.add(customerViewModel);
                     }
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            customerList.getItems().setAll(customers);
-                        }
-                    });
+                    Platform.runLater(() -> customerList.getItems().setAll(customers));
 
                     return null;
                 }
@@ -122,24 +114,21 @@ public class FustCreateService {
                     updateTitle("Initialiseren gegevens voor bewerking");
 
                     CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
-                    newFust = fustController.makeNewFust(selectedCustomer.getId());
 
-                    String fustCustomer = newFust.getCustomer().getName1();
+                    String fustCustomer = selectedCustomer.getName1();
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            customer.setText(fustCustomer);
-                            lageKisten.setText(Integer.toString(newFust.getLageKisten()));
-                            hogeKisten.setText(Integer.toString(newFust.getHogeKisten()));
-                            palletBodem.setText(Integer.toString(newFust.getPalletBodem()));
-                            boxPallet.setText(Integer.toString(newFust.getBoxPallet()));
-                            halveBox.setText(Integer.toString(newFust.getHalveBox()));
-                            ferroPalletKlein.setText(Integer.toString(newFust.getFerroPalletKlein()));
-                            ferroPalletGroot.setText(Integer.toString(newFust.getFerroPalletGroot()));
-                            karrenEnBorden.setText(Integer.toString(newFust.getKarrenEnBorden()));
-                            diverse.setText(Integer.toString(newFust.getDiverse()));
-                        }
+                    Platform.runLater(() -> {
+                        customer.setText(fustCustomer);
+                        lageKisten.setText("0");
+                        hogeKisten.setText("0");
+                        palletBodem.setText("0");
+                        boxPallet.setText("0");
+                        halveBox.setText("0");
+                        ferroPalletKlein.setText("0");
+                        ferroPalletGroot.setText("0");
+                        karrenEnBorden.setText("0");
+                        diverse.setText("0");
+                        datum.setValue(LocalDate.now());
                     });
 
                     return null;
@@ -160,7 +149,6 @@ public class FustCreateService {
                     CustomerDTO selectedCustomerDTO = customerViewMapper.mapViewModelToDTO(selectedCustomer);
 
                     FustDTO fustDTO = new FustDTO();
-                    fustDTO.setId(newFust.getId());
                     fustDTO.setCustomer(selectedCustomerDTO);
                     fustDTO.setLageKisten(Integer.valueOf(lageKisten.getText()));
                     fustDTO.setHogeKisten(Integer.valueOf(hogeKisten.getText()));
@@ -171,6 +159,12 @@ public class FustCreateService {
                     fustDTO.setFerroPalletGroot(Integer.valueOf(ferroPalletGroot.getText()));
                     fustDTO.setKarrenEnBorden(Integer.valueOf(karrenEnBorden.getText()));
                     fustDTO.setDiverse(Integer.valueOf(diverse.getText()));
+                    LocalDate invoiceLocalDate = datum.getValue();
+                    if (invoiceLocalDate != null) {
+                        fustDTO.setDatum(new DateTime(invoiceLocalDate.getYear(), invoiceLocalDate.getMonthValue(), invoiceLocalDate.getDayOfMonth(), 0, 0, 0, 0));
+                    } else {
+                        fustDTO.setDatum(null);
+                    }
 
                     CrudsResult createResult = fustController.createFust(fustDTO);
                     if (createResult.isError()) {
@@ -237,6 +231,10 @@ public class FustCreateService {
 
     public void setDiverse(TextField diverse) {
         this.diverse = diverse;
+    }
+
+    public void setDatum(DatePicker datum) {
+        this.datum = datum;
     }
 
     public void setFustCreateButton(Button fustCreateButton) {

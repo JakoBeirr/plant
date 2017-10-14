@@ -36,6 +36,7 @@ public class GeneralSettingsService {
     private TextField ibanNetherlands;
     private TextField bicNetherlands;
     private TextField btwNumber;
+    private TextField email;
     private Button modifyCompanyButton;
 
     public final Service initializeSystemService = new Service() {
@@ -90,6 +91,7 @@ public class GeneralSettingsService {
                         ibanNetherlands.setText(company.getIbanNetherlands());
                         bicNetherlands.setText(company.getBicNetherlands());
                         btwNumber.setText(company.getBtwNumber());
+                        email.setText(company.getEmailAddress());
                     }
 
                     return null;
@@ -142,6 +144,7 @@ public class GeneralSettingsService {
                     company.setIbanNetherlands(ibanNetherlands.getText());
                     company.setBicNetherlands(bicNetherlands.getText());
                     company.setBtwNumber(btwNumber.getText());
+                    company.setEmailAddress(email.getText());
                     CrudsResult modifyResult = companyController.updateCompany(company);
                     if (modifyResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(modifyResult.getMessages().toArray()));
@@ -211,6 +214,10 @@ public class GeneralSettingsService {
 
     public void setBtwNumber(TextField btwNumber) {
         this.btwNumber = btwNumber;
+    }
+
+    public void setEmail(TextField email) {
+        this.email = email;
     }
 
     public void setModifyCompanyButton(Button modifyCompanyButton) {

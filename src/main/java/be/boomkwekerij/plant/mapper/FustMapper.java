@@ -3,6 +3,7 @@ package be.boomkwekerij.plant.mapper;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
 import be.boomkwekerij.plant.model.dto.FustDTO;
 import be.boomkwekerij.plant.model.repository.Fust;
+import org.joda.time.DateTime;
 
 public class FustMapper {
 
@@ -19,6 +20,11 @@ public class FustMapper {
         fust.setFerroPalletGroot(fustDTO.getFerroPalletGroot());
         fust.setKarrenEnBorden(fustDTO.getKarrenEnBorden());
         fust.setDiverse(fustDTO.getDiverse());
+        DateTime date = fustDTO.getDatum();
+        if (date == null) {
+            date = new DateTime();
+        }
+        fust.setDatum(date.toDate());
         return fust;
     }
 
@@ -35,6 +41,7 @@ public class FustMapper {
         fustDTO.setFerroPalletGroot(fust.getFerroPalletGroot());
         fustDTO.setKarrenEnBorden(fust.getKarrenEnBorden());
         fustDTO.setDiverse(fust.getDiverse());
+        fustDTO.setDatum(new DateTime(fust.getDatum()));
         return fustDTO;
     }
 }

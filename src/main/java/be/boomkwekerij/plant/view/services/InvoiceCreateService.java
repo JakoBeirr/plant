@@ -199,13 +199,10 @@ public class InvoiceCreateService {
                     String invoiceInvoiceNumber = newInvoice.getInvoiceNumber();
                     DateTime invoiceInvoiceDate = newInvoice.getDate();
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            customer.setText(invoiceCustomer);
-                            invoiceNumber.setText(invoiceInvoiceNumber);
-                            invoiceDate.setValue(LocalDate.of(invoiceInvoiceDate.getYear(), invoiceInvoiceDate.getMonthOfYear(), invoiceInvoiceDate.getDayOfMonth()));
-                        }
+                    Platform.runLater(() -> {
+                        customer.setText(invoiceCustomer);
+                        invoiceNumber.setText(invoiceInvoiceNumber);
+                        invoiceDate.setValue(LocalDate.of(invoiceInvoiceDate.getYear(), invoiceInvoiceDate.getMonthOfYear(), invoiceInvoiceDate.getDayOfMonth()));
                     });
 
                     return null;
@@ -227,13 +224,10 @@ public class InvoiceCreateService {
                     String plantName = selectedPlant.getName() + "  (" + selectedPlant.getAge() + " - " + selectedPlant.getMeasure() + ")";
                     String plantPrice = selectedPlant.getPrice().replaceAll(",", ".");
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            chosenPlant.setText(plantId);
-                            plantSearchField.setText(plantName);
-                            alternativePlantPrice.setText(plantPrice);
-                        }
+                    Platform.runLater(() -> {
+                        chosenPlant.setText(plantId);
+                        plantSearchField.setText(plantName);
+                        alternativePlantPrice.setText(plantPrice);
                     });
 
                     return null;

@@ -2,6 +2,7 @@ package be.boomkwekerij.plant.controller;
 
 import be.boomkwekerij.plant.model.dto.BestandDTO;
 import be.boomkwekerij.plant.model.dto.FustDTO;
+import be.boomkwekerij.plant.model.dto.FustOverviewDTO;
 import be.boomkwekerij.plant.service.*;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
@@ -23,58 +24,30 @@ public class FustController {
         }
     }
 
-    public FustDTO makeNewFust(String customerId) {
-        return fustService.getNewFustForCustomer(customerId);
-    }
-
-    public SearchResult<FustDTO> getFust(String id) {
+    public SearchResult<FustOverviewDTO> getAllFustOverviews() {
         try {
-            return fustService.getFust(id);
+            return fustService.getAllFustOverviews();
         } catch (Exception e) {
-            return new SearchResult<FustDTO>().error(Collections.singletonList(e.getMessage()));
+            return new SearchResult<FustOverviewDTO>().error(Collections.singletonList(e.getMessage()));
         }
     }
 
-    public SearchResult<FustDTO> getAllFusts() {
+    public SearchResult<FustOverviewDTO> getFustOverviewFromCustomerWithName(String customerName) {
         try {
-            return fustService.getAllFusts();
+            return fustService.getFustOverviewFromCustomerWithName(customerName);
         } catch (Exception e) {
-            return new SearchResult<FustDTO>().error(Collections.singletonList(e.getMessage()));
+            return new SearchResult<FustOverviewDTO>().error(Collections.singletonList(e.getMessage()));
         }
     }
 
-    public SearchResult<FustDTO> getFustFromCustomer(String customerId) {
+    public CrudsResult printFustFromCustomerReport(String customerId) {
         try {
-            return fustService.getFustFromCustomer(customerId);
-        } catch (Exception e) {
-            return new SearchResult<FustDTO>().error(Collections.singletonList(e.getMessage()));
-        }
-    }
-
-    public SearchResult<FustDTO> getFustFromCustomerWithName(String customerName) {
-        try {
-            return fustService.getFustFromCustomerWithName(customerName);
-        } catch (Exception e) {
-            return new SearchResult<FustDTO>().error(Collections.singletonList(e.getMessage()));
-        }
-    }
-
-    public CrudsResult deleteFust(String id) {
-        try {
-            return fustService.deleteFust(id);
-        } catch (Exception e) {
-            return new CrudsResult().error(Collections.singletonList(e.getMessage()));
-        }
-    }
-
-    public CrudsResult printFustReport(String fustId) {
-        try {
-            SearchResult<FustDTO> fustSearchResult = fustService.getFust(fustId);
+            SearchResult<FustDTO> fustSearchResult = fustService.getFustFromCustomer(customerId);
             if (fustSearchResult.isSuccess()) {
-                FustDTO fust = fustSearchResult.getFirst();
-                BestandDTO fustReport = fustDocumentService.createFustReport(fust);
-                printerService.printDocument_Portrait(fustReport);
-                return new CrudsResult().success(fustId);
+                List<FustDTO> fustFromCustomer = fustSearchResult.getResults();
+                BestandDTO fustReport = fustDocumentService.createFustFromCustomerReport(fustFromCustomer);
+                printerService.printDocument_LandScape(fustReport);
+                return new CrudsResult().success();
             }
             return new CrudsResult().error(fustSearchResult.getMessages());
         } catch (Exception e) {
@@ -82,12 +55,12 @@ public class FustController {
         }
     }
 
-    public CrudsResult printFustsReport() {
+    public CrudsResult printFustFromAllCustomersReport() {
         try {
-            SearchResult<FustDTO> fustSearchResult = fustService.getAllFusts();
+            SearchResult<FustOverviewDTO> fustSearchResult = fustService.getAllFustOverviews();
             if (fustSearchResult.isSuccess()) {
-                List<FustDTO> fusts = fustSearchResult.getResults();
-                BestandDTO fustReport = fustDocumentService.createFustsReport(fusts);
+                List<FustOverviewDTO> fusts = fustSearchResult.getResults();
+                BestandDTO fustReport = fustDocumentService.createFustFromAllCustomersReport(fusts);
                 printerService.printDocument_LandScape(fustReport);
                 return new CrudsResult().success();
             }

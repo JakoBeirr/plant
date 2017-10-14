@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2017-10-11T22:33:48 -->
+<!-- 2017-03-26T18:30:20 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="customerFile" pageWidth="845" pageHeight="595" columnWidth="785" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="fusts" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
 		<queryString>
 			<![CDATA[]]>
 		</queryString>
-		<field name="date" class="java.lang.String"/>
+		<field name="customerName" class="java.lang.String"/>
 		<field name="lageKisten" class="java.lang.String"/>
 		<field name="hogeKisten" class="java.lang.String"/>
 		<field name="palletBodem" class="java.lang.String"/>
@@ -18,19 +18,19 @@
 		<field name="karrenEnBorden" class="java.lang.String"/>
 		<field name="diverse" class="java.lang.String"/>
 	</subDataset>
-	<parameter name="fustsReport" class="be.boomkwekerij.plant.model.report.FustsReportObject"/>
+	<parameter name="fustsOverviewReport" class="be.boomkwekerij.plant.model.report.FustsOverviewReportObject"/>
 	<pageHeader>
-		<band height="35" splitType="Stretch">
+		<band height="25" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="785" height="30" uuid="f10f3a3c-283e-4742-9924-a5d39f8f8a19">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="785" height="20" uuid="f10f3a3c-283e-4742-9924-a5d39f8f8a19">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement markup="none">
 					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Datum\t:\t" + $P{fustsReport}.getReportDate() + "\nKlant\t:\t" + $P{fustsReport}.getCustomerName()]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Datum\t:\t" + $P{fustsOverviewReport}.getReportDate()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -47,7 +47,7 @@
 				<textElement markup="none">
 					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Datum]]></text>
+				<text><![CDATA[Klant]]></text>
 			</staticText>
 			<staticText>
 				<reportElement positionType="Float" x="140" y="0" width="60" height="15" uuid="2958e6f3-9f24-455d-8746-a938d4125dc7">
@@ -182,7 +182,7 @@
 				</reportElement>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical" ignoreWidth="true">
 					<datasetRun subDataset="fusts" uuid="264ea965-6ba3-4e35-981a-114d6a842cdc">
-						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{fustsReport}.getFusts())]]></dataSourceExpression>
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{fustsOverviewReport}.getFusts())]]></dataSourceExpression>
 					</datasetRun>
 					<jr:listContents height="13" width="785">
 						<textField>
@@ -190,7 +190,7 @@
 							<textElement>
 								<font size="8"/>
 							</textElement>
-							<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
 						</textField>
 						<textField>
 							<reportElement x="140" y="0" width="60" height="13" uuid="9c255a6b-108c-4333-aee8-afd407071781"/>
@@ -264,7 +264,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<printWhenExpression><![CDATA[$P{fustsReport}.getFusts().size() > 0]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{fustsOverviewReport}.getFusts().size() > 0]]></printWhenExpression>
 				</reportElement>
 			</line>
 			<staticText>
@@ -284,7 +284,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalLageKisten()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalLageKisten()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="200" y="15" width="60" height="15" uuid="9c255a6b-108c-4333-aee8-afd407071781">
@@ -293,56 +293,56 @@
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalHogeKisten()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalHogeKisten()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="260" y="15" width="65" height="15" uuid="d6fb92f7-ca95-4732-8a96-f0291f6e477b"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalPalletBodem()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalPalletBodem()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="325" y="15" width="60" height="15" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalBoxPallet()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalBoxPallet()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="385" y="15" width="60" height="15" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalHalveBox()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalHalveBox()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="445" y="15" width="100" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalFerroPalletKlein()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalFerroPalletKlein()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="545" y="15" width="100" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalFerroPalletGroot()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalFerroPalletGroot()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="645" y="15" width="90" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalKarrenEnBorden()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalKarrenEnBorden()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="735" y="15" width="50" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalDiverse()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalDiverse()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

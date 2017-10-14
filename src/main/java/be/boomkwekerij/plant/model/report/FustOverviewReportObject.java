@@ -1,7 +1,8 @@
 package be.boomkwekerij.plant.model.report;
 
-public class FustReportObject {
+public class FustOverviewReportObject {
 
+    private String customerName;
     private String lageKisten;
     private String hogeKisten;
     private String palletBodem;
@@ -11,8 +12,14 @@ public class FustReportObject {
     private String ferroPalletGroot;
     private String karrenEnBorden;
     private String diverse;
-    private String date;
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
     public String getLageKisten() {
         return lageKisten;
@@ -84,13 +91,5 @@ public class FustReportObject {
 
     public void setDiverse(String diverse) {
         this.diverse = diverse;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 }

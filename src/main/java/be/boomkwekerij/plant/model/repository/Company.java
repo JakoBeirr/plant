@@ -19,6 +19,7 @@ public class Company {
     private String ibanNetherlands;
     private String bicNetherlands;
     private String btwNumber;
+    private String emailAddress;
 
     public String getName1() {
         return name1;
@@ -135,5 +136,14 @@ public class Company {
     @XmlElement
     public void setBtwNumber(String btwNumber) {
         this.btwNumber = btwNumber;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    @XmlElement
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

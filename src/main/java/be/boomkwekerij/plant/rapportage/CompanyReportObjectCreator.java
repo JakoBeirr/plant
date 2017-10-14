@@ -21,6 +21,7 @@ public class CompanyReportObjectCreator {
         companyReportObject.setIbanNetherlands(getReportObjectValue(companyDTO.getIbanNetherlands()));
         companyReportObject.setBicNetherlands(getReportObjectValue(companyDTO.getBicNetherlands()));
         companyReportObject.setBtwNumber(getReportObjectValue(companyDTO.getBtwNumber()));
+        companyReportObject.setEmailAddress(getReportObjectValue(companyDTO.getEmailAddress()));
         return companyReportObject;
     }
 

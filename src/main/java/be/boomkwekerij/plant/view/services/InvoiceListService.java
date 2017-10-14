@@ -212,17 +212,9 @@ public class InvoiceListService {
                         SearchResult<InvoiceDTO> invoiceSearchResult = invoiceController.getInvoice(selectedInvoice.getId());
                         if (invoiceSearchResult.isSuccess()) {
                             InvoiceDTO invoice = invoiceSearchResult.getFirst();
-                            SearchResult<FustDTO> fustFromCustomerSearchResult = fustController.getFustFromCustomer(invoice.getCustomer().getId());
-                            if (fustFromCustomerSearchResult.isSuccess()) {
-                                FustDTO fustFromCustomer = fustFromCustomerSearchResult.getFirst();
-                                if (fustFromCustomer != null) {
-                                    CrudsResult printResult = fustController.printFustReport(fustFromCustomer.getId());
-                                    if (printResult.isError()) {
-                                        throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
-                                    }
-                                }
-                            } else {
-                                throw new IllegalArgumentException(Arrays.toString(fustFromCustomerSearchResult.getMessages().toArray()));
+                            CrudsResult printResult = fustController.printFustFromCustomerReport(invoice.getCustomer().getId());
+                            if (printResult.isError()) {
+                                throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
                             }
                         } else {
                             throw new IllegalArgumentException(Arrays.toString(invoiceSearchResult.getMessages().toArray()));

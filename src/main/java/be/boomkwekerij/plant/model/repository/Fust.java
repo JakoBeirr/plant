@@ -2,6 +2,7 @@ package be.boomkwekerij.plant.model.repository;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 @XmlRootElement
 public class Fust {
@@ -17,6 +18,7 @@ public class Fust {
     private int ferroPalletGroot;
     private int karrenEnBorden;
     private int diverse;
+    private Date datum;
 
     public String getId() {
         return id;
@@ -115,5 +117,14 @@ public class Fust {
     @XmlElement
     public void setDiverse(int diverse) {
         this.diverse = diverse;
+    }
+
+    public Date getDatum() {
+        return datum;
+    }
+
+    @XmlElement
+    public void setDatum(Date datum) {
+        this.datum = datum;
     }
 }

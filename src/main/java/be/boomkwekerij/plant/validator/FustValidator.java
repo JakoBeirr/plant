@@ -1,36 +1,37 @@
 package be.boomkwekerij.plant.validator;
 
 import be.boomkwekerij.plant.model.dto.FustDTO;
+import be.boomkwekerij.plant.model.dto.FustOverviewDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FustValidator {
 
-    private static final String POSITIVE_FIELD = "Volgend veld moet groter zijn dan 0: ";
+    private static final String POSITIVE_FIELD = "Volgend veld is groter dan huidige Fust: ";
 
-    public List<String> validate(FustDTO fust) {
+    public List<String> validate(FustDTO newFust, FustOverviewDTO currentFust) {
         List<String> validationErrors = new ArrayList<>();
 
-        validateNumericFields(fust, validationErrors);
+        validateNumericFields(newFust, currentFust, validationErrors);
 
         return validationErrors;
     }
 
-    private void validateNumericFields(FustDTO fust, List<String> validationErrors) {
-        validateIfPositive(fust.getLageKisten(), "Lage kisten", validationErrors);
-        validateIfPositive(fust.getHogeKisten(), "Hoge kisten", validationErrors);
-        validateIfPositive(fust.getPalletBodem(), "Pallet-Bodem", validationErrors);
-        validateIfPositive(fust.getBoxPallet(), "Box-Pallet", validationErrors);
-        validateIfPositive(fust.getHalveBox(), "Halve box", validationErrors);
-        validateIfPositive(fust.getFerroPalletKlein(), "Ferro-Pallet (klein)", validationErrors);
-        validateIfPositive(fust.getFerroPalletGroot(), "Ferro-Pallet (groot)", validationErrors);
-        validateIfPositive(fust.getKarrenEnBorden(), "C.C. Karren/Borden", validationErrors);
-        validateIfPositive(fust.getDiverse(), "Diverse", validationErrors);
+    private void validateNumericFields(FustDTO newFust, FustOverviewDTO currentFust, List<String> validationErrors) {
+        validateIfTotalPositive(newFust.getLageKisten(), currentFust.getLageKisten(), "Lage kisten", validationErrors);
+        validateIfTotalPositive(newFust.getHogeKisten(), currentFust.getHogeKisten(), "Hoge kisten", validationErrors);
+        validateIfTotalPositive(newFust.getPalletBodem(), currentFust.getPalletBodem(), "Pallet-Bodem", validationErrors);
+        validateIfTotalPositive(newFust.getBoxPallet(), currentFust.getBoxPallet(), "Box-Pallet", validationErrors);
+        validateIfTotalPositive(newFust.getHalveBox(), currentFust.getHalveBox(), "Halve box", validationErrors);
+        validateIfTotalPositive(newFust.getFerroPalletKlein(), currentFust.getFerroPalletKlein(), "Ferro-Pallet (klein)", validationErrors);
+        validateIfTotalPositive(newFust.getFerroPalletGroot(), currentFust.getFerroPalletGroot(), "Ferro-Pallet (groot)", validationErrors);
+        validateIfTotalPositive(newFust.getKarrenEnBorden(), currentFust.getKarrenEnBorden(), "C.C. Karren/Borden", validationErrors);
+        validateIfTotalPositive(newFust.getDiverse(), currentFust.getDiverse(), "Diverse", validationErrors);
     }
 
-    private void validateIfPositive(int field, String fieldName, List<String> validationErrors) {
-        if(field < 0) {
+    private void validateIfTotalPositive(int extraValue, int oldValue, String fieldName, List<String> validationErrors) {
+        if((oldValue+extraValue) < 0) {
             validationErrors.add(POSITIVE_FIELD + fieldName);
         }
     }

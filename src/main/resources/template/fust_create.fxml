@@ -62,35 +62,38 @@
                 <TextField fx:id="customer" disable="true" prefColumnCount="30" GridPane.fillWidth="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                 <Label id="labelLageKisten" text="Lage Kisten:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <TextField fx:id="lageKisten" disable="false" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <TextField fx:id="lageKisten" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                 <Label id="labelHogeKisten" text="Hoge Kisten:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <TextField fx:id="hogeKisten" disable="false" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <TextField fx:id="hogeKisten" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
                 <Label id="labelPalletBodem" text="Pallet-Bodem:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                <TextField fx:id="palletBodem" disable="false" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <TextField fx:id="palletBodem" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
                 <Label id="labelBoxPallet" text="Box-Pallet:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                <TextField fx:id="boxPallet" disable="false" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                <TextField fx:id="boxPallet" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
                 <Label id="labelHalveBox" text="Halve Box:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                <TextField fx:id="halveBox" disable="false" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                <TextField fx:id="halveBox" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
                 <Label id="labelFerroPalletKlein" text="Ferro-Pallet (Klein):" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                <TextField fx:id="ferroPalletKlein" disable="false" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                <TextField fx:id="ferroPalletKlein" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
 
                 <Label id="labelFerroPalletGroot" text="Ferro-Pallet (Groot):" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-                <TextField fx:id="ferroPalletGroot" disable="false" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                <TextField fx:id="ferroPalletGroot" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
 
                 <Label id="labelKarrenEnBorden" text="C.C. Karren/Borden:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-                <TextField fx:id="karrenEnBorden" disable="false" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+                <TextField fx:id="karrenEnBorden" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
 
                 <Label id="labelDiverse" text="Diverse:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
-                <TextField fx:id="diverse" disable="false" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+                <TextField fx:id="diverse" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
 
-                <Label id="labelRow" text="" GridPane.rowIndex="10"/>
+                <Label id="labelDatum" text="Diverse:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                <DatePicker fx:id="datum" GridPane.fillWidth="false" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
 
-                <Button fx:id="fustCreateButton" mnemonicParsing="false" onMouseClicked="#createFust" text="Toevoegen" GridPane.rowIndex="11" GridPane.columnIndex="1" styleClass="green-button" />
+                <Label id="labelRow" GridPane.rowIndex="11"/>
+
+                <Button fx:id="fustCreateButton" mnemonicParsing="false" onMouseClicked="#createFust" text="Toevoegen" GridPane.rowIndex="12" GridPane.columnIndex="1" styleClass="green-button" />
             </GridPane>
         </VBox>
     </ScrollPane>

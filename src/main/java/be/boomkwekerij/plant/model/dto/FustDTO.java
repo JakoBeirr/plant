@@ -1,5 +1,7 @@
 package be.boomkwekerij.plant.model.dto;
 
+import org.joda.time.DateTime;
+
 public class FustDTO {
 
     private String id;
@@ -13,6 +15,7 @@ public class FustDTO {
     private int ferroPalletGroot;
     private int karrenEnBorden;
     private int diverse;
+    private DateTime datum;
 
     public String getId() {
         return id;
@@ -100,5 +103,13 @@ public class FustDTO {
 
     public void setDiverse(int diverse) {
         this.diverse = diverse;
+    }
+
+    public DateTime getDatum() {
+        return datum;
+    }
+
+    public void setDatum(DateTime datum) {
+        this.datum = datum;
     }
 }

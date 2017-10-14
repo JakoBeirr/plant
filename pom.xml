@@ -73,7 +73,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>be.boomkwekerij.plant.PlantClientBackup</mainClass>
+                            <mainClass>be.boomkwekerij.plant.PlantClient</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

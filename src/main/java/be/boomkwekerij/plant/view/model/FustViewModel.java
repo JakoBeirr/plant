@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class FustViewModel {
 
-    private SimpleStringProperty id = new SimpleStringProperty("");
+    private String customerId;
     private SimpleStringProperty customerName = new SimpleStringProperty("");
     private SimpleIntegerProperty lageKisten = new SimpleIntegerProperty(0);
     private SimpleIntegerProperty hogeKisten = new SimpleIntegerProperty(0);
@@ -17,16 +17,12 @@ public class FustViewModel {
     private SimpleIntegerProperty karrenEnBorden = new SimpleIntegerProperty(0);
     private SimpleIntegerProperty diverse = new SimpleIntegerProperty(0);
 
-    public String getId() {
-        return id.get();
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public SimpleStringProperty idProperty() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id.set(id);
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     public String getCustomerName() {

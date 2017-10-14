@@ -39,14 +39,14 @@
 				</reportElement>
 			</line>
 			<image hAlign="Center" isUsingCache="true">
-				<reportElement x="0" y="0" width="80" height="75" uuid="94883631-a913-43e2-b182-ab8d77d0181e">
+				<reportElement x="0" y="0" width="80" height="62" uuid="94883631-a913-43e2-b182-ab8d77d0181e">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="85" y="20" width="450" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
+				<reportElement stretchType="RelativeToTallestObject" x="85" y="7" width="450" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -59,12 +59,11 @@
 				<textFieldExpression><![CDATA[$P{company}.getName1()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="85" y="45" width="450" height="30" uuid="6f60b553-ccd6-4432-922c-96d06ce2f8fc">
+				<reportElement stretchType="RelativeToTallestObject" x="85" y="32" width="450" height="30" uuid="6f60b553-ccd6-4432-922c-96d06ce2f8fc">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
 					<font size="20" isBold="true"/>
@@ -72,9 +71,10 @@
 				<textFieldExpression><![CDATA[$P{company}.getName2()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="80" width="275" height="120" uuid="f10f3a3c-283e-4742-9924-a5d39f8f8a19">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="67" width="275" height="133" uuid="f10f3a3c-283e-4742-9924-a5d39f8f8a19">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$P{company}.getAddress() +
 				"\nTel. " + $P{company}.getTelephoneBelgium() + "  -  vanuit NL: " + $P{company}.getTelephoneNetherlands() +
@@ -84,7 +84,8 @@
 				"\nIBAN: " + $P{company}.getIbanBelgium() + "  -  BIC: " + $P{company}.getBicBelgium() +
 				"\nRabobank Zundert" +
 				"\nIBAN: " + $P{company}.getIbanNetherlands() + "  -  BIC: " + $P{company}.getBicNetherlands() +
-				"\nBTW: " + $P{company}.getBtwNumber()]]></textFieldExpression>
+				"\nBTW: " + $P{company}.getBtwNumber() +
+				"\nE-mail: " + $P{company}.getEmailAddress()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement stretchType="RelativeToTallestObject" x="335" y="105" width="200" height="70" uuid="c0b29ffe-fa6d-4865-b9d8-4a6027b83596">
@@ -101,7 +102,7 @@
 				"\n" + $P{customer}.getPostalCode() + "  " + $P{customer}.getResidence()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="335" y="100" width="200" height="80" uuid="8c947048-41ca-4b7d-b7b4-d6bc078d0d09">
+				<reportElement stretchType="RelativeToTallestObject" x="335" y="100" width="200" height="80" uuid="f7ded428-483a-4e16-9be5-97d0333b0ca0">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>

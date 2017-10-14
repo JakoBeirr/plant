@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -47,6 +48,8 @@ public class FustCreateController implements PageController {
     @FXML
     private TextField diverse;
     @FXML
+    private DatePicker datum;
+    @FXML
     private Button fustCreateButton;
 
     private static final String NON_NUMERIC_CHARACTERS = "[^\\d]";
@@ -67,6 +70,7 @@ public class FustCreateController implements PageController {
         fustCreateService.setFerroPalletGroot(ferroPalletGroot);
         fustCreateService.setKarrenEnBorden(karrenEnBorden);
         fustCreateService.setDiverse(diverse);
+        fustCreateService.setDatum(datum);
         fustCreateService.setFustCreateButton(fustCreateButton);
         fustCreateService.init(root);
     }
@@ -95,32 +99,25 @@ public class FustCreateController implements PageController {
     }
 
     private void initNumericFields() {
-        lageKisten.textProperty().addListener((observable, oldValue, newValue) -> {
-            lageKisten.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
-        });
-        hogeKisten.textProperty().addListener((observable, oldValue, newValue) -> {
-            hogeKisten.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
-        });
-        palletBodem.textProperty().addListener((observable, oldValue, newValue) -> {
-            palletBodem.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
-        });
-        boxPallet.textProperty().addListener((observable, oldValue, newValue) -> {
-            boxPallet.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
-        });
-        halveBox.textProperty().addListener((observable, oldValue, newValue) -> {
-            halveBox.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
-        });
-        ferroPalletKlein.textProperty().addListener((observable, oldValue, newValue) -> {
-            ferroPalletKlein.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
-        });
-        ferroPalletGroot.textProperty().addListener((observable, oldValue, newValue) -> {
-            ferroPalletGroot.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
-        });
-        karrenEnBorden.textProperty().addListener((observable, oldValue, newValue) -> {
-            karrenEnBorden.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
-        });
-        diverse.textProperty().addListener((observable, oldValue, newValue) -> {
-            diverse.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        makeFieldNegativeNumeric(lageKisten);
+        makeFieldNegativeNumeric(hogeKisten);
+        makeFieldNegativeNumeric(palletBodem);
+        makeFieldNegativeNumeric(boxPallet);
+        makeFieldNegativeNumeric(halveBox);
+        makeFieldNegativeNumeric(ferroPalletKlein);
+        makeFieldNegativeNumeric(ferroPalletKlein);
+        makeFieldNegativeNumeric(ferroPalletGroot);
+        makeFieldNegativeNumeric(karrenEnBorden);
+        makeFieldNegativeNumeric(diverse);
+    }
+
+    private void makeFieldNegativeNumeric(TextField textField) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.startsWith("-")) {
+                textField.setText("-" + newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+            } else {
+                textField.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+            }
         });
     }
 

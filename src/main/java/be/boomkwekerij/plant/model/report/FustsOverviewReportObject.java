@@ -2,11 +2,10 @@ package be.boomkwekerij.plant.model.report;
 
 import java.util.List;
 
-public class FustsReportObject {
+public class FustsOverviewReportObject {
 
     private String reportDate;
-    private String customerName;
-    private List<FustReportObject> fusts;
+    private List<FustOverviewReportObject> fusts;
     private String totalLageKisten;
     private String totalHogeKisten;
     private String totalPalletBodem;
@@ -25,19 +24,11 @@ public class FustsReportObject {
         this.reportDate = reportDate;
     }
 
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public List<FustReportObject> getFusts() {
+    public List<FustOverviewReportObject> getFusts() {
         return fusts;
     }
 
-    public void setFusts(List<FustReportObject> fusts) {
+    public void setFusts(List<FustOverviewReportObject> fusts) {
         this.fusts = fusts;
     }
 

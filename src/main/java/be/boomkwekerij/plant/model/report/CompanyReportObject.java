@@ -16,6 +16,7 @@ public class CompanyReportObject {
     private String ibanNetherlands;
     private String bicNetherlands;
     private String btwNumber;
+    private String emailAddress;
 
     public String getName1() {
         return name1;
@@ -127,5 +128,13 @@ public class CompanyReportObject {
 
     public void setBtwNumber(String btwNumber) {
         this.btwNumber = btwNumber;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

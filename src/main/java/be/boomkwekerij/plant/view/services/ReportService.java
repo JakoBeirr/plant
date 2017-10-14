@@ -94,7 +94,7 @@ public class ReportService {
                 protected Void call() throws Exception {
                     updateTitle("Totaaloverzicht fust printen");
 
-                    CrudsResult printResult = fustController.printFustsReport();
+                    CrudsResult printResult = fustController.printFustFromAllCustomersReport();
                     if (printResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
                     }

@@ -20,6 +20,7 @@ public class CompanyMapper {
         company.setIbanNetherlands(companyDTO.getIbanNetherlands());
         company.setBicNetherlands(companyDTO.getBicNetherlands());
         company.setBtwNumber(companyDTO.getBtwNumber());
+        company.setEmailAddress(companyDTO.getEmailAddress());
         return company;
     }
 
@@ -38,6 +39,7 @@ public class CompanyMapper {
         companyDTO.setIbanNetherlands(company.getIbanNetherlands());
         companyDTO.setBicNetherlands(company.getBicNetherlands());
         companyDTO.setBtwNumber(company.getBtwNumber());
+        companyDTO.setEmailAddress(company.getEmailAddress());
         return companyDTO;
     }
 }

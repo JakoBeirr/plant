@@ -15,6 +15,7 @@ public class CompanyDTO {
     private String ibanNetherlands;
     private String bicNetherlands;
     private String btwNumber;
+    private String emailAddress;
 
     public String getName1() {
         return name1;
@@ -118,5 +119,13 @@ public class CompanyDTO {
 
     public void setBtwNumber(String btwNumber) {
         this.btwNumber = btwNumber;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

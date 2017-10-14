@@ -65,6 +65,9 @@
 
                         <Label text="BTW nummer*:" GridPane.rowIndex="14" GridPane.columnIndex="0" />
                         <TextField fx:id="btwNumber" prefColumnCount="30" GridPane.rowIndex="14" GridPane.columnIndex="1" />
+
+                        <Label text="E-mail*:" GridPane.rowIndex="15" GridPane.columnIndex="0" />
+                        <TextField fx:id="email" prefColumnCount="30" GridPane.rowIndex="15" GridPane.columnIndex="1" />
                     </GridPane>
 
                     <Button fx:id="modifyCompanyButton" mnemonicParsing="false" onMouseClicked="#modifyCompany" text="Bedrijf bewerken" styleClass="green-button"/>

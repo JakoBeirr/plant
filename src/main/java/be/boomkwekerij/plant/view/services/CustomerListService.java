@@ -56,12 +56,7 @@ public class CustomerListService {
                         customers.add(customerViewModel);
                     }
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            customerList.getItems().setAll(customers);
-                        }
-                    });
+                    Platform.runLater(() -> customerList.getItems().setAll(customers));
 
                     return null;
                 }
@@ -89,12 +84,7 @@ public class CustomerListService {
                         customers.add(customerViewModel);
                     }
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            customerList.getItems().setAll(customers);
-                        }
-                    });
+                    Platform.runLater(() -> customerList.getItems().setAll(customers));
 
                     return null;
                 }
@@ -117,12 +107,7 @@ public class CustomerListService {
                     }
                     CustomerDTO customer = searchResult.getFirst();
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            show(customer);
-                        }
-                    });
+                    Platform.runLater(() -> show(customer));
 
                     return null;
                 }
@@ -139,17 +124,10 @@ public class CustomerListService {
                     updateTitle("Fust printen");
 
                     CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
-                    SearchResult<FustDTO> fustFromCustomerSearchResult = fustController.getFustFromCustomer(selectedCustomer.getId());
-                    if (fustFromCustomerSearchResult.isSuccess()) {
-                        FustDTO fustFromCustomer = fustFromCustomerSearchResult.getFirst();
-                        if (fustFromCustomer != null) {
-                            CrudsResult printResult = fustController.printFustReport(fustFromCustomer.getId());
-                            if (printResult.isError()) {
-                                throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
-                            }
-                        }
-                    } else {
-                        throw new IllegalArgumentException(Arrays.toString(fustFromCustomerSearchResult.getMessages().toArray()));
+
+                    CrudsResult printResult = fustController.printFustFromCustomerReport(selectedCustomer.getId());
+                    if (printResult.isError()) {
+                        throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
                     }
 
                     return null;

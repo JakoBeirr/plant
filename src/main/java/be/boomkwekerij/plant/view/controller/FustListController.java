@@ -26,8 +26,6 @@ public class FustListController implements PageController {
     private Button printFustButton;
     @FXML
     private Button printFustsButton;
-    @FXML
-    private Button deleteFustButton;
 
     @Override
     public void init(Pane root) {
@@ -35,7 +33,6 @@ public class FustListController implements PageController {
         fustListService.setFustList(fustList);
         fustListService.setPrintFustButton(printFustButton);
         fustListService.setPrintFustsButton(printFustsButton);
-        fustListService.setDeleteFustButton(deleteFustButton);
         fustListService.init(root);
     }
 
@@ -62,13 +59,9 @@ public class FustListController implements PageController {
             if (selectedInvoices.getList().size() > 0) {
                 printFustButton.setVisible(true);
                 printFustButton.setManaged(true);
-                deleteFustButton.setVisible(true);
-                deleteFustButton.setManaged(true);
             } else {
                 printFustButton.setVisible(true);
                 printFustButton.setManaged(true);
-                deleteFustButton.setVisible(false);
-                deleteFustButton.setManaged(false);
             }
         });
     }
@@ -79,11 +72,5 @@ public class FustListController implements PageController {
 
     public void printFusts(ActionEvent actionEvent) {
         fustListService.printFustsService.restart();
-    }
-
-    public void deleteFust(ActionEvent actionEvent) {
-        if (AlertController.areYouSure("Bent u zeker dat u deze fust wil verwijderen?", "Bedenk dat u deze fust nadien niet meer zal kunnen herstellen!")) {
-            fustListService.deleteFustService.restart();
-        }
     }
 }

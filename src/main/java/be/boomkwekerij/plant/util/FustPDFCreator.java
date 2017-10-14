@@ -2,12 +2,10 @@ package be.boomkwekerij.plant.util;
 
 import be.boomkwekerij.plant.exception.ReportException;
 import be.boomkwekerij.plant.model.dto.BestandDTO;
-import be.boomkwekerij.plant.model.report.FustReportObject;
+import be.boomkwekerij.plant.model.report.FustsOverviewReportObject;
 import be.boomkwekerij.plant.model.report.FustsReportObject;
 import net.sf.jasperreports.engine.*;
-import org.apache.commons.io.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -19,19 +17,6 @@ public class FustPDFCreator {
 
     private PDFHelper pdfHelper = new PDFHelper();
 
-    public BestandDTO createFustReport(FustReportObject fustReportObject) throws ReportException {
-        try {
-            JasperReport template = getFustReportTemplate();
-            Map<String, Object> parameters = getFustReportParameters(fustReportObject);
-            JRDataSource dataSource = getDataSource();
-            JasperPrint page = pdfHelper.fillPDF(template, parameters, dataSource);
-
-            return createPDF("fust_" + fustReportObject.getCustomerName().replaceAll(" ", "_") + "_" + fustReportObject.getReportDate(), Arrays.asList(page));
-        } catch (Exception e) {
-            throw new ReportException(e.getMessage());
-        }
-    }
-
     public BestandDTO createFustsReport(FustsReportObject fustsReportObject) throws ReportException {
         try {
             JasperReport template = getFustsReportTemplate();
@@ -39,15 +24,23 @@ public class FustPDFCreator {
             JRDataSource dataSource = getDataSource();
             JasperPrint page = pdfHelper.fillPDF(template, parameters, dataSource);
 
-            return createPDF("fusts_" + fustsReportObject.getReportDate(), Arrays.asList(page));
+            return createPDF("fust_" + fustsReportObject.getCustomerName().replaceAll(" ", "_") + "_" + fustsReportObject.getReportDate(), Arrays.asList(page));
         } catch (Exception e) {
             throw new ReportException(e.getMessage());
         }
     }
 
-    private JasperReport getFustReportTemplate() throws JRException {
-        InputStream templateStream = ClassLoader.getSystemResourceAsStream("report/fust_report.jrxml");
-        return pdfHelper.compileStreamToReport(templateStream);
+    public BestandDTO createFustsOverviewReport(FustsOverviewReportObject fustsOverviewReportObject) throws ReportException {
+        try {
+            JasperReport template = getFustsOverviewReportTemplate();
+            Map<String, Object> parameters = getFustsOverviewReportParameters(fustsOverviewReportObject);
+            JRDataSource dataSource = getDataSource();
+            JasperPrint page = pdfHelper.fillPDF(template, parameters, dataSource);
+
+            return createPDF("fusts_" + fustsOverviewReportObject.getReportDate(), Arrays.asList(page));
+        } catch (Exception e) {
+            throw new ReportException(e.getMessage());
+        }
     }
 
     private JasperReport getFustsReportTemplate() throws JRException {
@@ -55,19 +48,24 @@ public class FustPDFCreator {
         return pdfHelper.compileStreamToReport(templateStream);
     }
 
-    private JRDataSource getDataSource() {
-        return new JREmptyDataSource();
+    private JasperReport getFustsOverviewReportTemplate() throws JRException {
+        InputStream templateStream = ClassLoader.getSystemResourceAsStream("report/fusts_overview_report.jrxml");
+        return pdfHelper.compileStreamToReport(templateStream);
     }
 
-    private Map<String, Object> getFustReportParameters(FustReportObject fustReportObject) {
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("fustReport", fustReportObject);
-        return parameters;
+    private JRDataSource getDataSource() {
+        return new JREmptyDataSource();
     }
 
     private Map<String, Object> getFustsReportParameters(FustsReportObject fustsReportObject) {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("fustsReport", fustsReportObject);
+        return parameters;
+    }
+
+    private Map<String, Object> getFustsOverviewReportParameters(FustsOverviewReportObject fustsOverviewReportObject) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("fustsOverviewReport", fustsOverviewReportObject);
         return parameters;
     }
 
