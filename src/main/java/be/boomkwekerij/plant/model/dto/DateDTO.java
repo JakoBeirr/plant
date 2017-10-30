@@ -4,13 +4,13 @@ import org.joda.time.DateTime;
 
 public class DateDTO {
 
-    private DateTime payDate;
+    private DateTime date;
 
-    public DateTime getPayDate() {
-        return payDate;
+    public DateTime getDate() {
+        return date;
     }
 
-    public void setPayDate(DateTime payDate) {
-        this.payDate = payDate;
+    public void setDate(DateTime date) {
+        this.date = date;
     }
 }

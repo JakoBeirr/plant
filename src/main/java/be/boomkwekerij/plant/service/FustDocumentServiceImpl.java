@@ -20,17 +20,13 @@ public class FustDocumentServiceImpl implements FustDocumentService {
     private FustPDFCreator fustPDFCreator = new FustPDFCreator();
 
     @Override
-    public BestandDTO createFustFromCustomerReport(List<FustDTO> fusts) throws ReportException {
-        DateTime reportDate = new DateTime();
-
+    public BestandDTO createFustFromCustomerReport(List<FustDTO> fusts, DateTime reportDate) throws ReportException {
         FustsReportObject fustsReport = fustReportObjectCreator.createFustsReport(fusts, reportDate);
         return fustPDFCreator.createFustsReport(fustsReport);
     }
 
     @Override
-    public BestandDTO createFustFromAllCustomersReport(List<FustOverviewDTO> fusts) throws ReportException {
-        DateTime reportDate = new DateTime();
-
+    public BestandDTO createFustFromAllCustomersReport(List<FustOverviewDTO> fusts, DateTime reportDate) throws ReportException {
         FustsOverviewReportObject fustsOverviewReport = fustReportObjectCreator.createFustsOverviewReport(fusts, reportDate);
         return fustPDFCreator.createFustsOverviewReport(fustsOverviewReport);
     }

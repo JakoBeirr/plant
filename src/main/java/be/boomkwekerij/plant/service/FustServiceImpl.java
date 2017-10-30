@@ -12,6 +12,7 @@ import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.util.SearchResult;
 import be.boomkwekerij.plant.validator.FustValidator;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +53,7 @@ public class FustServiceImpl implements FustService {
 
     @Override
     public SearchResult<FustDTO> getFustFromCustomer(String customerId) {
-        SearchResult<Fust> searchResult = fustMemory.getFustFromCustomer(customerId);
+        SearchResult<Fust> searchResult = fustMemory.getFustFromCustomer(customerId, new DateTime());
         if (searchResult.isSuccess()) {
             List<FustDTO> fustFromCustomer = new ArrayList<>();
             for (Fust fust : searchResult.getResults()) {
@@ -69,6 +70,46 @@ public class FustServiceImpl implements FustService {
             return new SearchResult<FustDTO>().success(fustFromCustomer);
         }
         return new SearchResult<FustDTO>().error(searchResult.getMessages());
+    }
+
+    @Override
+    public SearchResult<FustDTO> getFustFromCustomer(String customerId, DateTime date) {
+        SearchResult<Fust> searchResult = fustMemory.getFustFromCustomer(customerId, date);
+        if (searchResult.isSuccess()) {
+            List<FustDTO> fustFromCustomer = new ArrayList<>();
+            for (Fust fust : searchResult.getResults()) {
+                SearchResult<CustomerDTO> customerSearchResult = customerService.getCustomer(fust.getCustomerId());
+                if (customerSearchResult.isError()) {
+                    return new SearchResult<FustDTO>().error(customerSearchResult.getMessages());
+                }
+                CustomerDTO customer = customerSearchResult.getFirst();
+
+                FustDTO fustDTO = fustMapper.mapDAOToDTO(fust, customer);
+                fustFromCustomer.add(fustDTO);
+            }
+            fustFromCustomer.sort(Comparator.comparing(FustDTO::getDatum));
+            return new SearchResult<FustDTO>().success(fustFromCustomer);
+        }
+        return new SearchResult<FustDTO>().error(searchResult.getMessages());
+    }
+
+    @Override
+    public SearchResult<FustOverviewDTO> getAllFustOverviews(DateTime date) {
+        SearchResult<CustomerDTO> searchResult = customerService.getAllCustomers();
+        if (searchResult.isSuccess()) {
+            List<FustOverviewDTO> allFusts = new ArrayList<>();
+            for (CustomerDTO customer : searchResult.getResults()) {
+                SearchResult<FustOverviewDTO> fustOverviewResult = getFustOverviewFromCustomer(customer.getId(), date);
+                if (fustOverviewResult.isError()) {
+                    return new SearchResult<FustOverviewDTO>().error(fustOverviewResult.getMessages());
+                }
+                if (fustOverviewResult.getFirst() != null) {
+                    allFusts.add(fustOverviewResult.getFirst());
+                }
+            }
+            return new SearchResult<FustOverviewDTO>().success(allFusts);
+        }
+        return new SearchResult<FustOverviewDTO>().error(searchResult.getMessages());
     }
 
     @Override
@@ -91,8 +132,40 @@ public class FustServiceImpl implements FustService {
     }
 
     @Override
+    public SearchResult<FustOverviewDTO> getFustOverviewFromCustomer(String customerId, DateTime date) {
+        SearchResult<Fust> searchResult = fustMemory.getFustFromCustomer(customerId, date);
+        if (searchResult.isSuccess()) {
+            FustOverviewDTO fustOverviewFromCustomer = null;
+            for (Fust fust : searchResult.getResults()) {
+                SearchResult<CustomerDTO> customerSearchResult = customerService.getCustomer(fust.getCustomerId());
+                if (customerSearchResult.isError()) {
+                    return new SearchResult<FustOverviewDTO>().error(customerSearchResult.getMessages());
+                }
+                CustomerDTO customer = customerSearchResult.getFirst();
+
+                FustDTO fustDTO = fustMapper.mapDAOToDTO(fust, customer);
+                if (fustOverviewFromCustomer == null) {
+                    fustOverviewFromCustomer = new FustOverviewDTO();
+                }
+                fustOverviewFromCustomer.setCustomer(customer);
+                fustOverviewFromCustomer.addLageKisten(fustDTO.getLageKisten());
+                fustOverviewFromCustomer.addHogeKisten(fust.getHogeKisten());
+                fustOverviewFromCustomer.addPalletBodem(fust.getPalletBodem());
+                fustOverviewFromCustomer.addBoxPallet(fust.getBoxPallet());
+                fustOverviewFromCustomer.addHalveBox(fust.getHalveBox());
+                fustOverviewFromCustomer.addFerroPalletKlein(fust.getFerroPalletKlein());
+                fustOverviewFromCustomer.addFerroPalletGroot(fust.getFerroPalletGroot());
+                fustOverviewFromCustomer.addKarrenEnBorden(fust.getKarrenEnBorden());
+                fustOverviewFromCustomer.addDiverse(fust.getDiverse());
+            }
+            return new SearchResult<FustOverviewDTO>().success(Collections.singletonList(fustOverviewFromCustomer));
+        }
+        return new SearchResult<FustOverviewDTO>().error(searchResult.getMessages());
+    }
+
+    @Override
     public SearchResult<FustOverviewDTO> getFustOverviewFromCustomer(String customerId) {
-        SearchResult<Fust> searchResult = fustMemory.getFustFromCustomer(customerId);
+        SearchResult<Fust> searchResult = fustMemory.getFustFromCustomer(customerId, new DateTime());
         if (searchResult.isSuccess()) {
             FustOverviewDTO fustOverviewFromCustomer = null;
             for (Fust fust : searchResult.getResults()) {

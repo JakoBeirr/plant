@@ -3,6 +3,7 @@ package be.boomkwekerij.plant.view.services;
 import be.boomkwekerij.plant.controller.CustomerController;
 import be.boomkwekerij.plant.controller.FustController;
 import be.boomkwekerij.plant.model.dto.CustomerDTO;
+import be.boomkwekerij.plant.model.dto.DateDTO;
 import be.boomkwekerij.plant.model.dto.FustDTO;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
@@ -36,6 +37,8 @@ public class CustomerListService {
     private Button customerDetailsButton;
     private Button printFustButton;
     private Button customerDeleteButton;
+
+    private DateDTO fustReportDate;
 
     public final Service loadAllCustomersService = new Service() {
         @Override
@@ -123,9 +126,13 @@ public class CustomerListService {
                 protected Void call() throws Exception {
                     updateTitle("Fust printen");
 
+                    if (fustReportDate == null) {
+                        throw new IllegalArgumentException("Datum van rapport niet ingevuld");
+                    }
+
                     CustomerViewModel selectedCustomer = customerList.getSelectionModel().getSelectedItem();
 
-                    CrudsResult printResult = fustController.printFustFromCustomerReport(selectedCustomer.getId());
+                    CrudsResult printResult = fustController.printFustFromCustomerReport(selectedCustomer.getId(), fustReportDate);
                     if (printResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
                     }
@@ -174,6 +181,10 @@ public class CustomerListService {
 
     public void setCustomerDeleteButton(Button customerDeleteButton) {
         this.customerDeleteButton = customerDeleteButton;
+    }
+
+    public void setFustReportDate(DateDTO fustReportDate) {
+        this.fustReportDate = fustReportDate;
     }
 
     public void init(Pane root) {

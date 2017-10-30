@@ -3,11 +3,9 @@ package be.boomkwekerij.plant.view.services;
 import be.boomkwekerij.plant.controller.FustController;
 import be.boomkwekerij.plant.controller.InvoiceController;
 import be.boomkwekerij.plant.model.dto.DateDTO;
-import be.boomkwekerij.plant.model.dto.FustDTO;
 import be.boomkwekerij.plant.model.dto.InvoiceDTO;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
-import be.boomkwekerij.plant.view.controller.AlertController;
 import be.boomkwekerij.plant.view.mapper.InvoiceViewMapper;
 import be.boomkwekerij.plant.view.model.InvoiceViewModel;
 import javafx.application.Platform;
@@ -17,7 +15,6 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -43,6 +40,7 @@ public class InvoiceListService {
     private Button deleteInvoiceButton;
 
     private DateDTO payDate = null;
+    private DateDTO fustReportDate = null;
 
     public final Service loadAllInvoicesService = new Service() {
         @Override
@@ -207,12 +205,16 @@ public class InvoiceListService {
                 protected Void call() throws Exception {
                     updateTitle("Fust printen");
 
+                    if (fustReportDate == null) {
+                        throw new IllegalArgumentException("Datum van rapport niet ingevuld");
+                    }
+
                     ObservableList<InvoiceViewModel> selectedInvoices = invoiceList.getSelectionModel().getSelectedItems();
                     for (InvoiceViewModel selectedInvoice : selectedInvoices) {
                         SearchResult<InvoiceDTO> invoiceSearchResult = invoiceController.getInvoice(selectedInvoice.getId());
                         if (invoiceSearchResult.isSuccess()) {
                             InvoiceDTO invoice = invoiceSearchResult.getFirst();
-                            CrudsResult printResult = fustController.printFustFromCustomerReport(invoice.getCustomer().getId());
+                            CrudsResult printResult = fustController.printFustFromCustomerReport(invoice.getCustomer().getId(), fustReportDate);
                             if (printResult.isError()) {
                                 throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
                             }
@@ -283,6 +285,10 @@ public class InvoiceListService {
 
     public void setPayDate(DateDTO payDate) {
         this.payDate = payDate;
+    }
+
+    public void setFustReportDate(DateDTO fustReportDate) {
+        this.fustReportDate = fustReportDate;
     }
 
     public void init(Pane root) {

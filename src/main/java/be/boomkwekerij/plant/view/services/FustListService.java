@@ -1,6 +1,7 @@
 package be.boomkwekerij.plant.view.services;
 
 import be.boomkwekerij.plant.controller.FustController;
+import be.boomkwekerij.plant.model.dto.DateDTO;
 import be.boomkwekerij.plant.model.dto.FustDTO;
 import be.boomkwekerij.plant.model.dto.FustOverviewDTO;
 import be.boomkwekerij.plant.util.CrudsResult;
@@ -32,6 +33,8 @@ public class FustListService {
     private TableView<FustViewModel> fustList;
     private Button printFustButton;
     private Button printFustsButton;
+
+    private DateDTO fustReportDate = null;
 
     public final Service loadAllFustsService = new Service() {
         @Override
@@ -96,9 +99,13 @@ public class FustListService {
                 protected Void call() throws Exception {
                     updateTitle("Fust printen");
 
+                    if (fustReportDate == null) {
+                        throw new IllegalArgumentException("Datum van rapport niet ingevuld");
+                    }
+
                     ObservableList<FustViewModel> selectedFusts = fustList.getSelectionModel().getSelectedItems();
                     for (FustViewModel selectedFust : selectedFusts) {
-                        CrudsResult printResult = fustController.printFustFromCustomerReport(selectedFust.getCustomerId());
+                        CrudsResult printResult = fustController.printFustFromCustomerReport(selectedFust.getCustomerId(), fustReportDate);
                         if (printResult.isError()) {
                             throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
                         }
@@ -118,7 +125,11 @@ public class FustListService {
                 protected Void call() throws Exception {
                     updateTitle("Totaaloverzicht fust printen");
 
-                    CrudsResult printResult = fustController.printFustFromAllCustomersReport();
+                    if (fustReportDate == null) {
+                        throw new IllegalArgumentException("Datum van rapport niet ingevuld");
+                    }
+
+                    CrudsResult printResult = fustController.printFustFromAllCustomersReport(fustReportDate);
                     if (printResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
                     }
@@ -143,6 +154,10 @@ public class FustListService {
 
     public void setPrintFustsButton(Button printFustsButton) {
         this.printFustsButton = printFustsButton;
+    }
+
+    public void setFustReportDate(DateDTO fustReportDate) {
+        this.fustReportDate = fustReportDate;
     }
 
     public void init(Pane root) {

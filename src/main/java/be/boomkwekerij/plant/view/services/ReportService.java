@@ -2,6 +2,7 @@ package be.boomkwekerij.plant.view.services;
 
 import be.boomkwekerij.plant.controller.FustController;
 import be.boomkwekerij.plant.controller.ReportingController;
+import be.boomkwekerij.plant.model.dto.DateDTO;
 import be.boomkwekerij.plant.util.CrudsResult;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
@@ -25,6 +26,8 @@ public class ReportService {
     private Button fustsButton;
     private ComboBox<String> months;
     private TextField year;
+
+    private DateDTO fustReportDate = null;
 
     public final Service customerFileService = new Service() {
         @Override
@@ -94,7 +97,11 @@ public class ReportService {
                 protected Void call() throws Exception {
                     updateTitle("Totaaloverzicht fust printen");
 
-                    CrudsResult printResult = fustController.printFustFromAllCustomersReport();
+                    if (fustReportDate == null) {
+                        throw new IllegalArgumentException("Datum van rapport niet ingevuld");
+                    }
+
+                    CrudsResult printResult = fustController.printFustFromAllCustomersReport(fustReportDate);
                     if (printResult.isError()) {
                         throw new IllegalArgumentException(Arrays.toString(printResult.getMessages().toArray()));
                     }
@@ -127,6 +134,10 @@ public class ReportService {
 
     public void setYear(TextField year) {
         this.year = year;
+    }
+
+    public void setFustReportDate(DateDTO fustReportDate) {
+        this.fustReportDate = fustReportDate;
     }
 
     public void init(Pane root) {

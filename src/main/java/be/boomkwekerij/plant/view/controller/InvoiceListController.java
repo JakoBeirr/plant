@@ -16,7 +16,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.function.Predicate;
 
 public class InvoiceListController implements PageController {
 
@@ -133,7 +132,7 @@ public class InvoiceListController implements PageController {
 
                 if (payDate != null) {
                     DateDTO dateDTO = new DateDTO();
-                    dateDTO.setPayDate(new DateTime(payDate.getYear(), payDate.getMonthValue(), payDate.getDayOfMonth(), 0, 0, 0, 0));
+                    dateDTO.setDate(new DateTime(payDate.getYear(), payDate.getMonthValue(), payDate.getDayOfMonth(), 0, 0, 0, 0));
                     return dateDTO;
                 }
             }
@@ -162,7 +161,40 @@ public class InvoiceListController implements PageController {
     }
 
     public void printFust(ActionEvent actionEvent) {
-        invoiceListService.printFustService.restart();
+        Dialog<DateDTO> fustReportDialog = new Dialog<DateDTO>();
+        fustReportDialog.setTitle("Fust rapport");
+        fustReportDialog.setHeaderText("Print fust tot en met datum:");
+
+        GridPane fieldPane = new GridPane();
+        fieldPane.setHgap(10);
+        fieldPane.setPadding(new Insets(20, 150, 10, 10));
+        DatePicker fustReportDatePicker = new DatePicker();
+        fieldPane.add(fustReportDatePicker, 1, 0);
+        fustReportDialog.getDialogPane().setContent(fieldPane);
+
+        ButtonType printButton = new ButtonType("Print", ButtonBar.ButtonData.OK_DONE);
+        fustReportDialog.getDialogPane().getButtonTypes().addAll(printButton);
+
+        fustReportDialog.setResultConverter(dialogButton -> {
+            if (dialogButton == printButton) {
+                LocalDate fustReportDate = fustReportDatePicker.getValue();
+
+                if (fustReportDate != null) {
+                    DateDTO dateDTO = new DateDTO();
+                    dateDTO.setDate(new DateTime(fustReportDate.getYear(), fustReportDate.getMonthValue(), fustReportDate.getDayOfMonth(), 0, 0, 0, 0));
+                    return dateDTO;
+                }
+            }
+            return null;
+        });
+
+        Optional<DateDTO> fustReportDateResult = fustReportDialog.showAndWait();
+        if (fustReportDateResult.isPresent()) {
+            DateDTO dateDTO = fustReportDateResult.get();
+
+            invoiceListService.setFustReportDate(dateDTO);
+            invoiceListService.printFustService.restart();
+        }
     }
 
     public void deleteInvoice(ActionEvent actionEvent) {

@@ -1,9 +1,15 @@
 package be.boomkwekerij.plant.controller;
 
 import be.boomkwekerij.plant.model.dto.BestandDTO;
+import be.boomkwekerij.plant.model.dto.DateDTO;
 import be.boomkwekerij.plant.model.dto.FustDTO;
 import be.boomkwekerij.plant.model.dto.FustOverviewDTO;
-import be.boomkwekerij.plant.service.*;
+import be.boomkwekerij.plant.service.FustDocumentService;
+import be.boomkwekerij.plant.service.FustDocumentServiceImpl;
+import be.boomkwekerij.plant.service.FustService;
+import be.boomkwekerij.plant.service.FustServiceImpl;
+import be.boomkwekerij.plant.service.PrinterService;
+import be.boomkwekerij.plant.service.PrinterServiceImpl;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.SearchResult;
 
@@ -40,12 +46,15 @@ public class FustController {
         }
     }
 
-    public CrudsResult printFustFromCustomerReport(String customerId) {
+    public CrudsResult printFustFromCustomerReport(String customerId, DateDTO date) {
         try {
-            SearchResult<FustDTO> fustSearchResult = fustService.getFustFromCustomer(customerId);
+            SearchResult<FustDTO> fustSearchResult = fustService.getFustFromCustomer(customerId, date.getDate());
             if (fustSearchResult.isSuccess()) {
                 List<FustDTO> fustFromCustomer = fustSearchResult.getResults();
-                BestandDTO fustReport = fustDocumentService.createFustFromCustomerReport(fustFromCustomer);
+                if (fustFromCustomer.isEmpty()) {
+                    return new CrudsResult().error(Collections.singletonList("Geen fust gevonden voor klant met id: " + customerId));
+                }
+                BestandDTO fustReport = fustDocumentService.createFustFromCustomerReport(fustFromCustomer, date.getDate());
                 printerService.printDocument_LandScape(fustReport);
                 return new CrudsResult().success();
             }
@@ -55,12 +64,12 @@ public class FustController {
         }
     }
 
-    public CrudsResult printFustFromAllCustomersReport() {
+    public CrudsResult printFustFromAllCustomersReport(DateDTO date) {
         try {
-            SearchResult<FustOverviewDTO> fustSearchResult = fustService.getAllFustOverviews();
+            SearchResult<FustOverviewDTO> fustSearchResult = fustService.getAllFustOverviews(date.getDate());
             if (fustSearchResult.isSuccess()) {
                 List<FustOverviewDTO> fusts = fustSearchResult.getResults();
-                BestandDTO fustReport = fustDocumentService.createFustFromAllCustomersReport(fusts);
+                BestandDTO fustReport = fustDocumentService.createFustFromAllCustomersReport(fusts, date.getDate());
                 printerService.printDocument_LandScape(fustReport);
                 return new CrudsResult().success();
             }

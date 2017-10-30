@@ -12,7 +12,7 @@
 		<field name="invoiceDate" class="java.lang.String"/>
 		<field name="totalAmountExclusive" class="java.lang.String"/>
 		<field name="totalAmountInclusive" class="java.lang.String"/>
-		<field name="payDate" class="java.lang.String"/>
+		<field name="date" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="invoiceReport" class="be.boomkwekerij.plant.model.report.InvoicesReportObject"/>
 	<pageHeader>
@@ -176,7 +176,7 @@
 							<textElement>
 								<font size="8"/>
 							</textElement>
-							<textFieldExpression><![CDATA[$F{payDate}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 						</textField>
 					</jr:listContents>
 				</jr:list>

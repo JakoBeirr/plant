@@ -19,7 +19,6 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class InvoiceServiceImpl implements InvoiceService {
@@ -216,7 +215,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         if (searchResult.isSuccess()) {
             InvoiceDTO invoice = searchResult.getFirst();
             invoice.setPayed(true);
-            invoice.setPayDate(dateDTO.getPayDate());
+            invoice.setPayDate(dateDTO.getDate());
             CrudsResult updateResult = updateInvoice(invoice);
             if (updateResult.isSuccess()) {
                 return new CrudsResult().success(id);
