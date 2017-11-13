@@ -11,7 +11,6 @@ import be.boomkwekerij.plant.model.repository.Fust;
 import be.boomkwekerij.plant.util.CrudsResult;
 import be.boomkwekerij.plant.util.MemoryDatabase;
 import be.boomkwekerij.plant.util.SearchResult;
-import be.boomkwekerij.plant.validator.FustValidator;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -25,22 +24,10 @@ public class FustServiceImpl implements FustService {
     private FustMemory fustMemory = MemoryDatabase.getFustMemory();
 
     private FustMapper fustMapper = new FustMapper();
-    private FustValidator fustValidator = new FustValidator();
 
     private CustomerService customerService = new CustomerServiceImpl();
 
     public CrudsResult createFust(FustDTO fustDTO) {
-        FustOverviewDTO totalFust = new FustOverviewDTO();
-        SearchResult<FustOverviewDTO> totalFustSearchResult = getFustOverviewFromCustomer(fustDTO.getCustomer().getId());
-        if (totalFustSearchResult.isSuccess() && totalFustSearchResult.getFirst() != null) {
-            totalFust = totalFustSearchResult.getFirst();
-        }
-
-        CrudsResult validateResult = validateFust(fustDTO, totalFust);
-        if (validateResult.isError()) {
-            return validateResult;
-        }
-
         Fust fust = fustMapper.mapDTOToDAO(fustDTO);
 
         CrudsResult createResult = fustDAO.persist(fust);
@@ -211,13 +198,5 @@ public class FustServiceImpl implements FustService {
             return new SearchResult<FustOverviewDTO>().success(allFustsFromCustomerWithName);
         }
         return new SearchResult<FustOverviewDTO>().error(allCustomersWithNameResult.getMessages());
-    }
-
-    private CrudsResult validateFust(FustDTO newFust, FustOverviewDTO currentFust) {
-        List<String> validationResult = fustValidator.validate(newFust, currentFust);
-        if (validationResult.size() > 0) {
-            return new CrudsResult().error(validationResult);
-        }
-        return new CrudsResult().success(newFust.getId());
     }
 }

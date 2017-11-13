@@ -57,7 +57,9 @@ public class FustReportObjectCreator {
         fustsReportObject.setReportDate(DateUtils.formatDate(reportDate, DateFormatPattern.DATE_FORMAT));
         ArrayList<FustOverviewReportObject> fustReportObjects = new ArrayList<>();
         for (FustOverviewDTO fust : fusts) {
-            fustReportObjects.add(createFustOverviewReport(fust));
+            if (!emptyFust(fust)) {
+                fustReportObjects.add(createFustOverviewReport(fust));
+            }
         }
         fustsReportObject.setFusts(fustReportObjects);
         fustsReportObject.setTotalLageKisten(Integer.toString(fusts.stream().mapToInt(FustOverviewDTO::getLageKisten).sum()));
@@ -70,6 +72,18 @@ public class FustReportObjectCreator {
         fustsReportObject.setTotalKarrenEnBorden(Integer.toString(fusts.stream().mapToInt(FustOverviewDTO::getKarrenEnBorden).sum()));
         fustsReportObject.setTotalDiverse(Integer.toString(fusts.stream().mapToInt(FustOverviewDTO::getDiverse).sum()));
         return fustsReportObject;
+    }
+
+    private boolean emptyFust(FustOverviewDTO fust) {
+        return fust.getLageKisten() == 0
+                && fust.getHogeKisten() == 0
+                && fust.getPalletBodem() == 0
+                && fust.getBoxPallet() == 0
+                && fust.getHalveBox() == 0
+                && fust.getFerroPalletKlein() == 0
+                && fust.getFerroPalletGroot() == 0
+                && fust.getKarrenEnBorden() == 0
+                && fust.getDiverse() == 0;
     }
 
     private FustOverviewReportObject createFustOverviewReport(FustOverviewDTO fustDTO) {
