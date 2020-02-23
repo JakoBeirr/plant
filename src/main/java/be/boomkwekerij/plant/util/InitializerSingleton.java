@@ -12,7 +12,7 @@ public class InitializerSingleton {
 
     private static InitializerSingleton initializer = null;
 
-    public static final int MAX_INVOICELINES = 25;
+    public static final int MAX_INVOICELINES = 22;
     private String dataDirectory;
 
     private CompanyDAO companyDAO;

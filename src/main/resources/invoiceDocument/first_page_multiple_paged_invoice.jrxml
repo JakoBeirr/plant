@@ -265,7 +265,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="175">
+		<band height="165">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<componentElement>
 				<reportElement key="" positionType="Float" x="0" y="0" width="535" height="13" uuid="445501a3-16b5-436a-baef-758ab9fbfdf0">

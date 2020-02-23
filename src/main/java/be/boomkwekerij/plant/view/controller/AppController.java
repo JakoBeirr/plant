@@ -141,11 +141,14 @@ public class AppController implements Initializable {
             TextField btwNumberField = new TextField();
             fieldPane.add(new Label("BTW nummer*:"), 0, 12);
             fieldPane.add(btwNumberField, 1, 12);
+            TextField emailAddressField = new TextField();
+            fieldPane.add(new Label("Email-adres*:"), 0, 13);
+            fieldPane.add(emailAddressField, 1, 13);
 
             createCompanyDialog.getDialogPane().setContent(fieldPane);
 
             focusField(name1Field);
-            handleCompanyCreateResult(createCompanyDialog, createCompanyButton, name1Field, name2Field, addressField, telephoneField, faxField, gsmField, accountNumberBelgiumField, ibanBelgiumField, bicBelgiumField, accountNumberNetherlandsField, ibanNetherlandsField, bicNetherlandsField, btwNumberField);
+            handleCompanyCreateResult(createCompanyDialog, createCompanyButton, name1Field, name2Field, addressField, telephoneField, faxField, gsmField, accountNumberBelgiumField, ibanBelgiumField, bicBelgiumField, accountNumberNetherlandsField, ibanNetherlandsField, bicNetherlandsField, btwNumberField, emailAddressField);
         }
     }
 
@@ -170,7 +173,7 @@ public class AppController implements Initializable {
         return createCompanyButton;
     }
 
-    private void handleCompanyCreateResult(Dialog<CompanyDTO> dialog, ButtonType createCompanyButton, TextField name1Field, TextField name2Field, TextField addressField, TextField telephoneField, TextField faxField, TextField gsmField, TextField accountNumberBelgiumField, TextField ibanBelgiumField, TextField bicBelgiumField, TextField accountNumberNetherlandsField, TextField ibanNetherlandsField, TextField bicNetherlandsField, TextField btwNumberField) {
+    private void handleCompanyCreateResult(Dialog<CompanyDTO> dialog, ButtonType createCompanyButton, TextField name1Field, TextField name2Field, TextField addressField, TextField telephoneField, TextField faxField, TextField gsmField, TextField accountNumberBelgiumField, TextField ibanBelgiumField, TextField bicBelgiumField, TextField accountNumberNetherlandsField, TextField ibanNetherlandsField, TextField bicNetherlandsField, TextField btwNumberField, TextField emailAddressField) {
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == createCompanyButton) {
                 CompanyDTO companyDTO = new CompanyDTO();
@@ -187,6 +190,7 @@ public class AppController implements Initializable {
                 companyDTO.setIbanNetherlands(ibanNetherlandsField.getText());
                 companyDTO.setBicNetherlands(bicNetherlandsField.getText());
                 companyDTO.setBtwNumber(btwNumberField.getText());
+                companyDTO.setEmailAddress(emailAddressField.getText());
                 return companyDTO;
             }
             return null;
