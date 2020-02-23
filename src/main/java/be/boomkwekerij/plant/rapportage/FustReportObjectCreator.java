@@ -10,21 +10,55 @@ import be.boomkwekerij.plant.util.DateFormatPattern;
 import be.boomkwekerij.plant.util.DateUtils;
 import org.joda.time.DateTime;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FustReportObjectCreator {
+
+    private static final String YEAR_MONTH = "yyyy-MM";
 
     public FustsReportObject createFustsReport(List<FustDTO> fusts, DateTime reportDate) {
         FustsReportObject fustsReportObject = new FustsReportObject();
         fustsReportObject.setReportDate(DateUtils.formatDate(reportDate, DateFormatPattern.DATE_FORMAT));
         FustDTO fustDTO = fusts.get(0);
         fustsReportObject.setCustomerName(fustDTO.getCustomer().getName1() + " " + fustDTO.getCustomer().getName2());
-        ArrayList<FustReportObject> fustReportObjects = new ArrayList<>();
+        fustsReportObject.setStatePreviousMonthLageKisten(Integer.toString(fusts.stream()
+                .filter(f -> !isInReportMonth(f, reportDate))
+                .mapToInt(FustDTO::getLageKisten).sum()));
+        fustsReportObject.setStatePreviousMonthHogeKisten(Integer.toString(fusts.stream()
+                .filter(f -> !isInReportMonth(f, reportDate))
+                .mapToInt(FustDTO::getHogeKisten).sum()));
+        fustsReportObject.setStatePreviousMonthPalletBodem(Integer.toString(fusts.stream()
+                .filter(f -> !isInReportMonth(f, reportDate))
+                .mapToInt(FustDTO::getPalletBodem).sum()));
+        fustsReportObject.setStatePreviousMonthBoxPallet(Integer.toString(fusts.stream()
+                .filter(f -> !isInReportMonth(f, reportDate))
+                .mapToInt(FustDTO::getBoxPallet).sum()));
+        fustsReportObject.setStatePreviousMonthHalveBox(Integer.toString(fusts.stream()
+                .filter(f -> !isInReportMonth(f, reportDate))
+                .mapToInt(FustDTO::getHalveBox).sum()));
+        fustsReportObject.setStatePreviousMonthFerroPalletKlein(Integer.toString(fusts.stream()
+                .filter(f -> !isInReportMonth(f, reportDate))
+                .mapToInt(FustDTO::getFerroPalletKlein).sum()));
+        fustsReportObject.setStatePreviousMonthFerroPalletGroot(Integer.toString(fusts.stream()
+                .filter(f -> !isInReportMonth(f, reportDate))
+                .mapToInt(FustDTO::getFerroPalletGroot).sum()));
+        fustsReportObject.setStatePreviousMonthKarrenEnBorden(Integer.toString(fusts.stream()
+                .filter(f -> !isInReportMonth(f, reportDate))
+                .mapToInt(FustDTO::getKarrenEnBorden).sum()));
+        fustsReportObject.setStatePreviousMonthDiverse(Integer.toString(fusts.stream()
+                .filter(f -> !isInReportMonth(f, reportDate))
+                .mapToInt(FustDTO::getDiverse).sum()));
+        List<FustReportObject> fustReportObjects = new ArrayList<>();
+
         for (FustDTO fust : fusts) {
-            fustReportObjects.add(createFustReport(fust));
+            if (isInReportMonth(fust, reportDate)) {
+                fustReportObjects.add(createFustReport(fust));
+            }
         }
-        fustsReportObject.setFusts(fustReportObjects);
+
+        fustsReportObject.setFustsInReportMonth(fustReportObjects);
         fustsReportObject.setTotalLageKisten(Integer.toString(fusts.stream().mapToInt(FustDTO::getLageKisten).sum()));
         fustsReportObject.setTotalHogeKisten(Integer.toString(fusts.stream().mapToInt(FustDTO::getHogeKisten).sum()));
         fustsReportObject.setTotalPalletBodem(Integer.toString(fusts.stream().mapToInt(FustDTO::getPalletBodem).sum()));
@@ -35,6 +69,12 @@ public class FustReportObjectCreator {
         fustsReportObject.setTotalKarrenEnBorden(Integer.toString(fusts.stream().mapToInt(FustDTO::getKarrenEnBorden).sum()));
         fustsReportObject.setTotalDiverse(Integer.toString(fusts.stream().mapToInt(FustDTO::getDiverse).sum()));
         return fustsReportObject;
+    }
+
+    private boolean isInReportMonth(FustDTO f, DateTime reportDate) {
+        String year_month_fust = (new SimpleDateFormat(YEAR_MONTH)).format(f.getDatum().toDate());
+        String year_month_report = (new SimpleDateFormat(YEAR_MONTH)).format(reportDate.toDate());
+        return year_month_fust.equals(year_month_report);
     }
 
     private FustReportObject createFustReport(FustDTO fustDTO) {

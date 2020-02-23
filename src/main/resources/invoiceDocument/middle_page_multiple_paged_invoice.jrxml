@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2017-03-26T10:40:38 -->
+<!-- 2019-12-13T17:04:58 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="invoiceLines" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
@@ -280,7 +280,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="130">
+		<band height="175">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<componentElement>
 				<reportElement key="" positionType="Float" x="0" y="0" width="535" height="13" uuid="ea4ae172-70b3-4e06-801e-67760284b1c3">
@@ -477,7 +477,7 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="115">
+		<band height="70">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
 				<reportElement key="" x="0" y="0" width="535" height="70" uuid="25f2d20e-5f8c-4b93-91a6-f62212662245">
@@ -486,18 +486,6 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textFieldExpression><![CDATA["\n\n\n\n"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="75" width="535" height="40" uuid="0e3ae1c3-eb89-4f92-8101-e8aa5e5bfeec">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["EG-PLANTENPASPOORT-BE\nFAVV PRIMAIRE PLANTAARDIGE PRODUKTIE\nREGNR 40121	EG KWALITEIT	BE-ALV"]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>

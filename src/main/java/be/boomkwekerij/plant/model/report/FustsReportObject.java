@@ -6,7 +6,16 @@ public class FustsReportObject {
 
     private String reportDate;
     private String customerName;
-    private List<FustReportObject> fusts;
+    private String statePreviousMonthLageKisten;
+    private String statePreviousMonthHogeKisten;
+    private String statePreviousMonthPalletBodem;
+    private String statePreviousMonthBoxPallet;
+    private String statePreviousMonthHalveBox;
+    private String statePreviousMonthFerroPalletKlein;
+    private String statePreviousMonthFerroPalletGroot;
+    private String statePreviousMonthKarrenEnBorden;
+    private String statePreviousMonthDiverse;
+    private List<FustReportObject> fustsInReportMonth;
     private String totalLageKisten;
     private String totalHogeKisten;
     private String totalPalletBodem;
@@ -33,12 +42,84 @@ public class FustsReportObject {
         this.customerName = customerName;
     }
 
-    public List<FustReportObject> getFusts() {
-        return fusts;
+    public String getStatePreviousMonthLageKisten() {
+        return statePreviousMonthLageKisten;
     }
 
-    public void setFusts(List<FustReportObject> fusts) {
-        this.fusts = fusts;
+    public void setStatePreviousMonthLageKisten(String statePreviousMonthLageKisten) {
+        this.statePreviousMonthLageKisten = statePreviousMonthLageKisten;
+    }
+
+    public String getStatePreviousMonthHogeKisten() {
+        return statePreviousMonthHogeKisten;
+    }
+
+    public void setStatePreviousMonthHogeKisten(String statePreviousMonthHogeKisten) {
+        this.statePreviousMonthHogeKisten = statePreviousMonthHogeKisten;
+    }
+
+    public String getStatePreviousMonthPalletBodem() {
+        return statePreviousMonthPalletBodem;
+    }
+
+    public void setStatePreviousMonthPalletBodem(String statePreviousMonthPalletBodem) {
+        this.statePreviousMonthPalletBodem = statePreviousMonthPalletBodem;
+    }
+
+    public String getStatePreviousMonthBoxPallet() {
+        return statePreviousMonthBoxPallet;
+    }
+
+    public void setStatePreviousMonthBoxPallet(String statePreviousMonthBoxPallet) {
+        this.statePreviousMonthBoxPallet = statePreviousMonthBoxPallet;
+    }
+
+    public String getStatePreviousMonthHalveBox() {
+        return statePreviousMonthHalveBox;
+    }
+
+    public void setStatePreviousMonthHalveBox(String statePreviousMonthHalveBox) {
+        this.statePreviousMonthHalveBox = statePreviousMonthHalveBox;
+    }
+
+    public String getStatePreviousMonthFerroPalletKlein() {
+        return statePreviousMonthFerroPalletKlein;
+    }
+
+    public void setStatePreviousMonthFerroPalletKlein(String statePreviousMonthFerroPalletKlein) {
+        this.statePreviousMonthFerroPalletKlein = statePreviousMonthFerroPalletKlein;
+    }
+
+    public String getStatePreviousMonthFerroPalletGroot() {
+        return statePreviousMonthFerroPalletGroot;
+    }
+
+    public void setStatePreviousMonthFerroPalletGroot(String statePreviousMonthFerroPalletGroot) {
+        this.statePreviousMonthFerroPalletGroot = statePreviousMonthFerroPalletGroot;
+    }
+
+    public String getStatePreviousMonthKarrenEnBorden() {
+        return statePreviousMonthKarrenEnBorden;
+    }
+
+    public void setStatePreviousMonthKarrenEnBorden(String statePreviousMonthKarrenEnBorden) {
+        this.statePreviousMonthKarrenEnBorden = statePreviousMonthKarrenEnBorden;
+    }
+
+    public String getStatePreviousMonthDiverse() {
+        return statePreviousMonthDiverse;
+    }
+
+    public void setStatePreviousMonthDiverse(String statePreviousMonthDiverse) {
+        this.statePreviousMonthDiverse = statePreviousMonthDiverse;
+    }
+
+    public List<FustReportObject> getFustsInReportMonth() {
+        return fustsInReportMonth;
+    }
+
+    public void setFustsInReportMonth(List<FustReportObject> fustsInReportMonth) {
+        this.fustsInReportMonth = fustsInReportMonth;
     }
 
     public String getTotalLageKisten() {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2017-10-11T22:33:48 -->
+<!-- 2018-02-18T16:47:06 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="customerFile" pageWidth="845" pageHeight="595" columnWidth="785" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<subDataset name="fusts" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
+	<subDataset name="fustsInReportMonth" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
 		<queryString>
 			<![CDATA[]]>
 		</queryString>
@@ -167,11 +167,11 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="30">
+		<band height="55">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 			<componentElement>
-				<reportElement key="" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="785" height="13" uuid="9ece598a-2426-400f-98da-c6eabe6b3e64">
+				<reportElement key="" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="25" width="785" height="13" uuid="9ece598a-2426-400f-98da-c6eabe6b3e64">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
 					<property name="net.sf.jasperreports.export.headertoolbar.table.name" value=""/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -181,8 +181,8 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical" ignoreWidth="true">
-					<datasetRun subDataset="fusts" uuid="264ea965-6ba3-4e35-981a-114d6a842cdc">
-						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{fustsReport}.getFusts())]]></dataSourceExpression>
+					<datasetRun subDataset="fustsInReportMonth" uuid="264ea965-6ba3-4e35-981a-114d6a842cdc">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{fustsReport}.getFustsInReportMonth())]]></dataSourceExpression>
 					</datasetRun>
 					<jr:listContents height="13" width="785">
 						<textField>
@@ -258,17 +258,8 @@
 					</jr:listContents>
 				</jr:list>
 			</componentElement>
-			<line>
-				<reportElement positionType="Float" x="0" y="14" width="785" height="1" uuid="67f34010-d51d-4176-8a10-a1c253400ebb">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<printWhenExpression><![CDATA[$P{fustsReport}.getFusts().size() > 0]]></printWhenExpression>
-				</reportElement>
-			</line>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="15" width="140" height="15" uuid="0c179d33-f367-4069-9a94-fc9288701687">
+				<reportElement positionType="Float" x="0" y="40" width="140" height="15" uuid="0c179d33-f367-4069-9a94-fc9288701687">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -280,14 +271,14 @@
 				<text><![CDATA[Totaal:]]></text>
 			</staticText>
 			<textField>
-				<reportElement positionType="Float" x="140" y="15" width="60" height="15" uuid="9c255a6b-108c-4333-aee8-afd407071781"/>
+				<reportElement positionType="Float" x="140" y="40" width="60" height="15" uuid="9c255a6b-108c-4333-aee8-afd407071781"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalLageKisten()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="200" y="15" width="60" height="15" uuid="9c255a6b-108c-4333-aee8-afd407071781">
+				<reportElement positionType="Float" x="200" y="40" width="60" height="15" uuid="9c255a6b-108c-4333-aee8-afd407071781">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
@@ -296,53 +287,147 @@
 				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalHogeKisten()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="260" y="15" width="65" height="15" uuid="d6fb92f7-ca95-4732-8a96-f0291f6e477b"/>
+				<reportElement positionType="Float" x="260" y="40" width="65" height="15" uuid="d6fb92f7-ca95-4732-8a96-f0291f6e477b"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalPalletBodem()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="325" y="15" width="60" height="15" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809"/>
+				<reportElement positionType="Float" x="325" y="40" width="60" height="15" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalBoxPallet()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="385" y="15" width="60" height="15" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809"/>
+				<reportElement positionType="Float" x="385" y="40" width="60" height="15" uuid="5ef7670e-cd4e-4ae2-a074-7b8d91390809"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalHalveBox()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="445" y="15" width="100" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+				<reportElement positionType="Float" x="445" y="40" width="100" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalFerroPalletKlein()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="545" y="15" width="100" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+				<reportElement positionType="Float" x="545" y="40" width="100" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalFerroPalletGroot()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="645" y="15" width="90" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+				<reportElement positionType="Float" x="645" y="40" width="90" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalKarrenEnBorden()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="735" y="15" width="50" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+				<reportElement positionType="Float" x="735" y="40" width="50" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustsReport}.getTotalDiverse()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="0" width="140" height="15" uuid="b1bd6d3a-2dfb-483f-ab42-ba74f184e172">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom" markup="none">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status voor deze maand:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="140" y="0" width="60" height="15" uuid="793c52cc-667f-47fd-94f3-965774709270">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fustsReport}.getStatePreviousMonthLageKisten()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="200" y="0" width="60" height="15" uuid="1aa5e89e-9b32-4439-b711-598e96148a04">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fustsReport}.getStatePreviousMonthHogeKisten()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="260" y="0" width="65" height="15" uuid="bdafddb8-347e-452d-8813-cae89463bed5">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fustsReport}.getStatePreviousMonthPalletBodem()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="325" y="0" width="60" height="15" uuid="532647d0-4c6b-4c0f-bfe5-e97bc61aa52a">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fustsReport}.getStatePreviousMonthBoxPallet()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="385" y="0" width="60" height="15" uuid="dddf6217-c47a-4341-81e6-08bf025e42f1">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fustsReport}.getStatePreviousMonthHalveBox()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="445" y="0" width="100" height="15" uuid="7c878e30-ff2c-4e28-aea4-47dfb982d597">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fustsReport}.getStatePreviousMonthFerroPalletKlein()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="545" y="0" width="100" height="15" uuid="b6d4b6ac-9fd3-4b3e-8f85-238c9263ad54">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fustsReport}.getStatePreviousMonthFerroPalletGroot()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="645" y="0" width="90" height="15" uuid="2a0a216b-607d-447b-80f0-556a9077bc58">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fustsReport}.getStatePreviousMonthKarrenEnBorden()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="735" y="0" width="50" height="15" uuid="06e5ea25-4509-476b-b709-31c60dcd4ab9">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fustsReport}.getStatePreviousMonthDiverse()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
