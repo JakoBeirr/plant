@@ -55,7 +55,7 @@ public class FustController {
                     return new CrudsResult().error(Collections.singletonList("Geen fust gevonden voor klant met id: " + customerId));
                 }
                 BestandDTO fustReport = fustDocumentService.createFustFromCustomerReport(fustFromCustomer, date.getDate());
-                printerService.printDocument_LandScape(fustReport);
+                printerService.printDocumentInLandScapeMode(fustReport);
                 return new CrudsResult().success();
             }
             return new CrudsResult().error(fustSearchResult.getMessages());
@@ -70,7 +70,7 @@ public class FustController {
             if (fustSearchResult.isSuccess()) {
                 List<FustOverviewDTO> fusts = fustSearchResult.getResults();
                 BestandDTO fustReport = fustDocumentService.createFustFromAllCustomersReport(fusts, date.getDate());
-                printerService.printDocument_LandScape(fustReport);
+                printerService.printDocumentInLandScapeMode(fustReport);
                 return new CrudsResult().success();
             }
             return new CrudsResult().error(fustSearchResult.getMessages());

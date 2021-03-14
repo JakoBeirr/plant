@@ -67,14 +67,6 @@ public class InvoiceController {
         }
     }
 
-    public SearchResult<InvoiceDTO> getAllInvoicesFromCustomer(String customerId) {
-        try {
-            return invoiceService.getAllInvoicesFromCustomer(customerId);
-        } catch (Exception e) {
-            return new SearchResult<InvoiceDTO>().error(Collections.singletonList(e.getMessage()));
-        }
-    }
-
     public CrudsResult payInvoice(String invoiceId, DateDTO dateDTO) {
         try {
             return invoiceService.payInvoice(invoiceId, dateDTO);
@@ -97,7 +89,7 @@ public class InvoiceController {
             if (invoiceSearchResult.isSuccess()) {
                 InvoiceDTO invoiceDTO = invoiceSearchResult.getFirst();
                 BestandDTO invoice = invoiceDocumentService.createInvoiceDocument(invoiceDTO);
-                printerService.printDocument_Portrait(invoice);
+                printerService.printDocumentInPortraitMode(invoice);
                 return new CrudsResult().success(invoiceId);
             } else {
                 return new CrudsResult().error(invoiceSearchResult.getMessages());
@@ -110,7 +102,7 @@ public class InvoiceController {
     public CrudsResult printSellingConditions() {
         try {
             BestandDTO sellingConditions = invoiceDocumentService.createSellingConditionsDocument();
-            printerService.printDocument_Portrait(sellingConditions);
+            printerService.printDocumentInPortraitMode(sellingConditions);
             return new CrudsResult().success(null);
         } catch (Exception e) {
             return new CrudsResult().error(Collections.singletonList(e.getMessage()));

@@ -72,7 +72,7 @@ public class ReportPDFCreator {
         return parameters;
     }
 
-    private BestandDTO createPDF(String fileName, List<JasperPrint> pages) throws IOException, JRException {
+    private BestandDTO createPDF(String fileName, List<JasperPrint> pages) throws JRException {
         byte[] pdfReport = pdfHelper.createPDF(pages);
 
         BestandDTO bestandDTO = new BestandDTO();

@@ -18,7 +18,7 @@ public class ReportingController {
     public CrudsResult printCustomerFileReport() {
         try {
             BestandDTO report = reportingService.createCustomerFileReport();
-            printerService.printDocument_LandScape(report);
+            printerService.printDocumentInLandScapeMode(report);
             return new CrudsResult().success();
         } catch (Exception e) {
             return new CrudsResult().error(Collections.singletonList(e.getMessage()));
@@ -28,7 +28,7 @@ public class ReportingController {
     public CrudsResult printUnpayedInvoicesReport() {
         try {
             BestandDTO report = reportingService.createUnpayedInvoicesReport();
-            printerService.printDocument_Portrait(report);
+            printerService.printDocumentInPortraitMode(report);
             return new CrudsResult().success();
         } catch (Exception e) {
             return new CrudsResult().error(Collections.singletonList(e.getMessage()));
@@ -38,7 +38,7 @@ public class ReportingController {
     public CrudsResult printInvoicesReport(String month, int year) {
         try {
             BestandDTO report = reportingService.createInvoicesReportForMonth(Month.fromTranslation(month), year);
-            printerService.printDocument_Portrait(report);
+            printerService.printDocumentInPortraitMode(report);
             return new CrudsResult().success();
         } catch (Exception e) {
             return new CrudsResult().error(Collections.singletonList(e.getMessage()));

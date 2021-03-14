@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class PrinterServiceImpl implements PrinterService {
 
-    public void printDocument_Portrait(BestandDTO bestand) throws PrintException {
+    public void printDocumentInPortraitMode(BestandDTO bestand) throws PrintException {
         try {
             writeFileToFileSystem(bestand);
 
@@ -27,7 +27,7 @@ public class PrinterServiceImpl implements PrinterService {
         }
     }
 
-    public void printDocument_LandScape(BestandDTO bestand) throws PrintException {
+    public void printDocumentInLandScapeMode(BestandDTO bestand) throws PrintException {
         try {
             writeFileToFileSystem(bestand);
 
@@ -39,7 +39,8 @@ public class PrinterServiceImpl implements PrinterService {
     }
 
     private void writeFileToFileSystem(BestandDTO report) throws IOException {
-        File file = new File(InitializerSingleton.getInitializer().getDataDirectory() + "/files/" + report.getName());
+        String reportName = report.getName().replaceAll("[\\\\/:*?\"<>|]", "_");
+        File file = new File(InitializerSingleton.getInitializer().getDataDirectory() + "/files/" + reportName);
         if (file.exists()) {
             file.delete();
         }
