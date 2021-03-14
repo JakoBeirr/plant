@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2019-12-13T17:04:13 -->
+<!-- 2021-03-14T11:57:34 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="845" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="invoiceLines" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
@@ -265,7 +265,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="165">
+		<band height="140">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<componentElement>
 				<reportElement key="" positionType="Float" x="0" y="0" width="535" height="13" uuid="445501a3-16b5-436a-baef-758ab9fbfdf0">
