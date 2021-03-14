@@ -1,12 +1,17 @@
 package be.boomkwekerij.plant.model.dto;
 
+import java.util.UUID;
+
 public class BestandDTO {
 
     private String name;
     private byte[] file;
 
     public String getName() {
-        return name;
+        if (name != null) {
+            return name.replaceAll("[\\\\/:*?\"<>|]", "_");
+        }
+        return UUID.randomUUID().toString();
     }
 
     public void setName(String name) {

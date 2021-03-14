@@ -39,8 +39,7 @@ public class PrinterServiceImpl implements PrinterService {
     }
 
     private void writeFileToFileSystem(BestandDTO report) throws IOException {
-        String reportName = report.getName().replaceAll("[\\\\/:*?\"<>|]", "_");
-        File file = new File(InitializerSingleton.getInitializer().getDataDirectory() + "/files/" + reportName);
+        File file = new File(InitializerSingleton.getInitializer().getDataDirectory() + "/files/" + report.getName());
         if (file.exists()) {
             file.delete();
         }
