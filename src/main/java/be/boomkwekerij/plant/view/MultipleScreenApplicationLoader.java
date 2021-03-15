@@ -1,9 +1,7 @@
 package be.boomkwekerij.plant.view;
 
 import be.boomkwekerij.plant.view.controller.PageController;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -27,6 +25,7 @@ public class MultipleScreenApplicationLoader {
         templates.put("invoiceList", "invoice_list.fxml");
         templates.put("invoiceCreate", "invoice_create.fxml");
         templates.put("invoiceModify", "invoice_modify.fxml");
+        templates.put("archivedInvoiceList", "archived_invoice_list.fxml");
         templates.put("fustList", "fust_list.fxml");
         templates.put("fustCreate", "fust_create.fxml");
         templates.put("generalSettings", "general_settings.fxml");

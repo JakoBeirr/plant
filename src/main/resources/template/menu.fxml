@@ -17,6 +17,7 @@
         <MenuItem fx:id="invoiceList" text="Bekijken"/>
         <MenuItem fx:id="invoiceCreate" text="Aanmaken"/>
         <MenuItem fx:id="invoiceModify" text="Bewerken"/>
+        <MenuItem fx:id="archivedInvoiceList" text="Archief"/>
     </Menu>
     <Menu text="Fust">
         <MenuItem fx:id="fustList" text="Bekijken"/>

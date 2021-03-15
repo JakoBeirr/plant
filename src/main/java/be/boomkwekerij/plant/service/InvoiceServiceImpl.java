@@ -19,20 +19,21 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class InvoiceServiceImpl implements InvoiceService {
 
     private static final String EMPTY_BTW_NUMBER = "/";
 
-    private InvoiceDAO invoiceDAO = new InvoiceDAOImpl();
-    private InvoiceMemory invoiceMemory = MemoryDatabase.getInvoiceMemory();
+    private final InvoiceDAO invoiceDAO = new InvoiceDAOImpl();
+    private final InvoiceMemory invoiceMemory = MemoryDatabase.getInvoiceMemory();
 
-    private InvoiceMapper invoiceMapper = new InvoiceMapper();
-    private InvoiceValidator invoiceValidator = new InvoiceValidator();
+    private final InvoiceMapper invoiceMapper = new InvoiceMapper();
+    private final InvoiceValidator invoiceValidator = new InvoiceValidator();
 
-    private SystemService systemService = new SystemServiceImpl();
-    private CustomerService customerService = new CustomerServiceImpl();
+    private final SystemService systemService = new SystemServiceImpl();
+    private final CustomerService customerService = new CustomerServiceImpl();
 
     public CrudsResult createInvoice(InvoiceDTO invoiceDTO) {
         CrudsResult validateResult = validateInvoice(invoiceDTO);
@@ -71,7 +72,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     public SearchResult<InvoiceDTO> getAllInvoices() {
         SearchResult<Invoice> searchResult = invoiceMemory.getInvoices();
         if (searchResult.isSuccess()) {
-            List<InvoiceDTO> allInvoices = new ArrayList<InvoiceDTO>();
+            List<InvoiceDTO> allInvoices = new ArrayList<>();
             for (Invoice invoice : searchResult.getResults()) {
                 SearchResult<CustomerDTO> customerSearchResult = customerService.getCustomer(invoice.getCustomerId());
                 if (customerSearchResult.isError()) {
@@ -91,7 +92,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     public SearchResult<InvoiceDTO> getAllInvoices(String invoiceNumber) {
         SearchResult<Invoice> searchResult = invoiceMemory.getInvoices(invoiceNumber);
         if (searchResult.isSuccess()) {
-            List<InvoiceDTO> allInvoicesWithInvoiceNumber = new ArrayList<InvoiceDTO>();
+            List<InvoiceDTO> allInvoicesWithInvoiceNumber = new ArrayList<>();
             for (Invoice invoice : searchResult.getResults()) {
                 SearchResult<CustomerDTO> customerSearchResult = customerService.getCustomer(invoice.getCustomerId());
                 if (customerSearchResult.isError()) {
@@ -112,7 +113,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     public SearchResult<InvoiceDTO> getAllInvoicesFromCustomer(String customerId) {
         SearchResult<Invoice> searchResult = invoiceMemory.getInvoicesFromCustomer(customerId);
         if (searchResult.isSuccess()) {
-            List<InvoiceDTO> allInvoicesFromCustomer = new ArrayList<InvoiceDTO>();
+            List<InvoiceDTO> allInvoicesFromCustomer = new ArrayList<>();
             for (Invoice invoice : searchResult.getResults()) {
                 SearchResult<CustomerDTO> customerSearchResult = customerService.getCustomer(invoice.getCustomerId());
                 if (customerSearchResult.isError()) {
@@ -130,7 +131,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     private void sortInvoicesByDate(List<InvoiceDTO> invoices) {
-        Collections.sort(invoices, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+        invoices.sort(Comparator.comparing(InvoiceDTO::getDate));
     }
 
     public CrudsResult updateInvoice(InvoiceDTO invoiceDTO) {

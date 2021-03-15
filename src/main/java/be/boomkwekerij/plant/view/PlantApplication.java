@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public class PlantApplication extends Application {
 
@@ -26,7 +27,10 @@ public class PlantApplication extends Application {
         MultipleScreenApplicationLoader applicationLoader = new MultipleScreenApplicationLoader();
         applicationLoader.load();
 
-        primaryStage.getIcons().add(new Image(ClassLoader.getSystemResourceAsStream("invoiceDocument/logo.png")));
+        InputStream logo = ClassLoader.getSystemResourceAsStream("invoiceDocument/logo.png");
+        if (logo != null) {
+            primaryStage.getIcons().add(new Image(logo));
+        }
         primaryStage.setTitle("Plant");
         primaryStage.setScene(getScene(applicationLoader.getRoot()));
         primaryStage.setMaximized(true);

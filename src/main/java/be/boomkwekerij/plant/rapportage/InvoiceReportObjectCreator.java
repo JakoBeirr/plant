@@ -88,7 +88,7 @@ public class InvoiceReportObjectCreator {
         for (InvoiceLineDTO invoiceLineDTO : invoiceDTO.getInvoiceLines()) {
             int invoiceLineSize = StringUtils.isBlank(invoiceLineDTO.getRemark()) ? 1 : 2;
 
-            if ((invoiceLineCount + invoiceLineSize) <= InitializerSingleton.MAX_INVOICELINES) {
+            if ((invoiceLineCount + invoiceLineSize) <= InitializerSingleton.MAX_INVOICE_LINES) {
                 subList.add(invoiceLineDTO);
                 invoiceLineCount += invoiceLineSize;
             } else {

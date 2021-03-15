@@ -9,24 +9,27 @@ import be.boomkwekerij.plant.model.report.CustomerFileReportObject;
 import be.boomkwekerij.plant.model.report.InvoicesReportObject;
 import be.boomkwekerij.plant.rapportage.CustomerFileReportObjectCreator;
 import be.boomkwekerij.plant.rapportage.InvoicesReportObjectCreator;
+import be.boomkwekerij.plant.util.InitializerSingleton;
 import be.boomkwekerij.plant.util.Month;
 import be.boomkwekerij.plant.util.ReportPDFCreator;
 import be.boomkwekerij.plant.util.SearchResult;
 import org.joda.time.DateTime;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReportingServiceImpl implements ReportingService {
 
-    private InvoiceService invoiceService = new InvoiceServiceImpl();
-    private CustomerService customerService = new CustomerServiceImpl();
-    private CompanyService companyService = new CompanyServiceImpl();
+    private final InvoiceService invoiceService = new InvoiceServiceImpl();
+    private final ArchivedInvoiceService archivedInvoiceService = new ArchivedInvoiceServiceImpl();
+    private final CustomerService customerService = new CustomerServiceImpl();
+    private final CompanyService companyService = new CompanyServiceImpl();
 
-    private CustomerFileReportObjectCreator customerFileReportObjectCreator = new CustomerFileReportObjectCreator();
-    private InvoicesReportObjectCreator invoicesReportObjectCreator = new InvoicesReportObjectCreator();
+    private final CustomerFileReportObjectCreator customerFileReportObjectCreator = new CustomerFileReportObjectCreator();
+    private final InvoicesReportObjectCreator invoicesReportObjectCreator = new InvoicesReportObjectCreator();
 
-    private ReportPDFCreator reportPDFCreator = new ReportPDFCreator();
+    private final ReportPDFCreator reportPDFCreator = new ReportPDFCreator();
 
     @Override
     public BestandDTO createCustomerFileReport() throws ReportException {
@@ -79,11 +82,16 @@ public class ReportingServiceImpl implements ReportingService {
 
     @Override
     public BestandDTO createInvoicesReportForMonth(Month month, int year) throws ReportException {
-        List<InvoiceDTO> allInvoices = findAllInvoices();
+        List<InvoiceDTO> allInvoices;
+        if (year < LocalDate.now().getYear() - InitializerSingleton.AMOUNT_CALENDAR_YEARS_TO_KEEP_INVOICES) {
+            allInvoices = findAllArchivedInvoices();
+        } else {
+            allInvoices = findAllInvoices();
+        }
         List<InvoiceDTO> invoicesInMonth = filterMonth(allInvoices, month, year);
         CompanyDTO company = findCompany();
         DateTime reportDate = new DateTime();
-        String period = month.translation() + " " + Integer.toString(year);
+        String period = month.translation() + " " + year;
         String title = "OVERZICHT ALLE FACTUREN";
 
         InvoicesReportObject invoicesReportObject = invoicesReportObjectCreator.create(invoicesInMonth, company, reportDate, period, title);
@@ -107,5 +115,13 @@ public class ReportingServiceImpl implements ReportingService {
             return searchResult.getResults();
         }
         throw new IllegalArgumentException("Fout tijdens zoeken van facturen");
+    }
+
+    private List<InvoiceDTO> findAllArchivedInvoices() {
+        SearchResult<InvoiceDTO> searchResult = archivedInvoiceService.getAllInvoices();
+        if (searchResult.isSuccess()) {
+            return searchResult.getResults();
+        }
+        throw new IllegalArgumentException("Fout tijdens zoeken van gearchiveerde facturen");
     }
 }

@@ -11,9 +11,9 @@ import java.util.Collections;
 
 public class InvoiceController {
 
-    private InvoiceService invoiceService = new InvoiceServiceImpl();
-    private InvoiceDocumentService invoiceDocumentService = new InvoiceDocumentServiceImpl();
-    private PrinterService printerService = new PrinterServiceImpl();
+    private final InvoiceService invoiceService = new InvoiceServiceImpl();
+    private final InvoiceDocumentService invoiceDocumentService = new InvoiceDocumentServiceImpl();
+    private final PrinterService printerService = new PrinterServiceImpl();
 
     public CrudsResult createInvoice(InvoiceDTO invoiceDTO) {
         try {

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class InvoiceMemoryImpl implements InvoiceMemory {
 
-    private HashMap<String, Invoice> invoices = new HashMap<String, Invoice>();
+    private HashMap<String, Invoice> invoices = new HashMap<>();
 
     public void createInvoice(Invoice invoice) {
         invoices.put(invoice.getId(), invoice);
@@ -35,7 +35,7 @@ public class InvoiceMemoryImpl implements InvoiceMemory {
     }
 
     public SearchResult<Invoice> getInvoices() {
-        return new SearchResult<Invoice>().success(new ArrayList<Invoice>(invoices.values()));
+        return new SearchResult<Invoice>().success(new ArrayList<>(invoices.values()));
     }
 
     public SearchResult<Invoice> getInvoices(String number) {

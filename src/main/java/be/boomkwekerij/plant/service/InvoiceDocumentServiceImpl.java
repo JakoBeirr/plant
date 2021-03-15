@@ -22,14 +22,14 @@ import java.util.List;
 
 public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
 
-    private CompanyService companyService = new CompanyServiceImpl();
+    private final CompanyService companyService = new CompanyServiceImpl();
 
-    private InvoiceReportObjectCreator invoiceReportObjectCreator = new InvoiceReportObjectCreator();
-    private CompanyReportObjectCreator companyReportObjectCreator = new CompanyReportObjectCreator();
-    private CustomerReportObjectCreator customerReportObjectCreator = new CustomerReportObjectCreator();
+    private final InvoiceReportObjectCreator invoiceReportObjectCreator = new InvoiceReportObjectCreator();
+    private final CompanyReportObjectCreator companyReportObjectCreator = new CompanyReportObjectCreator();
+    private final CustomerReportObjectCreator customerReportObjectCreator = new CustomerReportObjectCreator();
 
-    private InvoicePDFCreator invoicePDFCreator = new InvoicePDFCreator();
-    private SellingConditionsPDFCreator sellingConditionsPDFCreator = new SellingConditionsPDFCreator();
+    private final InvoicePDFCreator invoicePDFCreator = new InvoicePDFCreator();
+    private final SellingConditionsPDFCreator sellingConditionsPDFCreator = new SellingConditionsPDFCreator();
 
     @Override
     public BestandDTO createInvoiceDocument(InvoiceDTO invoiceDTO) throws ReportException {
@@ -59,7 +59,7 @@ public class InvoiceDocumentServiceImpl implements InvoiceDocumentService {
         for (InvoiceLineDTO invoiceLine : invoiceLines) {
             size += StringUtils.isBlank(invoiceLine.getRemark()) ? 1 : 2;
         }
-        double max = (double) InitializerSingleton.MAX_INVOICELINES;
+        double max = InitializerSingleton.MAX_INVOICE_LINES;
         return (int) Math.ceil(size / max);
     }
 

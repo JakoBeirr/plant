@@ -32,6 +32,8 @@ public class MenuController implements Initializable {
     @FXML
     private MenuItem invoiceModify;
     @FXML
+    private MenuItem archivedInvoiceList;
+    @FXML
     private MenuItem fustList;
     @FXML
     private MenuItem fustCreate;
@@ -60,6 +62,7 @@ public class MenuController implements Initializable {
         invoiceList.setOnAction(changeTab("invoiceList"));
         invoiceCreate.setOnAction(changeTab("invoiceCreate"));
         invoiceModify.setOnAction(changeTab("invoiceModify"));
+        archivedInvoiceList.setOnAction(changeTab("archivedInvoiceList"));
         fustList.setOnAction(changeTab("fustList"));
         fustCreate.setOnAction(changeTab("fustCreate"));
         generalSettings.setOnAction(changeTab("generalSettings"));
