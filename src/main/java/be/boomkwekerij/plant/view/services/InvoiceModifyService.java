@@ -17,8 +17,6 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -36,11 +34,11 @@ import java.util.List;
 
 public class InvoiceModifyService {
 
-    private PlantController plantController = new PlantController();
-    private InvoiceController invoiceController = new InvoiceController();
+    private final PlantController plantController = new PlantController();
+    private final InvoiceController invoiceController = new InvoiceController();
 
-    private PlantViewMapper plantViewMapper = new PlantViewMapper();
-    private InvoiceViewMapper invoiceViewMapper = new InvoiceViewMapper();
+    private final PlantViewMapper plantViewMapper = new PlantViewMapper();
+    private final InvoiceViewMapper invoiceViewMapper = new InvoiceViewMapper();
 
     private TextField invoiceSearchField;
     private TableView<InvoiceViewModel> invoiceList;
@@ -49,6 +47,7 @@ public class InvoiceModifyService {
     private TextField customer;
     private TextField invoiceNumber;
     private DatePicker invoiceDate;
+    private TextField invoiceDefaultBtw;
     private VBox invoiceLines;
     private TextField plantSearchField;
     private TableView<PlantViewModel> plantList;
@@ -84,12 +83,7 @@ public class InvoiceModifyService {
                         invoices.add(invoiceViewModel);
                     }
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            invoiceList.getItems().setAll(invoices);
-                        }
-                    });
+                    Platform.runLater(() -> invoiceList.getItems().setAll(invoices));
 
                     return null;
                 }
@@ -117,12 +111,7 @@ public class InvoiceModifyService {
                         invoices.add(invoiceViewModel);
                     }
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            invoiceList.getItems().setAll(invoices);
-                        }
-                    });
+                    Platform.runLater(() -> invoiceList.getItems().setAll(invoices));
 
                     return null;
                 }
@@ -167,13 +156,10 @@ public class InvoiceModifyService {
                         }
                     }
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            plantList.getItems().setAll(plants);
-                            if (plants.size() > 0) {
-                                plantList.getSelectionModel().select(0);
-                            }
+                    Platform.runLater(() -> {
+                        plantList.getItems().setAll(plants);
+                        if (plants.size() > 0) {
+                            plantList.getSelectionModel().select(0);
                         }
                     });
 
@@ -203,23 +189,21 @@ public class InvoiceModifyService {
                     DateTime invoiceInvoiceDate = invoice.getDate();
                     List<InvoiceLineDTO> invoiceInvoiceLines = invoice.getInvoiceLines();
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            customer.setText(invoiceCustomer);
-                            invoiceNumber.setText(invoiceInvoiceNumber);
-                            invoiceDate.setValue(LocalDate.of(invoiceInvoiceDate.getYear(), invoiceInvoiceDate.getMonthOfYear(), invoiceInvoiceDate.getDayOfMonth()));
-                            for (InvoiceLineDTO invoiceLine : invoiceInvoiceLines) {
-                                DateTime invoiceLineDate = invoiceLine.getDate();
-                                String plantName = invoiceLine.getPlantName() + "    (" + invoiceLine.getPlantAge() + " - " + invoiceLine.getPlantMeasure() + ")";
-                                String invoiceLineRemark = invoiceLine.getRemark();
-                                String orderNumber = invoiceLine.getOrderNumber();
-                                LocalDate invoiceLineLocalDate = LocalDate.of(invoiceLineDate.getYear(), invoiceLineDate.getMonthOfYear(), invoiceLineDate.getDayOfMonth());
-                                String amount = Integer.toString(invoiceLine.getAmount());
-                                String invoiceLineBtw = Double.toString(invoiceLine.getBtw());
-                                String price = Double.toString(invoiceLine.getPlantPrice());
-                                addInvoiceLine(invoiceLine.getPlantId(), plantName, invoiceLineRemark, orderNumber, invoiceLineLocalDate, amount, invoiceLineBtw, price);
-                            }
+                    Platform.runLater(() -> {
+                        customer.setText(invoiceCustomer);
+                        invoiceNumber.setText(invoiceInvoiceNumber);
+                        invoiceDate.setValue(LocalDate.of(invoiceInvoiceDate.getYear(), invoiceInvoiceDate.getMonthOfYear(), invoiceInvoiceDate.getDayOfMonth()));
+                        invoiceDefaultBtw.setText(Double.toString(invoice.getDefaultBtw()));
+                        for (InvoiceLineDTO invoiceLine : invoiceInvoiceLines) {
+                            DateTime invoiceLineDate = invoiceLine.getDate();
+                            String plantName = invoiceLine.getPlantName() + "    (" + invoiceLine.getPlantAge() + " - " + invoiceLine.getPlantMeasure() + ")";
+                            String invoiceLineRemark = invoiceLine.getRemark();
+                            String orderNumber = invoiceLine.getOrderNumber();
+                            LocalDate invoiceLineLocalDate = LocalDate.of(invoiceLineDate.getYear(), invoiceLineDate.getMonthOfYear(), invoiceLineDate.getDayOfMonth());
+                            String amount = Integer.toString(invoiceLine.getAmount());
+                            String invoiceLineBtw = Double.toString(invoiceLine.getBtw());
+                            String price = Double.toString(invoiceLine.getPlantPrice());
+                            addInvoiceLine(invoiceLine.getPlantId(), plantName, invoiceLineRemark, orderNumber, invoiceLineLocalDate, amount, invoiceLineBtw, price);
                         }
                     });
 
@@ -242,13 +226,10 @@ public class InvoiceModifyService {
                     String plantName = selectedPlant.getName() + "    (" + selectedPlant.getAge() + " - " + selectedPlant.getMeasure() + ")";
                     String plantPrice = selectedPlant.getPrice().replaceAll(",", ".");
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            chosenPlant.setText(plantId);
-                            plantSearchField.setText(plantName);
-                            alternativePlantPrice.setText(plantPrice);
-                        }
+                    Platform.runLater(() -> {
+                        chosenPlant.setText(plantId);
+                        plantSearchField.setText(plantName);
+                        alternativePlantPrice.setText(plantPrice);
                     });
 
                     return null;
@@ -262,30 +243,25 @@ public class InvoiceModifyService {
         protected Task createTask() {
             return new Task<Void>() {
                 @Override
-                protected Void call() throws Exception {
+                protected Void call() {
                     updateTitle("Factuurlijn legen");
 
-                    String defaultBtw = Double.toString(invoice.getDefaultBtw());
+                    Platform.runLater(() -> {
+                        chosenPlant.setText("");
+                        plantSearchField.setText("");
+                        remark.setText("");
+                        orderNumber.setText("");
+                        amount.setText("");
+                        alternativePlantPrice.setText("");
+                        invoiceLineDate.setValue(LocalDate.of(invoice.getDate().getYear(), invoice.getDate().getMonthOfYear(), invoice.getDate().getDayOfMonth()));
+                        invoiceLineBtw.setText(invoiceDefaultBtw.getText());
+                        plantSearchField.setDisable(false);
+                        remarkLabel.setVisible(false);
+                        remarkLabel.setManaged(false);
+                        remark.setVisible(false);
+                        remark.setManaged(false);
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            chosenPlant.setText("");
-                            plantSearchField.setText("");
-                            remark.setText("");
-                            orderNumber.setText("");
-                            amount.setText("");
-                            alternativePlantPrice.setText("");
-                            invoiceLineDate.setValue(LocalDate.of(invoice.getDate().getYear(), invoice.getDate().getMonthOfYear(), invoice.getDate().getDayOfMonth()));
-                            invoiceLineBtw.setText(defaultBtw);
-                            plantSearchField.setDisable(false);
-                            remarkLabel.setVisible(false);
-                            remarkLabel.setManaged(false);
-                            remark.setVisible(false);
-                            remark.setManaged(false);
-
-                            plantSearchField.requestFocus();
-                        }
+                        plantSearchField.requestFocus();
                     });
 
                     return null;
@@ -315,12 +291,7 @@ public class InvoiceModifyService {
                     String invoiceInvoiceLineBtw = invoiceLineBtw.getText();
                     String plantPrice = alternativePlantPrice.getText();
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            addInvoiceLine(plantId, plantName, invoiceLineRemark, invoiceOrderNumber, invoiceInvoiceLineDate, invoiceInvoiceLineAmount, invoiceInvoiceLineBtw, plantPrice);
-                        }
-                    });
+                    Platform.runLater(() -> addInvoiceLine(plantId, plantName, invoiceLineRemark, invoiceOrderNumber, invoiceInvoiceLineDate, invoiceInvoiceLineAmount, invoiceInvoiceLineBtw, plantPrice));
 
                     return null;
                 }
@@ -426,6 +397,10 @@ public class InvoiceModifyService {
         this.invoiceDate = invoiceDate;
     }
 
+    public void setInvoiceDefaultBtw(TextField invoiceDefaultBtw) {
+        this.invoiceDefaultBtw = invoiceDefaultBtw;
+    }
+
     public void setInvoiceLines(VBox invoiceLines) {
         this.invoiceLines = invoiceLines;
     }
@@ -481,13 +456,13 @@ public class InvoiceModifyService {
     public void init(Pane root) {
         root.cursorProperty()
                 .bind(Bindings.when(loadAllInvoicesService.runningProperty()
-                            .or(loadAllInvoicesWithNumberService.runningProperty()
-                            .or(loadAllPlantsWithNameService.runningProperty()
-                            .or(initInvoiceModifyService.runningProperty()
-                            .or(choosePlantService.runningProperty()
-                            .or(clearInvoiceLineService.runningProperty()
-                            .or(createInvoiceLineService.runningProperty()
-                            .or(modifyInvoiceService.runningProperty()))))))))
+                        .or(loadAllInvoicesWithNumberService.runningProperty()
+                                .or(loadAllPlantsWithNameService.runningProperty()
+                                        .or(initInvoiceModifyService.runningProperty()
+                                                .or(choosePlantService.runningProperty()
+                                                        .or(clearInvoiceLineService.runningProperty()
+                                                                .or(createInvoiceLineService.runningProperty()
+                                                                        .or(modifyInvoiceService.runningProperty()))))))))
                         .then(Cursor.WAIT)
                         .otherwise(Cursor.DEFAULT)
                 );
@@ -519,9 +494,7 @@ public class InvoiceModifyService {
             remark.setManaged(false);
             clearInvoiceLineService.restart();
         });
-        createInvoiceLineService.setOnFailed(serviceEvent -> {
-            ServiceHandler.error(createInvoiceLineService);
-        });
+        createInvoiceLineService.setOnFailed(serviceEvent -> ServiceHandler.error(createInvoiceLineService));
         modifyInvoiceService.setOnSucceeded(serviceEvent -> {
             showModifyInvoiceButton.setDisable(false);
             invoiceList.setDisable(false);

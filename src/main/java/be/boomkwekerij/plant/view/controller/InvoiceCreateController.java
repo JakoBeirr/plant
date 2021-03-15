@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class InvoiceCreateController implements PageController {
 
-    private InvoiceCreateService invoiceCreateService = new InvoiceCreateService();
+    private final InvoiceCreateService invoiceCreateService = new InvoiceCreateService();
 
     @FXML
     private TextField customerSearchField;
@@ -34,6 +34,8 @@ public class InvoiceCreateController implements PageController {
     private TextField invoiceNumber;
     @FXML
     private DatePicker invoiceDate;
+    @FXML
+    private TextField invoiceDefaultBtw;
     @FXML
     private Label labelInvoiceLinesList;
     @FXML
@@ -77,6 +79,7 @@ public class InvoiceCreateController implements PageController {
         invoiceCreateService.setCustomer(customer);
         invoiceCreateService.setInvoiceNumber(invoiceNumber);
         invoiceCreateService.setInvoiceDate(invoiceDate);
+        invoiceCreateService.setInvoiceDefaultBtw(invoiceDefaultBtw);
         invoiceCreateService.setInvoiceLines(invoiceLines);
         invoiceCreateService.setPlantSearchField(plantSearchField);
         invoiceCreateService.setPlantList(plantList);
@@ -125,9 +128,9 @@ public class InvoiceCreateController implements PageController {
     }
 
     private void addChangeListenersToList() {
-        customerList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            showCreateInvoiceButton.setVisible(newValue != null);
-        });
+        customerList.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showCreateInvoiceButton.setVisible(newValue != null)
+        );
         plantList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (plantList.isVisible()) {
                 choosePlantButton.setVisible(newValue != null);
@@ -157,9 +160,13 @@ public class InvoiceCreateController implements PageController {
     }
 
     private void initNumericFields() {
-        amount.textProperty().addListener((observable, oldValue, newValue) -> {
-            amount.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        invoiceDefaultBtw.textProperty().addListener((observable, oldValue, newValue) -> {
+            invoiceDefaultBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+            invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
         });
+        amount.textProperty().addListener((observable, oldValue, newValue) ->
+                amount.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""))
+        );
         alternativePlantPrice.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.startsWith("-")) {
                 alternativePlantPrice.setText("-" + newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
@@ -167,9 +174,9 @@ public class InvoiceCreateController implements PageController {
                 alternativePlantPrice.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
             }
         });
-        invoiceLineBtw.textProperty().addListener((observable, oldValue, newValue) -> {
-            invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
-        });
+        invoiceLineBtw.textProperty().addListener((observable, oldValue, newValue) ->
+                invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""))
+        );
     }
 
     private void initDragAndDrop() {

@@ -54,12 +54,15 @@
                 <Label id="labelInvoiceDate" text="Datum:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <DatePicker fx:id="invoiceDate" GridPane.rowIndex="2" GridPane.fillWidth="false" GridPane.columnIndex="1"/>
 
-                <Label fx:id="labelInvoiceLinesList" text="Factuurlijnen:" GridPane.valignment="TOP" visible="false" managed="false" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                <VBox fx:id="invoiceLines" spacing="5" visible="false" managed="false" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                <Label id="labelInvoiceDefaultBtw" text="Standaard BTW:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="invoiceDefaultBtw" prefColumnCount="10" GridPane.fillWidth="false" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label fx:id="labelInvoiceLinesList" text="Factuurlijnen:" GridPane.valignment="TOP" visible="false" managed="false" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <VBox fx:id="invoiceLines" spacing="5" visible="false" managed="false" GridPane.rowIndex="4" GridPane.columnIndex="1">
                 </VBox>
 
-                <Label fx:id="labelInvoiceLine" text="Factuurlijnen:" GridPane.valignment="TOP" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                <HBox spacing="5" GridPane.fillWidth="false" GridPane.rowIndex="4" GridPane.columnIndex="1">
+                <Label fx:id="labelInvoiceLine" text="Factuurlijnen:" GridPane.valignment="TOP" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <HBox spacing="5" GridPane.fillWidth="false" GridPane.rowIndex="5" GridPane.columnIndex="1">
                     <VBox spacing="5">
                         <Label text="Plant:" />
 
@@ -122,7 +125,7 @@
                             <TextField fx:id="alternativePlantPrice" prefColumnCount="5" />
                         </VBox>
                         <VBox spacing="5">
-                            <Label text="" />
+                            <Label/>
                             <HBox spacing="5">
                                 <Button text="Maak aan" mnemonicParsing="false" onAction="#createInvoiceLine" styleClass="green-button" />
                                 <Button text="Leeg rij" mnemonicParsing="false" onAction="#clearInvoiceLine" styleClass="red-button" />
@@ -131,9 +134,9 @@
                     </HBox>
                 </HBox>
 
-                <Label id="labelRow" text="" GridPane.rowIndex="5"/>
+                <Label id="labelRow" GridPane.rowIndex="6"/>
 
-                <Button fx:id="invoiceModifyButton" mnemonicParsing="false" onMouseClicked="#modifyInvoice" text="Bewerken" GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="green-button" />
+                <Button fx:id="invoiceModifyButton" mnemonicParsing="false" onMouseClicked="#modifyInvoice" text="Bewerken" GridPane.rowIndex="7" GridPane.columnIndex="1" styleClass="green-button" />
             </GridPane>
         </VBox>
     </ScrollPane>

@@ -36,12 +36,12 @@ import java.util.List;
 
 public class InvoiceCreateService {
 
-    private CustomerController customerController = new CustomerController();
-    private PlantController plantController = new PlantController();
-    private InvoiceController invoiceController = new InvoiceController();
+    private final CustomerController customerController = new CustomerController();
+    private final PlantController plantController = new PlantController();
+    private final InvoiceController invoiceController = new InvoiceController();
 
-    private CustomerViewMapper customerViewMapper = new CustomerViewMapper();
-    private PlantViewMapper plantViewMapper = new PlantViewMapper();
+    private final CustomerViewMapper customerViewMapper = new CustomerViewMapper();
+    private final PlantViewMapper plantViewMapper = new PlantViewMapper();
 
     private TextField customerSearchField;
     private TableView<CustomerViewModel> customerList;
@@ -50,6 +50,7 @@ public class InvoiceCreateService {
     private TextField customer;
     private TextField invoiceNumber;
     private DatePicker invoiceDate;
+    private TextField invoiceDefaultBtw;
     private VBox invoiceLines;
     private TextField plantSearchField;
     private TableView<PlantViewModel> plantList;
@@ -203,6 +204,7 @@ public class InvoiceCreateService {
                         customer.setText(invoiceCustomer);
                         invoiceNumber.setText(invoiceInvoiceNumber);
                         invoiceDate.setValue(LocalDate.of(invoiceInvoiceDate.getYear(), invoiceInvoiceDate.getMonthOfYear(), invoiceInvoiceDate.getDayOfMonth()));
+                        invoiceDefaultBtw.setText(Double.toString(newInvoice.getDefaultBtw()));
                     });
 
                     return null;
@@ -244,8 +246,6 @@ public class InvoiceCreateService {
                 protected Void call() throws Exception {
                     updateTitle("Factuurlijn legen");
 
-                    String defaultBtw = Double.toString(newInvoice.getDefaultBtw());
-
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
@@ -256,7 +256,7 @@ public class InvoiceCreateService {
                             amount.setText("");
                             alternativePlantPrice.setText("");
                             invoiceLineDate.setValue(invoiceDate.getValue());
-                            invoiceLineBtw.setText(defaultBtw);
+                            invoiceLineBtw.setText(invoiceDefaultBtw.getText());
                             plantSearchField.setDisable(false);
                             remarkLabel.setVisible(false);
                             remarkLabel.setManaged(false);
@@ -393,6 +393,10 @@ public class InvoiceCreateService {
 
     public void setInvoiceDate(DatePicker invoiceDate) {
         this.invoiceDate = invoiceDate;
+    }
+
+    public void setInvoiceDefaultBtw(TextField invoiceDefaultBtw) {
+        this.invoiceDefaultBtw = invoiceDefaultBtw;
     }
 
     public void setInvoiceLines(VBox invoiceLines) {

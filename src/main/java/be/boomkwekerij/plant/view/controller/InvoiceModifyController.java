@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class InvoiceModifyController implements PageController {
 
-    private InvoiceModifyService invoiceModifyService = new InvoiceModifyService();
+    private final InvoiceModifyService invoiceModifyService = new InvoiceModifyService();
 
     @FXML
     private TextField invoiceSearchField;
@@ -34,6 +34,8 @@ public class InvoiceModifyController implements PageController {
     private TextField invoiceNumber;
     @FXML
     private DatePicker invoiceDate;
+    @FXML
+    private TextField invoiceDefaultBtw;
     @FXML
     private Label labelInvoiceLinesList;
     @FXML
@@ -77,6 +79,7 @@ public class InvoiceModifyController implements PageController {
         invoiceModifyService.setCustomer(customer);
         invoiceModifyService.setInvoiceNumber(invoiceNumber);
         invoiceModifyService.setInvoiceDate(invoiceDate);
+        invoiceModifyService.setInvoiceDefaultBtw(invoiceDefaultBtw);
         invoiceModifyService.setInvoiceLines(invoiceLines);
         invoiceModifyService.setPlantSearchField(plantSearchField);
         invoiceModifyService.setPlantList(plantList);
@@ -125,9 +128,9 @@ public class InvoiceModifyController implements PageController {
     }
 
     private void addChangeListenersToList() {
-        invoiceList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            showModifyInvoiceButton.setVisible(newValue != null);
-        });
+        invoiceList.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showModifyInvoiceButton.setVisible(newValue != null)
+        );
         plantList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (plantList.isVisible()) {
                 choosePlantButton.setVisible(newValue != null);
@@ -157,9 +160,13 @@ public class InvoiceModifyController implements PageController {
     }
 
     private void initNumericFields() {
-        amount.textProperty().addListener((observable, oldValue, newValue) -> {
-            amount.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""));
+        invoiceDefaultBtw.textProperty().addListener((observable, oldValue, newValue) -> {
+            invoiceDefaultBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
+            invoiceLineBtw.setText(newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
         });
+        amount.textProperty().addListener(
+                (observable, oldValue, newValue) -> amount.setText(newValue.replaceAll(NON_NUMERIC_CHARACTERS, ""))
+        );
         alternativePlantPrice.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.startsWith("-")) {
                 alternativePlantPrice.setText("-" + newValue.replaceAll(NON_DECIMAL_NUMERIC_CHARACTERS, ""));
