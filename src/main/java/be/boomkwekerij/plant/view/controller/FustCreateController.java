@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 
 public class FustCreateController implements PageController {
 
-    private FustCreateService fustCreateService = new FustCreateService();
+    private final FustCreateService fustCreateService = new FustCreateService();
 
     @FXML
     private TextField customerSearchField;
@@ -44,7 +44,9 @@ public class FustCreateController implements PageController {
     @FXML
     private TextField ferroPalletGroot;
     @FXML
-    private TextField karrenEnBorden;
+    private TextField karren;
+    @FXML
+    private TextField borden;
     @FXML
     private TextField diverse;
     @FXML
@@ -68,7 +70,8 @@ public class FustCreateController implements PageController {
         fustCreateService.setHalveBox(halveBox);
         fustCreateService.setFerroPalletKlein(ferroPalletKlein);
         fustCreateService.setFerroPalletGroot(ferroPalletGroot);
-        fustCreateService.setKarrenEnBorden(karrenEnBorden);
+        fustCreateService.setKarren(karren);
+        fustCreateService.setBorden(borden);
         fustCreateService.setDiverse(diverse);
         fustCreateService.setDatum(datum);
         fustCreateService.setFustCreateButton(fustCreateButton);
@@ -93,9 +96,9 @@ public class FustCreateController implements PageController {
     }
 
     private void addChangeListenersToList() {
-        customerList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            showCreateFustButton.setVisible(newValue != null);
-        });
+        customerList.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showCreateFustButton.setVisible(newValue != null)
+        );
     }
 
     private void initNumericFields() {
@@ -107,7 +110,8 @@ public class FustCreateController implements PageController {
         makeFieldNegativeNumeric(ferroPalletKlein);
         makeFieldNegativeNumeric(ferroPalletKlein);
         makeFieldNegativeNumeric(ferroPalletGroot);
-        makeFieldNegativeNumeric(karrenEnBorden);
+        makeFieldNegativeNumeric(karren);
+        makeFieldNegativeNumeric(borden);
         makeFieldNegativeNumeric(diverse);
     }
 

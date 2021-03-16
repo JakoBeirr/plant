@@ -82,18 +82,21 @@
                 <Label id="labelFerroPalletGroot" text="Ferro-Pallet (Groot):" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
                 <TextField fx:id="ferroPalletGroot" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
 
-                <Label id="labelKarrenEnBorden" text="C.C. Karren/Borden:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-                <TextField fx:id="karrenEnBorden" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+                <Label id="labelKarren" text="C.C. Karren:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <TextField fx:id="karren" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
 
-                <Label id="labelDiverse" text="Diverse:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
-                <TextField fx:id="diverse" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+                <Label id="labelBorden" text="Borden:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+                <TextField fx:id="borden" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
 
-                <Label id="labelDatum" text="Diverse:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
-                <DatePicker fx:id="datum" GridPane.fillWidth="false" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+                <Label id="labelDiverse" text="Diverse:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                <TextField fx:id="diverse" prefColumnCount="5" GridPane.fillWidth="false" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
 
-                <Label id="labelRow" GridPane.rowIndex="11"/>
+                <Label id="labelDatum" text="Datum:" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
+                <DatePicker fx:id="datum" GridPane.fillWidth="false" GridPane.rowIndex="11" GridPane.columnIndex="1"/>
 
-                <Button fx:id="fustCreateButton" mnemonicParsing="false" onMouseClicked="#createFust" text="Toevoegen" GridPane.rowIndex="12" GridPane.columnIndex="1" styleClass="green-button" />
+                <Label id="labelRow" GridPane.rowIndex="12"/>
+
+                <Button fx:id="fustCreateButton" mnemonicParsing="false" onMouseClicked="#createFust" text="Toevoegen" GridPane.rowIndex="13" GridPane.columnIndex="1" styleClass="green-button" />
             </GridPane>
         </VBox>
     </ScrollPane>

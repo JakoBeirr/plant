@@ -44,9 +44,12 @@ public class FustReportObjectCreator {
         fustsReportObject.setStatePreviousMonthFerroPalletGroot(Integer.toString(fusts.stream()
                 .filter(f -> !isInReportMonth(f, reportDate))
                 .mapToInt(FustDTO::getFerroPalletGroot).sum()));
-        fustsReportObject.setStatePreviousMonthKarrenEnBorden(Integer.toString(fusts.stream()
+        fustsReportObject.setStatePreviousMonthKarren(Integer.toString(fusts.stream()
                 .filter(f -> !isInReportMonth(f, reportDate))
-                .mapToInt(FustDTO::getKarrenEnBorden).sum()));
+                .mapToInt(FustDTO::getKarren).sum()));
+        fustsReportObject.setStatePreviousMonthBorden(Integer.toString(fusts.stream()
+                .filter(f -> !isInReportMonth(f, reportDate))
+                .mapToInt(FustDTO::getBorden).sum()));
         fustsReportObject.setStatePreviousMonthDiverse(Integer.toString(fusts.stream()
                 .filter(f -> !isInReportMonth(f, reportDate))
                 .mapToInt(FustDTO::getDiverse).sum()));
@@ -66,7 +69,8 @@ public class FustReportObjectCreator {
         fustsReportObject.setTotalHalveBox(Integer.toString(fusts.stream().mapToInt(FustDTO::getHalveBox).sum()));
         fustsReportObject.setTotalFerroPalletKlein(Integer.toString(fusts.stream().mapToInt(FustDTO::getFerroPalletKlein).sum()));
         fustsReportObject.setTotalFerroPalletGroot(Integer.toString(fusts.stream().mapToInt(FustDTO::getFerroPalletGroot).sum()));
-        fustsReportObject.setTotalKarrenEnBorden(Integer.toString(fusts.stream().mapToInt(FustDTO::getKarrenEnBorden).sum()));
+        fustsReportObject.setTotalKarren(Integer.toString(fusts.stream().mapToInt(FustDTO::getKarren).sum()));
+        fustsReportObject.setTotalBorden(Integer.toString(fusts.stream().mapToInt(FustDTO::getBorden).sum()));
         fustsReportObject.setTotalDiverse(Integer.toString(fusts.stream().mapToInt(FustDTO::getDiverse).sum()));
         return fustsReportObject;
     }
@@ -86,7 +90,8 @@ public class FustReportObjectCreator {
         fustReportObject.setHalveBox(Integer.toString(fustDTO.getHalveBox()));
         fustReportObject.setFerroPalletKlein(Integer.toString(fustDTO.getFerroPalletKlein()));
         fustReportObject.setFerroPalletGroot(Integer.toString(fustDTO.getFerroPalletGroot()));
-        fustReportObject.setKarrenEnBorden(Integer.toString(fustDTO.getKarrenEnBorden()));
+        fustReportObject.setKarren(Integer.toString(fustDTO.getKarren()));
+        fustReportObject.setBorden(Integer.toString(fustDTO.getBorden()));
         fustReportObject.setDiverse(Integer.toString(fustDTO.getDiverse()));
         fustReportObject.setDate(DateUtils.formatDate(fustDTO.getDatum(), DateFormatPattern.DATE_FORMAT));
         return fustReportObject;
@@ -109,7 +114,8 @@ public class FustReportObjectCreator {
         fustsReportObject.setTotalHalveBox(Integer.toString(fusts.stream().mapToInt(FustOverviewDTO::getHalveBox).sum()));
         fustsReportObject.setTotalFerroPalletKlein(Integer.toString(fusts.stream().mapToInt(FustOverviewDTO::getFerroPalletKlein).sum()));
         fustsReportObject.setTotalFerroPalletGroot(Integer.toString(fusts.stream().mapToInt(FustOverviewDTO::getFerroPalletGroot).sum()));
-        fustsReportObject.setTotalKarrenEnBorden(Integer.toString(fusts.stream().mapToInt(FustOverviewDTO::getKarrenEnBorden).sum()));
+        fustsReportObject.setTotalKarren(Integer.toString(fusts.stream().mapToInt(FustOverviewDTO::getKarren).sum()));
+        fustsReportObject.setTotalBorden(Integer.toString(fusts.stream().mapToInt(FustOverviewDTO::getBorden).sum()));
         fustsReportObject.setTotalDiverse(Integer.toString(fusts.stream().mapToInt(FustOverviewDTO::getDiverse).sum()));
         return fustsReportObject;
     }
@@ -122,7 +128,8 @@ public class FustReportObjectCreator {
                 && fust.getHalveBox() == 0
                 && fust.getFerroPalletKlein() == 0
                 && fust.getFerroPalletGroot() == 0
-                && fust.getKarrenEnBorden() == 0
+                && fust.getKarren() == 0
+                && fust.getBorden() == 0
                 && fust.getDiverse() == 0;
     }
 
@@ -136,7 +143,8 @@ public class FustReportObjectCreator {
         fustReportObject.setHalveBox(Integer.toString(fustDTO.getHalveBox()));
         fustReportObject.setFerroPalletKlein(Integer.toString(fustDTO.getFerroPalletKlein()));
         fustReportObject.setFerroPalletGroot(Integer.toString(fustDTO.getFerroPalletGroot()));
-        fustReportObject.setKarrenEnBorden(Integer.toString(fustDTO.getKarrenEnBorden()));
+        fustReportObject.setKarren(Integer.toString(fustDTO.getKarren()));
+        fustReportObject.setBorden(Integer.toString(fustDTO.getBorden()));
         fustReportObject.setDiverse(Integer.toString(fustDTO.getDiverse()));
         return fustReportObject;
     }

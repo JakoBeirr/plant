@@ -16,7 +16,8 @@ public class Fust {
     private int halveBox;
     private int ferroPalletKlein;
     private int ferroPalletGroot;
-    private int karrenEnBorden;
+    private int karren;
+    private int borden;
     private int diverse;
     private Date datum;
 
@@ -101,13 +102,22 @@ public class Fust {
         this.ferroPalletGroot = ferroPalletGroot;
     }
 
-    public int getKarrenEnBorden() {
-        return karrenEnBorden;
+    public int getKarren() {
+        return karren;
+    }
+
+    @XmlElement(name = "karrenEnBorden")
+    public void setKarren(int karren) {
+        this.karren = karren;
+    }
+
+    public int getBorden() {
+        return borden;
     }
 
     @XmlElement
-    public void setKarrenEnBorden(int karrenEnBorden) {
-        this.karrenEnBorden = karrenEnBorden;
+    public void setBorden(int borden) {
+        this.borden = borden;
     }
 
     public int getDiverse() {

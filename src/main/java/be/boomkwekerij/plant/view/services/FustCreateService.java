@@ -28,10 +28,10 @@ import java.util.List;
 
 public class FustCreateService {
 
-    private CustomerController customerController = new CustomerController();
-    private FustController fustController = new FustController();
+    private final CustomerController customerController = new CustomerController();
+    private final FustController fustController = new FustController();
 
-    private CustomerViewMapper customerViewMapper = new CustomerViewMapper();
+    private final CustomerViewMapper customerViewMapper = new CustomerViewMapper();
 
     private TextField customerSearchField;
     private TableView<CustomerViewModel> customerList;
@@ -45,7 +45,8 @@ public class FustCreateService {
     private TextField halveBox;
     private TextField ferroPalletKlein;
     private TextField ferroPalletGroot;
-    private TextField karrenEnBorden;
+    private TextField karren;
+    private TextField borden;
     private TextField diverse;
     private DatePicker datum;
     private Button fustCreateButton;
@@ -126,7 +127,8 @@ public class FustCreateService {
                         halveBox.setText("0");
                         ferroPalletKlein.setText("0");
                         ferroPalletGroot.setText("0");
-                        karrenEnBorden.setText("0");
+                        karren.setText("0");
+                        borden.setText("0");
                         diverse.setText("0");
                         datum.setValue(LocalDate.now());
                     });
@@ -150,15 +152,16 @@ public class FustCreateService {
 
                     FustDTO fustDTO = new FustDTO();
                     fustDTO.setCustomer(selectedCustomerDTO);
-                    fustDTO.setLageKisten(Integer.valueOf(lageKisten.getText()));
-                    fustDTO.setHogeKisten(Integer.valueOf(hogeKisten.getText()));
-                    fustDTO.setPalletBodem(Integer.valueOf(palletBodem.getText()));
-                    fustDTO.setBoxPallet(Integer.valueOf(boxPallet.getText()));
-                    fustDTO.setHalveBox(Integer.valueOf(halveBox.getText()));
-                    fustDTO.setFerroPalletKlein(Integer.valueOf(ferroPalletKlein.getText()));
-                    fustDTO.setFerroPalletGroot(Integer.valueOf(ferroPalletGroot.getText()));
-                    fustDTO.setKarrenEnBorden(Integer.valueOf(karrenEnBorden.getText()));
-                    fustDTO.setDiverse(Integer.valueOf(diverse.getText()));
+                    fustDTO.setLageKisten(Integer.parseInt(lageKisten.getText()));
+                    fustDTO.setHogeKisten(Integer.parseInt(hogeKisten.getText()));
+                    fustDTO.setPalletBodem(Integer.parseInt(palletBodem.getText()));
+                    fustDTO.setBoxPallet(Integer.parseInt(boxPallet.getText()));
+                    fustDTO.setHalveBox(Integer.parseInt(halveBox.getText()));
+                    fustDTO.setFerroPalletKlein(Integer.parseInt(ferroPalletKlein.getText()));
+                    fustDTO.setFerroPalletGroot(Integer.parseInt(ferroPalletGroot.getText()));
+                    fustDTO.setKarren(Integer.parseInt(karren.getText()));
+                    fustDTO.setBorden(Integer.parseInt(borden.getText()));
+                    fustDTO.setDiverse(Integer.parseInt(diverse.getText()));
                     LocalDate invoiceLocalDate = datum.getValue();
                     if (invoiceLocalDate != null) {
                         fustDTO.setDatum(new DateTime(invoiceLocalDate.getYear(), invoiceLocalDate.getMonthValue(), invoiceLocalDate.getDayOfMonth(), 0, 0, 0, 0));
@@ -225,8 +228,12 @@ public class FustCreateService {
         this.ferroPalletGroot = ferroPalletGroot;
     }
 
-    public void setKarrenEnBorden(TextField karrenEnBorden) {
-        this.karrenEnBorden = karrenEnBorden;
+    public void setKarren(TextField karren) {
+        this.karren = karren;
+    }
+
+    public void setBorden(TextField borden) {
+        this.borden = borden;
     }
 
     public void setDiverse(TextField diverse) {

@@ -18,9 +18,9 @@ import java.util.List;
 
 public class FustController {
 
-    private FustService fustService = new FustServiceImpl();
-    private FustDocumentService fustDocumentService = new FustDocumentServiceImpl();
-    private PrinterService printerService = new PrinterServiceImpl();
+    private final FustService fustService = new FustServiceImpl();
+    private final FustDocumentService fustDocumentService = new FustDocumentServiceImpl();
+    private final PrinterService printerService = new PrinterServiceImpl();
 
     public CrudsResult createFust(FustDTO fustDTO) {
         try {

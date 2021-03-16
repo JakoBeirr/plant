@@ -10,7 +10,8 @@ public class FustOverviewDTO {
     private int halveBox = 0;
     private int ferroPalletKlein = 0;
     private int ferroPalletGroot = 0;
-    private int karrenEnBorden = 0;
+    private int karren = 0;
+    private int borden = 0;
     private int diverse = 0;
 
     public CustomerDTO getCustomer() {
@@ -77,12 +78,20 @@ public class FustOverviewDTO {
         this.ferroPalletGroot += ferroPalletGroot;
     }
 
-    public int getKarrenEnBorden() {
-        return karrenEnBorden;
+    public int getKarren() {
+        return karren;
     }
 
-    public void addKarrenEnBorden(int karrenEnBorden) {
-        this.karrenEnBorden += karrenEnBorden;
+    public void addKarren(int karren) {
+        this.karren += karren;
+    }
+
+    public int getBorden() {
+        return borden;
+    }
+
+    public void addBorden(int borden) {
+        this.borden += borden;
     }
 
     public int getDiverse() {

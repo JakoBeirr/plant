@@ -9,10 +9,10 @@ public class FustReportObject {
     private String halveBox;
     private String ferroPalletKlein;
     private String ferroPalletGroot;
-    private String karrenEnBorden;
+    private String karren;
+    private String borden;
     private String diverse;
     private String date;
-
 
     public String getLageKisten() {
         return lageKisten;
@@ -70,12 +70,20 @@ public class FustReportObject {
         this.ferroPalletGroot = ferroPalletGroot;
     }
 
-    public String getKarrenEnBorden() {
-        return karrenEnBorden;
+    public String getKarren() {
+        return karren;
     }
 
-    public void setKarrenEnBorden(String karrenEnBorden) {
-        this.karrenEnBorden = karrenEnBorden;
+    public void setKarren(String karren) {
+        this.karren = karren;
+    }
+
+    public String getBorden() {
+        return borden;
+    }
+
+    public void setBorden(String borden) {
+        this.borden = borden;
     }
 
     public String getDiverse() {

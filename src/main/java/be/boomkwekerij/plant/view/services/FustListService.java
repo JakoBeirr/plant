@@ -25,9 +25,9 @@ import java.util.List;
 
 public class FustListService {
 
-    private FustController fustController = new FustController();
+    private final FustController fustController = new FustController();
 
-    private FustViewMapper fustViewMapper = new FustViewMapper();
+    private final FustViewMapper fustViewMapper = new FustViewMapper();
 
     private TextField fustSearchField;
     private TableView<FustViewModel> fustList;

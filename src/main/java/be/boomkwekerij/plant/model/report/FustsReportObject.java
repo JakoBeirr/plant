@@ -13,7 +13,8 @@ public class FustsReportObject {
     private String statePreviousMonthHalveBox;
     private String statePreviousMonthFerroPalletKlein;
     private String statePreviousMonthFerroPalletGroot;
-    private String statePreviousMonthKarrenEnBorden;
+    private String statePreviousMonthKarren;
+    private String statePreviousMonthBorden;
     private String statePreviousMonthDiverse;
     private List<FustReportObject> fustsInReportMonth;
     private String totalLageKisten;
@@ -23,7 +24,8 @@ public class FustsReportObject {
     private String totalHalveBox;
     private String totalFerroPalletKlein;
     private String totalFerroPalletGroot;
-    private String totalKarrenEnBorden;
+    private String totalKarren;
+    private String totalBorden;
     private String totalDiverse;
 
     public String getReportDate() {
@@ -98,12 +100,20 @@ public class FustsReportObject {
         this.statePreviousMonthFerroPalletGroot = statePreviousMonthFerroPalletGroot;
     }
 
-    public String getStatePreviousMonthKarrenEnBorden() {
-        return statePreviousMonthKarrenEnBorden;
+    public String getStatePreviousMonthKarren() {
+        return statePreviousMonthKarren;
     }
 
-    public void setStatePreviousMonthKarrenEnBorden(String statePreviousMonthKarrenEnBorden) {
-        this.statePreviousMonthKarrenEnBorden = statePreviousMonthKarrenEnBorden;
+    public void setStatePreviousMonthKarren(String statePreviousMonthKarren) {
+        this.statePreviousMonthKarren = statePreviousMonthKarren;
+    }
+
+    public String getStatePreviousMonthBorden() {
+        return statePreviousMonthBorden;
+    }
+
+    public void setStatePreviousMonthBorden(String statePreviousMonthBorden) {
+        this.statePreviousMonthBorden = statePreviousMonthBorden;
     }
 
     public String getStatePreviousMonthDiverse() {
@@ -178,12 +188,20 @@ public class FustsReportObject {
         this.totalFerroPalletGroot = totalFerroPalletGroot;
     }
 
-    public String getTotalKarrenEnBorden() {
-        return totalKarrenEnBorden;
+    public String getTotalKarren() {
+        return totalKarren;
     }
 
-    public void setTotalKarrenEnBorden(String totalKarrenEnBorden) {
-        this.totalKarrenEnBorden = totalKarrenEnBorden;
+    public void setTotalKarren(String totalKarren) {
+        this.totalKarren = totalKarren;
+    }
+
+    public String getTotalBorden() {
+        return totalBorden;
+    }
+
+    public void setTotalBorden(String totalBorden) {
+        this.totalBorden = totalBorden;
     }
 
     public String getTotalDiverse() {

@@ -18,7 +18,8 @@ public class FustMapper {
         fust.setHalveBox(fustDTO.getHalveBox());
         fust.setFerroPalletKlein(fustDTO.getFerroPalletKlein());
         fust.setFerroPalletGroot(fustDTO.getFerroPalletGroot());
-        fust.setKarrenEnBorden(fustDTO.getKarrenEnBorden());
+        fust.setKarren(fustDTO.getKarren());
+        fust.setBorden(fustDTO.getBorden());
         fust.setDiverse(fustDTO.getDiverse());
         DateTime date = fustDTO.getDatum();
         if (date == null) {
@@ -39,7 +40,8 @@ public class FustMapper {
         fustDTO.setHalveBox(fust.getHalveBox());
         fustDTO.setFerroPalletKlein(fust.getFerroPalletKlein());
         fustDTO.setFerroPalletGroot(fust.getFerroPalletGroot());
-        fustDTO.setKarrenEnBorden(fust.getKarrenEnBorden());
+        fustDTO.setKarren(fust.getKarren());
+        fustDTO.setBorden(fust.getBorden());
         fustDTO.setDiverse(fust.getDiverse());
         fustDTO.setDatum(new DateTime(fust.getDatum()));
         return fustDTO;

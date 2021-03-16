@@ -20,7 +20,8 @@ public class FustViewMapper {
         fustViewModel.setHalveBox(fust.getHalveBox());
         fustViewModel.setFerroPalletKlein(fust.getFerroPalletKlein());
         fustViewModel.setFerroPalletGroot(fust.getFerroPalletGroot());
-        fustViewModel.setKarrenEnBorden(fust.getKarrenEnBorden());
+        fustViewModel.setKarren(fust.getKarren());
+        fustViewModel.setBorden(fust.getBorden());
         fustViewModel.setDiverse(fust.getDiverse());
         return fustViewModel;
     }

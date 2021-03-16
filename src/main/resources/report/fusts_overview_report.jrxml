@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2017-03-26T18:30:20 -->
+<!-- 2021-03-16T20:37:19 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="customerFile" pageWidth="845" pageHeight="595" columnWidth="785" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="fustsInReportMonth" uuid="db32bfc5-be3a-408c-8e09-129f97c24b2e">
@@ -15,7 +15,8 @@
 		<field name="halveBox" class="java.lang.String"/>
 		<field name="ferroPalletKlein" class="java.lang.String"/>
 		<field name="ferroPalletGroot" class="java.lang.String"/>
-		<field name="karrenEnBorden" class="java.lang.String"/>
+		<field name="karren" class="java.lang.String"/>
+		<field name="borden" class="java.lang.String"/>
 		<field name="diverse" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="fustsOverviewReport" class="be.boomkwekerij.plant.model.report.FustsOverviewReportObject"/>
@@ -110,7 +111,7 @@
 				<text><![CDATA[Halve Box]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="445" y="0" width="100" height="15" uuid="27aa358f-8f1e-4eb0-b25c-0455dff521a2">
+				<reportElement positionType="Float" x="445" y="0" width="90" height="15" uuid="27aa358f-8f1e-4eb0-b25c-0455dff521a2">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -122,7 +123,7 @@
 				<text><![CDATA[Ferro-Pallet (Klein)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="545" y="0" width="100" height="15" uuid="90423b95-8d5f-4191-9774-5fd564c2ab5a">
+				<reportElement positionType="Float" x="535" y="0" width="95" height="15" uuid="90423b95-8d5f-4191-9774-5fd564c2ab5a">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -132,6 +133,30 @@
 					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ferro-Pallet (Groot)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="630" y="0" width="60" height="15" uuid="84791af4-0e9e-4e61-9809-c54df9ec9b8f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C.C. Karren]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="690" y="0" width="45" height="15" uuid="2031fcd5-f1fe-4e80-9627-2c6cb2fdc31d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Borden]]></text>
 			</staticText>
 			<staticText>
 				<reportElement positionType="Float" x="735" y="0" width="50" height="15" uuid="93f0539c-c0b0-4aaf-98d2-d5c7c682aacc">
@@ -152,18 +177,6 @@
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 			</line>
-			<staticText>
-				<reportElement positionType="Float" x="645" y="0" width="90" height="15" uuid="84791af4-0e9e-4e61-9809-c54df9ec9b8f">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[C.C. Karren/Borden]]></text>
-			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -228,25 +241,32 @@
 							<textFieldExpression><![CDATA[$F{halveBox}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="445" y="0" width="100" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+							<reportElement x="445" y="0" width="90" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 							<textElement textAlignment="Center">
 								<font size="8"/>
 							</textElement>
 							<textFieldExpression><![CDATA[$F{ferroPalletKlein}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="545" y="0" width="100" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+							<reportElement x="535" y="0" width="95" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 							<textElement textAlignment="Center">
 								<font size="8"/>
 							</textElement>
 							<textFieldExpression><![CDATA[$F{ferroPalletGroot}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement x="645" y="0" width="90" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+							<reportElement x="630" y="0" width="60" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
 							<textElement textAlignment="Center">
 								<font size="8"/>
 							</textElement>
-							<textFieldExpression><![CDATA[$F{karrenEnBorden}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{karren}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="690" y="0" width="45" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+							<textElement textAlignment="Center">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{borden}]]></textFieldExpression>
 						</textField>
 						<textField>
 							<reportElement x="735" y="0" width="50" height="13" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
@@ -317,25 +337,43 @@
 				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalHalveBox()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="445" y="15" width="100" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+				<reportElement positionType="Float" x="445" y="15" width="90" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalFerroPalletKlein()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="545" y="15" width="100" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+				<reportElement positionType="Float" x="535" y="15" width="95" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalFerroPalletGroot()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="645" y="15" width="90" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>
+				<reportElement positionType="Float" x="630" y="15" width="60" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalKarrenEnBorden()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalKarren()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="690" y="15" width="45" height="15" uuid="2347e0b8-ba30-4c07-9f69-a5a04dc45b7d">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fustsOverviewReport}.getTotalBorden()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="735" y="15" width="50" height="15" uuid="08ef7cd0-d598-4847-b9ca-e721efac5ac5"/>

@@ -14,7 +14,8 @@ public class FustViewModel {
     private SimpleIntegerProperty halveBox = new SimpleIntegerProperty(0);
     private SimpleIntegerProperty ferroPalletKlein = new SimpleIntegerProperty(0);
     private SimpleIntegerProperty ferroPalletGroot = new SimpleIntegerProperty(0);
-    private SimpleIntegerProperty karrenEnBorden = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty karren = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty borden = new SimpleIntegerProperty(0);
     private SimpleIntegerProperty diverse = new SimpleIntegerProperty(0);
 
     public String getCustomerId() {
@@ -121,16 +122,28 @@ public class FustViewModel {
         this.ferroPalletGroot.set(ferroPalletGroot);
     }
 
-    public int getKarrenEnBorden() {
-        return karrenEnBorden.get();
+    public int getKarren() {
+        return karren.get();
     }
 
-    public SimpleIntegerProperty karrenEnBordenProperty() {
-        return karrenEnBorden;
+    public SimpleIntegerProperty karrenProperty() {
+        return karren;
     }
 
-    public void setKarrenEnBorden(int karrenEnBorden) {
-        this.karrenEnBorden.set(karrenEnBorden);
+    public void setKarren(int karren) {
+        this.karren.set(karren);
+    }
+
+    public int getBorden() {
+        return borden.get();
+    }
+
+    public SimpleIntegerProperty bordenProperty() {
+        return borden;
+    }
+
+    public void setBorden(int borden) {
+        this.borden.set(borden);
     }
 
     public int getDiverse() {

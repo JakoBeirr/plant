@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 
 public class FustListController implements PageController {
 
-    private FustListService fustListService = new FustListService();
+    private final FustListService fustListService = new FustListService();
 
     @FXML
     private TextField fustSearchField;
@@ -77,7 +77,7 @@ public class FustListController implements PageController {
     }
 
     public void printFust(ActionEvent actionEvent) {
-        Dialog<DateDTO> fustReportDialog = new Dialog<DateDTO>();
+        Dialog<DateDTO> fustReportDialog = new Dialog<>();
         fustReportDialog.setTitle("Fust rapport");
         fustReportDialog.setHeaderText("Print fust tot en met datum:");
 
@@ -114,7 +114,7 @@ public class FustListController implements PageController {
     }
 
     public void printFusts(ActionEvent actionEvent) {
-        Dialog<DateDTO> fustReportDialog = new Dialog<DateDTO>();
+        Dialog<DateDTO> fustReportDialog = new Dialog<>();
         fustReportDialog.setTitle("Fust rapport");
         fustReportDialog.setHeaderText("Print fust tot en met datum:");
 

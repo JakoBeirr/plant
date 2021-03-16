@@ -142,7 +142,8 @@ public class FustServiceImpl implements FustService {
                 fustOverviewFromCustomer.addHalveBox(fust.getHalveBox());
                 fustOverviewFromCustomer.addFerroPalletKlein(fust.getFerroPalletKlein());
                 fustOverviewFromCustomer.addFerroPalletGroot(fust.getFerroPalletGroot());
-                fustOverviewFromCustomer.addKarrenEnBorden(fust.getKarrenEnBorden());
+                fustOverviewFromCustomer.addKarren(fust.getKarren());
+                fustOverviewFromCustomer.addBorden(fust.getBorden());
                 fustOverviewFromCustomer.addDiverse(fust.getDiverse());
             }
             return new SearchResult<FustOverviewDTO>().success(Collections.singletonList(fustOverviewFromCustomer));
@@ -174,7 +175,8 @@ public class FustServiceImpl implements FustService {
                 fustOverviewFromCustomer.addHalveBox(fust.getHalveBox());
                 fustOverviewFromCustomer.addFerroPalletKlein(fust.getFerroPalletKlein());
                 fustOverviewFromCustomer.addFerroPalletGroot(fust.getFerroPalletGroot());
-                fustOverviewFromCustomer.addKarrenEnBorden(fust.getKarrenEnBorden());
+                fustOverviewFromCustomer.addKarren(fust.getKarren());
+                fustOverviewFromCustomer.addBorden(fust.getBorden());
                 fustOverviewFromCustomer.addDiverse(fust.getDiverse());
             }
             return new SearchResult<FustOverviewDTO>().success(Collections.singletonList(fustOverviewFromCustomer));

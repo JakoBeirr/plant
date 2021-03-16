@@ -13,7 +13,8 @@ public class FustDTO {
     private int halveBox;
     private int ferroPalletKlein;
     private int ferroPalletGroot;
-    private int karrenEnBorden;
+    private int karren;
+    private int borden;
     private int diverse;
     private DateTime datum;
 
@@ -89,12 +90,20 @@ public class FustDTO {
         this.ferroPalletGroot = ferroPalletGroot;
     }
 
-    public int getKarrenEnBorden() {
-        return karrenEnBorden;
+    public int getKarren() {
+        return karren;
     }
 
-    public void setKarrenEnBorden(int karrenEnBorden) {
-        this.karrenEnBorden = karrenEnBorden;
+    public void setKarren(int karren) {
+        this.karren = karren;
+    }
+
+    public int getBorden() {
+        return borden;
+    }
+
+    public void setBorden(int borden) {
+        this.borden = borden;
     }
 
     public int getDiverse() {

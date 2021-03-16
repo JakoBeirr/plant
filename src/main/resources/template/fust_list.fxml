@@ -8,9 +8,9 @@
         <VBox styleClass="center-pane" spacing="5">
             <Label styleClass="paneTitle" text="Fust Lijst"/>
 
-            <TextField fx:id="fustSearchField" promptText="Zoeken..." maxWidth="1152" />
+            <TextField fx:id="fustSearchField" promptText="Zoeken..." maxWidth="1237" />
 
-            <TableView fx:id="fustList" fixedCellSize="25" maxWidth="1152" prefHeight="450">
+            <TableView fx:id="fustList" fixedCellSize="25" maxWidth="1237" prefHeight="450">
                 <columns>
                     <TableColumn id="customerNameColumn" text="Klant" prefWidth="250">
                         <cellValueFactory>
@@ -52,9 +52,14 @@
                             <PropertyValueFactory property="ferroPalletGroot" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn id="karrenEnBordenColumn" text="C.C. Karren/Borden" prefWidth="100">
+                    <TableColumn id="karrenColumn" text="C.C. Karren" prefWidth="100">
                         <cellValueFactory>
-                            <PropertyValueFactory property="karrenEnBorden" />
+                            <PropertyValueFactory property="karren" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn id="bordenColumn" text="Borden" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="borden" />
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn id="diverseColumn" text="Diverse" prefWidth="100">

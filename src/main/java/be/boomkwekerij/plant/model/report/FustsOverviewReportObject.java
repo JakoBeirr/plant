@@ -13,7 +13,8 @@ public class FustsOverviewReportObject {
     private String totalHalveBox;
     private String totalFerroPalletKlein;
     private String totalFerroPalletGroot;
-    private String totalKarrenEnBorden;
+    private String totalKarren;
+    private String totalBorden;
     private String totalDiverse;
 
     public String getReportDate() {
@@ -88,12 +89,20 @@ public class FustsOverviewReportObject {
         this.totalFerroPalletGroot = totalFerroPalletGroot;
     }
 
-    public String getTotalKarrenEnBorden() {
-        return totalKarrenEnBorden;
+    public String getTotalKarren() {
+        return totalKarren;
     }
 
-    public void setTotalKarrenEnBorden(String totalKarrenEnBorden) {
-        this.totalKarrenEnBorden = totalKarrenEnBorden;
+    public void setTotalKarren(String totalKarren) {
+        this.totalKarren = totalKarren;
+    }
+
+    public String getTotalBorden() {
+        return totalBorden;
+    }
+
+    public void setTotalBorden(String totalBorden) {
+        this.totalBorden = totalBorden;
     }
 
     public String getTotalDiverse() {
