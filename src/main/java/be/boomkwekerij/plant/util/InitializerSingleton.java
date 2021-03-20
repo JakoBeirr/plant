@@ -110,6 +110,7 @@ public class InitializerSingleton {
     private void archiveInvoices() {
         LocalDate archiveDate = LocalDate.now()
                 .minusYears(AMOUNT_CALENDAR_YEARS_TO_KEEP_INVOICES)
+                .plusYears(1)
                 .withDayOfYear(1);
         SearchResult<Invoice> invoiceSearchResult = MemoryDatabase.getInvoiceMemory().getInvoices();
 

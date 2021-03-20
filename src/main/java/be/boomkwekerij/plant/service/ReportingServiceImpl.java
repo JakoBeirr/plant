@@ -83,7 +83,7 @@ public class ReportingServiceImpl implements ReportingService {
     @Override
     public BestandDTO createInvoicesReportForMonth(Month month, int year) throws ReportException {
         List<InvoiceDTO> allInvoices;
-        if (year < LocalDate.now().getYear() - InitializerSingleton.AMOUNT_CALENDAR_YEARS_TO_KEEP_INVOICES) {
+        if (year <= LocalDate.now().getYear() - InitializerSingleton.AMOUNT_CALENDAR_YEARS_TO_KEEP_INVOICES) {
             allInvoices = findAllArchivedInvoices();
         } else {
             allInvoices = findAllInvoices();
